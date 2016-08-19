@@ -8,5 +8,5 @@ Important:
 _Futurix_ is a registered trademark of mine and the release of source code for _FuturixImager_ does not confer you any rights to use it.
 
 Tools:  
-Delphi 2009
+Delphi 2009  
 NSIS
