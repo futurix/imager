@@ -2,13 +2,13 @@
 
 Alexander Tereshchenko
 Futuris Imager ###
-5.3.0.1
+5.3.1.#
 ###_###
 © 1999-2005 Alexander Tereshchenko
 
 f_###.dll
 Futuris Imager
-5.3
+5.3.1
 http://www.fxfp.com/
 
 

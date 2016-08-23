@@ -9,7 +9,7 @@ BrandingText " "
 
 InstallDir "$PROGRAMFILES\Futuris Imager"
 
-!define MUI_WELCOMEPAGE_TITLE "Futuris Imager 5.3 Extras"
+!define MUI_WELCOMEPAGE_TITLE "Futuris Imager 5.3.1 Extras"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of Futuris Imager Extras.\r\n\r\n$_CLICK"
 
 !define MUI_ABORTWARNING

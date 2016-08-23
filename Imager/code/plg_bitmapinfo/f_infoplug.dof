@@ -111,7 +111,7 @@ AutoIncBuild=1
 MajorVer=5
 MinorVer=3
 Release=0
-Build=100
+Build=101
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Aqab Bin Talal
 FileDescription=Information Plug-in for Futuris Imager
-FileVersion=5.3.0.100
+FileVersion=5.3.0.101
 InternalName=plg_bitmapinfo
 LegalCopyright=© 2001-2005 Aqab Bin Talal
 LegalTrademarks=

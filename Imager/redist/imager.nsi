@@ -9,7 +9,7 @@ BrandingText " "
 
 InstallDir "$PROGRAMFILES\Futuris Imager"
 
-!define MUI_WELCOMEPAGE_TITLE "Futuris Imager 5.3"
+!define MUI_WELCOMEPAGE_TITLE "Futuris Imager 5.3.1"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of Futuris Imager.\r\n\r\n$_CLICK"
 
 !define MUI_ABORTWARNING
@@ -226,7 +226,7 @@ Section ""
   File "..\release\img_helper.dll"
   
   # writing unistaller registry key
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayName" "Futuris Imager 5.3"
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayName" "Futuris Imager 5.3.1"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayIcon" "$INSTDIR\imager.exe"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "UninstallString" "$INSTDIR\uninstf.exe"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "NoModify" 1

@@ -5,6 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms,
+  ImageEnIO,
   c_const, c_utils;
 
 procedure OpenImage();
@@ -142,7 +143,10 @@ begin
     		Report('File does not exist!');
     		end;
     else
+        begin
     	CloseImage();
+        OpenLocal(path, add_to_mru);
+        end;
   	end;
 end;
 
@@ -150,10 +154,15 @@ end;
 function DoImageLoad(path: string):hBitmap;
 var
 	FOpen: TFOpen;
+    io: TImageEnIO;
 	bmp: hBitmap;
 	lib: THandle;
 	ext, lib_path: string;
+    call_not_open: boolean;
 begin
+    call_not_open := false;
+    Result := 0;
+
 	if not FileExists(path) then
   		begin
   		FileNotFound(path);
@@ -166,7 +175,6 @@ begin
 	reg.CloseKey();
 
 	// main stuff
-	Result := 0;
 	if (lib_path <> '') then
   		begin
   		lib := LoadLibrary(PChar(lib_path));
@@ -177,17 +185,33 @@ begin
       			begin
       			bmp := FOpen(PChar(path), PChar(ext), Application.Handle);
       			if (bmp <> 0) then
-        			begin
-        			//Success!!!
-        			Result := bmp;
-        			end
-      			else
-        			FileNotFound(path);
+        			Result := bmp //Success!!!
+                else
+                    call_not_open := true;
       			end;
 
     		FreeLibrary(lib);
     		end;
   		end;
+
+    if (Result = 0) then
+    	begin
+        // guessing the format
+        io := TImageEnIO.Create(nil);
+
+        io.LoadFromFile(path);
+
+        if io.Aborting then
+        	io.LoadFromFileAuto(path);
+
+        if not io.Aborting then
+        	Result := io.IEBitmap.VclBitmap.ReleaseHandle();
+
+        FreeAndNil(io);
+        end;
+
+	if ((Result = 0) and call_not_open) then
+   		FileNotFound(path);
 end;
 
 // saves file

@@ -489,14 +489,6 @@ begin
 	c_pos.RestoreWindowState(frmMain, reg, sReg + '\Position\Main', 25, 750, 25, 550, 2, 3);
 	ReadSettings();
 
-	if not FileExists(path_app + 'img_helper.dll') then
-  		begin
-  		frmMain.tbnPrint.Visible := false;
-  		frmMain.miPrint.Visible := false;
-  		frmMain.miPrintPreview.Visible := false;
-  		frmMain.Sep_1.Free();
-  		end;
-        
 	InstallPlugIns();
 
     Localize();

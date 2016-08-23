@@ -109,6 +109,7 @@ begin
 
     if not io.Aborting then
     	begin
+        io.IEBitmap.PixelFormat := ie24RGB;
         bmp.Assign(io.IEBitmap.VclBitmap);
         bmp.PixelFormat := pf24bit;
         Result := bmp.ReleaseHandle();

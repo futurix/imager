@@ -1,7 +1,6 @@
 package components;
 
 {$R *.res}
-{$R 'TileImage.dcr'}
 {$R 'ColorPickerButton.dcr'}
 {$R 'futuris_dlgopen.dcr'}
 {$R 'RotImg.dcr'}
@@ -36,11 +35,9 @@ requires
   vcl;
 
 contains
-  TileImage in 'TileImage.pas',
   AgOpenDialog in 'AgOpenDialog.pas',
   ColorPickerButton in 'ColorPickerButton.pas',
   futuris_dlgopen in 'futuris_dlgopen.pas',
-  futuris_resample in 'futuris_resample.pas',
   MRUfiles in 'MRUfiles.pas',
   RotImg in 'RotImg.pas',
   RotImgReg in 'RotImgReg.pas';

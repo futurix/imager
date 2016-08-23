@@ -111,7 +111,7 @@ AutoIncBuild=1
 MajorVer=5
 MinorVer=3
 Release=0
-Build=60
+Build=61
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Cursor Library
-FileVersion=5.3.0.60
+FileVersion=5.3.0.61
 InternalName=plg_cur
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=

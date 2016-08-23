@@ -94,7 +94,7 @@ OutputDir=..\..\release
 UnitOutputDir=..\output
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=.\;..\shared;$(FOGSHARED)\Appr;
+SearchPath=.\;..\shared;$(MYSHARED)\Appr;
 Packages=img_core
 Conditionals=
 DebugSourceDirs=
@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=3
-Release=0
-Build=57
+Release=1
+Build=58
 Debug=0
 PreRelease=0
 Special=0
@@ -122,22 +122,23 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Screen Capture Library
-FileVersion=5.3.0.57
+FileVersion=5.3.1.58
 InternalName=plg_capture
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=f_capture.dll
 ProductName=Futuris Imager
-ProductVersion=5.3
+ProductVersion=5.3.1
 Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=3
-Item0=.\;..\shared;$(FOGSHARED)\Appr;
-Item1=...\shared;..\thirdparty\appr
-Item2=..\shared;..\thirdparty\appr
+Count=4
+Item0=.\;..\shared;$(MYSHARED)\Appr;
+Item1=.\;..\shared;$(FOGSHARED)\Appr;
+Item2=...\shared;..\thirdparty\appr
+Item3=..\shared;..\thirdparty\appr
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\output

@@ -1,70 +1,29 @@
-5.3.0 - 07/31/2005
- > C++ plug-ins support
- > smart installer/uninstaller
- - localization
- - bug-fixes (printing should never be disabled now)
++ added support for basic PDF and PostScript save
++ improved GIF save
++ fixed display speed of long animated GIFs (however they may load slower now)
++ new keyboard shortcuts
++ multimedia keyboard support
++ fixed some bugs in file management
++ most file operations now remember last folder
++ smart installer/uninstaller
++ plug-ins folder in profile
++ support for full paths of plug-ins
++ support for dynamic XP themes changes
++ add link to custom plug-ins folder in "Setup" dialog
+- localization support
+- add locale selector in "Setup" dialog
+- additional advertising screen for the installer (before final) with extras
+- add new menu item leading to plug-ins on official web-site
 
-5.4.0 - 08/07/2005
- - toolbar customization (buttons, presets and graphics)
- - new internal control structures (using classes and new control variables)
- - replacement of existing plug-in types with the improved analogs
-   FOpen -> FOpenImage
-   FOpenMulti ->FOpenPages
-   FSave -> ...
-   FImport -> ...
-   FExport -> ...
-   FInfo -> FInformation
-   FTool -> ...
-
-5.5.0 - 08/14/2005
- - replacement of existing plug-in types with the improved analogs
-   FOpenAnim -> replace with FOpenWnd
-   FFilter -> ...
- - new editor window with support for selections and live preview
- - addition of new plug-in types
-   FOpenWnd
-   FOpenThumbnail
-   FOpenTemplate
-   FInsert
-   FTool (in app indy mode)
-
-5.6.0 - 08/21/2005
- - support of multiple plug-ins for each file type
-   (for FOpenImage, FOpenPages, FOpenWnd, FOpenThumbnail and FInformation) 
- - not-recommended-ext-list support
-
-5.7.0 - 08/28/2005
- - implementation of most important plug-in callbacks
- - custom format icons PIntf
-
-5.7.1 - 09/04/2005
-
-5.8.0 - 09/11/2005
- - file browser sidebar (hidden until 6.0)
- - information sidebar
- - move some functions into main executable ("internal" plug-ins)
- - expose some additional functionality (from "internal" plug-ins) in the main interface
- - plug-in settings PIntf (FConfigure)
-
-5.8.1 - 09/18/2005
-
-5.9.0 - 09/25/2005
- - implementation of all plug-in callbacks
- - FreeImage C++ plug-in (with complete sources in SDK)
- - plug-in roles
-
-5.9.1 - 10/02/2005
-
-5.9.9 - 10/09/2005
- - release candidate for 6.0
- - all localizations frozen for 6.0
-
-6.0.0 - 10/16/2005
- - basic Unicode functions (open dialog, common format loading, text editing)
- - Photoshop filters support
- - JPEG lossless rotations
- - JPEG lossless crop
- - massive help improvements
- 
-6.1.0 - 11/06/2005
- - color management
+- componential installer for xtras
+- update SDK with the latest changes and add C++ headers and samples
+- common dialog font setting
+- open dialog with optional preview
+- get rid of old style color selector (and may be add new to helper and use it from there)
+- add new tool type with multiple returns via structure
+- customizable toolbar
+- custom toolbar themes
+- file browser with thumbnails
+- better filters window
+- dynamic filters preview
+- saturation filter does nothing
