@@ -116,7 +116,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgTool(
 			LPMAPISENDDOCUMENTS fSendDocs = (LPMAPISENDDOCUMENTS)::GetProcAddress(hlibMAPI, "MAPISendDocuments");
 			
 			if (fSendDocs)
-				fSendDocs((ULONG)wnd, ";", document_path, "", 0);
+				fSendDocs(0, ";", document_path, "", 0);
 			
 			::FreeLibrary(hlibMAPI);		
 		} 

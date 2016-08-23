@@ -10,8 +10,8 @@ const
 
   sAppName 				= 'FuturixImager';
   sAppNameEx			= sAppName;
-  sVersion				= '5.8';
-  sVersionEx			= '5.8.0.0';
+  sVersion				= '5.8.1';
+  sVersionEx			= '5.8.1.0';
   sAuthor				= 'Alexander Tereshchenko';
   sRights 				= '© 1999-2006 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
@@ -19,7 +19,7 @@ const
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 8;
-  FXVER_REVISION		= 0;
+  FXVER_REVISION		= 1;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';

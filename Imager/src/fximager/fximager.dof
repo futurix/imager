@@ -111,7 +111,7 @@ AutoIncBuild=1
 MajorVer=5
 MinorVer=8
 Release=0
-Build=1036
+Build=1037
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager
-FileVersion=5.8.0.1036
+FileVersion=5.8.0.1037
 InternalName=fximager
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
