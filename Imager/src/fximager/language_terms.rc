@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.7.1"                    						// last version of Futuris Imager this locale was updated for
+    5		"5.8"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -654,6 +654,9 @@ BEGIN
     1752    "Red Eye Removal"
     1753    "Resize"
     1754    "Rotate"
+    1755	"Sharpen"
+    
+    1800	"Amount:"
     
     3000	"View as Wallpaper..."
     3001	"Set as Wallpaper..."
@@ -829,6 +832,7 @@ BEGIN
     3259	"Center"
     3260	"Cannot get current image for printing."
     3261	"No printers found."
+    3262	"Print all pages"
     
     3300	"Arrow keys function:"
     3301	"File navigation"

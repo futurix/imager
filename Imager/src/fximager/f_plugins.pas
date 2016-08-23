@@ -299,7 +299,6 @@ begin
     	begin
         // disabling
         frmMain.mRecent.Visible := false;
-        frmMain.miReopen.Visible := false;
         frmMain.tbnLast.Enabled := false;
         frmMain.MRU.Files.Clear();
 		frmMain.tbnOpen.DropdownMenu := frmMain.popNoMRU;
@@ -308,7 +307,6 @@ begin
     	begin
         // enabling
         frmMain.mRecent.Visible := true;
-        frmMain.miReopen.Visible := true;
 		frmMain.tbnLast.Enabled := true;
 		frmMain.tbnOpen.Style := tbsDropDown;
 		frmMain.tbnOpen.DropdownMenu := frmMain.popMRU;

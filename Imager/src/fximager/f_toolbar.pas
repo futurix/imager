@@ -7,10 +7,10 @@ uses
   ComCtrls, Dialogs, c_utils, c_const, c_reg, c_locales;
 
 const
-	sAllButtons: string = 	'open,new,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
+	sAllButtons: string = 	'open,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
     						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,nav,fs,info,random,' +
                             'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rmail,rcapt,' +
-                            'rjpeg,rhex,newwnd,gopage';
+                            'rjpeg,rhex,gopage';
     sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,rscan,rcapt,sep,copy,paste,sep,editor,undo,' +
     							'sep,zoomin,zoomout,sep,zoom,dispopt,nav,fs,sep,info,sep,random,sep,back,forward';
 
@@ -94,7 +94,6 @@ end;
 procedure AddButton(code: string);
 begin
 	if (code = 'open') then AddButtonA(frmMain.tbnOpen)
-    else if (code = 'new') then AddButtonA(frmMain.tbnNew)
 	else if (code = 'save') then AddButtonA(frmMain.tbnSave)
     else if (code = 'loadlast') then AddButtonA(frmMain.tbnLast)
     else if (code = 'close') then AddButtonA(frmMain.tbnClose)
@@ -136,7 +135,6 @@ begin
     else if (code = 'rcapt') then AddButtonA(frmMain.tbnRCapture)
     else if (code = 'rjpeg') then AddButtonA(frmMain.tbnRJPEG)
     else if (code = 'rhex') then AddButtonA(frmMain.tbnRHEX)
-    else if (code = 'newwnd') then AddButtonA(frmMain.tbnNewWnd)
     else if (code = 'gopage') then AddButtonA(frmMain.tbnGoToPage);
 end;
 
@@ -151,7 +149,6 @@ end;
 procedure HideButton(code: string);
 begin
 	if (code = 'open') then HideButtonA(frmMain.tbnOpen)
-    else if (code = 'new') then HideButtonA(frmMain.tbnNew)
 	else if (code = 'save') then HideButtonA(frmMain.tbnSave)
     else if (code = 'loadlast') then HideButtonA(frmMain.tbnLast)
     else if (code = 'close') then HideButtonA(frmMain.tbnClose)
@@ -193,7 +190,6 @@ begin
     else if (code = 'rcapt') then HideButtonA(frmMain.tbnRCapture)
     else if (code = 'rjpeg') then HideButtonA(frmMain.tbnRJPEG)
     else if (code = 'rhex') then HideButtonA(frmMain.tbnRHEX)
-    else if (code = 'newwnd') then HideButtonA(frmMain.tbnNewWnd)
     else if (code = 'gopage') then HideButtonA(frmMain.tbnGoToPage);
 end;
 
@@ -217,7 +213,6 @@ function ExpandSynName(code: string):string;
 begin
     if (code = 'sep') then Result := LoadLStr(3502)
 	else if (code = 'open') then Result := LoadLStr(502)
-    else if (code = 'new') then Result := LoadLStr(546)
 	else if (code = 'save') then Result := LoadLStr(506)
     else if (code = 'loadlast') then Result := LoadLStr(504)
     else if (code = 'close') then Result := LoadLStr(508)
@@ -259,7 +254,6 @@ begin
     else if (code = 'rcapt') then Result := LoadLStr(582)
     else if (code = 'rjpeg') then Result := LoadLStr(584)
     else if (code = 'rhex') then Result := LoadLStr(586)
-    else if (code = 'newwnd') then Result := LoadLStr(588)
     else if (code = 'gopage') then Result := LoadLStr(590)
     else Result := LoadLStr(3502);
 end;
@@ -268,7 +262,6 @@ function CollapseSynName(code: string):string;
 begin
     if (code = LoadLStr(3502)) then Result := 'sep'
 	else if (code = LoadLStr(502)) then Result := 'open'
-    else if (code = LoadLStr(546)) then Result := 'new'
 	else if (code = LoadLStr(506)) then Result := 'save'
     else if (code = LoadLStr(504)) then Result := 'loadlast'
     else if (code = LoadLStr(508)) then Result := 'close'
@@ -310,7 +303,6 @@ begin
     else if (code = LoadLStr(582)) then Result := 'rcapt'
     else if (code = LoadLStr(584)) then Result := 'rjpeg'
     else if (code = LoadLStr(586)) then Result := 'rhex'
-    else if (code = LoadLStr(588)) then Result := 'newwnd'
     else if (code = LoadLStr(590)) then Result := 'gopage'
     else Result := 'sep';
 end;

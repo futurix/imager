@@ -36,7 +36,7 @@ object frmEditor: TfrmEditor
     ScrollBars = ssNone
     EnableAlphaChannel = True
     AutoShrink = True
-    ImageEnVersion = '2.2.3'
+    ImageEnVersion = '2.2.4'
     Align = alClient
     Visible = False
     TabOrder = 4
@@ -514,7 +514,7 @@ object frmEditor: TfrmEditor
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
     EnableAlphaChannel = True
-    ImageEnVersion = '2.2.3'
+    ImageEnVersion = '2.2.4'
     Align = alClient
     TabOrder = 2
     TabStop = True

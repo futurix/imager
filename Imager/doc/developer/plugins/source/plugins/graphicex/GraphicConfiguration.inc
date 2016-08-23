@@ -39,7 +39,7 @@
 {.$define CUTGraphic}             // *.cut (+ *.pal) images
 {.$define GIFGraphic}             // *.gif images
 {.$define RLAGraphic}             // *.rla, *.rpf images
-{$define PhotoshopGraphic}       // *.psd, *.pdd images
+{.$define PhotoshopGraphic}       // *.psd, *.pdd images
 {$define PaintshopProGraphic}    // *.psp images
 {.$define PortableNetworkGraphic} // *.png images
 {$define EPSGraphic}             // *.eps images

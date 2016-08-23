@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=7
+MinorVer=8
 Release=0
-Build=17
+Build=19
 Debug=0
 PreRelease=0
 Special=0
@@ -122,20 +122,21 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Wallpaper Tools Plug-in
-FileVersion=5.7.0.17
+FileVersion=5.8.0.19
 InternalName=wallpaper
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxwallpaper.dll
 ProductName=FuturixImager
-ProductVersion=5.7
-Comments=http://www.fxfp.com/
+ProductVersion=5.8
+Comments=http://www.futurix.co.uk/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=1
-Item0=.\;..\..\shared;$(FXSHARED)\Includes;
+Count=2
+Item0=.\;..\..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
+Item1=.\;..\..\shared;$(FXSHARED)\Includes;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

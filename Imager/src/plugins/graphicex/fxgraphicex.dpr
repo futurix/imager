@@ -29,23 +29,17 @@ begin
 	info_call(PT_FOPEN, 'pcd', '');
 	info_call(PT_FOPEN, 'cel', '');
 	info_call(PT_FOPEN, 'pic', '');
-	info_call(PT_FOPEN, 'psd', '');
-	info_call(PT_FOPEN, 'pdd', '');
 	info_call(PT_FOPEN, 'psp', '');
     info_call(PT_FOPEN, 'eps', '');
 
     info_call(PT_FNOTREC, 'cel', '');
     info_call(PT_FNOTREC, 'pic', '');
-    info_call(PT_FNOTREC, 'psd', '');
-    info_call(PT_FNOTREC, 'pdd', '');
     info_call(PT_FNOTREC, 'psp', '');
     info_call(PT_FNOTREC, 'eps', '');
 
 	info_call(PT_FDESCR, 'pcd', PChar(LoadLStr(1017)));
 	info_call(PT_FDESCR, 'cel', PChar(LoadLStr(1019)));
 	info_call(PT_FDESCR, 'pic', PChar(LoadLStr(1019)));
-	info_call(PT_FDESCR, 'psd', PChar(LoadLStr(1020)));
-	info_call(PT_FDESCR, 'pdd', PChar(LoadLStr(1021)));
 	info_call(PT_FDESCR, 'psp', PChar(LoadLStr(1022)));
 	info_call(PT_FDESCR, 'eps', PChar(LoadLStr(1018)));
 end;
@@ -55,7 +49,6 @@ var
 	bmp: TBitmap;
 	dsk: TAutodeskGraphic;
 	pcd: TPCDGraphic;
-	psd: TPSDGraphic;
 	psp: TPSPGraphic;
     eps: TEPSGraphic;
     ext: string;
@@ -81,24 +74,6 @@ begin
     		end;
 
   		FreeAndNil(dsk);
-  		FreeAndNil(bmp);
-  		end
-	else if ((ext = 'psd') or (ext = 'pdd')) then
-  		begin
-  		psd := TPSDGraphic.Create();
-  		bmp := TBitmap.Create();
-
-  		try
-    		psd.LoadFromFile(document_path);
-    		bmp.Assign(psd);
-
-    		Result.result_value := bmp.ReleaseHandle();
-
-    		except
-            	Result.result_value := 0;
-    		end;
-
-  		FreeAndNil(psd);
   		FreeAndNil(bmp);
   		end
 	else if (ext = 'eps') then

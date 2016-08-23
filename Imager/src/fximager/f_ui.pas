@@ -146,8 +146,6 @@ begin
     frmMain.tbnRJPEG.Enabled := (infRoles.jpegll and is_filled);
     frmMain.tbnRHEX.Enabled := (infRoles.hex and is_filled);
 
-	frmMain.miReopen.Enabled := is_file;
-
 	frmMain.miSaveAs.Enabled := is_filled;
 	frmMain.tbnSave.Enabled := is_filled;
 

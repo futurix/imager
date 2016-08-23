@@ -50,15 +50,12 @@ type
     lblLocale: TLabel;
     cbxLanguages: TComboBox;
     lblLocaleInfo: TLabel;
-    lblGetLocales: TLabel;
     lblInstPlugins: TLabel;
-    lblGetPlugins: TLabel;
     lblPlugScan: TLabel;
     lblOpenPlugFolder: TLabel;
     lvwPlugins: TListView;
     lblTheme: TLabel;
     cbxThemes: TComboBox;
-    lblGetThemes: TLabel;
     lblThemeInfo: TLabel;
     sbxPreview: TScrollBox;
     tbrPreview: TToolBar;
@@ -150,12 +147,9 @@ type
     procedure sbxMainColorClick(Sender: TObject);
     procedure sbxFSColorClick(Sender: TObject);
     procedure cbxLanguagesChange(Sender: TObject);
-    procedure lblGetLocalesClick(Sender: TObject);
     procedure lblPlugScanClick(Sender: TObject);
     procedure lblOpenPlugFolderClick(Sender: TObject);
-    procedure lblGetPluginsClick(Sender: TObject);
     procedure cbxThemesChange(Sender: TObject);
-    procedure lblGetThemesClick(Sender: TObject);
     procedure lblAddParamsClick(Sender: TObject);
     procedure piSelectAllClick(Sender: TObject);
     procedure piSelectNoneClick(Sender: TObject);
@@ -554,12 +548,9 @@ begin
     AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
     AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
 
-    SetStyleAsLink(lblGetLocales);
     SetStyleAsLink(lblClearMRU);
     SetStyleAsLink(lblPlugScan);
     SetStyleAsLink(lblOpenPlugFolder);
-    SetStyleAsLink(lblGetPlugins);
-    SetStyleAsLink(lblGetThemes);
     SetStyleAsLink(lblAddParams);
 
     DoLocaleScan();
@@ -942,7 +933,6 @@ begin
 
     lblPlugScan.Caption			:= LoadLStr(863);
     lblOpenPlugFolder.Caption	:= LoadLStr(864);
-    lblGetPlugins.Caption		:= LoadLStr(865);
     lblInstPlugins.Caption		:= LoadLStr(867);
 
     lvwPlugins.Columns[0].Caption := LoadLStr(876);
@@ -953,7 +943,6 @@ begin
 
     shtThemes.Caption			:= LoadLStr(3550);
     lblTheme.Caption			:= LoadLStr(3551);
-    lblGetThemes.Caption		:= LoadLStr(3552);
 
     btnOK.Caption				:= LoadLStr(50);
     btnCancel.Caption			:= LoadLStr(51);
@@ -1037,11 +1026,6 @@ begin
         end;
 end;
 
-procedure TfrmOptions.lblGetLocalesClick(Sender: TObject);
-begin
-	OpenURL(sURLlocales);
-end;
-
 procedure TfrmOptions.lblPlugScanClick(Sender: TObject);
 begin
 	DoPluginScan();
@@ -1055,11 +1039,6 @@ end;
 procedure TfrmOptions.lblOpenPlugFolderClick(Sender: TObject);
 begin
 	ShellExecute(Application.Handle, 'open', PChar(path_app), nil, nil, SW_SHOWNORMAL);
-end;
-
-procedure TfrmOptions.lblGetPluginsClick(Sender: TObject);
-begin
-	OpenURL(sURLplugins);
 end;
 
 procedure TfrmOptions.cbxThemesChange(Sender: TObject);
@@ -1139,11 +1118,6 @@ begin
 
     tbrPreview.ButtonHeight := imlPreview.Height + 6;
     tbrPreview.ButtonWidth := imlPreview.Height + 7;
-end;
-
-procedure TfrmOptions.lblGetThemesClick(Sender: TObject);
-begin
-	OpenURL(sURLthemes);
 end;
 
 procedure TfrmOptions.lblAddParamsClick(Sender: TObject);

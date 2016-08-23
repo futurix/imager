@@ -24,7 +24,6 @@ uses
   f_anim in 'f_anim.pas',
   athread in 'athread.pas',
   w_show in 'w_show.pas' {frmShow},
-  w_new in 'w_new.pas' {frmNew},
   f_scan in 'f_scan.pas',
   w_editor in 'w_editor.pas' {frmEditor},
   w_resize in 'w_resize.pas' {frmResize},
@@ -34,7 +33,8 @@ uses
   f_toolbar in 'f_toolbar.pas',
   w_custtb in 'w_custtb.pas' {frmCustTB},
   f_instance in 'f_instance.pas',
-  w_preview in 'w_preview.pas' {frmPrint};
+  w_preview in 'w_preview.pas' {frmPrint},
+  w_sharpen in 'w_sharpen.pas' {frmSharpen};
 
 {$R *.RES}
 

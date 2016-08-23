@@ -9,6 +9,7 @@ uses
 function  IsMulti(ext: string):boolean;
 procedure OpenMulti(path: string; add_to_mru: boolean = true);
 procedure MGoToPage(index: integer);
+function  MGetPage(index: integer): HBITMAP;
 procedure MPage();
 procedure MGoFirst();
 procedure MGoPrev();
@@ -115,6 +116,19 @@ begin
 
         FinalizeImage();
   		end;
+end;
+
+// retrieves page
+function MGetPage(index: integer): HBITMAP;
+var
+    tmp_res: TFxImgResult;
+begin
+    tmp_res := infMulti.FxImgMultiGetPage(index, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+
+    if (tmp_res.result_type = RT_HBITMAP) then
+		Result := tmp_res.result_value
+    else
+    	Result := 0;
 end;
 
 // opens page

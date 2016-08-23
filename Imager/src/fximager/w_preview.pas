@@ -35,6 +35,7 @@ type
     cbxProportional: TCheckBox;
     cbxShrinkOnlyLarge: TCheckBox;
     cbxCenter: TCheckBox;
+    cbxAllPages: TCheckBox;
     procedure DrawView();
     procedure tbnPrintClick(Sender: TObject);
     procedure piZMFitClick(Sender: TObject);
@@ -66,7 +67,7 @@ var
   
 implementation
 
-uses main, f_ui, w_show;
+uses main, f_ui, w_show, f_multi;
 
 {$R *.DFM}
 
@@ -78,8 +79,34 @@ begin
 end;
 
 procedure TfrmPrint.tbnPrintClick(Sender: TObject);
+var
+	i: integer;
+    bmp: TBitmap;
+    img: HBITMAP;
 begin
-	prwPrint.Print();
+    if ((infImage.image_type = itMulti) and (infMulti.pages > 1) and cbxAllPages.Checked) then
+        begin
+        for i := 0 to (infMulti.pages - 1) do
+        	begin
+            img := MGetPage(i);
+
+            if (img <> 0) then
+            	begin
+                bmp := TBitmap.Create();
+                bmp.Handle := img;
+
+                prwPrint.BeginDoc();
+				prwPrint.PaintGraphicEx(prwPrint.PageBounds, bmp, frmPrint.cbxProportional.Checked, frmPrint.cbxShrinkOnlyLarge.Checked, frmPrint.cbxCenter.Checked);
+				prwPrint.EndDoc();
+                
+            	prwPrint.Print();
+
+                FreeAndNil(bmp);
+            	end;
+            end;
+        end
+    else
+    	prwPrint.Print();
 end;
 
 procedure TfrmPrint.piZMFitClick(Sender: TObject);
@@ -170,6 +197,7 @@ begin
     cbxProportional.Caption		:= LoadLStr(3257);
     cbxShrinkOnlyLarge.Caption	:= LoadLStr(3258);
     cbxCenter.Caption			:= LoadLStr(3259);
+    cbxAllPages.Caption			:= LoadLStr(3262);
     btnClose.Caption			:= LoadLStr(54);
     piZMFit.Caption				:= LoadLStr(260);
     piZMFit.Hint				:= LoadLStr(261);
@@ -228,6 +256,7 @@ begin
     	cbxProportional.Checked := wreg.RBool('Print_Proportional', true);
     	cbxShrinkOnlyLarge.Checked := wreg.RBool('Print_ShrinkOnlyLarge', true);
     	cbxCenter.Checked := wreg.RBool('Print_Center', true);
+        cbxAllPages.Checked := wreg.RBool('Print_AllPages', false);
 
     	wreg.CloseKey();
     	end
@@ -237,6 +266,7 @@ begin
     	cbxProportional.Checked := true;
     	cbxShrinkOnlyLarge.Checked := true;
     	cbxCenter.Checked := true;
+        cbxAllPages.Checked := false;
         end;
 
     FreeAndNil(wreg);
@@ -278,6 +308,7 @@ begin
     	wreg.WBool('Print_Proportional', cbxProportional.Checked);
     	wreg.WBool('Print_ShrinkOnlyLarge', cbxShrinkOnlyLarge.Checked);
     	wreg.WBool('Print_Center', cbxCenter.Checked);
+        wreg.WBool('Print_AllPages', cbxAllPages.Checked);
 
     	wreg.CloseKey();
     	end;

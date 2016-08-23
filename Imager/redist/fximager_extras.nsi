@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7.2
+!define FXVERSION 5.8
 
 Name "FuturixImager Extras"
 OutFile "futuriximager_extras.exe"
@@ -46,16 +46,18 @@ FunctionEnd
 
 Section "-Core"
   SectionIn RO
+
+  # deleting legacy files
+  Delete $INSTDIR\fxhex.dll
+  Delete $INSTDIR\fxgif.dll
+  Delete $INSTDIR\fxmng.dll
+  Delete $INSTDIR\fxmnghandler.dll
+  Delete $INSTDIR\fxmoreinfo.dll
   
   # deleting old files
   Delete $INSTDIR\fxjbig.dll
-  Delete $INSTDIR\fxhex.dll
-  Delete $INSTDIR\fxgif.dll
   Delete $INSTDIR\fxmagick.dll
-  Delete $INSTDIR\fxmng.dll
-  Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxplaygif.dll
-  Delete $INSTDIR\fxmoreinfo.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxthemexp.dll
@@ -75,16 +77,6 @@ Section "Support for JBIG images"
   File "..\bin\fxjbig.dll"
 SectionEnd
 
-Section "View as HEX plug-in"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxhex.dll"
-SectionEnd
-
-Section "Advanced GIF exporter"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxgif.dll"
-SectionEnd
-
 Section "Playback of animated GIFs"
   SetOutPath "$INSTDIR"
   File "..\bin\fxgdiplus.dll"
@@ -95,18 +87,7 @@ Section "Support for SVG, TTF, DICOM, etc..."
   File "..\bin\fxmagick.dll"
 SectionEnd
 
-Section "MNG/JNG support"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxmng.dll"
-  File "..\bin\fxmnghandler.dll"
-SectionEnd
-
-Section "Additional information display for bitmaps"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxmoreinfo.dll"
-SectionEnd
-
-Section "Support for PhotoCD, Photoshop, EPS..."
+Section "Support for PhotoCD, EPS thumbnails..."
   SetOutPath "$INSTDIR"
   File "..\bin\fxgraphicex.dll"
 SectionEnd
@@ -130,13 +111,8 @@ SectionEnd
 Section Uninstall
   # deleting files
   Delete $INSTDIR\fxjbig.dll
-  Delete $INSTDIR\fxhex.dll
-  Delete $INSTDIR\fxgif.dll
   Delete $INSTDIR\fxmagick.dll
-  Delete $INSTDIR\fxmng.dll
-  Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxplaygif.dll
-  Delete $INSTDIR\fxmoreinfo.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxthemexp.dll

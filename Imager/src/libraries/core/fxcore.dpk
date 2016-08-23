@@ -1,7 +1,7 @@
 package fxcore;
 
 {$R *.res}
-{$E dll}
+{$E 'dll'}
 {$ALIGN 8}
 {$ASSERTIONS OFF}
 {$BOOLEVAL OFF}
@@ -80,6 +80,7 @@ contains
   iezlib,
   ieXtraTransitions,
   iepresetim,
-  ieraw;
+  ieraw,
+  iepsd;
 
 end.

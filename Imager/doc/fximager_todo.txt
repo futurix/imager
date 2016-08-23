@@ -1,4 +1,4 @@
->>>> 5.8
+>>>> 5.8.1
 - multi-page image retrieval interface
 - additional interfaces (get current image, get Imager version)
 - SDK: document callback interfaces
@@ -11,28 +11,26 @@
 - new scanning GUI with preview and multi-page scanning (in sep. plug-in)
 - add menu items for all roles
 - change way "Tools" menu populated to something more intelligent (use
-  IDs) and add some roles on top of it (lossless JPEG, HEX)
+  IDs) and add some roles on top of it (lossless JPEG)
 / auto-rotation on load, based on EXIF rotation info (optional)
 / round selections (using BeginImageProcessing)
-/ "Sharpen" filter
 / reimplement filters using imageen
 
->>>> 5.8.1
-- FreeImage plug-in in the main installer
+>>>> 5.8.2
 - move JPEG lossless tranformations to the FreeImage plug-in
 - improve JPEG lossless tranformations: (add icons, replacing current file or
   optionally transforming into another file)
 - JPEG lossless crop (not in FreeImage plug-in)
 - FIX: info cannot read multi-page or animated files (they should be closed)
 
->>>> 5.8.2
+>>>> 5.8.3
 - add OnImageLoad, OnImageLoadUI, OnImageUnload, OnImageUpdate handlers
 - optimize actions on image open (and add option to zoom-to-fit on image open)
 - speed optimization: replace registry searches with string lists
 - speed optimization: string pool with commonly loaded strings (updatable
   on locale switch)
 
->>>> 5.8.3
+>>>> 5.8.4
 - direct memory loading interface
 - replace parts of ImageEn with FreeImage (with direct memory loading)
 - grouping for the "Open" dialog

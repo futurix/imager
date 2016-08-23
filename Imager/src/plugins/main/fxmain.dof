@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=7
-Release=1
-Build=68
+MinorVer=8
+Release=0
+Build=71
 Debug=0
 PreRelease=0
 Special=0
@@ -122,16 +122,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Main Plug-in
-FileVersion=5.7.1.68
+FileVersion=5.8.0.71
 InternalName=main
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxmain.dll
 ProductName=FuturixImager
-ProductVersion=5.7.1
-Comments=http://www.fxfp.com/
-[Excluded Packages]
-c:\program files\borland\delphi7\Projects\Bpl\Misc.bpl=Misc Components
+ProductVersion=5.8
+Comments=http://www.futurix.co.uk/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

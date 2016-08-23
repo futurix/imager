@@ -10,16 +10,16 @@ const
 
   sAppName 				= 'FuturixImager';
   sAppNameEx			= sAppName;
-  sVersion				= '5.7.2';
-  sVersionEx			= '5.7.2.0';
+  sVersion				= '5.8';
+  sVersionEx			= '5.8.0.0';
   sAuthor				= 'Alexander Tereshchenko';
   sRights 				= '© 1999-2006 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
   sRegAssociationOld	= sAppName + '.old';
 
   FXVER_MAJOR			= 5;
-  FXVER_MINOR			= 7;
-  FXVER_REVISION		= 2;
+  FXVER_MINOR			= 8;
+  FXVER_REVISION		= 0;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';
@@ -29,11 +29,7 @@ const
   sInternalFormat		= 'fx_internal';
 
   // URLs
-  sURLwww				= 'http://www.fxfp.com/';
-  sURLhome				= 'http://www.fxfp.com/fxfp.php?imager';
-  sURLplugins			= 'http://www.fxfp.com/fxfp.php?imagerplugins';
-  sURLlocales			= 'http://www.fxfp.com/fxfp.php?imagerlocales';
-  sURLthemes			= 'http://www.fxfp.com/fxfp.php?imagerthemes';
+  sURL					= 'http://www.futurix.co.uk/';
 
   // signatures
   sLocaleID 			= 'FxImgLocaleR2';
@@ -47,7 +43,6 @@ const
 
   // application filenames
   FN_APP				= 'fximager.exe';
-  FN_HELP				= 'fximager.chm';
   FN_ADDRAW				= 'fxraw.dll';
   FN_ADDJBIG			= 'fxjbig.dll';
   FN_ADDMAGICK			= 'fxmagick.dll';

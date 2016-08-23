@@ -38,7 +38,6 @@ type
     miSaveAs: TMenuItem;
     miClose: TMenuItem;
     N1: TMenuItem;
-    miReopen: TMenuItem;
     mImport: TMenuItem;
     mExport: TMenuItem;
     miExit: TMenuItem;
@@ -66,7 +65,6 @@ type
     N14: TMenuItem;
     miInfo: TMenuItem;
     miOptions: TMenuItem;
-    miHelpContents: TMenuItem;
     miAbout: TMenuItem;
     imlStd: TImageList;
     itbMain: TToolBar;
@@ -125,7 +123,6 @@ type
     miShow: TMenuItem;
     miStartShow: TMenuItem;
     tbnLast: TToolButton;
-    miNew: TMenuItem;
     piZM75: TMenuItem;
     piZM150: TMenuItem;
     miZM75: TMenuItem;
@@ -217,14 +214,12 @@ type
     tbnGoRandom: TToolButton;
     tbnZoomFit: TToolButton;
     miLoadLast: TMenuItem;
-    tbnNew: TToolButton;
     tbnShow: TToolButton;
     tbnRScan: TToolButton;
     tbnRMail: TToolButton;
     tbnRCapture: TToolButton;
     tbnRJPEG: TToolButton;
     tbnRHEX: TToolButton;
-    tbnNewWnd: TToolButton;
     tbnGoToPage: TToolButton;
     tbnFDelete: TToolButton;
     tbnFCopy: TToolButton;
@@ -240,7 +235,6 @@ type
     tbnHelp: TToolButton;
     tbnOnline: TToolButton;
     tbnAbout: TToolButton;
-    miNewWindow: TMenuItem;
     imlFixed: TImageList;
 
     procedure FormCreate(Sender: TObject);
@@ -255,7 +249,6 @@ type
     procedure DragNDrop(var msg: TWMDropFiles); message WM_DropFiles;
     procedure miAboutClick(Sender: TObject);
     procedure miOpenClick(Sender: TObject);
-    procedure miReopenClick(Sender: TObject);
     procedure miCloseClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miExitClick(Sender: TObject);
@@ -297,7 +290,6 @@ type
     procedure miPrintPreviewClick(Sender: TObject);
     procedure miShowClick(Sender: TObject);
     procedure miStartShowClick(Sender: TObject);
-    procedure miNewClick(Sender: TObject);
     procedure miWebSiteClick(Sender: TObject);
     procedure miFCopyClick(Sender: TObject);
     procedure miFDeleteClick(Sender: TObject);
@@ -315,7 +307,6 @@ type
     procedure miDSCenterImageClick(Sender: TObject);
     procedure miDSScrollbarsClick(Sender: TObject);
     procedure tbnDispClick(Sender: TObject);
-    procedure miHelpContentsClick(Sender: TObject);
     procedure popMRUPopup(Sender: TObject);
     procedure MRUpopClick(Sender: TObject; const FileName: String);
     procedure tbnRotateClick(Sender: TObject);
@@ -332,7 +323,6 @@ type
     procedure miCustTBClick(Sender: TObject);
     procedure miLoadLastClick(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
-    procedure miNewWindowClick(Sender: TObject);
     procedure tbnRCaptureClick(Sender: TObject);
     procedure tbnRHEXClick(Sender: TObject);
     procedure tbnRJPEGClick(Sender: TObject);
@@ -414,7 +404,7 @@ procedure FillBitmap(bmp: TBitmap; img: hBitmap = 0);
 implementation
 
 uses w_about, w_custzoom, w_info, f_ui, f_nav, f_images, f_plugins, f_tools, f_graphics,
-	 f_filectrl, f_anim, f_multi, w_show, w_new, w_editor, f_scan, w_optgeneral,
+	 f_filectrl, f_anim, f_multi, w_show, w_editor, f_scan, w_optgeneral,
      f_toolbar, w_custtb, w_preview;
 
 {$R *.DFM}
@@ -818,8 +808,6 @@ begin
 
                     if (tmp_res.result_type = RT_HBITMAP) then
                         OpenUntitled(nil, tmp_res.result_value)
-                    else if ((tmp_res.result_type = RT_INT) and (tmp_res.result_value = 7)) then
-                    	miReopenClick(Self)
                     else if ((tmp_res.result_type = RT_INT) and (tmp_res.result_value = 1)) then
                         OpenLocal(tmp_res.result_string_data);
 
@@ -876,12 +864,6 @@ begin
     mRecent.Caption			:= LoadLStr(122);
     miLoadLast.Caption		:= LoadLStr(156);
     miLoadLast.Hint			:= LoadLStr(157);
-    miReopen.Caption		:= LoadLStr(124);
-    miReopen.Hint			:= LoadLStr(125);
-    miNew.Caption			:= LoadLStr(126);
-    miNew.Hint				:= LoadLStr(127);
-    miNewWindow.Caption		:= LoadLStr(158);
-    miNewWindow.Hint		:= LoadLStr(159);
     miSaveAs.Caption		:= LoadLStr(128);
     miSaveAs.Hint			:= LoadLStr(129);
     miClose.Caption         := LoadLStr(130);
@@ -1103,8 +1085,6 @@ begin
     miOptions.Caption		:= LoadLStr(350);
     miOptions.Hint			:= Format(LoadLStr(351), [sAppName]);
 
-    miHelpContents.Caption	:= LoadLStr(366);
-    miHelpContents.Hint		:= LoadLStr(367);
     miWebSite.Caption		:= Format(LoadLStr(362), [sAppName]);
     miWebSite.Hint			:= Format(LoadLStr(363), [sAppName]);
     miAbout.Caption			:= LoadLStr(364);
@@ -1164,8 +1144,6 @@ begin
     tbnUndo.Hint            := LoadLStr(541);
     tbnZoomFit.Caption      := LoadLStr(544);
     tbnZoomFit.Hint         := LoadLStr(545);
-    tbnNew.Caption			:= LoadLStr(546);
-    tbnNew.Hint				:= LoadLStr(547);
     tbnFDelete.Caption		:= LoadLStr(548);
     tbnFDelete.Hint			:= LoadLStr(549);
     tbnFCopy.Caption		:= LoadLStr(550);
@@ -1206,8 +1184,6 @@ begin
     tbnRJPEG.Hint			:= LoadLStr(585);
     tbnRHEX.Caption			:= LoadLStr(586);
     tbnRHEX.Hint			:= LoadLStr(587);
-    tbnNewWnd.Caption		:= LoadLStr(588);
-    tbnNewWnd.Hint			:= LoadLStr(589);
     tbnGoToPage.Caption		:= LoadLStr(590);
     tbnGoToPage.Hint		:= LoadLStr(591);
 
@@ -1251,11 +1227,6 @@ begin
 	OpenImage();
 end;
 
-procedure TfrmMain.miReopenClick(Sender: TObject);
-begin
-	Reopen();
-end;
-
 procedure TfrmMain.miCloseClick(Sender: TObject);
 begin
 	CloseImage();
@@ -1286,6 +1257,7 @@ begin
 	if Clipboard.HasFormat(CF_BITMAP) then
   		begin
   		tmp.Assign(Clipboard);
+        tmp.PixelFormat := pf24bit;
   		OpenUntitled(tmp);
   		end
 	else
@@ -1296,6 +1268,7 @@ begin
     		wmf.Assign(Clipboard);
     		tmp.Width := wmf.Width;
     		tmp.Height := wmf.Height;
+            tmp.PixelFormat := pf24bit;
     		tmp.Canvas.Draw(0, 0, wmf);
     		OpenUntitled(tmp);
 
@@ -1695,18 +1668,9 @@ begin
     	frmShow.btnStart.Click();
 end;
 
-procedure TfrmMain.miNewClick(Sender: TObject);
-begin
-	if not Assigned(frmNew) then
-  		begin
-  		Application.CreateForm(TfrmNew, frmNew);
-  		frmNew.ShowModal();
-  		end;
-end;
-
 procedure TfrmMain.miWebSiteClick(Sender: TObject);
 begin
-	OpenURL(sURLhome);
+	OpenURL(sURL);
 end;
 
 procedure TfrmMain.miFCopyClick(Sender: TObject);
@@ -1801,11 +1765,6 @@ begin
         SetDisplayStyle(dsNormal)
     else if (GetDisplayStyle() = dsNormal) then
     	SetDisplayStyle(dsFitBig);
-end;
-
-procedure TfrmMain.miHelpContentsClick(Sender: TObject);
-begin
-    OpenHelp('index.html');
 end;
 
 procedure TfrmMain.popMRUPopup(Sender: TObject);
@@ -2222,16 +2181,6 @@ begin
             Handled := true;
             end;
 
-        VK_F1:
-        	begin
-            if IsCtrl() then
-                miAboutClick(Self)
-            else
-            	miHelpContentsClick(Self);
-
-            Handled := true;
-            end;
-
         VK_F2:
         	begin
             if (miEditor.Enabled and (not frmMain.full_screen)) then
@@ -2596,11 +2545,6 @@ begin
             Handled := true;
             end;
     end;
-end;
-
-procedure TfrmMain.miNewWindowClick(Sender: TObject);
-begin
-    ShellExecute(Self.Handle, 'open', PChar(Application.ExeName), PChar(infImage.path), nil, SW_SHOWNORMAL);
 end;
 
 procedure TfrmMain.tbnRCaptureClick(Sender: TObject);

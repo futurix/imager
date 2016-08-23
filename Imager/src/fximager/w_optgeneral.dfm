@@ -354,18 +354,9 @@ object frmOptions: TfrmOptions
         FocusControl = lvwPlugins
         Transparent = True
       end
-      object lblGetPlugins: TLabel
-        Left = 10
-        Top = 330
-        Width = 96
-        Height = 13
-        Caption = 'Get more plug-ins...'
-        Transparent = True
-        OnClick = lblGetPluginsClick
-      end
       object lblPlugScan: TLabel
         Left = 10
-        Top = 310
+        Top = 332
         Width = 115
         Height = 13
         Caption = 'Scan for new plug-ins...'
@@ -374,7 +365,7 @@ object frmOptions: TfrmOptions
       end
       object lblOpenPlugFolder: TLabel
         Left = 210
-        Top = 310
+        Top = 332
         Width = 109
         Height = 13
         Caption = 'Open plug-ins folder...'
@@ -385,7 +376,7 @@ object frmOptions: TfrmOptions
         Left = 10
         Top = 25
         Width = 420
-        Height = 280
+        Height = 302
         Columns = <
           item
             Caption = 'File'
@@ -458,18 +449,9 @@ object frmOptions: TfrmOptions
         Left = 10
         Top = 50
         Width = 420
-        Height = 275
+        Height = 293
         AutoSize = False
         Transparent = True
-      end
-      object lblGetLocales: TLabel
-        Left = 10
-        Top = 330
-        Width = 116
-        Height = 13
-        Caption = 'Get more localizations...'
-        Transparent = True
-        OnClick = lblGetLocalesClick
       end
       object cbxLanguages: TComboBox
         Left = 10
@@ -495,15 +477,6 @@ object frmOptions: TfrmOptions
         FocusControl = cbxThemes
         Transparent = True
       end
-      object lblGetThemes: TLabel
-        Left = 10
-        Top = 330
-        Width = 94
-        Height = 13
-        Caption = 'Get more themes...'
-        Transparent = True
-        OnClick = lblGetThemesClick
-      end
       object lblThemeInfo: TLabel
         Left = 10
         Top = 50
@@ -527,7 +500,7 @@ object frmOptions: TfrmOptions
         Left = 10
         Top = 145
         Width = 420
-        Height = 180
+        Height = 198
         HorzScrollBar.Smooth = True
         HorzScrollBar.Tracking = True
         VertScrollBar.Smooth = True

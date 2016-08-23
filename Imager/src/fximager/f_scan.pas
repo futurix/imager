@@ -83,6 +83,7 @@ begin
 	WriteInternal(PS_FOPEN, 'tiff');
     WriteInternal(PS_FOPEN, 'wbmp');
     WriteInternal(PS_FOPEN, 'wbm');
+    WriteInternal(PS_FOPEN, 'psd');
 
     WriteNotRec('dcx');
     WriteNotRec('jpe');
@@ -112,6 +113,7 @@ begin
 	WriteDescr('tiff', LoadLStr(1013));
     WriteDescr('wbmp', LoadLStr(1014));
     WriteDescr('wbm', LoadLStr(1014));
+    WriteDescr('psd', LoadLStr(1020));
 
     if FileExists(path_app + FN_ADDRAW) then
     	begin

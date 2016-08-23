@@ -156,7 +156,7 @@ object frmPrint: TfrmPrint
     object cbxProportional: TCheckBox
       Left = 7
       Top = 10
-      Width = 175
+      Width = 150
       Height = 17
       Caption = 'Proportional'
       Checked = True
@@ -165,26 +165,34 @@ object frmPrint: TfrmPrint
       OnClick = cbxProportionalClick
     end
     object cbxShrinkOnlyLarge: TCheckBox
-      Left = 188
+      Left = 163
       Top = 10
-      Width = 175
+      Width = 150
       Height = 17
-      Caption = 'Shrink Only Large'
+      Caption = 'Shrink large images'
       Checked = True
       State = cbChecked
       TabOrder = 2
       OnClick = cbxProportionalClick
     end
     object cbxCenter: TCheckBox
-      Left = 369
+      Left = 319
       Top = 10
-      Width = 175
+      Width = 150
       Height = 17
       Caption = 'Center'
       Checked = True
       State = cbChecked
       TabOrder = 3
       OnClick = cbxProportionalClick
+    end
+    object cbxAllPages: TCheckBox
+      Left = 475
+      Top = 10
+      Width = 150
+      Height = 17
+      Caption = 'Print all pages'
+      TabOrder = 4
     end
   end
   object imlPrint: TImageList

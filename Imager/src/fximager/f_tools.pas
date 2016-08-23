@@ -4,12 +4,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  ShlObj, Printers, h_chm, h_nt, c_const, c_utils, c_reg, c_locales;
+  ShlObj, Printers, h_nt, c_const, c_utils, c_reg, c_locales;
 
 procedure CommandLine();
 procedure Uninstall();
 procedure FileNotFound(path: string);
-procedure OpenHelp(page: WideString);
 procedure OpenURL(url: WideString);
 procedure UpdateAssociations();
 procedure WriteHandler();
@@ -142,11 +141,6 @@ begin
   		if (files.Count > 0) then
     		GoNext();
   		end;
-end;
-
-procedure OpenHelp(page: WideString);
-begin
-    HtmlHelpW(GetDesktopWindow(), PWideChar(WideString(path_app + FN_HELP + '::/') + page), HH_DISPLAY_TOPIC, 0);
 end;
 
 procedure OpenURL(url: WideString);

@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=7
+MinorVer=8
 Release=0
-Build=16
+Build=18
 Debug=0
 PreRelease=0
 Special=0
@@ -122,14 +122,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Wireless Bitmap Plug-in
-FileVersion=5.7.0.16
+FileVersion=5.8.0.18
 InternalName=wireless
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxwireless.dll
 ProductName=FuturixImager
-ProductVersion=5.7
-Comments=http://www.fxfp.com/
+ProductVersion=5.8
+Comments=http://www.futurix.co.uk/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

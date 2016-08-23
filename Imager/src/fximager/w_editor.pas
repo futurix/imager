@@ -136,7 +136,7 @@ function ProcessPreview(preview: HBITMAP): BOOL; cdecl;
 
 implementation
 
-uses main, w_resize, w_rotate, f_ui, w_show;
+uses main, w_resize, w_rotate, f_ui, w_show, w_sharpen;
 
 {$R *.dfm}
 
@@ -219,6 +219,7 @@ begin
     filters.Add(LoadLStr(1752));
     filters.Add(LoadLStr(1753));
     filters.Add(LoadLStr(1754));
+    filters.Add(LoadLStr(1755));
 
     for i := 0 to (filters.Count - 1) do
         begin
@@ -488,6 +489,15 @@ begin
             begin
         	proc.RemoveRedEyes();
             proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1755)) then
+        	begin
+            if not Assigned(frmSharpen) then
+  				begin
+  				Application.CreateForm(TfrmSharpen, frmSharpen);
+  				frmSharpen.ShowModal();
+  				end;
             end
 
         else if (name = LoadLStr(1753)) then

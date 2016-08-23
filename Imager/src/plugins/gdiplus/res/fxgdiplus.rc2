@@ -29,7 +29,7 @@ VS_VERSION_INFO VERSIONINFO
 		BEGIN
 			BLOCK "040904e4"
 			BEGIN 
-				VALUE "Comments",			SURLWWW
+				VALUE "Comments",			SURL
 				VALUE "CompanyName",		SAUTHOR
 				VALUE "FileDescription",	"FuturixImager GDI+ Plug-in (for animated GIFs)"
 				VALUE "FileVersion",		SVERSIONEX

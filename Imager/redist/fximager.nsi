@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7.2
+!define FXVERSION 5.8
 
 Name "FuturixImager"
 OutFile "futuriximager.exe"
@@ -34,7 +34,7 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 Section "FuturixImager"
   SectionIn RO
 
-  # removing xtra plug-in via uninstaller (if possible)
+  # removing xtra plug-ins via uninstaller (if possible)
   ExecWait '"$INSTDIR\uninstallx.exe" /S'
   
   # registry clean-up
@@ -52,7 +52,6 @@ Section "FuturixImager"
   # installing main files
   SetOutPath "$INSTDIR"
   File "..\bin\fxcore.dll"
-  File "..\bin\fximager.chm"
   File "..\bin\fximager.exe"
   File "..\bin\fxmain.dll"
   
@@ -61,7 +60,7 @@ Section "FuturixImager"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayVersion" "${FXVERSION}"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
-  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.fxfp.com/fxfp.php?imager"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.futurix.co.uk/"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoModify" 1
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoRepair" 1
    
@@ -117,7 +116,7 @@ Section Uninstall
   # removing extra plug-ins via uninstaller (if possible)
   ExecWait '"$INSTDIR\uninstallx.exe" /S'
 
-  # deleting old files
+  # deleting files
   Delete $SMPROGRAMS\FuturixImager.lnk
   Delete $INSTDIR\fx*.chm
   Delete $INSTDIR\fx*.dll

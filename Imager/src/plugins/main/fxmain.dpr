@@ -80,8 +80,6 @@ begin
 
     info_call(PT_FIMPORT, PChar(LoadLStr(3080)), ' ');
 
-    info_call(PT_FTOOL, PChar(LoadLStr(3081)), ' ');
-
     info_call(PT_FDESCR, 'pdf', PChar(LoadLStr(1031)));
     info_call(PT_FDESCR, 'ps', PChar(LoadLStr(1032)));
     info_call(PT_FDESCR, 'cur', PChar(LoadLStr(1033)));
@@ -578,79 +576,6 @@ begin
     	end;
 end;
 
-function FxImgTool(document_path, info: PChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-var
-	temp_res: TFxImgResult;
-	tmp, new: string;
-	html: TStringList;
-	bmp: TBitmap;
-	wdth, hght: integer; // image dimensions
-begin
-    Result.result_type := RT_BOOL;
-    Result.result_value := FX_TRUE;
-
-    if (@app_query <> nil) then
-        begin
-    	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
-
-        if (temp_res.result_type = RT_HANDLE) then
-        	begin
-            locale_lib := temp_res.result_value;
-            backup_lib := temp_res.result_xtra;
-            end;
-        end;
-
-	tmp := String(document_path);
-
-    if (String(info) = LoadLStr(3081)) then
-    	begin
-        // HTML generator
-		if (tmp <> '') then
-  			begin
-  			if (MessageBox(wnd, PChar(LoadLStr(3082)), sAppName, MB_YESNO + MB_ICONQUESTION) = ID_YES) then
-    			begin
-    			// creating html
-    			bmp := TBitmap.Create();
-    			bmp.Handle := img;
-    			wdth := bmp.Width;
-    			hght := bmp.Height;
-    			FreeAndNil(bmp);
-
-    			new := ChangeFileExt(tmp, '.html');
-
-    			html := TStringList.Create();
-    			html.Add('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">');
-    			html.Add('<html>');
-    			html.Add('<head>');
-    			html.Add('<title>' + ExtractFileName(tmp) + '</title>');
-    			html.Add('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">');
-    			html.Add('</head>');
-    			html.Add('');
-    			html.Add('<body bgcolor="#FFFFFF" text="#000000">');
-    			html.Add('<img src="' + ExtractFileName(tmp) + '" alt="" width="' + IntToStr(wdth) + '" height="' + IntToStr(hght) + '">');
-    			html.Add('</body>');
-    			html.Add('</html>');
-
-    			try
-      				html.SaveToFile(new);
-            	except
-      				MessageBox(wnd, PChar(LoadLStr(3083)), sAppName, MB_OK + MB_ICONERROR);
-      				FreeAndNil(html);
-      				Exit;
-      			end;
-
-    			FreeAndNil(html);
-    			MessageBox(wnd, PChar(Format(LoadLStr(3084), [new])), sAppName, MB_OK + MB_ICONINFORMATION);
-        		end;
-    		end
-		else
-  			begin
-  			// unsaved files
-  			MessageBox(wnd, PChar(LoadLStr(3085)), sAppName, MB_OK + MB_ICONWARNING);
-  			end;
-    	end;
-end;
-
 function FxImgCfg(info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
 	temp_res: TFxImgResult;
@@ -678,7 +603,7 @@ end;
 
 exports
 	FxImgQuery, FxImgOpen, FxImgSave, FxImgImport,
-    FxImgMultiStart, FxImgMultiGetPage, FxImgMultiStop, FxImgTool, FxImgCfg;
+    FxImgMultiStart, FxImgMultiGetPage, FxImgMultiStop, FxImgCfg;
 
 begin
 end.

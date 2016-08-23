@@ -7,7 +7,6 @@ uses
   ImageEnIO, c_const, c_utils, c_reg, c_locales;
 
 procedure OpenImage();
-procedure Reopen();
 procedure Save();
 procedure CloseImage(turn_off_ui: boolean = true);
 procedure Load(path: string; add_to_mru: boolean = true);
@@ -41,20 +40,6 @@ begin
         FxRegRStr('OpenPath', ExtractFileDir(frmMain.dlgOpen.FileName));
 
   		Load(frmMain.dlgOpen.FileName);
-  		end;
-end;
-
-// reloads image
-procedure Reopen();
-var
-	tmp: string;
-begin
-	if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
-  		begin
-  		tmp := infImage.path;
-
-  		CloseImage();
-  		Load(tmp);
   		end;
 end;
 
@@ -92,14 +77,14 @@ begin
 
 	// specific things
 	case infImage.image_type of
-  		itNone: FillImage('', itNone);
-  		itNormal: FillImage('', itNone);
+  		itNone, itUnsaved, itNormal: FillImage('', itNone);
   		itAnimated: CloseAnim();
   		itMulti: CloseMulti();
  		end;
 
   	// nullifying
 	frmMain.img.Blank();
+
 
     if turn_off_ui then
   		Able();
@@ -415,7 +400,6 @@ begin
 
         if not frmMain.img.IO.Aborting then
         	begin
-  			//24-bits?
             infImage.path := path;
 			infImage.image_type := itNormal;
 
