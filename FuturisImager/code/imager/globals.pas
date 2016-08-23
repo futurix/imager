@@ -15,7 +15,7 @@ type
   TImageTypes = (itNone, itNormal, itAnimated, itMulti);
   TStartUpOptions = (soSlideShow, soDirAsParam);
   TStartUp = set of TStartUpOptions;
-  TOptionsValues = (opHints, opAutoApply, opZoomOnLoad, opOpenAfterSave,
+  TOptionsValues = (opZoomOnLoad, opOpenAfterSave,
                     opFSCenter, opFullPathInTitle, opOpenDef);
   TOptions = set of TOptionsValues;
 

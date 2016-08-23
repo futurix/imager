@@ -110,20 +110,24 @@ for i:=0 to (frmMain.mTools.Count-1) do
     else frmMain.mTools.Items[i].Enabled:=true;
   end;
 frmMain.tbnFilters.Enabled:=action;
-frmMain.miBack.Enabled:=action;
-frmMain.miForward.Enabled:=action;
+frmMain.miGoBack.Enabled:=action;
+frmMain.miGoForward.Enabled:=action;
+frmMain.miGoFirst.Enabled:=action;
+frmMain.miGoLast.Enabled:=action;
+frmMain.miGoRandom.Enabled:=action;
 frmMain.miRevert.Enabled:=action;
 frmMain.miApplyChanges.Enabled:=action;
 frmMain.tbnSave.Enabled:=action;
 frmMain.tbnClose.Enabled:=action;
 frmMain.tbnPrint.Enabled:=action;
 frmMain.tbnCopy.Enabled:=action;
-frmMain.tbnZoom.Enabled:=action;
-frmMain.tbnZoomFit.Enabled:=action;
-frmMain.tbnZoomOrig.Enabled:=action;
+frmMain.tbnZoomIn.Enabled:=action;
+frmMain.tbnZoomOut.Enabled:=action;
+frmMain.tbnZoomMisc.Enabled:=action;
 frmMain.tbnInfo.Enabled:=action;
-frmMain.tbnBack.Enabled:=action;
-frmMain.tbnForward.Enabled:=action;
+frmMain.tbnGoBack.Enabled:=action;
+frmMain.tbnGoForward.Enabled:=action;
+frmMain.tbnGoRandom.Enabled:=action;
 frmMain.tbnShow.Enabled:=action;
 frmMain.miShow.Enabled:=action;
 frmMain.miStartSlideShow.Enabled:=action;
@@ -161,9 +165,9 @@ frmMain.miApplyChanges.Enabled:=action;
 frmMain.tbnSave.Enabled:=action;
 frmMain.tbnPrint.Enabled:=action;
 frmMain.tbnCopy.Enabled:=action;
-frmMain.tbnZoom.Enabled:=action;
-frmMain.tbnZoomFit.Enabled:=action;
-frmMain.tbnZoomOrig.Enabled:=action;
+frmMain.tbnZoomIn.Enabled:=action;
+frmMain.tbnZoomOut.Enabled:=action;
+frmMain.tbnZoomMisc.Enabled:=action;
 if action then frmMain.miInfo.Enabled:=false
   else frmMain.miInfo.Enabled:=true;
 frmMain.miFMove.Enabled:=action;
@@ -377,12 +381,16 @@ else
 // file navigation disabling, if only 1 file
 if ((files.Count<2)or(infImage.file_type<>ftLocal)) then
   begin
-  frmMain.tbnBack.Enabled:=false;
-  frmMain.tbnForward.Enabled:=false;
+  frmMain.tbnGoBack.Enabled:=false;
+  frmMain.tbnGoForward.Enabled:=false;
+  frmMain.tbnGoRandom.Enabled:=false;
   frmMain.piBack.Enabled:=false;
   frmMain.piForward.Enabled:=false;
-  frmMain.miBack.Enabled:=false;
-  frmMain.miForward.Enabled:=false;
+  frmMain.miGoBack.Enabled:=false;
+  frmMain.miGoForward.Enabled:=false;
+  frmMain.miGoFirst.Enabled:=false;
+  frmMain.miGoLast.Enabled:=false;
+  frmMain.miGoRandom.Enabled:=false;
   frmMain.tbnShow.Enabled:=false;
   frmMain.miShow.Enabled:=false;
   frmMain.miStartSlideShow.Enabled:=false;
@@ -391,12 +399,16 @@ if ((files.Count<2)or(infImage.file_type<>ftLocal)) then
   end
 else
   begin
-  frmMain.tbnBack.Enabled:=true;
-  frmMain.tbnForward.Enabled:=true;
+  frmMain.tbnGoBack.Enabled:=true;
+  frmMain.tbnGoForward.Enabled:=true;
+  frmMain.tbnGoRandom.Enabled:=true;
   frmMain.piBack.Enabled:=true;
   frmMain.piForward.Enabled:=true;
-  frmMain.miBack.Enabled:=true;
-  frmMain.miForward.Enabled:=true;
+  frmMain.miGoBack.Enabled:=true;
+  frmMain.miGoForward.Enabled:=true;
+  frmMain.miGoFirst.Enabled:=true;
+  frmMain.miGoLast.Enabled:=true;
+  frmMain.miGoRandom.Enabled:=true;
   frmMain.tbnShow.Enabled:=true;
   frmMain.miShow.Enabled:=true;
   frmMain.miStartSlideShow.Enabled:=true;

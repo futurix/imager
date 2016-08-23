@@ -58,3 +58,6 @@ FuturisImager/release/plugins/*.dll
 FuturisImager/release/*.dll
 FuturisImager/release/*.bpl
 FuturisImager/release/*.exe
+FuturisImager/manual/thirdparty/*
+FuturisImager/redist/*.exe
+FuturisImager/code/thirdparty/*

@@ -1,11 +1,12 @@
 object frmShow: TfrmShow
   Left = 190
   Top = 105
-  AutoSize = True
+  ActiveControl = btnStart
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsToolWindow
   Caption = 'Slide Show'
-  ClientHeight = 30
-  ClientWidth = 247
+  ClientHeight = 88
+  ClientWidth = 273
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,131 +19,102 @@ object frmShow: TfrmShow
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object tbrShow: TCoolBar
-    Left = 0
-    Top = 0
-    Width = 247
-    Height = 30
-    AutoSize = True
-    BandBorderStyle = bsNone
-    BandMaximize = bmNone
-    Bands = <
-      item
-        Control = itbShow
-        HorizontalOnly = True
-        ImageIndex = -1
-        MinHeight = 30
-        Width = 247
-      end>
-    EdgeBorders = []
-    FixedOrder = True
-    ShowText = False
-    object itbShow: TToolBar
-      Left = 0
-      Top = 0
-      Width = 243
-      Height = 30
-      AutoSize = True
-      ButtonHeight = 30
-      ButtonWidth = 31
-      Caption = 'Slide Show'
-      DisabledImages = frmMain.imlDisabled
-      EdgeBorders = []
-      Flat = True
-      Images = frmMain.imlMain
+  object lblTimer: TLabel
+    Left = 143
+    Top = 7
+    Width = 29
+    Height = 13
+    Caption = 'Timer:'
+  end
+  object btnStart: TButton
+    Left = 2
+    Top = 2
+    Width = 57
+    Height = 25
+    Caption = 'Start'
+    Default = True
+    TabOrder = 0
+    OnClick = btnStartClick
+  end
+  object btnStop: TButton
+    Left = 62
+    Top = 2
+    Width = 54
+    Height = 25
+    Caption = 'Stop'
+    TabOrder = 1
+    OnClick = btnStopClick
+  end
+  object btnSet: TButton
+    Left = 220
+    Top = 2
+    Width = 51
+    Height = 25
+    Caption = 'Set'
+    TabOrder = 2
+    OnClick = btnSetClick
+  end
+  object gbxDirection: TGroupBox
+    Left = 2
+    Top = 31
+    Width = 270
+    Height = 38
+    Caption = ' Direction '
+    TabOrder = 3
+    object rbnNormal: TRadioButton
+      Left = 10
+      Top = 15
+      Width = 70
+      Height = 17
+      Caption = 'Normal'
+      Checked = True
       TabOrder = 0
-      Transparent = True
-      Wrapable = False
-      object tbnStart: TToolButton
-        Left = 0
-        Top = 0
-        Hint = 'Start|Start slide show'
-        Caption = 'tbnStart'
-        ImageIndex = 15
-        ParentShowHint = False
-        ShowHint = True
-        OnClick = tbnStartClick
-      end
-      object tbnStop: TToolButton
-        Left = 31
-        Top = 0
-        Hint = 'Stop|Stop slide show'
-        Caption = 'tbnStop'
-        ImageIndex = 17
-        ParentShowHint = False
-        ShowHint = True
-        OnClick = tbnStopClick
-      end
-      object Sep_1: TToolButton
-        Left = 62
-        Top = 0
-        Width = 8
-        Caption = 'Sep_1'
-        ImageIndex = 2
-        Style = tbsSeparator
-      end
-      object tbnReverse: TToolButton
-        Left = 70
-        Top = 0
-        Hint = 'Reverse|Reverse direction'
-        Caption = 'tbnReverse'
-        ImageIndex = 19
-        ParentShowHint = False
-        ShowHint = True
-        OnClick = tbnReverseClick
-      end
-      object Sep_2: TToolButton
-        Left = 101
-        Top = 0
-        Width = 8
-        Caption = 'Sep_2'
-        ImageIndex = 3
-        Style = tbsSeparator
-      end
-      object pnlTimer: TPanel
-        Left = 109
-        Top = 0
-        Width = 49
-        Height = 30
-        BevelOuter = bvNone
-        Caption = 'Timer:'
-        TabOrder = 1
-      end
-      object edtTimer: TEdit
-        Left = 158
-        Top = 0
-        Width = 54
-        Height = 30
-        Hint = 'Advance time|Delay between 2 images display ( in seconds )'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -20
-        Font.Name = 'MS Sans Serif'
-        Font.Style = []
-        ParentFont = False
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 0
-        Text = '10'
-      end
-      object tbnSet: TToolButton
-        Left = 212
-        Top = 0
-        Hint = 'Set|Change timer value'
-        Caption = 'Set'
-        ImageIndex = 27
-        ParentShowHint = False
-        ShowHint = True
-        OnClick = tbnSetClick
-      end
+      TabStop = True
     end
+    object rbnReverse: TRadioButton
+      Left = 94
+      Top = 15
+      Width = 74
+      Height = 17
+      Caption = 'Reverse'
+      TabOrder = 1
+    end
+    object rbnRandom: TRadioButton
+      Left = 180
+      Top = 15
+      Width = 77
+      Height = 17
+      Caption = 'Random'
+      TabOrder = 2
+    end
+  end
+  object edtTimer: TEdit
+    Left = 177
+    Top = 4
+    Width = 40
+    Height = 21
+    TabOrder = 4
+    Text = '10'
+  end
+  object stxHint: TStaticText
+    Left = 0
+    Top = 71
+    Width = 273
+    Height = 17
+    Align = alBottom
+    Alignment = taCenter
+    Caption = 'Press [F3] to show/hide this toolbar during slide show'
+    ShowAccelChar = False
+    TabOrder = 5
   end
   object Timer: TTimer
     Enabled = False
     Interval = 10000
     OnTimer = TimerTimer
-    Top = 29
+    Left = 2
+    Top = 125
   end
 end

@@ -8,7 +8,7 @@ uses
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-func(PT_FTOOL,'Create HTML',' ');
+func(PT_FTOOL,'Create HTML for Image...',' ');
 Result:=true;
 end;
 

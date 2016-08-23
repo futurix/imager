@@ -115,7 +115,7 @@ object frmCustZoom: TfrmCustZoom
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'MS Sans Serif'
-      Font.Style = [fsBold]
+      Font.Style = []
       ParentFont = False
       OnClick = sbnZ100Click
     end

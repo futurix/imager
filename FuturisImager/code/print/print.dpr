@@ -3,8 +3,7 @@ library print;
 uses
   SysUtils,
   Classes,
-  view in 'view.pas' {frmPrint},
-  pos in 'pos.pas' {frmSetPos};
+  view in 'view.pas' {frmPrint};
 
 {$R *.RES}
 

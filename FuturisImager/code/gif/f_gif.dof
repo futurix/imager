@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=2
+MinorVer=5
 Release=0
-Build=183
+Build=186
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager GIF Library
-FileVersion=4.2.0.183
+FileVersion=4.5.0.186
 InternalName=f_gif
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=f_gif.dll
 ProductName=Futuris Imager
-ProductVersion=4.2
+ProductVersion=4.5
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

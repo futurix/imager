@@ -240,8 +240,7 @@ try
         frmMain.imgMain.Picture.Bitmap.Handle:=func_result;
         infImage.modified:=true;
         frmMain.imgMain.Invalidate();
-        if (opAutoApply in infSettings.options) then
-          ApplyChanges();
+        ApplyChanges();
         end;
       image.Free();
       end;

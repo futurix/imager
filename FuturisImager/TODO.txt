@@ -1,0 +1,27 @@
+>>>> Futuris Imager 5.0 (with beta preview for BetaNews)
+> add ImageEn package to the bundle
+> add JPEG lossless rotations plug-in based on ImageEn
+> replace JPEG-2000 support with ImageEn-based (and add j2k)
+> (possibly) new animated GIF display plug-in based on ImageEn (replace GDI+)
+> add WIA (imaging) support based on ImageEn
+> add TWAIN support based on ImageEn (drop existing TWAIN plug-in)
+> use ImageEn for image display with normal/fit/fit large/fit small*center
+> EXIF and IPTC metadata display in "Info" (try with all images)
+> merge multi-page toolbar with main toolbar (2 buttons only - rest in menu)
+> add multi-level undo
+> move animation toolbar to bottom of the screen (and add "Animation:" text to
+  the left of it)
+> create new file format icons
+> update feature page on the web-site
+> name change notification (in the next major release)
+
+
+>>>> Futuris Imager 5.01
+> bug-fixes
+
+
+>>>> future product names
+FuturixView - image viewer
+FuturixPhoto - specialized photo-editor
+FuturixJPEG - standalone lossless JPEG transformations and crop tool
+FuturixKiosk - standalone CD/DVD read-only image viewer

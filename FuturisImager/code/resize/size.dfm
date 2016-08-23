@@ -92,7 +92,7 @@ object frmResize: TfrmResize
       'Hermite'
       'Bell'
       'Spline'
-      'Lancroz3'
+      'Lanczos3'
       'Mitchell')
   end
 end

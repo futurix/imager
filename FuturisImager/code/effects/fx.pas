@@ -44,9 +44,9 @@ function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
 func(PT_FFILTER,'Gaussian Blur',' ');
 func(PT_FFILTER,'Split Blur',' ');
-func(PT_FFILTER,'Add Color Noise',' ');
-func(PT_FFILTER,'Add Monochrome Noise',' ');
-func(PT_FFILTER,'AntiAlias',' ');
+func(PT_FFILTER,'Colour Noise',' ');
+func(PT_FFILTER,'Monochrome Noise',' ');
+func(PT_FFILTER,'Antialias',' ');
 func(PT_FFILTER,'Contrast',' ');
 func(PT_FFILTER,'Fish Eye',' ');
 func(PT_FFILTER,'Lightness',' ');
@@ -89,9 +89,9 @@ if preview then
   begin
   if effect='Gaussian Blur' then eff.Effect_GaussianBlur(1)
   else if effect='Split Blur' then eff.Effect_SplitBlur(10)
-  else if effect='Add Color Noise' then eff.Effect_AddColorNoise(100)
-  else if effect='Add Monochrome Noise' then eff.Effect_AddMonoNoise(100)
-  else if effect='AntiAlias' then eff.Effect_AntiAlias()
+  else if effect='Colour Noise' then eff.Effect_AddColorNoise(100)
+  else if effect='Monochrome Noise' then eff.Effect_AddMonoNoise(100)
+  else if effect='Antialias' then eff.Effect_AntiAlias()
   else if effect='Contrast' then eff.Effect_Contrast(150)
   else if effect='Fish Eye' then eff.Effect_FishEye(1)
   else if effect='Lightness' then eff.Effect_Lightness(100)
@@ -112,7 +112,7 @@ if preview then
   end
 else
   begin
-  if effect='AntiAlias' then
+  if effect='Antialias' then
     begin
     eff.Effect_AntiAlias();
     canceled:=false;
@@ -166,9 +166,9 @@ eff.Picture.Assign(bmp);
 
 if effect='Gaussian Blur' then eff.Effect_GaussianBlur(tbrAmount.Position)
 else if effect='Split Blur' then eff.Effect_SplitBlur(tbrAmount.Position)
-else if effect='Add Color Noise' then eff.Effect_AddColorNoise(tbrAmount.Position * 3)
-else if effect='Add Monochrome Noise' then eff.Effect_AddMonoNoise(tbrAmount.Position * 3)
-else if effect='AntiAlias' then eff.Effect_AntiAlias()
+else if effect='Colour Noise' then eff.Effect_AddColorNoise(tbrAmount.Position * 3)
+else if effect='Monochrome Noise' then eff.Effect_AddMonoNoise(tbrAmount.Position * 3)
+else if effect='Antialias' then eff.Effect_AntiAlias()
 else if effect='Contrast' then eff.Effect_Contrast(tbrAmount.Position * 3)
 else if effect='Fish Eye' then eff.Effect_FishEye(tbrAmount.Position div 10+1)
 else if effect='Lightness' then eff.Effect_Lightness(tbrAmount.Position * 2)

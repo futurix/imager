@@ -9,11 +9,9 @@ uses
 
 type
   TfrmSetup = class(TForm)
-    cbxHints: TCheckBox;
     cbxOpenAfterSave: TCheckBox;
     lblSWinColor: TLabel;
     lblSFSColor: TLabel;
-    dlgColor: TColorDialog;
     btnOK: TButton;
     btnCancel: TButton;
     cbxAllFiles: TCheckBox;
@@ -21,7 +19,6 @@ type
     pkrColor: TColorPickerButton;
     pkrFSColor: TColorPickerButton;
     cbxHand: TCheckBox;
-    cbxAutoApply: TCheckBox;
     cbxFSCenter: TCheckBox;
     gbxGeneralSettings: TGroupBox;
     gbxColors: TGroupBox;
@@ -56,9 +53,7 @@ uses main, globals, f_strutils, f_ui, f_plugins, f_reg;
 procedure TfrmSetup.LoadSettings();
 begin
 reg.OpenKey(sReg + '\Main',true);
-if reg.RInt('Hints',1)=1 then cbxHints.Checked:=true else cbxHints.Checked:=false;
 if reg.RInt('OpenAfterSave',1)=1 then cbxOpenAfterSave.Checked:=true else cbxOpenAfterSave.Checked:=false;
-if reg.RInt('AutoApply',0)=1 then cbxAutoApply.Checked:=true else cbxAutoApply.Checked:=false;
 pkrColor.SelectionColor:=StringToColor(reg.RStr('Color','clAppWorkSpace'));
 pkrFSColor.SelectionColor:=StringToColor(reg.RStr('FSColor','clBlack'));
 if reg.RInt('FSCenter',1)=1 then cbxFSCenter.Checked:=true else cbxFSCenter.Checked:=false;
@@ -74,9 +69,7 @@ end;
 procedure TfrmSetup.SaveSettings();
 begin
 reg.OpenKey(sReg + '\Main',true);
-if cbxHints.Checked then reg.WriteInteger('Hints',1) else reg.WriteInteger('Hints',0);
 if cbxOpenAfterSave.Checked then reg.WriteInteger('OpenAfterSave',1) else reg.WriteInteger('OpenAfterSave',0);
-if cbxAutoApply.Checked then reg.WriteInteger('AutoApply',1) else reg.WriteInteger('AutoApply',0);
 reg.WriteString('Color',ColorToString(pkrColor.SelectionColor));
 reg.WriteString('FSColor',ColorToString(pkrFSColor.SelectionColor));
 if cbxFSCenter.Checked then reg.WriteInteger('FSCenter',1) else reg.WriteInteger('FSCenter',0);
@@ -91,18 +84,7 @@ end;
 // updates all settings in real-time
 procedure TfrmSetup.UpdateSettings();
 begin
-if cbxHints.Checked then
-  begin
-  Include(infSettings.options,opHints);
-  Application.ShowHint:=true;
-  end
-else
-  begin
-  Exclude(infSettings.options,opHints);
-  Application.ShowHint:=false;
-  end;
 if cbxOpenAfterSave.Checked then Include(infSettings.options,opOpenAfterSave) else Exclude(infSettings.options,opOpenAfterSave);
-if cbxAutoApply.Checked then Include(infSettings.options,opAutoApply) else Exclude(infSettings.options,opAutoApply);
 if infSettings.full_screen then frmMain.sbxMain.Color:=pkrFSColor.SelectionColor else frmMain.sbxMain.Color:=pkrColor.SelectionColor;
 if cbxFSCenter.Checked then
   begin

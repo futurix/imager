@@ -14,10 +14,6 @@ implementation
 procedure Report(what: string; priority: integer = 1);
 begin
 case priority of
-  0: begin
-     // usually hidden messages
-     { TODO : May be written to log? }
-     end;
   1: begin
      // normal (default)
      Application.MessageBox(PChar(what),'Futuris Imager',MB_OK+MB_ICONINFORMATION);

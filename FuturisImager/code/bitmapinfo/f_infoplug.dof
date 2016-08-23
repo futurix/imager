@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=2
+MinorVer=5
 Release=0
-Build=86
+Build=88
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Aqab Bin Talal
 FileDescription=Information Plug-in for Futuris Imager
-FileVersion=4.2.0.86
+FileVersion=4.5.0.88
 InternalName=f_infoplug
 LegalCopyright=© 2001-2004 Aqab Bin Talal
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=f_infoplug.dll
 ProductName=Futuris Imager
-ProductVersion=4.2
+ProductVersion=4.5
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

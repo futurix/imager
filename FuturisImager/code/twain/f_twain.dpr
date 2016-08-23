@@ -15,7 +15,7 @@ var
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-func(PT_FIMPORT,'TWAIN Acquire',' ');
+func(PT_FIMPORT,'Get Image from Digital Camera or Scanner...',' ');
 Result:=true;
 end;
 

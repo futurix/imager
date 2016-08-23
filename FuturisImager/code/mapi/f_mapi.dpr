@@ -8,7 +8,7 @@ uses
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-func(PT_FTOOL,'Send by Mail',' ');
+func(PT_FTOOL,'Send by Email...',' ');
 Result:=true;
 end;
 

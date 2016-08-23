@@ -79,6 +79,7 @@ object frmFltPreview: TfrmFltPreview
     Width = 265
     Height = 265
     Caption = 'No preview available'
+    ParentBackground = True
     TabOrder = 3
     object imgPreview: TImage
       Left = 4
@@ -86,6 +87,8 @@ object frmFltPreview: TfrmFltPreview
       Width = 256
       Height = 256
       Center = True
+      Proportional = True
+      Stretch = True
     end
   end
 end

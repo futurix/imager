@@ -59,7 +59,7 @@ implementation
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
-func(PT_FTOOL,'View as Wallpaper',' ');
+func(PT_FTOOL,'View as Wallpaper...',' ');
 Result:=true;
 end;
 

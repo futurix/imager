@@ -56,7 +56,7 @@ implementation
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
-func(PT_FFILTER,'Color Tweak',' ');
+func(PT_FFILTER,'Colour Tweak',' ');
 Result:=true;
 end;
 

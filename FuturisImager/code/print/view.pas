@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, ExtCtrls, ToolWin, Printers, Preview, ImgList, Registry, Menus,
-  c_const, c_reg;
+  c_const, c_reg, StdCtrls;
 
 type
   TfrmPrint = class(TForm)
@@ -13,12 +13,7 @@ type
     imlPrint: TImageList;
     itbPrintMain: TToolBar;
     tbnZoom: TToolButton;
-    tbnDraw: TToolButton;
-    Sep_2: TToolButton;
     tbnPrint: TToolButton;
-    Sep_3: TToolButton;
-    tbnClose: TToolButton;
-    tbnPosition: TToolButton;
     popZoom: TPopupMenu;
     piZMFit: TMenuItem;
     piZMWidth: TMenuItem;
@@ -35,10 +30,13 @@ type
     Sep_1: TToolButton;
     N2: TMenuItem;
     tbrPrintMain: TCoolBar;
-    procedure tbnCloseClick(Sender: TObject);
+    pnlBottom: TPanel;
+    btnClose: TButton;
+    cbxProportional: TCheckBox;
+    cbxShrinkOnlyLarge: TCheckBox;
+    cbxCenter: TCheckBox;
+    procedure DrawView();
     procedure tbnPrintClick(Sender: TObject);
-    procedure tbnPositionClick(Sender: TObject);
-    procedure tbnDrawClick(Sender: TObject);
     procedure piZMFitClick(Sender: TObject);
     procedure piZMWidthClick(Sender: TObject);
     procedure piZMHeightClick(Sender: TObject);
@@ -50,6 +48,8 @@ type
     procedure piZM200Click(Sender: TObject);
     function SetupClicked():boolean;
     procedure SetupClick(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
+    procedure cbxProportionalClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,13 +63,9 @@ var
   image: TBitmap;
   file_name: PChar;
   fast_print: boolean = false;
-  p_top: integer = 0;
-  p_left: integer = 0;
   reg: TFuturisRegistry;
 
 implementation
-
-uses pos;
 
 {$R *.DFM}
 
@@ -93,7 +89,7 @@ file_name:=filename;
 frmPrint:=TfrmPrint.Create(Application);
 
 // reading settings
-case reg.RIntC('ZoomState',3) of
+case reg.RIntC('ZoomState',1) of
   0:
     begin
     frmPrint.prwPrint.ZoomState:=zsZoomOther;
@@ -111,9 +107,14 @@ try
   except
   frmPrint.Position:=poScreenCenter;
   end;
+
+frmPrint.cbxProportional.Checked:=reg.RBool('PProportional',true);
+frmPrint.cbxShrinkOnlyLarge.Checked:=reg.RBool('PShrinkOnlyLarge',true);
+frmPrint.cbxCenter.Checked:=reg.RBool('PCenter',true);
+
 // working
 frmPrint.prwPrint.PrintJobTitle:=ExtractFileName(file_name);
-frmPrint.tbnDrawClick(frmPrint);
+frmPrint.DrawView();
 if fast then
   begin
   if frmPrint.SetupClicked() then
@@ -138,6 +139,10 @@ reg.WInteger('Height',frmPrint.Height);
 reg.WInteger('Top',frmPrint.Top);
 reg.WInteger('Left',frmPrint.Left);
 
+reg.WBool('PProportional',frmPrint.cbxProportional.Checked);
+reg.WBool('PShrinkOnlyLarge',frmPrint.cbxShrinkOnlyLarge.Checked);
+reg.WBool('PCenter',frmPrint.cbxCenter.Checked);
+
 // freeing
 FreeAndNil(frmPrint);
 
@@ -153,28 +158,16 @@ reg.CloseKey();
 FreeAndNil(reg);
 end;
 
-procedure TfrmPrint.tbnCloseClick(Sender: TObject);
+procedure TfrmPrint.DrawView();
 begin
-Close();
+prwPrint.BeginDoc();
+prwPrint.PaintGraphicEx(prwPrint.PageBounds,image,frmPrint.cbxProportional.Checked,frmPrint.cbxShrinkOnlyLarge.Checked,frmPrint.cbxCenter.Checked);
+prwPrint.EndDoc();
 end;
 
 procedure TfrmPrint.tbnPrintClick(Sender: TObject);
 begin
 prwPrint.Print();
-end;
-
-procedure TfrmPrint.tbnPositionClick(Sender: TObject);
-begin
-frmSetPos:=TfrmSetPos.Create(Application);
-frmSetPos.ShowModal();
-frmSetPos.Free();
-end;
-
-procedure TfrmPrint.tbnDrawClick(Sender: TObject);
-begin
-prwPrint.BeginDoc();
-prwPrint.PaintGraphic(p_left,p_top,image);
-prwPrint.EndDoc();
 end;
 
 procedure TfrmPrint.piZMFitClick(Sender: TObject);
@@ -232,17 +225,27 @@ function TfrmPrint.SetupClicked():boolean;
 begin
 Result:=dlgPageSetup.Execute();
 prwPrint.GetPrinterOptions();
-tbnDrawClick(Self);
+DrawView();
 end;
 
 procedure TfrmPrint.SetupClick(Sender: TObject);
 begin
 dlgPageSetup.Execute();
 prwPrint.GetPrinterOptions();
-tbnDrawClick(Self);
+DrawView();
 end;
 
 exports
   DoPrint;
+
+procedure TfrmPrint.btnCloseClick(Sender: TObject);
+begin
+Self.Close();
+end;
+
+procedure TfrmPrint.cbxProportionalClick(Sender: TObject);
+begin
+DrawView();
+end;
 
 end.

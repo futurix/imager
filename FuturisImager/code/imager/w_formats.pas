@@ -202,14 +202,20 @@ var
   tmp: string;
 begin
 reg.OpenKey('\.'+ext,true);
-if reg.ValueExists('FuturisImager.bak') then
-  begin
-  tmp:=reg.RStr('FuturisImager.bak','');
-  reg.WriteString('',tmp);
-  reg.DeleteValue('FuturisImager.bak');
-  end
-else
-  reg.WriteString('','');
+  if reg.RStr('','')='FuturisImager' then
+    begin
+	if reg.ValueExists('FuturisImager.bak') then
+      begin
+      tmp:=reg.RStr('FuturisImager.bak','');
+      reg.WriteString('',tmp);
+      reg.DeleteValue('FuturisImager.bak');
+      end
+    else
+      reg.WriteString('','');
+    end
+  else
+    if reg.ValueExists('FuturisImager.bak') then
+      reg.DeleteValue('FuturisImager.bak');
 reg.CloseKey();
 
 // XP support
@@ -218,14 +224,20 @@ if IsXP() then
   reg.RootKey:=HKEY_CURRENT_USER;
   reg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.' + ext,true);
 
-  if reg.ValueExists('FuturisImager.bak') then
+  if reg.RStr('ProgID','')='FuturisImager' then
     begin
-    tmp:=reg.RStr('FuturisImager.bak','');
-    reg.WString('ProgID',tmp);
-    reg.DeleteValue('FuturisImager.bak');
+    if reg.ValueExists('FuturisImager.bak') then
+      begin
+      tmp:=reg.RStr('FuturisImager.bak','');
+      reg.WString('ProgID',tmp);
+      reg.DeleteValue('FuturisImager.bak');
+      end
+    else
+      reg.DeleteValue('ProgID');
     end
   else
-    reg.DeleteValue('ProgID');
+    if reg.ValueExists('FuturisImager.bak') then
+      reg.DeleteValue('FuturisImager.bak');
 
   reg.CloseKey();
   reg.RootKey:=HKEY_CLASSES_ROOT;

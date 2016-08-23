@@ -87,11 +87,13 @@ if lbxFilters.ItemIndex<>-1 then
     begin
     pnlPreview.Caption:='';
     imgPreview.Picture.Bitmap.Handle:=tmp;
+    imgPreview.Show();
     end
   else
     begin
     pnlPreview.Caption:='No preview available';
     imgPreview.Picture.Bitmap.Assign(infImage.null_bitmap);
+    imgPreview.Hide();
     end;
   end;
 end;

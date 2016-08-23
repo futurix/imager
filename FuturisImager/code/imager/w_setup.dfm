@@ -4,7 +4,7 @@ object frmSetup: TfrmSetup
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'Imager Settings'
-  ClientHeight = 302
+  ClientHeight = 264
   ClientWidth = 300
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object frmSetup: TfrmSetup
   TextHeight = 13
   object btnOK: TButton
     Left = 138
-    Top = 270
+    Top = 230
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -33,7 +33,7 @@ object frmSetup: TfrmSetup
   end
   object btnCancel: TButton
     Left = 217
-    Top = 270
+    Top = 230
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -44,13 +44,13 @@ object frmSetup: TfrmSetup
     Left = 7
     Top = 7
     Width = 285
-    Height = 170
+    Height = 129
     Caption = ' General '
     TabOrder = 2
     object cbxOpenAfterSave: TCheckBox
       Left = 11
       Top = 80
-      Width = 228
+      Width = 258
       Height = 17
       Caption = 'Open after Save'
       Checked = True
@@ -59,35 +59,23 @@ object frmSetup: TfrmSetup
       State = cbChecked
       TabOrder = 0
     end
-    object cbxHints: TCheckBox
-      Left = 11
-      Top = 100
-      Width = 212
-      Height = 17
-      Caption = 'Show hints'
-      Checked = True
-      ParentShowHint = False
-      ShowHint = False
-      State = cbChecked
-      TabOrder = 1
-    end
     object cbxAllFiles: TCheckBox
       Left = 11
-      Top = 120
-      Width = 252
+      Top = 100
+      Width = 260
       Height = 17
       Caption = 'Show all files in Open dialog by default'
       Checked = True
       State = cbChecked
-      TabOrder = 2
+      TabOrder = 1
     end
     object cbxFullPath: TCheckBox
       Left = 11
-      Top = 140
+      Top = 40
       Width = 252
       Height = 17
       Caption = 'Show full image path in window title'
-      TabOrder = 3
+      TabOrder = 2
     end
     object cbxHand: TCheckBox
       Left = 11
@@ -97,17 +85,7 @@ object frmSetup: TfrmSetup
       Caption = 'Use Hand tool for image scrolling'
       Checked = True
       State = cbChecked
-      TabOrder = 4
-    end
-    object cbxAutoApply: TCheckBox
-      Left = 11
-      Top = 40
-      Width = 266
-      Height = 17
-      Caption = 'Auto-apply filter results'
-      Checked = True
-      State = cbChecked
-      TabOrder = 5
+      TabOrder = 3
     end
     object cbxFSCenter: TCheckBox
       Left = 11
@@ -117,12 +95,12 @@ object frmSetup: TfrmSetup
       Caption = 'Center image in Full Screen mode'
       Checked = True
       State = cbChecked
-      TabOrder = 6
+      TabOrder = 4
     end
   end
   object gbxColors: TGroupBox
     Left = 7
-    Top = 182
+    Top = 140
     Width = 285
     Height = 84
     Caption = ' Colors '
@@ -164,10 +142,5 @@ object frmSetup: TfrmSetup
       PopupSpacing = 8
       ShowSystemColors = False
     end
-  end
-  object dlgColor: TColorDialog
-    Options = [cdFullOpen, cdAnyColor]
-    Left = 7
-    Top = 268
   end
 end

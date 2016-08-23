@@ -49,8 +49,8 @@ type
     miZM200: TMenuItem;
     miZM400: TMenuItem;
     miFullScreen: TMenuItem;
-    miBack: TMenuItem;
-    miForward: TMenuItem;
+    miGoBack: TMenuItem;
+    miGoForward: TMenuItem;
     N12: TMenuItem;
     N14: TMenuItem;
     miRevert: TMenuItem;
@@ -60,7 +60,6 @@ type
     miFileFormats: TMenuItem;
     miHelpContents: TMenuItem;
     miAbout: TMenuItem;
-    dlgSave: TSaveDialog;
     imlMain: TImageList;
     itbMain: TToolBar;
     tbnOpen: TToolButton;
@@ -81,7 +80,7 @@ type
     piZM400: TMenuItem;
     N25: TMenuItem;
     Sep_1: TToolButton;
-    tbnZoom: TToolButton;
+    tbnZoomMisc: TToolButton;
     piTBMain: TMenuItem;
     tbnSave: TToolButton;
     tbnClose: TToolButton;
@@ -92,8 +91,8 @@ type
     Sep_3: TToolButton;
     tbnFullScreen: TToolButton;
     tbnInfo: TToolButton;
-    tbnBack: TToolButton;
-    tbnForward: TToolButton;
+    tbnGoBack: TToolButton;
+    tbnGoForward: TToolButton;
     N9: TMenuItem;
     miZoomtoFit: TMenuItem;
     piStatusBar: TMenuItem;
@@ -149,8 +148,6 @@ type
     piZM150: TMenuItem;
     miZM75: TMenuItem;
     miZM150: TMenuItem;
-    tbnZoomFit: TToolButton;
-    tbnZoomOrig: TToolButton;
     sbrMain: TStatusBar;
     miFuturisWebSite: TMenuItem;
     N16: TMenuItem;
@@ -165,11 +162,26 @@ type
     Sep_12: TToolButton;
     N20: TMenuItem;
     imlDisabled: TImageList;
-    piCustomZoom: TMenuItem;
+    piZoomCustom: TMenuItem;
     N4: TMenuItem;
     tbrMain: TCoolBar;
     tbrAnim: TCoolBar;
     tbrMulti: TCoolBar;
+    N15: TMenuItem;
+    N17: TMenuItem;
+    miGoFirst: TMenuItem;
+    miGoLast: TMenuItem;
+    miGoRandom: TMenuItem;
+    tbnZoomIn: TToolButton;
+    tbnZoomOut: TToolButton;
+    tbnGoRandom: TToolButton;
+    tbnHelp: TToolButton;
+    tbnSite: TToolButton;
+    tbnAbout: TToolButton;
+    Sep_4: TToolButton;
+    piZoomFit: TMenuItem;
+    N18: TMenuItem;
+    dlgSave: TFuturisSaveDialog;
 
 {>} procedure Initialize();
     procedure ShutDown();
@@ -190,8 +202,8 @@ type
     procedure miCopyClick(Sender: TObject);
     procedure miPasteClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
-    procedure miBackClick(Sender: TObject);
-    procedure miForwardClick(Sender: TObject);
+    procedure miGoBackClick(Sender: TObject);
+    procedure miGoForwardClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure miPrintClick(Sender: TObject);
@@ -260,6 +272,9 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure miGoFirstClick(Sender: TObject);
+    procedure miGoLastClick(Sender: TObject);
+    procedure miGoRandomClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -290,6 +305,9 @@ uses w_about, w_custzoom, w_setup, w_formats, w_info,
 // program start-up
 procedure TfrmMain.Initialize();
 begin
+// initializing randomizer
+Randomize();
+
 // XP tweak
 if (IsXP() and UseThemes()) then
   begin
@@ -329,6 +347,7 @@ end;
 // program shut down
 procedure TfrmMain.ShutDown();
 begin
+// working
 c_pos.SaveWindowState(frmMain,reg,sReg + '\Position\Main');
 SaveSettings();
 
@@ -529,7 +548,7 @@ begin
 ToggleFS();
 end;
 
-procedure TfrmMain.miBackClick(Sender: TObject);
+procedure TfrmMain.miGoBackClick(Sender: TObject);
 begin
 if HiWord(GetKeyState(VK_SHIFT))<>0 then
   GoFirst()
@@ -537,7 +556,7 @@ else
   GoPrev();
 end;
 
-procedure TfrmMain.miForwardClick(Sender: TObject);
+procedure TfrmMain.miGoForwardClick(Sender: TObject);
 begin
 if HiWord(GetKeyState(VK_SHIFT))<>0 then
   GoLast()
@@ -570,11 +589,18 @@ if not mnuMain.IsShortCut(msg) then
     VK_SPACE: if (ssShift in Shift) then GoLast() else GoNext();
     VK_BACK: if (ssShift in Shift) then GoFirst() else GoPrev();
 
+    // slide show toolbar
+    VK_F3: if (Assigned(frmShow))
+    		 then frmShow.Visible:=(not frmShow.Visible);
+
     // paging
     VK_PRIOR: Page(0);
     VK_NEXT: Page(1);
     VK_END: Page(2);
     VK_DELETE: Page(3);
+
+    // full screen
+    VK_RETURN: ToggleFS();
     end;
   end;
 end;
@@ -872,7 +898,7 @@ end;
 procedure TfrmMain.miStartSlideShowClick(Sender: TObject);
 begin
 ShowShow();
-if Assigned(frmShow) then frmShow.tbnStart.Click();
+if Assigned(frmShow) then frmShow.btnStart.Click();
 end;
 
 procedure TfrmMain.tbnLastClick(Sender: TObject);
@@ -1016,6 +1042,21 @@ else if (ssAlt in Shift) then
   Scroll(2,80)
 else
   Scroll(0,40);
+end;
+
+procedure TfrmMain.miGoFirstClick(Sender: TObject);
+begin
+GoFirst();
+end;
+
+procedure TfrmMain.miGoLastClick(Sender: TObject);
+begin
+GoLast();
+end;
+
+procedure TfrmMain.miGoRandomClick(Sender: TObject);
+begin
+GoRandom();
 end;
 
 end.

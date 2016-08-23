@@ -59,7 +59,7 @@ implementation
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
-func(PT_FFILTER,'Crop Image',' ');
+func(PT_FFILTER,'Crop',' ');
 Result:=true;
 end;
 

@@ -41,8 +41,8 @@ end;
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-func(PT_FFILTER,'Mirror Right',' ');
-func(PT_FFILTER,'Mirror Down',' ');
+func(PT_FFILTER,'Flip Horizontal',' ');
+func(PT_FFILTER,'Flip Vertical',' ');
 Result:=true;
 end;
 
@@ -58,14 +58,14 @@ gbmp:=TBitmap.Create();
 gbmp.Assign(bmp);
 
 // modifying
-if Pos('Right',String(info))<>0 then
+if Pos('Horizontal',String(info))<>0 then
   begin
-  // Mirror Right
+  // Flip Horizontal
   MirrorRight(gbmp);
   end
 else
   begin
-  // Mirror Down
+  // Flip Vertical
   MirrorDown(gbmp);
   end;
 

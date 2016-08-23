@@ -36,8 +36,6 @@ frmMain.MRU.LoadFromRegistry(sReg + '\History');
 // other stuff
 reg.OpenKey(sReg + '\Main',true);
 frmMain.sbxMain.Color:=StringToColor(reg.RStr('Color','clAppWorkSpace'));
-if reg.RIntC('AutoApply',1)=1 then Include(infSettings.options,opAutoApply)
-   else Exclude(infSettings.options,opAutoApply);
 if reg.RInt('ZoomOnLoad',0)=1 then
   begin
   Include(infSettings.options,opZoomOnLoad);
@@ -52,8 +50,6 @@ else
 if reg.RIntC('OpenAfterSave',1)=1 then Include(infSettings.options,opOpenAfterSave)
    else Exclude(infSettings.options,opOpenAfterSave);
 
-if reg.RIntC('Hints',1)=1 then Application.ShowHint:=true
-  else Application.ShowHint:=false;
 if reg.RIntC('FSCenter',1)=1 then Include(infSettings.options,opFSCenter)
   else Exclude(infSettings.options,opFSCenter);
 if reg.RIntC('OpenDef',1)=1 then Include(infSettings.options,opOpenDef)

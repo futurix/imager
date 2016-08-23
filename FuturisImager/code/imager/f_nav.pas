@@ -13,6 +13,7 @@ procedure GoPrev();
 procedure GoNext();
 procedure GoLast();
 procedure GoFirst();
+procedure GoRandom();
 procedure FindFileNumber();
 
 implementation
@@ -117,6 +118,13 @@ procedure GoFirst();
 begin
 if ((files.Count>1)and(infImage.path<>files.Strings[0])) then
   Load(files.Strings[0],true,true);
+end;
+
+// go to random file in folder
+procedure GoRandom();
+begin
+if (files.Count>1) then
+  Load(files.Strings[Random(files.Count)],true,true);
 end;
 
 // find and set file number in current dir

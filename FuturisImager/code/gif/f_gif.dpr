@@ -16,7 +16,7 @@ begin
 func(PT_FOPEN,'gif',' ');
 func(PT_FSAVE,'gif',' ');
 if (Win32Platform = VER_PLATFORM_WIN32_NT) then
-  func(PT_FEXPORT,'GIF Export',' ');
+  func(PT_FEXPORT,'Advanced GIF Export...',' ');
 func(PT_FDESCR,'gif','CompuServe GIF (*.gif)');
 Result:=true;
 end;
