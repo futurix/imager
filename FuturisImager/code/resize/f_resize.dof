@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=5
+MinorVer=6
 Release=0
-Build=33
+Build=34
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Resize Filter
-FileVersion=4.5.0.33
+FileVersion=4.6.0.34
 InternalName=f_resize
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=f_resize.dll
 ProductName=Futuris Imager
-ProductVersion=4.5
+ProductVersion=4.6
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

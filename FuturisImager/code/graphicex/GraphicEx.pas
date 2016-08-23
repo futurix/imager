@@ -4005,7 +4005,7 @@ var
 begin
   Handle := 0;
   FBasePosition := Stream.Position;
-  ImageIndex := 5; // third image is Base resolution
+  ImageIndex := 4; // third image is Base resolution
 
   if ReadImageProperties(Stream, ImageIndex) then
   begin

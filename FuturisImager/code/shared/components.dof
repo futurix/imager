@@ -109,7 +109,7 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=5
+MinorVer=6
 Release=0
 Build=2
 Debug=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Components Package
-FileVersion=4.5.0.2
+FileVersion=4.6.0.2
 InternalName=components
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=components.bpl
 ProductName=Futuris Imager
-ProductVersion=4.5
+ProductVersion=4.6
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

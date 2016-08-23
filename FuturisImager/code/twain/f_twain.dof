@@ -10,7 +10,7 @@ F=0
 G=1
 H=1
 I=1
-J=1
+J=0
 K=0
 L=1
 M=0
@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=5
+MinorVer=6
 Release=0
-Build=101
+Build=163
 Debug=0
 PreRelease=0
 Special=0
@@ -121,31 +121,25 @@ Locale=2057
 CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
-FileDescription=Futuris Imager TWAIN Library
-FileVersion=4.5.0.101
-InternalName=f_twain
+FileDescription=Futuris Imager TWAIN Plug-in
+FileVersion=4.6.0.163
+InternalName=twain
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=f_twain.dll
 ProductName=Futuris Imager
-ProductVersion=4.5
+ProductVersion=4.6
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=2
+Count=1
 Item0=..\shared
-Item1=D:\Software\Imager\Modules\Import\TWAINacquire\Source\Library
 [HistoryLists\hlUnitOutputDirectory]
-Count=5
+Count=1
 Item0=..\output
-Item1=..\..\output
-Item2=..\..\..\output
-Item3=..\..\..\out\import\twain
-Item4=D:\Software\Imager\Modules\Import\TWAINacquire\Output
 [HistoryLists\hlOutputDirectorry]
-Count=3
+Count=2
 Item0=..\..\release\plugins
-Item1=..\..\..\release\plugins
-Item2=D:\Software\Imager\Modules\Import\TWAINacquire\Release
+Item1=..\..\release

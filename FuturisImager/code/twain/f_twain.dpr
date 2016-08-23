@@ -1,66 +1,12 @@
 library f_twain;
 
 uses
-  SysUtils, Classes, Windows, Graphics,
-  MultiTWAIN, c_const;
+  SysUtils,
+  Classes,
+  twainwnd in 'twainwnd.pas' {frmAcquire};
 
-procedure CallbackFxn(CurDib: THandle; index: Integer); stdcall; forward;
-
-var
-   hdib, testdib: hbitmap;
-   w, h: integer;
-   bmp: TPicture;
-
-{$R *.RES}
-
-function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
-begin
-func(PT_FIMPORT,'Get Image from Digital Camera or Scanner...',' ');
-Result:=true;
-end;
-
-function FIPISimport(info: PChar; app, wnd: THandle):hBitmap; stdcall;
-begin
-// init
-bmp:=TPicture.Create();
-hDib:=0;
-w:=0;
-h:=0;
-testDib:=0;
-Result:=0;
-TWAIN_RegisterCallback(CallbackFxn);
-
-// do it!
-try
-  if TWAIN_SelectImageSource(wnd)<>0 then
-    begin
-    hdib:=TWAIN_AcquireNative(wnd,0);
-    if hdib<>0 then
-      begin
-      TestDib:=TWAIN_GetDib(0);
-      if TestDib<>0 then
-        begin
-        CopyDibIntoImage(TestDib,bmp);
-        TWAIN_FreeNative(TestDib);
-        TestDib:=0;
-        Result:=bmp.Bitmap.Handle;
-        bmp.Bitmap.ReleaseHandle();
-        end;
-      end;
-    end;
-  except
-  end;
-// finish
-FreeAndNil(bmp);
-end;
-
-procedure CallbackFxn(CurDib: THandle; index: Integer); stdcall;
-begin
-// does nothing, but required
-end;
-
-exports
-  FIPISquery, FIPISimport;
+{$R *.res}
 
 begin
 end.
+ 

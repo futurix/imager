@@ -2,13 +2,13 @@
 
 Alexander Tereshchenko
 Futuris Imager Bla-bla-bla
-4.5.0.1
+4.6.0.1
 f_blablabla
 © 1999-2004 Alexander Tereshchenko
 Futurix is a trademark of Alexander Tereshchenko
 f_blablabla.dll
 Futuris Imager
-4.5
+4.6
 http://www.knives-out.org/
 
 

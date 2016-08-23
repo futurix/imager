@@ -47,6 +47,7 @@ contains
   MRUfiles in 'MRUfiles.pas',
   Preview in 'Preview.pas',
   RotImg in 'RotImg.pas',
-  RotImgReg in 'RotImgReg.pas';
+  RotImgReg in 'RotImgReg.pas',
+  DelphiTwain in 'DelphiTwain.pas';
 
 end.

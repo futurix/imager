@@ -312,8 +312,6 @@ Randomize();
 if (IsXP() and UseThemes()) then
   begin
   frmMain.tbrMain.EdgeBorders:=[];
-  frmMain.tbrAnim.EdgeBorders:=[];
-  frmMain.tbrMulti.EdgeBorders:=[];
   end;
 
 // setting app events

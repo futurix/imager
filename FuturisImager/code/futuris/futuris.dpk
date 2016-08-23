@@ -22,7 +22,7 @@ package futuris;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Futuris Imager Run-Time Library'}
+{$DESCRIPTION 'Futuris Imager Shared Library'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 

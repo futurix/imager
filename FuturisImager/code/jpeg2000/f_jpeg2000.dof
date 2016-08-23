@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=5
+MinorVer=6
 Release=0
-Build=51
+Build=52
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager JPEG2000 Library
-FileVersion=4.5.0.51
+FileVersion=4.6.0.52
 InternalName=f_jpeg2000
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=f_jpeg2000.dll
 ProductName=Futuris Imager
-ProductVersion=4.5
+ProductVersion=4.6
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

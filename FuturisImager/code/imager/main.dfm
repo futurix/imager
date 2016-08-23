@@ -23,9 +23,9 @@ object frmMain: TfrmMain
   TextHeight = 13
   object sbxMain: TScrollBox
     Left = 0
-    Top = 78
+    Top = 26
     Width = 826
-    Height = 492
+    Height = 496
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -376,9 +376,10 @@ object frmMain: TfrmMain
   end
   object tbrAnim: TCoolBar
     Left = 0
-    Top = 26
+    Top = 522
     Width = 826
-    Height = 26
+    Height = 24
+    Align = alBottom
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -390,7 +391,7 @@ object frmMain: TfrmMain
         MinHeight = 24
         Width = 826
       end>
-    EdgeBorders = [ebTop]
+    EdgeBorders = []
     FixedOrder = True
     ShowText = False
     Visible = False
@@ -418,7 +419,7 @@ object frmMain: TfrmMain
         Caption = 'Play'
         ImageIndex = 22
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnPlayClick
       end
       object tbnPause: TToolButton
@@ -428,7 +429,7 @@ object frmMain: TfrmMain
         Caption = 'Pause'
         ImageIndex = 23
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnPauseClick
       end
       object tbnStop: TToolButton
@@ -438,16 +439,17 @@ object frmMain: TfrmMain
         Caption = 'Stop'
         ImageIndex = 24
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnStopClick
       end
     end
   end
   object tbrMulti: TCoolBar
     Left = 0
-    Top = 52
+    Top = 546
     Width = 826
-    Height = 26
+    Height = 24
+    Align = alBottom
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -459,7 +461,7 @@ object frmMain: TfrmMain
         MinHeight = 24
         Width = 826
       end>
-    EdgeBorders = [ebTop]
+    EdgeBorders = []
     FixedOrder = True
     ShowText = False
     Visible = False
@@ -487,7 +489,7 @@ object frmMain: TfrmMain
         Caption = 'First'
         ImageIndex = 25
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnMultiFirstClick
       end
       object tbnMultiPrev: TToolButton
@@ -497,7 +499,7 @@ object frmMain: TfrmMain
         Caption = 'Previous'
         ImageIndex = 20
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnMultiPrevClick
       end
       object tbnMultiNext: TToolButton
@@ -507,7 +509,7 @@ object frmMain: TfrmMain
         Caption = 'Next'
         ImageIndex = 21
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnMultiNextClick
       end
       object tbnMultiLast: TToolButton
@@ -517,7 +519,7 @@ object frmMain: TfrmMain
         Caption = 'Last'
         ImageIndex = 26
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnMultiLastClick
       end
       object MSep_1: TToolButton
@@ -535,7 +537,7 @@ object frmMain: TfrmMain
         Caption = 'Go To'
         ImageIndex = 27
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnGoToPageClick
       end
       object tbnExtractPage: TToolButton
@@ -545,7 +547,7 @@ object frmMain: TfrmMain
         Caption = 'Extract Page'
         ImageIndex = 28
         ParentShowHint = False
-        ShowHint = False
+        ShowHint = True
         OnClick = tbnExtractPageClick
       end
     end

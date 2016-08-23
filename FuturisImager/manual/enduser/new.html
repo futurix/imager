@@ -43,7 +43,7 @@ a:active {
 <body>
 <table width="100%" border="0" align="center" cellpadding="10" cellspacing="0" bgcolor="#EEEEEE">
 	<tr>
-		<td align="center"><span class="style3">What's new in version 4.5 ?</span></td>
+		<td align="center"><span class="style3">What's new in version 4.6 ?</span></td>
 	</tr>
 </table>
 <table width="600" border="0" align="center" cellpadding="4" cellspacing="0">
@@ -60,17 +60,14 @@ a:active {
 	<tr>
 		<td>
 			<ul>
-				<li>added screen capture tool (capture types: whole screen, active window, rectangle selection, polygon selection) </li>
-		        <li>added &quot;HEX Viewer&quot; tool </li>
-		        <li>improved toolbar icons look, added several new buttons (&quot;go random&quot;, &quot;custom zoom&quot;, etc) </li>
-		        <li>new slide-show toolbar with more options (and now it can be easily hidden during slide-show)</li>
-		        <li>added several print preview options (&quot;proportional&quot;, &quot;shrink only large&quot;, etc) </li>
-		        <li>added &quot;Go Random&quot; navigation mode (naviagtes between random images in current folder) - also added to new slide show toolbar </li>
-			    <li>added selected image thumbnail to save dialog</li>
-			    <li>&quot;Filters&quot; dialog now shows entire image at once </li>
-			    <li> first release of developer's SDK to create plug-ins for Futuris Imager (3.0 and 4.x) available now</li>
+				<li>completely rewritten TWAIN support: new plug-in includes image preview, compatible with more scanners/cameras and works better with WIA on WindowsXP</li>
+	            <li>fixed  loading for PhotoCD images that omit largest resolution (6144 x 4096) </li>
+			    <li> minor GUI updates for animated and multi-page images </li>
+			    <li>included newer GDI+ DLL because of recent Microsoft GDI+ JPEG security bug<br />
+		    	Note:  Futuris Imager never used and will never  use GDI+ for JPEG images, so users of old version are safe anyway</li>
+			    <li>updated LIBMNG to version 1.08</li>
 			</ul>
-		    <p><i>released on August, 1st - 2004 </i></p>
+		    <p><i>released on October, 10th - 2004 </i></p>
 		</td>
 	</tr>
 </table>
