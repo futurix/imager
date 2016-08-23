@@ -9,7 +9,7 @@ const
   FI_MESSAGE 			= WM_USER + 147;
 
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.5.2';
+  sVersion				= '5.5.3';
   sRights 				= '© 1999-2006 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
   sRegAssociationOld	= sAppName + '.old';

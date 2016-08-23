@@ -68,8 +68,6 @@ begin
 	info_call(PT_FFILTER, PChar(LoadLStr(3054)), '');
 	info_call(PT_FFILTER, PChar(LoadLStr(3055)), '');
 	info_call(PT_FFILTER, PChar(LoadLStr(3056)), '');
-	info_call(PT_FFILTER, PChar(LoadLStr(3057)), '');
-	info_call(PT_FFILTER, PChar(LoadLStr(3058)), '');
 	info_call(PT_FFILTER, PChar(LoadLStr(3059)), '');
 	info_call(PT_FFILTER, PChar(LoadLStr(3060)), '');
 	info_call(PT_FFILTER, PChar(LoadLStr(3061)), '');
@@ -146,6 +144,10 @@ begin
 		eff := TProEffectImage.Create(nil);
 		eff.Picture.Assign(bmp);
 		frmFX := TfrmFX.Create(Application);
+
+        if (effect=LoadLStr(3056)) then
+        	frmFX.tbrAmount.Position := 50;
+
     	frmFX.TrackBarChange(frmFX);
     	frmFX.ShowModal();
     	FreeAndNil(frmFX);
@@ -177,9 +179,24 @@ begin
 	else if effect=LoadLStr(3053) then eff.Effect_SplitBlur(tbrAmount.Position)
 	else if effect=LoadLStr(3054) then eff.Effect_AddColorNoise(tbrAmount.Position * 3)
 	else if effect=LoadLStr(3055) then eff.Effect_AntiAlias()
-	else if effect=LoadLStr(3056) then eff.Effect_Contrast(tbrAmount.Position * 3)
-	else if effect=LoadLStr(3057) then eff.Effect_Lightness(tbrAmount.Position * 2)
-	else if effect=LoadLStr(3058) then eff.Effect_Darkness(tbrAmount.Position * 2)
+	else if effect=LoadLStr(3056) then
+        begin
+        if (tbrAmount.Position > 50) then
+        	begin
+            // positive
+            eff.Effect_Contrast(((tbrAmount.Position - 50) * 2) * 3);
+            end
+        else if (tbrAmount.Position = 50) then
+        	begin
+            // zero
+            eff.Effect_Contrast(0);
+            end
+        else
+        	begin
+            // negative
+            eff.Effect_Contrast(((tbrAmount.Position * 2) - 100) * 3);
+			end;
+        end
 	else if effect=LoadLStr(3059) then eff.Effect_Saturation(255-((tbrAmount.Position * 255) div 100))
 	else if effect=LoadLStr(3060) then eff.Effect_Mosaic(tbrAmount.Position div 2)
 	else if effect=LoadLStr(3061) then eff.Effect_Tile(tbrAmount.Position div 10)

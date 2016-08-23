@@ -9,8 +9,8 @@ uses
 const
 	sAllButtons: string = 	'open,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
     						'zoomin,zoomout,rotate90,zoom,dispopt,fs,info,random,undo,fit';
-    sDefaultToolbar: string = 	'open,save,close,sep,print,sep,copy,paste,sep,editor,undo,sep,prevpage,nextpage,' +
-    							'sep,zoomin,zoomout,rotate90,sep,zoom,dispopt,fs,sep,info,sep,back,forward';
+    sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,sep,copy,paste,sep,editor,undo,sep,prevpage,nextpage,' +
+    							'sep,zoomin,zoomout,rotate90,sep,zoom,dispopt,fs,sep,info,sep,random,sep,back,forward';
 
 procedure ApplyCustomToolbar(again: boolean = false);
 procedure AddButton(code: string);

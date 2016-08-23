@@ -4,7 +4,7 @@ BEGIN
     2		"English - English"                             // name of the locale language (in English and translated)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko - alex@fxfp.com"        // locale author (you!) - e-mail is optional
-    5		"5.5.2"                      					// last version of Futuris Imager this locale was updated for
+    5		"5.5.3"                      					// last version of Futuris Imager this locale was updated for
 
     50		"OK"
     51		"Cancel"

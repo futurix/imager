@@ -113,6 +113,11 @@ begin
 
 	FreeAndNil(s);
 	FreeAndNil(i);
+
+    // optimizing menus
+    frmMain.mImport.Visible := (frmMain.mImport.Count > 0);
+    frmMain.mExport.Visible := (frmMain.mExport.Count > 0);
+    frmMain.N14.Visible := (frmMain.mImport.Visible or frmMain.mExport.Visible);
 end;
 
 // updates all plug-ins from ini

@@ -5,17 +5,19 @@ OutFile "futuriximager.exe"
 CRCCheck on
 SetCompressor lzma
 
-BrandingText "FuturixImager"
+BrandingText "FuturixImager 5.5.3"
 
 InstallDir "$PROGRAMFILES\FuturixImager"
 
-!define MUI_WELCOMEPAGE_TITLE "FuturixImager 5.5.2"
+!define MUI_WELCOMEPAGE_TITLE "FuturixImager 5.5.3"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager.\r\n\r\n$_CLICK"
 
+!define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "license.txt"
+!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -27,7 +29,9 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 !insertmacro MUI_LANGUAGE "English"
 
 
-Section ""
+Section "FuturixImager"
+  SectionIn RO
+  
   # registry clean-up
   DeleteRegKey HKEY_CLASSES_ROOT "FuturixImager"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager"
@@ -37,14 +41,11 @@ Section ""
   Delete $INSTDIR\fxcapture.dll
   Delete $INSTDIR\fxcore.dll
   Delete $INSTDIR\fxeffects.dll
-  Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fximager.exe
   Delete $INSTDIR\fxjpeglossless.dll
-  Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxmain.dll
   Delete $INSTDIR\fxraw.dll
   Delete $INSTDIR\fxwallpaper.dll
-  Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallfx.exe
   
   # deleting legacy files
@@ -81,22 +82,14 @@ Section ""
   
   # installing main files
   SetOutPath "$INSTDIR"
-  File "..\bin\fxcapture.dll"
   File "..\bin\fxcore.dll"
-  File "..\bin\fxeffects.dll"
-  File "..\bin\fxgraphicex.dll"
   File "..\bin\fximager.exe"
-  File "..\bin\fxjpeglossless.dll"
-  File "..\bin\fxmail.dll"
   File "..\bin\fxmain.dll"
-  File "..\bin\fxraw.dll"
-  File "..\bin\fxwallpaper.dll"
-  File "..\bin\fxwireless.dll"
   
   # writing unistaller registry key
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayName" "FuturixImager 5.5.2"
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayName" "FuturixImager 5.5.3"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoModify" 1
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoRepair" 1
    
@@ -113,6 +106,31 @@ Section ""
   WriteRegStr HKEY_CURRENT_USER "Software\alex_t\FuturixImager" "InstallationPath" "$INSTDIR"
 SectionEnd
 
+Section "Raw camera formats support"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxraw.dll"
+SectionEnd
+
+Section "Lossless JPEG transformations"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxjpeglossless.dll"
+SectionEnd
+
+Section "Screen capture"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxcapture.dll"
+SectionEnd
+
+Section "Additional filters"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxeffects.dll"
+SectionEnd
+
+Section "Wallpaper tools"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxwallpaper.dll"
+SectionEnd
+
 
 Section Uninstall
   # registry clean-up
@@ -122,14 +140,11 @@ Section Uninstall
   Delete $INSTDIR\fxcapture.dll
   Delete $INSTDIR\fxcore.dll
   Delete $INSTDIR\fxeffects.dll
-  Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fximager.exe
   Delete $INSTDIR\fxjpeglossless.dll
-  Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxmain.dll
   Delete $INSTDIR\fxraw.dll
   Delete $INSTDIR\fxwallpaper.dll
-  Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallfx.exe
 
   # registry clean-up
@@ -144,3 +159,4 @@ Section Uninstall
   # removing folder (only if it's already empty)
   RMDir $INSTDIR
 SectionEnd
+

@@ -2,7 +2,7 @@
 
 Alexander Tereshchenko
 FuturixImager ###
-5.5.2.#
+5.5.3.#
 ###
 © 1999-2006 Alexander Tereshchenko
 
@@ -28,5 +28,7 @@ fxcore
 >>>>>>>>> MISC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 Default form font: MS Shell Dlg 2
+Base plug-ins address: $01600000
+Base main package address: $00600000
 Compile package as DLL: {$E 'dll'}
 
