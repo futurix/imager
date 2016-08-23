@@ -276,19 +276,19 @@ begin
   		if frmMain.bFullPathInTitle then
     		begin
     		// full path
-    		Application.Title := (infImage.path + ' - ' + sAppNameEx);
-    		frmMain.Caption := (infImage.path + ' - ' + sAppNameEx);
+    		Application.Title := (infImage.path + ' - ' + sAppName);
+    		frmMain.Caption := (infImage.path + ' - ' + sAppName);
     		end
   		else
     		begin
-    		Application.Title := (ExtractFileName(infImage.path) + ' - ' + sAppNameEx);
-    		frmMain.Caption := (ExtractFileName(infImage.path) + ' - ' + sAppNameEx);
+    		Application.Title := (ExtractFileName(infImage.path) + ' - ' + sAppName);
+    		frmMain.Caption := (ExtractFileName(infImage.path) + ' - ' + sAppName);
     		end;
   		end
 	else
   		begin
-        Application.Title := sAppNameEx;
-        frmMain.Caption := sAppNameEx;
+        Application.Title := sAppName;
+        frmMain.Caption := sAppName;
   		end;
 end;
 

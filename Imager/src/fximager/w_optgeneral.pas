@@ -680,6 +680,8 @@ var
 begin
     Self.Caption				:= LoadLStr(840);
 
+    lblFormats.Caption			:= LoadLStr(3340);
+
     shtGeneral.Caption 			:= LoadLStr(841);
 
     lblClearMRU.Caption			:= LoadLStr(851);

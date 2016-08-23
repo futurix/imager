@@ -73,10 +73,19 @@ uses main, f_ui, w_show, f_multi;
 {$R *.DFM}
 
 procedure TfrmPrint.DrawView();
+var
+    bmp: TBitmap;
 begin
+    bmp := TBitmap.Create();
+    frmMain.img.IEBitmap.CopyToTBitmap(bmp);
+
+    bmp.PixelFormat := pf24bit;
+
 	prwPrint.BeginDoc();
 	prwPrint.PaintGraphicEx(prwPrint.PageBounds, frmMain.img.IEBitmap.VclBitmap, frmPrint.cbxProportional.Checked, frmPrint.cbxShrinkOnlyLarge.Checked, frmPrint.cbxCenter.Checked);
 	prwPrint.EndDoc();
+
+    FreeAndNil(bmp);
 end;
 
 procedure TfrmPrint.tbnPrintClick(Sender: TObject);

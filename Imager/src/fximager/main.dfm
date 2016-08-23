@@ -46,9 +46,8 @@ object frmMain: TfrmMain
       LegacyBitmap = False
       DoubleBuffer = False
       MouseInteract = [miScroll]
-      EnableAlphaChannel = True
       OnProgress = imgProgress
-      ImageEnVersion = '2.3.2'
+      ImageEnVersion = '3.0.0'
       OnMouseWheel = imgMouseWheel
       Align = alClient
       PopupMenu = popMain
@@ -961,7 +960,6 @@ object frmMain: TfrmMain
     end
   end
   object popMain: TPopupMenu
-    Images = imlFixed
     Left = 475
     Top = 159
     object piBack: TMenuItem

@@ -5,23 +5,19 @@
 #pragma once
 
 
-// FuturixImager message
-#define FI_MESSAGE			(WM_USER + 147)
-
 // application strings (ANSI only)
 #define SAPPNAME 			"FuturixImager"
-#define SAPPNAMEEX			SAPPNAME
-#define SVERSION			"5.8"
-#define SVERSIONEX			"5.8.0.0"
+#define SVERSION			"5.8.8"
+#define SVERSIONEX			"5.8.8.0"
 #define SAUTHOR 			"Alexander Tereshchenko"
-#define SRIGHTS 			"© 1999-2006 Alexander Tereshchenko"
-#define SREGASSOCIATION		SAPPNAME
-#define SREGASSOCIATIONOLD	(SAPPNAME + ".old")
+#define SRIGHTS 			"© 1999-2008 Alexander Tereshchenko"
+#define SREGASSOCIATION		"FuturixImager"
+#define SREGASSOCIATIONOLD	"FuturixImager.old"
 
 // version info
 #define FXVER_MAJOR			5
 #define FXVER_MINOR			8
-#define FXVER_REVISION		0
+#define FXVER_REVISION		8
 #define FXVER_BUILD			0
 
 // registry paths
@@ -33,7 +29,7 @@
 #define SINTERNALFORMAT		"fx_internal"
 
 // URLs
-#define SURL				"http://www.futurix.co.uk/"
+#define SURL				"http://www.fximage.com/"
 
 // plug-in signatures
 #define SLOCALEID 			"FxImgLocaleR2"
@@ -47,6 +43,7 @@
 
 // application filenames
 #define FN_APP				"fximager.exe"
+#define FN_FORMATS			"fxformats.exe"
 #define FN_ADDRAW			"fxraw.dll"
 #define FN_ADDJBIG			"fxjbig.dll"
 #define FN_ADDMAGICK		"fxmagick.dll"

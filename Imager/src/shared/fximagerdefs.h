@@ -5,23 +5,19 @@
 #pragma once
 
 
-// FuturixImager message
-#define FI_MESSAGE			(WM_USER + 147)
-
 // application strings (ANSI only)
 #define SAPPNAME 			"FuturixImager"
-#define SAPPNAMEEX			SAPPNAME
-#define SVERSION			"5.8.7"
-#define SVERSIONEX			"5.8.7.0"
+#define SVERSION			"5.8.8"
+#define SVERSIONEX			"5.8.8.0"
 #define SAUTHOR 			"Alexander Tereshchenko"
-#define SRIGHTS 			"© 1999-2007 Alexander Tereshchenko"
-#define SREGASSOCIATION		SAPPNAME
-#define SREGASSOCIATIONOLD	(SAPPNAME + ".old")
+#define SRIGHTS 			"© 1999-2008 Alexander Tereshchenko"
+#define SREGASSOCIATION		"FuturixImager"
+#define SREGASSOCIATIONOLD	"FuturixImager.old"
 
 // version info
 #define FXVER_MAJOR			5
 #define FXVER_MINOR			8
-#define FXVER_REVISION		7
+#define FXVER_REVISION		8
 #define FXVER_BUILD			0
 
 // registry paths

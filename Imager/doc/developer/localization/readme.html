@@ -43,7 +43,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>To translate FuturixImager you will need to  translate all strings in <em>language_terms.rc</em> (located in the current folder) and send this file to Alex Tereshchenko (<a href="mailto:info@fxfp.com">futurix@fxfp.com</a>).</td>
+		<td>To translate FuturixImager you will need to  translate all strings in <em>language_terms.rc</em> (located in this folder) and compile it using provided Visual C++ project.</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -71,7 +71,7 @@ a:hover {
 				<li>Translate carefully - if you are not sure in some term or word, leave it    untranslated or ask someone else.</li>
 				<li>Translate only you know both English and your target language very well -    there is nothing more annoying then badly translated application.</li>
 				<li>Be very careful with <em>language_terms.rc</em> file - do not add any additional text there!</li>
-				<li>Keep <em>language_terms.rc</em> file in  <strong>Unicode</strong>! This is especially important for non-European    languages. To work with Unicode files correctly you will need to use     editor that supports Unicode text files (Notepad in WindowsXP works     fine, also try UltraEdit or Notepad2).</li>
+				<li>Keep <em>language_terms.rc</em> file in  <strong>Unicode</strong>! This is especially important for non-European    languages. To work with Unicode files correctly you will need to use     editor that supports Unicode text files (Notepad in Windows XP/Vista works     fine, also try UltraEdit or Notepad2).</li>
 				<li>If you need to insert quote into translated string - insert it as double    quote (&quot;&quot;) - samples:<br />
 				<pre>
    1101 		"Translated string with ""quotes"" inside"
@@ -81,36 +81,15 @@ a:hover {
 				<pre>
    1101			"String
 				</pre></li>
-				<li>When updated version of <em>language_terms.rc</em> file is available, be sure to    check all changes between strings using some diff tool - I often correct    minor mistakes in strings.<br />
+				<li>When updated version of <em>language_terms.rc</em> file is available, be sure to    check all changes between strings using some diff tool - I often correct    minor mistakes in strings.
 				Great free diff tool is <a href="http://winmerge.org/" target="_blank">WinMerge</a>.</li>
-				<li>When you have translated <em>language_terms.rc</em> file - send it to me by <a href="mailto:info@fxfp.com">e-mail</a>.<br />
-				Do not send me compiled DLL - I need <em>language_terms.rc</em> file!</li>
-				<li>And thank you for your contribution!</li>
+				<li>After you have translated <em>language_terms.rc</em> file - you need to compile it to DLL file to be used in FuturixImager. Using Visual C++ 2008 (either free Express edition 
+				or full editions included as part of Visual Studio 2008) open and build &quot;<em>test\Locale.sln</em>&quot;    project. By default resulting file will be named <em>fxlangtest.dll</em> (but you can change that in Visual Studio project properties or just rename it afterwards). </li>
+				<li>Now you need to host this file somewhere - the choice is up to you. 
+					After you have found the place to host your translation - <a href="mailto:alex@fxfp.com">send me the link</a> and I will put it to Futurix website!<br />
+				Important! I will not link to suspicious websites or websites with extortionate amounts of advertising.</li>
 			</ol>
 		</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>
-			<hr size="1" noshade="noshade" />
-		</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>If you want to test your translation, you will need Microsoft Visual C++ 2005 (either free Express edition or full edition included as part of  Visual Studio 2005).<br />
-		In Visual C++ 2005  just open and build &quot;<em>test\Locale.sln</em>&quot;    project. After that copy new <em>fxlangtest.dll</em> to FuturixImager folder.</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -154,29 +133,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>For reference: current translations for some languages are provided in the &quot;<em>current</em>&quot; folder.</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>
-			<hr size="1" noshade="noshade" />
-		</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&copy; 1999-2006 <a href="http://www.fxfp.com/" target="_blank">Alexander Tereshchenko</a></td>
+		<td>&copy; 1999-2008 <a href="http://www.fximage.com/" target="_blank">Alexander Tereshchenko</a></td>
 	</tr>
 </table>
 </body>

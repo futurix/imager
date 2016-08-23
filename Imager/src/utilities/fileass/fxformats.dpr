@@ -26,8 +26,8 @@ begin
         Graphics.DefFontData.Name := 'MS Shell Dlg 2';
 
   		Application.Initialize();
-  		Application.Title := 'File Associations';
-  Application.CreateForm(TfrmOptions, frmOptions);
+  		Application.Title := 'FuturixImager';
+  		Application.CreateForm(TfrmOptions, frmOptions);
   		Application.Run();
   		end;
 end.

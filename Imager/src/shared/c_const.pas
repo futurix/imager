@@ -6,20 +6,17 @@ uses
   Windows, Messages;
 
 const
-  FI_MESSAGE 			= WM_USER + 147;
-
   sAppName 				= 'FuturixImager';
-  sAppNameEx			= sAppName;
-  sVersion				= '5.8.7';
-  sVersionEx			= '5.8.7.0';
+  sVersion				= '5.8.8';
+  sVersionEx			= '5.8.8.0';
   sAuthor				= 'Alexander Tereshchenko';
-  sRights 				= '© 1999-2007 Alexander Tereshchenko';
-  sRegAssociation		= sAppName;
-  sRegAssociationOld	= sAppName + '.old';
+  sRights 				= '© 1999-2008 Alexander Tereshchenko';
+  sRegAssociation		= 'FuturixImager';
+  sRegAssociationOld	= 'FuturixImager.old';
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 8;
-  FXVER_REVISION		= 7;
+  FXVER_REVISION		= 8;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';

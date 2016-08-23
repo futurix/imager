@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.7
+!define FXVERSION "5.8.8"
 
 Name "FuturixImager Extras"
 OutFile "output\futuriximager_extras.exe"
@@ -29,6 +29,7 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "license.txt"
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -66,13 +67,13 @@ Section "-Core"
   Delete $INSTDIR\fxmng.dll
   Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxmoreinfo.dll
-  Delete $INSTDIR\fxthemexp.dll
   
   # deleting old files
   Delete $INSTDIR\fxjbig.dll
   Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
+  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
   
@@ -109,6 +110,11 @@ Section "Support for writing wireless bitmaps (WBMP)"
   File "..\bin\fxwireless.dll"
 SectionEnd
 
+Section "XP-style toobar theme"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxthemexp.dll"
+SectionEnd
+
 
 Section Uninstall
   SetDetailsPrint none
@@ -118,6 +124,7 @@ Section Uninstall
   Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
+  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
 SectionEnd

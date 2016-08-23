@@ -403,14 +403,13 @@ begin
             infImage.path := path;
 			infImage.image_type := itNormal;
 
-            Header();
-
   			if add_to_mru then
         		frmMain.MRU.Add(path);
 
         	ScanFolder(path);
 
             FinalizeImage();
+            Header();
             Able();
             end;
         end;

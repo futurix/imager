@@ -1,15 +1,15 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Locale", "Locale.vcproj", "{AA06585B-7403-4443-8F12-80A023C1FDFA}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Locale", "Locale.vcproj", "{F81F1262-39FE-4E0B-BB1F-D93F6F5DE1F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA06585B-7403-4443-8F12-80A023C1FDFA}.Release|Win32.ActiveCfg = Release|Win32
-		{AA06585B-7403-4443-8F12-80A023C1FDFA}.Release|Win32.Build.0 = Release|Win32
+		{F81F1262-39FE-4E0B-BB1F-D93F6F5DE1F6}.Release|Win32.ActiveCfg = Release|Win32
+		{F81F1262-39FE-4E0B-BB1F-D93F6F5DE1F6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

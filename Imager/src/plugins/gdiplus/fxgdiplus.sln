@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fxgdiplus", "fxgdiplus.vcproj", "{0C562A1A-968A-4B15-9759-0D69B87C9400}"
 EndProject
 Global

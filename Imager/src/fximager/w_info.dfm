@@ -122,8 +122,7 @@ object frmInfo: TfrmInfo
         ParentCtl3D = False
         LegacyBitmap = False
         MouseInteract = [miZoom, miScroll]
-        EnableAlphaChannel = True
-        ImageEnVersion = '2.2.3'
+        ImageEnVersion = '3.0.0'
         Align = alClient
         TabOrder = 0
       end
@@ -132,6 +131,7 @@ object frmInfo: TfrmInfo
       BorderWidth = 5
       Caption = 'Histogram'
       ImageIndex = 3
+      OnShow = shtHistShow
       object rgbCurves: TRGBCurves
         Left = 0
         Top = 0

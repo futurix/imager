@@ -34,6 +34,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure rbnAllClick(Sender: TObject);
+    procedure shtHistShow(Sender: TObject);
   private
     { Private declarations }
   public
@@ -43,6 +44,7 @@ type
 
 var
   frmInfo: TfrmInfo;
+  gen_hyst: boolean = false;
 
 function Log2(X: Extended): Extended;
 function Ceil(X: Extended): Integer;
@@ -88,7 +90,6 @@ begin
         end;
 
     AddToList(LoadLStr(1206), Format(LoadLStr(1207), [IntToStr(frmMain.img.IEBitmap.VclBitmap.Width), IntToStr(frmMain.img.IEBitmap.VclBitmap.Height)]));
-    rgbCurves.GetHistogramfromBMP(frmMain.img.IEBitmap.VclBitmap);
 end;
 
 function GetInfo(name, value: PChar):BOOL;
@@ -145,6 +146,7 @@ var
     io: TImageEnIO;
 begin
     rgbCurves.CurveMode := cmViewFunction;
+    gen_hyst := false;
 
     Localize();
     AddCommonInfo();
@@ -452,6 +454,16 @@ begin
     	rgbCurves.HistogramRGBMode := HmBlue
     else
     	rgbCurves.HistogramRGBMode := HmGray;
+end;
+
+procedure TfrmInfo.shtHistShow(Sender: TObject);
+begin
+    // on demand generation
+	if (gen_hyst = false) then
+    	begin
+        gen_hyst := true;
+        rgbCurves.GetHistogramfromBMP(frmMain.img.IEBitmap.VclBitmap);
+        end;
 end;
 
 end.

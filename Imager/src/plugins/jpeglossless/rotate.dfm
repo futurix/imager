@@ -5,7 +5,7 @@ object frmJPEG: TfrmJPEG
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'JPEG Lossless Transformations'
-  ClientHeight = 320
+  ClientHeight = 366
   ClientWidth = 346
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -115,7 +115,7 @@ object frmJPEG: TfrmJPEG
   end
   object btnCancel: TButton
     Left = 260
-    Top = 284
+    Top = 331
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -126,11 +126,19 @@ object frmJPEG: TfrmJPEG
   object cbxEXIF: TCheckBox
     Left = 10
     Top = 288
-    Width = 239
+    Width = 325
     Height = 17
-    Caption = 'Update EXIF data'
+    Caption = 'Update EXIF thumbnail'
     Checked = True
     State = cbChecked
     TabOrder = 1
+  end
+  object cbxBackup: TCheckBox
+    Left = 10
+    Top = 308
+    Width = 325
+    Height = 17
+    Caption = 'Back-up original image'
+    TabOrder = 2
   end
 end

@@ -6,20 +6,17 @@ uses
   Windows, Messages;
 
 const
-  FI_MESSAGE 			= WM_USER + 147;
-
   sAppName 				= 'FuturixImager';
-  sAppNameEx			= sAppName;
-  sVersion				= '5.8';
-  sVersionEx			= '5.8.0.0';
+  sVersion				= '5.8.8';
+  sVersionEx			= '5.8.8.0';
   sAuthor				= 'Alexander Tereshchenko';
-  sRights 				= '© 1999-2006 Alexander Tereshchenko';
-  sRegAssociation		= sAppName;
-  sRegAssociationOld	= sAppName + '.old';
+  sRights 				= '© 1999-2008 Alexander Tereshchenko';
+  sRegAssociation		= 'FuturixImager';
+  sRegAssociationOld	= 'FuturixImager.old';
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 8;
-  FXVER_REVISION		= 0;
+  FXVER_REVISION		= 8;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';
@@ -29,7 +26,7 @@ const
   sInternalFormat		= 'fx_internal';
 
   // URLs
-  sURL					= 'http://www.futurix.co.uk/';
+  sURL					= 'http://www.fximage.com/';
 
   // signatures
   sLocaleID 			= 'FxImgLocaleR2';
@@ -43,6 +40,7 @@ const
 
   // application filenames
   FN_APP				= 'fximager.exe';
+  FN_FORMATS			= 'fxformats.exe';
   FN_ADDRAW				= 'fxraw.dll';
   FN_ADDJBIG			= 'fxjbig.dll';
   FN_ADDMAGICK			= 'fxmagick.dll';

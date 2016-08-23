@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, ShellAPI,
-  c_const, c_utils, c_reg;
+  c_const, c_utils, c_reg, c_locales;
 
 type
   TfrmOptFormats = class(TForm)
@@ -46,6 +46,7 @@ type
   private
   public
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure Localize();
   end;
 
 var
@@ -67,7 +68,7 @@ var
 begin
 	tmp := description;
 
-    InputQuery('Description change', 'You can change supported formats description, that appears in Windows Explorer...', tmp);
+    InputQuery(LoadLStr(870), LoadLStr(871), tmp);
 
 	if (tmp <> '') then
   		begin
@@ -137,6 +138,8 @@ end;
 
 procedure TfrmOptFormats.FormCreate(Sender: TObject);
 begin
+    Localize();
+
 	imgIcon1.Picture.Icon.Handle := LoadIcon(HInstance, MAKEINTRESOURCE(1));
 	imgIcon2.Picture.Icon.Handle := LoadIcon(HInstance, MAKEINTRESOURCE(2));
 	imgIcon3.Picture.Icon.Handle := LoadIcon(HInstance, MAKEINTRESOURCE(3));
@@ -152,7 +155,7 @@ begin
 	end;
 
 	cbxFS.Checked := FxRegRBool('Formats_FullScreen', false);
-	description := FxRegRStr('Formats_Description', Format('%s Document', [sAppName]));
+	description := FxRegRStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
 end;
 
 procedure TfrmOptFormats.btnOKClick(Sender: TObject);
@@ -183,7 +186,7 @@ begin
 		wreg.CloseKey();
 
 		UpdateAssociations();
-        Application.MessageBox(PChar('Done.'), sAppName, MB_OK + MB_ICONINFORMATION);
+        Application.MessageBox(PChar(LoadLStr(872)), sAppName, MB_OK + MB_ICONINFORMATION);
 		end;
 
 	FreeAndNil(wreg);
@@ -204,6 +207,19 @@ begin
 		Params.WndParent := (Owner as TWinControl).Handle
 	else if Assigned(Screen.ActiveForm) then
 		Params.WndParent := Screen.ActiveForm.Handle;
+end;
+
+procedure TfrmOptFormats.Localize();
+begin
+    Self.Caption				:= LoadLStr(843);
+
+    lblChangeDescr.Caption		:= LoadLStr(856);
+    lblRestoreIcon.Caption		:= LoadLStr(857);
+    gbxIcon.Caption				:= LoadLStr(861);
+    cbxFS.Caption				:= LoadLStr(850);
+
+    btnOK.Caption				:= LoadLStr(50);
+    btnCancel.Caption			:= LoadLStr(51);
 end;
 
 end.

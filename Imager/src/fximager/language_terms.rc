@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.8.5"                    						// last version of Futuris Imager this locale was updated for
+    5		"5.8.8"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -537,6 +537,7 @@ BEGIN
     1061    "VICAR Rasterfile"
     1062    "Khoros VIFF / Visualization Image File Format"
     1063    "GIMP Image"
+    1064	"ILM OpenEXR"
 
     1200    "Path"
     1201    "File Size"
@@ -844,7 +845,7 @@ BEGIN
     3306	"Enable ""Fit All"" display mode"
     3307	"Switch to full screen mode on image double click"
     3308	"It is not recommended to combine high quality display filter with progressive image loading"
-//    3309	""
+    3309	""
     3310	"Load all images directly into memory"
     3311	"Do not use this option if computer has less then 1Gb of RAM and you are viewing huge images"
     3312	"Mouse wheel default function:"
@@ -860,7 +861,7 @@ BEGIN
     3322	"Set display state to ""Normal"" and reset zoom to 100%"
     3323	"Set display state to ""Normal"" and keep previous zoom"
     3324	"Failed to save settings - possible registry permissions issue! Error code: ""%s""."
-    3325	"You are running this application as a user with limited permissions, so file format associations will be unavailable."
+    3325	"You are running as a user with limited permissions, so file format associations cannot be set!"
     3326	"Filter for high quality display:"
     3327	"Fast linear"
     3328	"Linear"
@@ -875,11 +876,11 @@ BEGIN
     3337	"Lanczos 3"
     3338	"White on black drawing"
     3339	"Black on white drawing"
+    3340	"Set file format associations"
 
     3400	"JPEG Lossless Transformations"
     3401	"JPEG Lossless Transformations..."
     3402	"This function works only with saved JPEG files."
-    3403	"_transformed"			// this string will be part of the generated file name!
     3404	"Rotate 90°"
     3405	"Rotate 180°"
     3406	"Rotate 270°"
@@ -890,7 +891,8 @@ BEGIN
     3411	"Cut"
     3412	"Remove metadata"
     3413	"Warning! Current image may lose up to 16 pixels of image data near borders (for JPEG lossless transformations to work correctly image dimensions should be a multiple of 8)."
-    3414	"Update EXIF data"
+    3414	"Update EXIF thumbnail"
+    3415	"Back-up original image"
     
     3500	"Customize..."
     3501	""

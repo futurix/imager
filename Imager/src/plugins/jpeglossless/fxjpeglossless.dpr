@@ -76,11 +76,14 @@ begin
             else
             	markers := jcCopyAll;
 
-            JpegLosslessTransform(document_path, ChangeFileExt(String(document_path), LoadLStr(3403) + '.jpg'), transf, false, markers, Rect(0, 0, 0, 0), frmJPEG.cbxEXIF.Checked);
+            if (frmJPEG.cbxBackup.Checked) then
+            	CopyFile(document_path, PChar(ChangeFileExt(String(document_path), '.jpg.bak')), false);
+
+            JpegLosslessTransform2(document_path, transf, false, markers, Rect(0, 0, 0, 0), frmJPEG.cbxEXIF.Checked);
 
     		Result.result_type := RT_INT;
     		Result.result_value := 1;
-            StrLCopy(Result.result_string_data, PChar(ChangeFileExt(String(document_path), LoadLStr(3403) + '.jpg')), 2048);
+            StrLCopy(Result.result_string_data, document_path, 2048);
             end;
 
     	FreeAndNil(frmJPEG);

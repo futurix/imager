@@ -52,6 +52,8 @@ begin
 end;
 
 procedure TfrmAbout.FormCreate(Sender: TObject);
+var
+	add: string;
 begin
     Localize();
 
@@ -61,10 +63,17 @@ begin
 
     lblCopy.Caption := sRights;
 
-    if (sAppName <> sAppNameEx) then
-    	lblProgram.Caption := sAppNameEx
-	else
-    	lblProgram.Caption := sAppName + ' ' + sVersion;
+    case ver_status of
+    	0: add := '';
+        1: add := ' Alpha ' + IntToStr(ver_number);
+        2: add := ' Beta ' + IntToStr(ver_number);
+        3: add := ' Gamma ' + IntToStr(ver_number);
+        7: add := ' RC ' + IntToStr(ver_number);
+        else
+        	add := '';
+        end;
+
+	lblProgram.Caption := sAppName + ' ' + sVersion + add;
 end;
 
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -92,7 +101,7 @@ end;
 
 procedure TfrmAbout.Localize();
 begin
-    Self.Caption 		:= Format(LoadLStr(700), [sAppNameEx]);
+    Self.Caption 		:= Format(LoadLStr(700), [sAppName]);
     lblWeb.Caption 		:= Format(LoadLStr(701), [sAppName]);
 	btnOK.Caption		:= LoadLStr(50);
 end;

@@ -23,7 +23,7 @@ package fxcore;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $600000}
-{$DESCRIPTION 'FuturixImager Core Library'}
+{$DESCRIPTION 'FuturixImager Shared Core'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 
@@ -82,6 +82,7 @@ contains
   iepresetim,
   ieraw,
   iepsd,
-  iedicom;
+  iedicom,
+  iegdiplus;
 
 end.

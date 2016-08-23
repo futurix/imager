@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  ShlObj, Printers, c_const, c_utils, c_reg;
+  ShlObj, Printers, c_const, c_utils, c_reg, c_locales;
 
 procedure Uninstall();
 procedure UpdateAssociations();
@@ -84,7 +84,7 @@ var
 begin
 	// preparing
     icon_num := FxRegRInt('Formats_Icon', 1);
-    description := FxRegRStr('Formats_Description', Format('%s Document', [sAppName]));
+    description := FxRegRStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
 	fs := FxRegRBool('Formats_FullScreen', false);
 
 	// doing stuff
@@ -106,7 +106,7 @@ begin
 
 		if nreg.OpenKey('\' + sRegAssociation + '\Shell\Open', true) then
             begin
-			nreg.WString('', '&Open');
+			nreg.WString('', LoadLStr(641));
 
             nreg.CloseKey();
             end;

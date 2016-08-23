@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=8
-Release=7
-Build=28
+Release=8
+Build=34
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager GraphicEx Plug-in
-FileVersion=5.8.7.28
+FileVersion=5.8.8.34
 InternalName=graphicex
-LegalCopyright=© 1999-2007 Alexander Tereshchenko
+LegalCopyright=© 1999-2008 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxgraphicex.dll
 ProductName=FuturixImager
-ProductVersion=5.8.7
+ProductVersion=5.8.8
 Comments=http://www.fximage.com/
 [HistoryLists\hlUnitAliases]
 Count=1

@@ -88,13 +88,13 @@ RemoteSymbols=0
 MinStackSize=16384
 MaxStackSize=1048576
 ImageBase=6291456
-ExeDescription=FuturixImager Core Library
+ExeDescription=FuturixImager Shared Core
 [Directories]
 OutputDir=
 UnitOutputDir=..\..\output
 PackageDLLOutputDir=..\..\..\bin
 PackageDCPOutputDir=..\..\shared
-SearchPath=.\;..\..\shared;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+SearchPath=.\;..\..\shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
 Packages=vcl;rtl;dbrtl;vcldb;vclx;adortl
 Conditionals=
 DebugSourceDirs=
@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=8
-Release=7
-Build=41
+Release=8
+Build=46
 Debug=0
 PreRelease=0
 Special=0
@@ -121,23 +121,24 @@ Locale=2057
 CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
-FileDescription=FuturixImager Core Library
-FileVersion=5.8.7.41
+FileDescription=FuturixImager Shared Core
+FileVersion=5.8.8.46
 InternalName=core
-LegalCopyright=© 1999-2007 Alexander Tereshchenko
+LegalCopyright=© 1999-2008 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxcore.dll
 ProductName=FuturixImager
-ProductVersion=5.8.7
+ProductVersion=5.8.8
 Comments=http://www.fximage.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=3
-Item0=.\;..\..\shared;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
-Item1=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
-Item2=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\ImageEn;
+Count=4
+Item0=.\;..\..\shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
+Item1=.\;..\..\shared;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+Item2=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+Item3=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\ImageEn;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

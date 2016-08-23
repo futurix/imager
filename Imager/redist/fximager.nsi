@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.7
+!define FXVERSION "5.8.8"
 
 Name "FuturixImager"
 OutFile "output\futuriximager.exe"
@@ -130,6 +130,7 @@ Section Uninstall
 
   # deleting files
   Delete $SMPROGRAMS\FuturixImager.lnk
+  Delete $INSTDIR\fx*.chm
   Delete $INSTDIR\fx*.dll
   Delete $INSTDIR\fx*.exe
   Delete $INSTDIR\uninstallfx.exe

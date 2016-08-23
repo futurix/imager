@@ -20,6 +20,7 @@ type
     sbnCut: TSpeedButton;
     sbnNone: TSpeedButton;
     cbxEXIF: TCheckBox;
+    cbxBackup: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -60,6 +61,7 @@ end;
 procedure TfrmJPEG.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
     FxRegWBool('LosslessJPEG_UpdateExif', cbxEXIF.Checked);
+    FxRegWBool('LosslessJPEG_MakeBackup', cbxBackup.Checked);
 
 	Action := caFree;
 end;
@@ -83,10 +85,12 @@ begin
     sbnCut.Caption			:= LoadLStr(3411);
     sbnNone.Caption			:= LoadLStr(3412);
     cbxEXIF.Caption			:= LoadLStr(3414);
+    cbxBackup.Caption		:= LoadLStr(3415);
 
     btnCancel.Caption		:= LoadLStr(51);
 
     cbxEXIF.Checked			:= FxRegRBool('LosslessJPEG_UpdateExif', true);
+    cbxBackup.Checked		:= FxRegRBool('LosslessJPEG_MakeBackup', false);
 end;
 
 procedure TfrmJPEG.CreateParams(var Params: TCreateParams);

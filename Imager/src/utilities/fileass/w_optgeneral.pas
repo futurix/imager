@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, ShellAPI,
-  c_const, c_utils, ToolWin, c_reg, Menus;
+  c_const, c_utils, ToolWin, c_reg, c_locales, Menus;
 
 type
   TfrmOptions = class(TForm)
@@ -34,6 +34,8 @@ type
     procedure SetExt(ext: string);
     procedure UnsetExt(ext: string);
     procedure SaveFormats();
+  public
+    procedure Localize();
   end;
 
 var
@@ -214,6 +216,9 @@ begin
 	wreg := TFRegistry.Create(RA_READONLY);
 	wreg.RootKey := HKEY_CURRENT_USER;
 
+    InitLocalization(LoadLibraryEx(FN_APP, 0, LOAD_LIBRARY_AS_DATAFILE));
+	Localize();
+
     SetStyleAsLink(lblAddParams);
 
     InitFormats();
@@ -222,7 +227,7 @@ begin
 
     if not IsStrongUser() then
         begin
-		MessageBox(Self.Handle, PChar('You are running this application as a user with limited permissions, so file format associations will be unavailable.'), sAppName, MB_OK or MB_ICONERROR);
+		MessageBox(Self.Handle, PChar(LoadLStr(3325)), sAppName, MB_OK or MB_ICONERROR);
         Close();
         end;
 end;
@@ -252,6 +257,22 @@ procedure TfrmOptions.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftS
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
+end;
+
+procedure TfrmOptions.Localize();
+begin
+    Application.Title			:= LoadLStr(843);
+    Self.Caption				:= LoadLStr(843);
+
+    lvwExt.Columns[0].Caption	:= LoadLStr(878);
+    lvwExt.Columns[1].Caption	:= LoadLStr(877);
+    lblAddParams.Caption		:= LoadLStr(879);
+    piSelectAll.Caption			:= LoadLStr(858);
+    piSelectNone.Caption		:= LoadLStr(859);
+    cbxShowRare.Caption			:= LoadLStr(3557);
+
+    btnOK.Caption				:= LoadLStr(50);
+    btnCancel.Caption			:= LoadLStr(51);
 end;
 
 procedure TfrmOptions.lblAddParamsClick(Sender: TObject);

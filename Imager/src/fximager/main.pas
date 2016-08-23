@@ -9,12 +9,16 @@ uses
   ieview, imageenview, hyieutils, ToolbarEx, ShlObj, ImageEnIO, AppEvnts,
   ClipBrd, Printers, c_locales, c_themes, hyiedefs, f_instance;
 
+var
+    ver_status: integer = 0; 	// 0 - release, 1 - alpha, 2 - beta, 3 - gamma, 7 - release candidate
+    ver_number: integer = 0; 	// version of the above (should be 0 for release)
+
 const
-  // extended keyboard keys
-  VK_BROWSER_BACK 		= 166;
-  VK_BROWSER_FORWARD 	= 167;
-  VK_BROWSER_REFRESH 	= 168;
-  VK_BROWSER_STOP 		= 169;
+	// extended keyboard keys
+	VK_BROWSER_BACK 		= 166;
+	VK_BROWSER_FORWARD 		= 167;
+	VK_BROWSER_REFRESH 		= 168;
+	VK_BROWSER_STOP 		= 169;
 
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
@@ -470,7 +474,7 @@ begin
 	Randomize();
 
     // localization and themes
-    c_locales.backup_lib := HInstance;
+    InitLocalization(HInstance);
     LoadTheme(HInstance);
 
     // setting folder variables
@@ -509,7 +513,7 @@ begin
     
 	// history
 	frmMain.MRU.LoadFromRegistry(sSettings + '\MRU');
-
+    
 	// reading settings
     if wreg.OpenKey(sSettings, false) then
     	begin
@@ -1987,17 +1991,18 @@ begin
     else if (nMouseWheel = 1) then
     	begin
         // zooming
-        SetDisplayStyle(dsNormal, true);
+        if (GetDisplayStyle() <> dsNormal) then
+        	SetDisplayStyle(dsNormal, true);
 
         if up then
         	begin
             if (Round(img.Zoom / 1.25) >= 1) then
-            	img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom / 1.25, true);
+            	img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom / 1.25, false);
             end
         else
         	begin
             if (Round(img.Zoom * 1.25) <= 250000) then
-            	img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom * 1.25, true);
+            	img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom * 1.25, false);
             end;
         end
     else if (nMouseWheel = 2) then
