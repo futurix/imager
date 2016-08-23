@@ -65,7 +65,7 @@ object frmPrint: TfrmPrint
     Left = 0
     Top = 26
     Width = 742
-    Height = 439
+    Height = 462
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -81,6 +81,7 @@ object frmPrint: TfrmPrint
     Units = mmLoMetric
     PaperView.BorderWidth = 0
     UsePrinterOptions = True
+    ExplicitHeight = 439
   end
   object tbrPrintMain: TCoolBar
     Left = 0
@@ -163,15 +164,15 @@ object frmPrint: TfrmPrint
   end
   object pnlBottom: TPanel
     Left = 0
-    Top = 465
+    Top = 488
     Width = 742
-    Height = 75
+    Height = 52
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
     DesignSize = (
       742
-      75)
+      52)
     object btnClose: TButton
       Left = 661
       Top = 7
@@ -217,8 +218,8 @@ object frmPrint: TfrmPrint
       OnClick = cbxProportionalClick
     end
     object cbxAllPages: TCheckBox
-      Left = 7
-      Top = 52
+      Left = 268
+      Top = 6
       Width = 150
       Height = 17
       Caption = 'Print all pages'

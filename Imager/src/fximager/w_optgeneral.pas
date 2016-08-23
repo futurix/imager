@@ -603,6 +603,22 @@ begin
         DoPluginScan();
 		UpdatePlugIns();
 
+        // localization fix
+    	if (c_locales.locale_lib <> 0) then
+        	begin
+        	frmMain.mnuMain.Images := nil;
+        	frmMain.popMain.Images := nil;
+        	frmMain.popZoom.Images := nil;
+        	frmMain.popDisp.Images := nil;
+        	end
+        else
+        	begin
+        	frmMain.mnuMain.Images := frmMain.imlFixed;
+        	frmMain.popMain.Images := frmMain.imlFixed;
+        	frmMain.popZoom.Images := frmMain.imlFixed;
+        	frmMain.popDisp.Images := frmMain.imlFixed;
+            end;
+
     	frmMain.Localize();
     	if Assigned(frmShow) then
     		frmShow.Localize();

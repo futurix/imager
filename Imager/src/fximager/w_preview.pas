@@ -105,7 +105,11 @@ var
     bmp: TBitmap;
     img: HBITMAP;
     tmp: TRect;
+    fp: Word;
 begin
+    fp := Default8087CW;
+    Set8087CW($133f);
+
     if ((infImage.image_type = itMulti) and (infMulti.pages > 1) and cbxAllPages.Checked) then
         begin
         for i := 0 to (infMulti.pages - 1) do
@@ -141,6 +145,8 @@ begin
         end
     else
     	prwPrint.Print();
+
+    Set8087CW(fp);
 end;
 
 procedure TfrmPrint.piZMFitClick(Sender: TObject);

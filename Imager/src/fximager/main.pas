@@ -644,6 +644,15 @@ begin
     ApplyCustomToolbar();
     ApplyTheme();
 
+    // localization fix
+    if (c_locales.locale_lib <> 0) then
+        begin
+        mnuMain.Images := nil;
+        popMain.Images := nil;
+        popZoom.Images := nil;
+        popDisp.Images := nil;
+        end;
+
     // installing plug-ins
 	InstallPlugIns();
 

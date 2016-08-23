@@ -1,8 +1,0 @@
-- .NET integration
-- Vista-friendly registry associations
-- merge formats tools back to main executable
-- separate editor to DLL of its own
-- text tool in editor
-- tune zoom via scrolling wheel
-- lossless JPEG crop
-- icons for lossless JPEG transformation operations
