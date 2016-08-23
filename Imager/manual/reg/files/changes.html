@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Futuris Imager</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+<!--
+body,td,th {
+	font-family: Times New Roman, Times, serif;
+	font-size: 12pt;
+	color: #000000;
+}
+body {
+	background-color: #F0F0F0;
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+a:link {
+	color: #006699;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #006699;
+}
+a:hover {
+	text-decoration: underline;
+	color: #006699;
+}
+a:active {
+	text-decoration: none;
+	color: #006699;
+}
+.style3 {font-size: 18pt}
+-->
+</style></head>
+
+<body>
+<table width="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#CCCCCC">
+  <tr>
+    <td align="center"><span class="style3">Releases history </span></td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td align="right"><a href="index.html">back to index</a> </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td>
+      <p><b>Version 3.0</b> (February, 8th - 2004)</p>
+      <ul>
+      	<li>JPEG2000 support (read/write)</li>
+      	<li>rewritten support for GIF, JPEG, PNG, TIFF, Targa, PCX and portable bitmaps (PBM/PGM/PPM) - both reading and writing for all formats</li>
+      	<li>multi-page TIFF support (read only) </li>
+      	<li>DCX support (read only) </li>
+      	<li>high color icons and cursors support</li>
+      	<li> faster zooming for images</li>
+      	<li>improved multiple printers support </li>
+      	<li>new file browser</li>
+      	<li>both file browser and favorites appear docked now </li>
+      	<li>new filters dialog (with preview)</li>
+      	<li>huge improvements in stability </li>
+      	<li>complete support for WindowsXP/2003 themes</li>
+      	<li>support for file format registration on WindowsXP/2003</li>
+      	<li>fixed mouse scrolling </li>
+      	</ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.6c</b> (January, 6th - 2004)</p>
+      <ul>
+        <li>new installer</li>
+        <li>removed support for WindowsXP themes, since it was buggy</li>
+        <li>some stability fixes </li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.6</b> (April, 10th - 2002)</p>
+      <ul>
+        <li>fixed broken long file names support (in previous versions &quot;Back&quot; and &quot;Forward&quot; buttons could act incorrectly if current image has file name larger then 8 symbols)</li>
+        <li>file size has much nicer look now</li>
+        <li>changed Windows Explorer document description to &quot;Futuris Imager Document&quot;</li>
+        <li>support for WindowsXP themes is optional now</li>
+        <li>new rewritten File Browser with preview</li>
+        <li>&quot;Create HTML&quot; plug-in now adds DOCTYPE and content encoding to output HTML file</li>
+        <li>&quot;Web View&quot; plug-in resolves some of HTTP errors now</li>
+        <li>large GUI changes and improvements </li>
+        <li>removed Futuris Bitmap plug-in, &quot;Set Wallpaper&quot; plug-in and capture tool - too buggy and useless</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.51</b> (January, 14th - 2002) </p>
+      <ul>
+        <li>PlacesBar will appear in &quot;Open&quot; dialog on Windows2000/Me/XP/2002</li>
+        <li>misc. UI improvements</li>
+        <li>fixed several bugs in Futuris Bitmaps support plug-in</li>
+        <li>fixed some errors in documentation</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.5</b> (January, 1st - 2002) </p>
+      <ul>
+        <li>support for WindowsXP themes</li>
+        <li>a LOT of UI updates (menus, toolbar skin, dialogs, etc.)</li>
+        <li>support for Futuris Bitmap format (lossless high-compression format)</li>
+        <li>some little bugs fixed (wrong file information, buggy &quot;About&quot; dialog, etc.)</li>
+        <li>on Windows2000/Me/XP Futuris Imager will add itself to list of digital camera / scanner events</li>
+        <li>much smaller installer (almost 500 kb. smaller)</li>
+        <li>updated documentation</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.1a</b> (December, 1st - 2001) </p>
+      <ul>
+        <li>new installation program - included all additional plug-ins for Futuris Imager in main distribution package</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.1</b> (June, 10th - 2001) </p>
+      <ul>
+        <li>improved &quot;Open&quot; dialog - now with additional information about image and some UI changes</li>
+        <li>&quot;Open Special&quot; and &quot;Select Skin&quot; dialogs now also have previews</li>
+        <li>now Imager preserves your file associations and able to automatically restore them back on uninstall</li>
+        <li>added &quot;New Window&quot; menu item, that opens new Futuris Imager window</li>
+        <li>added file management functions in &quot;Go&quot; menu and pop-up menu</li>
+        <li>new &quot;Crop&quot; filter</li>
+        <li>&quot;Zoom to Fit on Load&quot; function added (automatically sizes image to window on load). See &quot;View menu&quot;</li>
+        <li>new informational plug-in by Aqab Bin Talal included into distribution (allows you to get advanced information about bmp/pcx/ico/tga/gif images)</li>
+        <li>additional skins added</li>
+        <li>some plug-ins and thumbnail browser removed from standard download. You can download then on <a href="home.html">Futuris web site</a>.</li>
+        <li>bug fixes and small improvements</li>
+        <li>YAFU (yet another FAQ update)</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.02</b> (May, 28th - 2001) </p>
+      <ul>
+        <li>small FAQ update</li>
+        <li>bug fixes and once again bugfixes</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.01</b> (May, 12th - 2001) </p>
+      <ul>
+        <li>new settings storage system - all settings saved in system Registry, so all users at your machine can have separate Imager configurations</li>
+        <li>improved memory usage<b></b> - typically 600 kb. smaller</li>
+        <li>advanced printing features - control image position, paper size and orientation, print preview zoom</li>
+        <li>added &quot;Favorites&quot; panel for quick access to favorite local and web images</li>
+        <li>support for JNG saving and PNG/JNG advanced exporting</li>
+        <li>complete support for animated GIFs</li>
+        <li>new &quot;Clean Up&quot; command, that quickly removes all Imager's browsing history/cache (aka &quot;<b>Privacy Enhancements</b>&quot;)</li>
+        <li>it is possible now, to scroll image with &quot;Hand&quot; tool</li>
+        <li>optional integration with Filters Unlimited</li>
+        <li>a lot of bug fixes and small improvements</li>
+        <li>serious improvements for plug-in developers</li>
+        <li>additional plug-ins and add-ons (including Macromedia Flash support) available for separate download on Futuris web site</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 2.0</b> (April, 16th - 2001) </p>
+      <ul>
+        <li><b>Futuris Imager Plug-In System</b> (FIPIS) - plug-in system, that allows developers to extend Futuris Imager functionality.</li>
+        <li><b>Modularization</b> - reduces all executables and dll sizes, moving common parts into separate dlls. Saves memory by loading required parts only when they actually needed.</li>
+        <li>Improved &quot;Open&quot; dialog with <b>preview</b>.</li>
+        <li>Command line support for /fs (Full Screen) and /print (Print) switches.</li>
+        <li>Support for <b>MNG</b>, JNG formats</li>
+        <li>Improved PNG support - more than 3 times faster than in 1.x versions </li>
+        <li>Save to GIF and PNG added</li>
+        <li>Advanced <b>exporters</b> for GIFs and JPEGs</li>
+        <li>Support for WBMP (WAP bitmaps) open and save </li>
+        <li><b>Image zooming</b> (several methods available) and auto-fit zoom (hit [ENTER] to use) </li>
+        <li>Print with <b>preview</b></li>
+        <li>Improved WebOpen (loading images from HTTP servers) - doesn't require MSIE anymore and image format selection is not required (auto-detection)</li>
+        <li>File <b>browser/manager</b> with image preview</li>
+        <li>Ability to create new (empty) images of custom colors</li>
+        <li>Simple (in folder) slide shows</li>
+        <li>10 <b>filters</b> (image transformations). More will be available soon.</li>
+        <li>Windows9x logo changer</li>
+        <li>Windows (all versions) wallpaper changer</li>
+        <li>&quot;<b>Wallpaper tester</b>&quot; plug-in (view any image as wallpaper without need to set it as wallpaper in Windows)</li>
+        <li><b>HEX</b> Viewer</li>
+        <li>Screen capture</li>
+        <li>Custom toolbar skins and background colors</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 1.65</b> (October, 7th - 2000)
+      </p>
+      <ul>
+        <li>Support for EPS files (you can view TIFF previews, if they are included in EPS).</li>
+        <li>Support for JPEGs with exotic extemsions - *.jpe and *.jfif </li>
+        <li>More settings for UI: <br />
+    - you can turn off all hints at once <br />
+    - you can set HTTP referrer and HTTP user agent for WebOpen feature </li>
+        <li>Totally reworked file formats registration - now you can choose icon for file formats associated with Imager (currently only 3, but I'll extend it), as well as unregister them from Imager. </li>
+        <li>You can customize what files appear in Imager when you click &quot;Back&quot; and &quot;Forward&quot; buttons (some kind of search mask) - Quick Browser Masks. </li>
+        <li>Massive improvements in UI (User Interface). </li>
+        <li>New 'Check for Update' menu item takes you to our web site, where you can learn about latest updates for Imager. </li>
+        <li>This is the last version in 1.x series </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.64 </b></p>
+      <ul>
+        <li>Updated graphics engine, smaller and faster. </li>
+        <li>Small bug-fixes. </li>
+        <li>I changed ONLINE HELP format to separate html files suitable for all browsers. </li>
+        <li>Futuris Flash Player 5.0 is included with Futuris Imager. </li>
+        <li>Futuris Flash Player allows you to view and print Macromedia Flash movies (and create standalone projectors for them).</li>
+        <li>In future versions I'm going to add some tutorials for Imager in Flash format and integrate Futuris Flash Player with Futuris Imager. </li>
+        <li>Imager's version numbers changed (because some previous versions weren't big updates, with only bigfixes):<br />
+    1.9 changes to 1.63<br />
+    1.8 changes to 1.62<br />
+    1.7 changes to 1.61 </li>
+      </ul>
+      <p><b>Version 1.63</b> (initially released as 1.9) </p>
+      <ul>
+        <li>Fixed support for TIFF images with LZW compression.</li>
+        <li>Small bug-fixes.</li>
+        <li>Small UI improvements. </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.62</b> (initially released as 1.8) </p>
+      <ul>
+        <li>Fixed support for GFI fax images (FAX) with CCITT compression.</li>
+        <li>&quot;WebOpen&quot; deprication cancelled for a while.</li>
+        <li>Export to JPEG (including Progressive JPEGs and Grayscale 24-bit JPEGs).</li>
+        <li>Export to WAP Bitmap (WBMP) for cell-phones.</li>
+        <li>All unavailable menu items and toolbars are grayed now to prevent errors.</li>
+        <li>Small UI improvements. </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.61</b> (initially released as 1.7) </p>
+      <ul>
+        <li>Support for GFI fax images (FAX) with CCITT compression. </li>
+        <li>Improved color support.</li>
+        <li>User Interface (UI) is much redesigned and very cute now.</li>
+        <li>FIX: Windows98 &amp; Windows2000 users will see 3D( or flat) menus (standart effect) now.</li>
+        <li>Improved &quot;File Browser&quot;, &quot;File Search&quot;, &quot;File Info&quot;. </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.6 </b></p>
+      <ul>
+        <li>Support for Portable Network Graphics (PNG)</li>
+        <li>Support for PSP (Paint Shop Pro)</li>
+        <li>When you browse through the folder, files are arranged in alphabetic order now.</li>
+        <li>Now you can export images to BMP and TGA (Truevision TARGA) formats.</li>
+        <li>File Search allows you quickly find files on your HDD(s). New format for online help (Microsoft HTMLHelp). For users, that don't have Microsoft Internet Explorer 4.0 (or higher) installed - provided special ZIP with HTML files for viewing in other browsers (visit out website to download it). </li>
+        <li>Completely changed toolbars (some interesting settings now available, like 'old-style' buttons). </li>
+        <li>Rewritten web-cam viewing functionality. </li>
+        <li>New File Browser. </li>
+        <li>Double-click any file to open it in Imager (if it supported by Imager). Otherwise it will open in external associated application. </li>
+        <li>'Favorites' window now integrated with 'File Browser' to be more comfortable to view. Now you can choose, which files to display in 'File Browser' - it can be all files, all image files or only favorite files (IML).</li>
+        <li>BUGFIX: Online Favorite didn't work if opened by double-clicking them in Windows Explorer. FIXED! </li>
+        <li>BUGFIX: New copy of Imager launched every time you double-click file in 'File Browser' instead of opening file in current window. </li>
+        <li>Added new pretty-looking icons for program and associated files. </li>
+        <li>Completely changed 'File Association' dialog. Now description to most file formats available. </li>
+        <li>BUGFIX: File formats associated with Imager from 'File Association' dialog sometimes did not work. FIXED! </li>
+        <li>BUGFIX: Sometimes Imager incorrectly says, that format is already associated with Imager, but it was wrong. FIXED! </li>
+      </ul>
+      <p><b>Version 1.5</b> </p>
+      <ul>
+        <li>Support for Adobe Photoshop format (PSD) </li>
+        <li>Support for Adobe PhotoDeluxe format (PDD) </li>
+        <li>Support for additional Windows bitmap formats (DIB and RLE) </li>
+        <li>Support for Portable Bitmap format (PBM) </li>
+        <li>Support for Portable Pixel Map format (PPM) </li>
+        <li>Support for Portable Grayscale Map format (PGM) </li>
+        <li>Support for Dr. Halo CUT format (CUT + external palette *.pal files) </li>
+        <li>Improved support for SGI images </li>
+        <li>'Save as...' feature renamed to 'Save To Bitmap' and now it saves all images in Windows Bitmap format (and it works)</li>
+        <li>Dialogs now indicated on toolbar &quot;Info&quot; dialog acts as toolbar now </li>
+        <li>Status bar added to Imager (it displays hints for all buttons and menu items + progress for long operations, like 'web cam' loading) </li>
+        <li>Many small improvements </li>
+        <li>Completely rewritten file handling </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.41 </b></p>
+      <ul>
+        <li>PhotoCD and PCX images now can be browsed in directories </li>
+        <li>File Browser speed increased in about 10 times! </li>
+        <li>Context menus for all files in File Browser available </li>
+        <li>Fixed installer issue (folders for favorites and cache wasn't autocreated by default) </li>
+        <li>Some small improvements </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.4 </b></p>
+      <ul>
+        <li>Support for ZSoft PCX/PCC </li>
+        <li>Support for Microsoft Word 5.5 SCR file format </li>
+        <li>Support for Kodak PhotoCD (PCD) format </li>
+        <li>Improved TIFF support </li>
+        <li>Improved UI (color, Windows standard icons) </li>
+        <li>Improved speed of loading </li>
+        <li>More customizible (even toolbars handle style) </li>
+        <li>MSIE-like favorites system </li>
+        <li>Both WWW and local file favorites </li>
+        <li>Built-in file browser (Windows Explorer - like) </li>
+        <li>Resizable TWAIN-scanning window </li>
+        <li>New 'stitch' image behavior (image auto-stretches to window size) </li>
+        <li>FIXED TGA/TIFF images not closing </li>
+        <li>New HTML-based help system (not HTMLhelp by Microsoft) </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.3</b> </p>
+      <ul>
+        <li>WebImager now integrated to main Imager window as floating panel. </li>
+        <li>Futuris Imager now should run on PCs without Common Controls Update (Win95a) </li>
+        <li>New style of menu &laquo;Recent Files&raquo; moved to &laquo;Go&raquo; menu </li>
+      </ul>
+      <p><b>Version 1.21</b> </p>
+      <ul>
+        <li>Better perfomance </li>
+        <li>Fixed all directory navigating issues </li>
+        <li>Fixed dialog boxes handling </li>
+        <li>Registration for file formats improved </li>
+        <li>Added &laquo;Register All&raquo; button for ALL formats registration in 1 second </li>
+        <li>Imager now correctly opens an image, even if Windows Explorer gives it a name of file with spaces. </li>
+        <li>Redesigned all dialogs </li>
+        <li>Improved window sizing &#150; much faster now, less blinking </li>
+        <li>New keys for directory navigation &#150; [INSERT] to go back and [HOME] to go forward (also available in full screen mode). </li>
+      </ul>
+      <p><b>Version 1.2</b> </p>
+      <ul>
+        <li>Directory navigation features (next/prev files in directory, home image) </li>
+        <li>QuickJump &#150; switch from current image to any image from the same folder using special button </li>
+        <li>You can register/unregister image formats, supported by Imager, to be opened with Imager in special dialog box (try 'Tools/Formats') </li>
+        <li>New help system, based on standart Windows Help 4.0 </li>
+        <li>All new icons </li>
+        <li>Now Imager window cannot be smaller than 380X280 pixels (or about that) &#150; so if you'll try to view small (10x10 pixels) images, toolbars and menu don't disappear now </li>
+      </ul>
+      <p><b>Version 1.1</b> </p>
+      <ul>
+        <li>Favourite images system (just like in browsers) </li>
+        <li>Help system </li>
+        <li>You can view images directly from the web! And auto-refresh them in time periods you want - use 'Open from the web' </li>
+        <li>You can acquire images from TWAIN-compliant devices now </li>
+        <li>Most dialogs are not modal now (can be used together with main Imager window) </li>
+        <li>Now Imager have standard Windows menu (I made this, because pop-up menu became really huge) </li>
+        <li>Image pop-up menu is very simple now </li>
+        <li>Main menu are now in Microsoft Office97/2000 style - can be docked and undocked </li>
+        <li>Toolbar added (it can be docked anywhere you want). To show/hide toolbars use their pop-up menu </li>
+        <li>All sizing/positioning routines has been completely rewritten (hope it's not so buggy now) </li>
+        <li>If you decided not to open an image and closed &quot;Open image...&quot; dialog before selection was made then Imager will display default image path and &quot;Close&quot; menu item made available. FIXED </li>
+        <li>New graphic formats supported: </li>
+        <li>Animated GIFs (*.gif), TIFF images (*.tif; *.tiff) - uncompressed and LZW compressed, SGI black &amp; white images (*.bw), SGI RGB images (*.rgb), Autodesk CEL files (*.cel), Autodesk PIC files (*.pic), Truevision images (*.tga; *.vst; *.icb; *.vda; *.win) - uncompressed and RLE compressed.</li>
+      </ul>
+      <p><b>Version 1.06 </b></p>
+      <ul>
+        <li>Better 'recent images' handling and 'window position' handling </li>
+      </ul>
+      <p>&nbsp;</p>
+      <p><b>Version 1.05 </b></p>
+      <ul>
+        <li>Now you can print your images directly from Imager:</li>
+        <li>'Print' - prints your images (or [Ctrl] + [P]) <br />
+    'Printer Setup' - changes settings of printer </li>
+        <li>New keyboard shortcuts (old do not available any more): <br />
+    [UP] - Scroll Up <br />
+    [DOWN] - Scroll Down <br />
+    [LEFT] - Scroll Left <br />
+    [RIGHT] - Scroll Right <br />
+    [F11] - Go FullScreen <br />
+    [SPACE] &#150; AutoSize New &quot;paging&quot; keys <br />
+    [PAGE UP] - Page Up <br />
+    [PAGE DOWN] - Page Down <br />
+    [DELETE] - Page Left <br />
+    [END] - Page Right </li>
+        <li>Fixed scrollbars and recent files issues </li>
+        <li>Fixed default image centering in FullScreen mode </li>
+        <li>Some changes in pop-up menu (re-arranged) </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.04</b> </p>
+      <ul>
+        <li>Now you can work with ClipBoard (copy and paste) using Imager </li>
+        <li>You can save any image to BMP inside Imager </li>
+        <li>Imager now exits if [Esc] button pressed (it can be turned off in 'Settings') </li>
+        <li>Imager can display image size in it's window title (can be turned on in 'Settings') </li>
+        <li>Default settings are changed in this release ('window position saving' and 'image size in window title' are disabled) </li>
+        <li>Imager now shows last modification date of the file </li>
+        <li>New keyboard shortcuts: <br />
+    [PAGE UP] - Scroll Up <br />
+    [PAGE DOWN] - Scroll Down <br />
+    [DELETE] - Scroll Left <br />
+    [END] - Scroll Right <br />
+    [INSERT] - Go FullScreen <br />
+    [HOME] &#150; AutoSize </li>
+        <li>No more errors if 'sample.gif' file is deleted </li>
+        <li>Special distribution with installer </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.03</b> </p>
+      <ul>
+        <li>PCX Support Removed - Too buggy (that was a 3rd party module) </li>
+        <li>Imager now won't change it's size when exiting </li>
+        <li>Added &quot;Recent files&quot; system (you can open your last 4 opened files from special menu item) </li>
+        <li>Drag'n'drop support (you can drag files from Windows programs right to Imager window) </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.02</b> </p>
+      <ul>
+        <li>All routines in Imager have been completely rewrited (more stability added) </li>
+        <li>&quot;Lock&quot; mode removed from program </li>
+        <li>&quot;Full Screen&quot; mode emproved (with black background, image centering and more) </li>
+        <li>Added PCX format support </li>
+        <li>Now you can configure Imager settings from special &quot;setting&quot; window </li>
+        <li>New &quot;autosize&quot; feature for image window </li>
+        <li>All credits, license, this file are now in separate files </li>
+      </ul>
+      <p><b>Version 1.01 </b></p>
+      <ul>
+        <li>Now Imager correctly works when launched from root directory</li>
+        <li>Scrollbars not flat now, hope you'll like the new look </li>
+        <li>Now Imager correctly shows image path of default image </li>
+        <li>Imager 1.01 supports files from command-line (so you can drop file on Image icon and associate it with file formats) </li>
+      </ul>
+      <p> </p>
+      <p><b>Version 1.0 </b></p>
+      <ul>
+        <li>Initial release.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+  <tr>
+    <td align="right"><i>&copy;1999-2004 Alexander Tereshchenko </i></td>
+  </tr>
+</table>
+</body>
+</html>

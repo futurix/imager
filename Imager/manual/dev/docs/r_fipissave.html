@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>FDK Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0033CC" vlink="#0033CC" alink="#FF0000">
+<table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#999999">
+  <tr>
+    <td height="50" align="center" valign="middle"> <font size="6">FIPISsave</font></td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td align="right"><a href="index.html">Back to index</a></td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td> 
+      <p>Description:<br>
+        function that save image from hBitmap to local file.</p>
+      <p>Definition:<br>
+        <code>function FIPISsave(<b>path</b>, <b>ext</b>: PChar; <b>app</b>: THandle; 
+        <b>img</b>: hBitmap):integer; stdcall;</code></p>
+      <p>Variables:<br>
+        <b>path</b> - path to save to<br>
+        <b>ext</b> - registered extension<br>
+        <b>app</b> - calling process handle<br>
+        <b>img</b> - hBitmap to save to file</p>
+      <p>Should return:<br>
+        <b>1</b> - if success<br>
+        <b>0</b> - if failed</p>
+      <p>Notes:</p>
+      <ol>
+        <li>Function shouldn't display any dialogs, dialog boxes or error messages. 
+          Completely silent.</li>
+        <li>Path passed to function is absolute ( &quot;X:\Full\path\image.ext&quot; 
+          without quotes).</li>
+      </ol>
+    </td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<table width="600" border="0" cellspacing="0" cellpadding="0"  bgcolor="#CCCCCC">
+  <tr>
+    <td bgcolor="#CCCCCC" height="20">&copy; 1999-2001 <a href="author.html">Alexander S. 
+      Tereschenko</a></td>
+  </tr>
+</table></body>
+</html>
