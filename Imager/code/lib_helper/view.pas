@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, ExtCtrls, ToolWin, Printers, Preview, ImgList, Registry, Menus,
-  c_const, c_reg, StdCtrls, c_toolbar;
+  c_const, c_reg, StdCtrls, c_toolbar, c_locales;
 
 type
   TfrmPrint = class(TForm)
@@ -26,7 +26,7 @@ type
     piZM150: TMenuItem;
     piZM200: TMenuItem;
     dlgPageSetup: TPageSetupDialog;
-    Setup: TToolButton;
+    tbnSetup: TToolButton;
     Sep_1: TToolButton;
     N2: TMenuItem;
     tbrPrintMain: TCoolBar;
@@ -47,7 +47,7 @@ type
     procedure piZM150Click(Sender: TObject);
     procedure piZM200Click(Sender: TObject);
     function SetupClicked():boolean;
-    procedure SetupClick(Sender: TObject);
+    procedure tbnSetupClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure cbxProportionalClick(Sender: TObject);
   private
@@ -56,196 +56,271 @@ type
     { Public declarations }
   end;
 
-function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; cdecl;
+function FxImgHelpPrint(document_path: PChar; fast_print: BOOL; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 
 var
   frmPrint: TfrmPrint;
   image: TBitmap;
-  file_name: PChar;
+  file_name: string;
   fast_print: boolean = false;
-  reg: TFuturisRegistry;
+  reg: TFRegistry;
 
   
 implementation
 
 {$R *.DFM}
 
-function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL;
+function FxImgHelpPrint(document_path: PChar; fast_print: BOOL; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+var
+	temp_res: TFxImgResult;
 begin
-Application.Handle:=app;
+	Application.Handle := app;
+    Result.result_type := RT_BOOL;		// result is always boolean
+    Result.result_value := FX_FALSE;
 
-reg:=TFuturisRegistry.Create();
-reg.RootKey:=HKEY_CURRENT_USER;
-reg.OpenKey(sReg + '\PrintPreview',true);
+    if (@app_query <> nil) then
+        begin
+    	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
 
-if (Printer.Printers.Count>0) then
-begin
+        if (temp_res.result_type = RT_HANDLE) then
+        	begin
+            locale_lib := temp_res.result_value;
+            backup_lib := temp_res.result_xtra;
+            end;
+        end;
 
-image:=TBitmap.Create();
-image.Handle:=img;
-image.PixelFormat:=pf24bit;
-image.HandleType:=bmDIB;
+	reg := TFRegistry.Create();
+	reg.RootKey := HKEY_CURRENT_USER;
 
-file_name:=filename;
-frmPrint:=TfrmPrint.Create(Application);
+	if (Printer.Printers.Count > 0) then
+		begin
+        if (img <> 0) then
+        	begin
+			image := TBitmap.Create();
+			image.Handle := img;
+			image.PixelFormat := pf24bit;
+			image.HandleType := bmDIB;
 
-frmPrint.tbnZoom.WholeDropDown := true;
+            file_name := document_path;
 
-// reading settings
-case reg.RIntC('ZoomState',1) of
-  0:
-    begin
-    frmPrint.prwPrint.ZoomState:=zsZoomOther;
-    frmPrint.prwPrint.Zoom:=50;
-    end;
-  1: frmPrint.prwPrint.ZoomState:=zsZoomToFit;
-  2: frmPrint.prwPrint.ZoomState:=zsZoomToHeight;
-  3: frmPrint.prwPrint.ZoomState:=zsZoomToWidth;
-end;
-frmPrint.Width:=reg.RIntC('Width',750);
-frmPrint.Height:=reg.RIntC('Height',550);
-try
-  frmPrint.Top:=reg.ReadInteger('Top');
-  frmPrint.Left:=reg.ReadInteger('Left');
-  except
-  frmPrint.Position:=poScreenCenter;
-  end;
+            // starting GUI
+			frmPrint := TfrmPrint.Create(Application);
+            frmPrint.tbnZoom.WholeDropDown := true;
 
-frmPrint.cbxProportional.Checked:=reg.RBool('PProportional',true);
-frmPrint.cbxShrinkOnlyLarge.Checked:=reg.RBool('PShrinkOnlyLarge',true);
-frmPrint.cbxCenter.Checked:=reg.RBool('PCenter',true);
+            // localization
+            frmPrint.Caption 					:= LoadLStr(3250);
+            frmPrint.tbnPrint.Caption 			:= LoadLStr(3251);
+            frmPrint.tbnPrint.Hint 				:= LoadLStr(3252);
+            frmPrint.tbnZoom.Caption 			:= LoadLStr(3253);
+            frmPrint.tbnZoom.Hint 				:= LoadLStr(3254);
+            frmPrint.tbnSetup.Caption 			:= LoadLStr(3255);
+            frmPrint.tbnSetup.Hint 				:= LoadLStr(3256);
+            frmPrint.cbxProportional.Caption	:= LoadLStr(3257);
+            frmPrint.cbxShrinkOnlyLarge.Caption	:= LoadLStr(3258);
+            frmPrint.cbxCenter.Caption			:= LoadLStr(3259);
+            frmPrint.btnClose.Caption			:= LoadLStr(54);
+            frmPrint.piZMFit.Caption			:= LoadLStr(260);
+            frmPrint.piZMFit.Hint				:= LoadLStr(261);
+            frmPrint.piZMWidth.Caption			:= LoadLStr(262);
+            frmPrint.piZMWidth.Hint				:= LoadLStr(263);
+            frmPrint.piZMHeight.Caption			:= LoadLStr(264);
+            frmPrint.piZMHeight.Hint			:= LoadLStr(265);
+            frmPrint.piZM25.Caption				:= LoadLStr(240);
+            frmPrint.piZM25.Hint				:= LoadLStr(241);
+            frmPrint.piZM50.Caption				:= LoadLStr(242);
+            frmPrint.piZM50.Hint				:= LoadLStr(243);
+            frmPrint.piZM75.Caption				:= LoadLStr(244);
+            frmPrint.piZM75.Hint				:= LoadLStr(245);
+            frmPrint.piZM100.Caption			:= LoadLStr(246);
+            frmPrint.piZM100.Hint				:= LoadLStr(247);
+            frmPrint.piZM150.Caption			:= LoadLStr(248);
+            frmPrint.piZM150.Hint				:= LoadLStr(249);
+            frmPrint.piZM200.Caption			:= LoadLStr(250);
+            frmPrint.piZM200.Hint				:= LoadLStr(251);
 
-// working
-frmPrint.prwPrint.PrintJobTitle:=ExtractFileName(file_name);
-frmPrint.DrawView();
-if fast then
-  begin
-  if frmPrint.SetupClicked() then
-    frmPrint.prwPrint.Print();
-  end
-else
-  frmPrint.ShowModal();
-Result := TRUE;
-// saving settings
-case frmPrint.prwPrint.ZoomState of
-  zsZoomOther:
-    begin
-    reg.WInteger('ZoomState',0);
-    reg.WInteger('Zoom',frmPrint.prwPrint.Zoom);
-    end;
-  zsZoomToFit: reg.WInteger('ZoomState',1);
-  zsZoomToHeight: reg.WInteger('ZoomState',2);
-  zsZoomToWidth: reg.WInteger('ZoomState',3);
-end;
-reg.WInteger('Width',frmPrint.Width);
-reg.WInteger('Height',frmPrint.Height);
-reg.WInteger('Top',frmPrint.Top);
-reg.WInteger('Left',frmPrint.Left);
+            // reading settings
+            reg.OpenKey(sSettings, true);
 
-reg.WBool('PProportional',frmPrint.cbxProportional.Checked);
-reg.WBool('PShrinkOnlyLarge',frmPrint.cbxShrinkOnlyLarge.Checked);
-reg.WBool('PCenter',frmPrint.cbxCenter.Checked);
+			case reg.RInt('Print_ZoomState', 1) of
+  				0:
+    				begin
+    				frmPrint.prwPrint.ZoomState := zsZoomOther;
+    				frmPrint.prwPrint.Zoom := reg.RInt('Print_Zoom', 50);
+                    end;
 
-// freeing
-FreeAndNil(frmPrint);
+  				1: frmPrint.prwPrint.ZoomState := zsZoomToFit;
 
-end
-else
-  begin
-  ShowMessage('Cannot start printing plug-in - no printers found!');
-  Result := FALSE;
-  end;
+  				2: frmPrint.prwPrint.ZoomState := zsZoomToHeight;
 
-FreeAndNil(image);
-reg.CloseKey();
-FreeAndNil(reg);
+  				3: frmPrint.prwPrint.ZoomState := zsZoomToWidth;
+            end;
+
+			frmPrint.Width := reg.RInt('Print_WndWidth', 750);
+			frmPrint.Height := reg.RInt('Print_WndHeight', 550);
+
+			try
+  				frmPrint.Top := reg.ReadInteger('Print_WndTop');
+  				frmPrint.Left := reg.ReadInteger('Print_WndLeft');
+  				except
+  					frmPrint.Position := poScreenCenter;
+  				end;
+
+			frmPrint.cbxProportional.Checked := reg.RBool('Print_Proportional', true);
+			frmPrint.cbxShrinkOnlyLarge.Checked := reg.RBool('Print_ShrinkOnlyLarge', true);
+			frmPrint.cbxCenter.Checked := reg.RBool('Print_Center', true);
+
+            reg.CloseKey();
+
+            // working
+            if FileExists(file_name) then
+				frmPrint.prwPrint.PrintJobTitle := ExtractFileName(file_name)
+            else
+            	frmPrint.prwPrint.PrintJobTitle := sAppName;
+
+			frmPrint.DrawView();
+
+			if fast_print then
+  				begin
+  				if frmPrint.SetupClicked() then
+    				frmPrint.prwPrint.Print();
+  				end
+			else
+  				frmPrint.ShowModal();
+
+            Result.result_value := FX_TRUE;
+
+			// saving settings
+            reg.OpenKey(sSettings, true);
+
+			case frmPrint.prwPrint.ZoomState of
+  				zsZoomOther:
+    				begin
+    				reg.WInteger('Print_ZoomState', 0);
+    				reg.WInteger('Print_Zoom', frmPrint.prwPrint.Zoom);
+    				end;
+
+  				zsZoomToFit:
+                	reg.WInteger('Print_ZoomState', 1);
+
+  				zsZoomToHeight:
+                	reg.WInteger('Print_ZoomState', 2);
+
+  				zsZoomToWidth:
+                	reg.WInteger('Print_ZoomState',3);
+			end;
+
+			reg.WInteger('Print_WndWidth', frmPrint.Width);
+			reg.WInteger('Print_WndHeight', frmPrint.Height);
+			reg.WInteger('Print_WndTop', frmPrint.Top);
+			reg.WInteger('Print_WndLeft', frmPrint.Left);
+
+			reg.WBool('Print_Proportional', frmPrint.cbxProportional.Checked);
+			reg.WBool('Print_ShrinkOnlyLarge', frmPrint.cbxShrinkOnlyLarge.Checked);
+			reg.WBool('Print_Center', frmPrint.cbxCenter.Checked);
+
+            reg.CloseKey();
+
+            // closing GUI
+			FreeAndNil(frmPrint);
+            FreeAndNil(image);
+            end
+        else
+        	ShowMessage(LoadLStr(3260));
+
+
+        end
+	else
+  		ShowMessage(LoadLStr(3261));
+
+	FreeAndNil(reg);
 end;
 
 procedure TfrmPrint.DrawView();
 begin
-prwPrint.BeginDoc();
-prwPrint.PaintGraphicEx(prwPrint.PageBounds,image,frmPrint.cbxProportional.Checked,frmPrint.cbxShrinkOnlyLarge.Checked,frmPrint.cbxCenter.Checked);
-prwPrint.EndDoc();
+	prwPrint.BeginDoc();
+	prwPrint.PaintGraphicEx(prwPrint.PageBounds, image, frmPrint.cbxProportional.Checked, frmPrint.cbxShrinkOnlyLarge.Checked, frmPrint.cbxCenter.Checked);
+	prwPrint.EndDoc();
 end;
 
 procedure TfrmPrint.tbnPrintClick(Sender: TObject);
 begin
-prwPrint.Print();
+	prwPrint.Print();
 end;
 
 procedure TfrmPrint.piZMFitClick(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomToFit;
+	prwPrint.ZoomState := zsZoomToFit;
 end;
 
 procedure TfrmPrint.piZMWidthClick(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomToWidth;
+	prwPrint.ZoomState := zsZoomToWidth;
 end;
 
 procedure TfrmPrint.piZMHeightClick(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomToHeight;
+	prwPrint.ZoomState := zsZoomToHeight;
 end;
 
 procedure TfrmPrint.piZM25Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=25;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 25;
 end;
 
 procedure TfrmPrint.piZM50Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=50;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 50;
 end;
 
 procedure TfrmPrint.piZM75Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=75;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 75;
 end;
 
 procedure TfrmPrint.piZM100Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=100;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 100;
 end;
 
 procedure TfrmPrint.piZM150Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=150;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 150;
 end;
 
 procedure TfrmPrint.piZM200Click(Sender: TObject);
 begin
-prwPrint.ZoomState:=zsZoomOther;
-prwPrint.Zoom:=200;
+	prwPrint.ZoomState := zsZoomOther;
+	prwPrint.Zoom := 200;
 end;
 
 function TfrmPrint.SetupClicked():boolean;
 begin
-Result:=dlgPageSetup.Execute();
-prwPrint.GetPrinterOptions();
-DrawView();
+	Result := dlgPageSetup.Execute();
+	prwPrint.GetPrinterOptions();
+
+	DrawView();
 end;
 
-procedure TfrmPrint.SetupClick(Sender: TObject);
+procedure TfrmPrint.tbnSetupClick(Sender: TObject);
 begin
-dlgPageSetup.Execute();
-prwPrint.GetPrinterOptions();
-DrawView();
+	dlgPageSetup.Execute();
+	prwPrint.GetPrinterOptions();
+	DrawView();
 end;
 
 procedure TfrmPrint.btnCloseClick(Sender: TObject);
 begin
-Self.Close();
+	Self.Close();
 end;
 
 procedure TfrmPrint.cbxProportionalClick(Sender: TObject);
 begin
-DrawView();
+	DrawView();
 end;
 
 end.

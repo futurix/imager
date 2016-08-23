@@ -1,0 +1,1 @@
+rc language_terms.rc

@@ -1,0 +1,85 @@
+package fx_imgcore;
+
+{$R *.res}
+{$E 'dll'}
+{$ALIGN 8}
+{$ASSERTIONS OFF}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'FuturixImager Core'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+contains
+  Forms,
+  ComCtrls,
+  ComObj,
+  AxCtrls,
+  HistogramBox,
+  HSVBox,
+  ImageEn,
+  ImageEnIO,
+  ImageEnProc,
+  ImageEnView,
+  imscan,
+  jpegfilt,
+  NeurQuant,
+  PCXFilter,
+  RulerBox,
+  TIFCCITT,
+  Tiffilt,
+  GIFFilter,
+  BMPFilt,
+  IEGradientBar,
+  IEVect,
+  IEMView,
+  IEMIO,
+  IEVfw,
+  pngfiltw,
+  pngfilt,
+  VideoCap,
+  IEOpenSaveDlg,
+  ietwain,
+  stdquant,
+  IOPreviews,
+  Previews,
+  iefft,
+  iewords,
+  ietgafil,
+  hvideocap,
+  hyieutils,
+  hyiedefs,
+  ieview,
+  ieprnform2,
+  ieprnform1,
+  iej2000,
+  ietextc,
+  iewia,
+  ieds,
+  ieprnform3,
+  tiflzw,
+  giflzw,
+  ielcms,
+  iezlib,
+  ieXtraTransitions,
+  iepresetim,
+  ieraw;
+
+end.

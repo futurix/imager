@@ -1,7 +1,7 @@
-Futuris Imager End-User License Agreement
+FuturixImager End-User License Agreement
 
 This is a legal agreement between you (either personal or corporate) and
-Alexander Tereshchenko for the software product "Futuris Imager".
+Alexander Tereshchenko for the software product "FuturixImager".
 By copying or using the software in any kind, you agree to be bound by all of
 the terms and conditions of this agreement.
 
@@ -33,11 +33,7 @@ Conditions:
    the inclusion of this software, and no extra fee is charged for inclusion of
    this software.
 
-7. Redistribution of this software with any kind of hardware (including without
-   limitation flat-bed scanners, digital cameras and personal computer systems)
-   requires written permission from the author.
-
-8. Any usage of this software and components of it (including without
+7. Any usage of this software and components of it (including without
    limitation plug-ins, locales and themes) in third-party software products
    requires written permission from the author.
 

@@ -1,0 +1,31 @@
+>>>>>>>>> VERSION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Alexander Tereshchenko
+FuturixImager ###
+5.5.0.#
+###_###
+© 1999-2005 Alexander Tereshchenko
+
+fx_###.dll
+FuturixImager
+5.5
+http://www.fxfp.com/
+
+
+>>>>>>>>> PATHS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+..\..\release
+..\output
+.\;..\shared;$(FXSHARED);$(MYSHARED)\Misc
+..\shared
+
+
+>>>>>>>>> PACKAGES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+fx_imgcore
+
+
+>>>>>>>>> MISC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Default form font: MS Shell Dlg 2
+

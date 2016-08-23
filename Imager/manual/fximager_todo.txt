@@ -1,0 +1,69 @@
+>>>>> 5.5.1
+- additional toolbar buttons: quickprint, print preview, zoom 100%,
+  zoom to width, zoom to height, file operations, new image,
+  rotate 90ccw, help, website, about
+- lossless JPEG crop
+- icons for JPEG lossless transformations
+- BUG: zoom should be reset before new image load
+- OPTION: reverse zooming direction for mouse wheel
+- OPTION: customizable external editor
+- OPTION: replace built-in editor completely with external editor
+- OPTION: window reuse
+- WEB: plug-in/locale installation instructions (with screenshots)
+- WEB: add online reference pages (FAQ and HOW-TO)
+
+>>>>> 5.5.2
+- custom toolbar themes
+- plug-in roles interface
+  - new toolbar buttons: scan, print, print preview, e-mail, screen capture
+- better printing (with better multi-page and multiple printers support)
+  and move it to plug-in
+- new icon viewer plug-in (independent of FreeImage)
+- OPTION: set default monitor for start-up
+- copy ShowMessage() and InputQuery() to my sources and remake them as
+  localizable functions
+- SDK: C++ plug-in (FreeImage) and headers
+- SDK: comment localization file
+
+>>>>> 5.5.3
+- not recommended formats interface
+- remake "file formats" with usage of descriptions and list view with
+  checkboxes (and put it in tabs of "Options" dialog) and apply changes
+  only when needed
+- custom file format icon support
+- WIA importer (replace TWAIN with it on XP/2003+)
+- new histogram
+- INSTALLER: optional components
+
+>>>>> 5.5.4
+- thumbnail interface (and use it in file browser and "Open" dialog)
+- navigator window
+- switch all filters that possible to built-in functions
+- plug-in configuration interface
+- most plug-ins should close on "Escape" (like normal dialogs)
+
+>>>>> 6.0 (betas released as 5.9.x)
+- new FuturixImager icon (use Fireworks and 3D shadows)
+- windowed plug-ins
+- file browser sidebar
+- info sidebar
+? move editor into external DLL
+- basic painting (pencil tool)
+- Photoshop filters support*
+
+>>>>> 6.0.1
+- better slideshow (without window by default, with toolbar icons)
+- better painting and erasing
+- Unicode filename importer*
+
+>>>>> 6.1
+- batch converter
+- advanced raw importer
+- FISH: EXIF shell extension property page
+- FISH: thumbnailing interface*
+
+>>>>> 6.1.1
+- thumbnail caching (storing them in user profile)
+- additional folder for plug-ins in user profile (add it to %PATH%)
+- preload next image
+- recursive file browsing

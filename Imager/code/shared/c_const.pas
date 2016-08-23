@@ -7,61 +7,211 @@ uses
   Windows, Messages;
 
 const
-  FI_MESSAGE = WM_USER + 147;
+  FI_MESSAGE 			= WM_USER + 147;
 
-  sAppName = 'Futuris Imager';
-  sReg = '\Software\alex_t\Futuris Imager';
-  sModules = '\Software\alex_t\Futuris Imager\Plug-ins';
+  sAppName 				= 'FuturixImager';
+  sVersion				= '5.5.1';
+  sRights 				= '© 1999-2005 Alexander Tereshchenko';
+  sRegAssociation		= sAppName;
+  sRegAssociationOld	= sAppName + '.old';
 
-  sLocaleID = 'FLocaleR1';
-  sThemeID = 'FThemeR1';
+  sReg 					= '\Software\alex_t\FuturixImager';
+  sSettings				= '\Software\alex_t\FuturixImager\Settings';
+  sModules 				= '\Software\alex_t\FuturixImager\Plug-ins';
 
-  sProfile = 'Futuris Imager';
-  sProfileTemp = 'Temp';
+  sInternalFormat		= 'fx_internal';
 
-  PT_FOPEN = 0;
-  PT_FOPENMULTI = 1;
-  PT_FOPENANIM = 2;
-  PT_FSAVE = 3;
-  PT_FIMPORT = 4;
-  PT_FEXPORT = 5;
-  PT_FFILTER = 6;
-  PT_FINFO = 7;
-  PT_FTOOL = 8;
+  // URLs
+  sURLhome				= 'http://www.fxfp.com/fxfp.php?imager';
+  sURLdocs				= 'http://www.fxfp.com/fxfp.php?imagerhelp';
+  sURLplugins			= 'http://www.fxfp.com/fxfp.php?imagerplugins';
+  sURLlocales			= 'http://www.fxfp.com/fxfp.php?imagerlocales';
+
+  // signatures
+  sLocaleID 			= 'FxImgLocaleR1';
+  sThemeID 				= 'FxImgThemeR1';
+
+  // application filenames
+  FN_APP				= 'fx_imager.exe';
+  FN_HELPERS			= 'fx_imghelper.dll';
+  FN_ADDRAW				= 'fx_dcraw.dll';
+  FN_ADDJBIG			= 'fx_jbig.dll';
+  FN_ADDMAGICK			= 'fx_imagemagick.dll';
+
+  // registry access
+  RA_FULL				= KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or
+  							KEY_CREATE_SUB_KEY or KEY_SET_VALUE;
+  RA_READONLY			= KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS;
+
+  // plug-in types
+  PT_FNAME 				= 1;
+  PT_FDESCR 			= 5;
+  PT_FOPEN 				= 10;
+  PT_FOPENMULTI 		= 11;
+  PT_FOPENANIM 			= 19;
+  PT_FSAVE 				= 20;
+  PT_FIMPORT 			= 30;
+  PT_FEXPORT 			= 40;
+  PT_FFILTER 			= 50;
+  PT_FINFO 				= 60;
+  PT_FTOOL 				= 80;
+
+  // plug-in type strings
+  PS_FNAME 				= 'Plug-ins';
+  PS_FDESCR 			= 'Descriptions';
+  PS_FLOCALE 			= 'Locales';
+  PS_FTHEME 			= 'Themes';
+  PS_FOPEN 				= 'OpenBitmap';
+  PS_FOPENMULTI 		= 'OpenPages';
+  PS_FOPENANIM 			= 'OpenAnimation';
+  PS_FSAVE 				= 'Save';
+  PS_FIMPORT 			= 'Import';
+  PS_FEXPORT 			= 'Export';
+  PS_FFILTER 			= 'Filter';
+  PS_FINFO 				= 'Information';
+  PS_FTOOL 				= 'SimpleTool';
+  
+  // exported function names
+  EX_QUERY				= 'FxImgQuery';
+  EX_OPENPLAIN			= 'FxImgOpen';
+  EX_SAVE				= 'FxImgSave';
+  EX_IMPORT				= 'FxImgImport';                                    
+  EX_EXPORT				= 'FxImgExport';
+  EX_FILTER				= 'FxImgFilter';
+  EX_SIMPLETOOL			= 'FxImgTool';
+  EX_INFO				= 'FxImgInfo';
+  EX_ANIMSTART			= 'FxImgAnimStart';
+  EX_ANIMRESTART		= 'FxImgAnimRestart';
+  EX_ANIMFRAME			= 'FxImgAnimGetFrame';
+  EX_ANIMSTOP			= 'FxImgAnimStop';
+  EX_MULTISTART			= 'FxImgMultiStart';
+  EX_MULTIPAGE			= 'FxImgMultiGetPage';
+  EX_MULTISTOP			= 'FxImgMultiStop';
+  EX_PRINT				= 'FxImgHelpPrint'; 
+
+  // TFxImgResult result types
+  RT_BOOL				= 0;
+  RT_HBITMAP			= 1;
+  RT_HIMAGE				= 2;
+  RT_INT				= 3;
+  RT_HWND				= 4;
+  RT_PCHAR				= 5;
+  RT_PWCHAR				= 6;
+  RT_PTR				= 7;
+  RT_HANDLE				= 8;
+
+  // TFxImgResult string result types
+  ST_PCHAR				= 0;
+  ST_PWCHAR				= 1;
+  ST_PTR				= 2;
+
+  // TAppCallBack queries
+  CQ_GETLANGLIBS		= 7;
+
+  // main application queries
+  QU_GETIMGBITMAP		= 100;
+  QU_GETIMGPATH			= 120;
+
+  // predefined plug-in roles
+  PR_PRINT				= 'ROLE::PRINT';
+  PR_PRINTPREVIEW		= 'ROLE::PRINTPREVIEW';
+  PR_TWAIN				= 'ROLE::TWAIN';
+  
+  // boolean values
+  FX_FALSE				= 0;
+  FX_TRUE				= 1;
+
 
 type
-  TFResult = record
-    result_type, result_value, result_xtra: longword;
+  TFxImgResult = record
+    result_type, result_value, result_xtra, result_access: longword;
+    result_string_type, result_string_xtra: longword;
+    result_string_data: array[0..2047] of char;
   end;
 
-  TStringCallBack = procedure(filename: string); cdecl; // Pascal-only (should not be used in portable definitions)
-  TDoubleCallBack = function(name, value: PChar):BOOL; cdecl;
-  TValueCallBack = function(filename: PChar):BOOL; cdecl;
-  TPlugInCallBack = function(module_type: integer; value1, value2: PChar):BOOL; cdecl;
-  TFQuery = function(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
+  TStringCallBack 		= procedure(filename: string); cdecl; 	// Pascal-only
+  TPreviewCallBack 		= function(	preview: HBITMAP): BOOL; cdecl;
+  TPlugInCallBack 		= function(	module_type: integer; value1, value2: PChar): BOOL; cdecl;
+  TDoubleCallBack 		= function(	name, value: PChar): BOOL; cdecl;
+  
+  TAppCallBack 			= function(	query_type, value, xtra: longword): TFxImgResult; cdecl;
 
-  // simple
-  TFOpen = function(path, ext: PChar; app: THandle):hBitmap; cdecl;
-  TFSave = function(path, ext: PChar; app, wnd: THandle; img: hBitmap):integer; cdecl;
-  TFImport = function(info: PChar; app, wnd: THandle):hBitmap; cdecl;
-  TFExport = function(info: PChar; app, wnd: THandle; img: hBitmap):integer; cdecl;
-  TFFilter = function(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap; cdecl;
-  TFTool = function(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; cdecl;
-  TFInfo = function(path, ext: PChar; func: TDoubleCallBack; app, wnd: THandle):integer; cdecl;
+  
+  TFxImgQuery 			= function(	plugin_path: PChar;
+  									info_call: TPlugInCallBack;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
 
-  // animation
-  TFAnimStart = function(filename, ext: PChar; app: THandle):integer; cdecl;
-  TFAnimRestart = function():integer; cdecl;
-  TFAnimGetFrame = function(var img: hBitmap; var delay: integer):integer; cdecl;
-  TFAnimStop = function():integer; cdecl;
+
+  TFxImgOpen 			= function(	document_path, info: PChar;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgSave 			= function(	document_path, info: PChar;
+  									img: HBITMAP;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgImport 			= function(	info: PChar;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+                                    
+  TFxImgExport 			= function(	info: PChar;
+  									img: HBITMAP;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgFilter 			= function(	info: PChar;
+  									img: HBITMAP;
+  									preview_call: TPreviewCallBack;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgTool 			= function(	document_path, info: PChar;
+  									img: HBITMAP;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgInfo 			= function(	document_path, info: PChar;
+  									info_call: TDoubleCallBack; 
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+
+  // animation (will be deprecated soon)
+  TFxImgAnimStart 		= function(	document_path, info: PChar;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgAnimRestart 	= function(	app, wnd: HWND;
+  									app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgAnimGetFrame 	= function(	app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgAnimStop 		= function(	app, wnd: HWND;
+  									app_query: TAppCallBack): TFxImgResult; cdecl;
+
 
   // multi-page
-  TFMultiStart = function(filename, ext: PChar; app: THandle):integer; cdecl;
-  TFMultiGetPage = function(index: integer):hBitmap; cdecl;
-  TFMultiStop = function():integer; cdecl;
-  
+  TFxImgMultiStart 		= function(	document_path, info: PChar;
+  									app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgMultiGetPage 	= function(	page_index: integer;
+                                    app, wnd: HWND;
+  									app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgMultiStop 		= function(	app, wnd: HWND;
+  									app_query: TAppCallBack): TFxImgResult; cdecl;
+
+
   // helper functions
-  TFHelpPrint = function(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; cdecl;
+  TFxImgHelpPrint 		= function(	document_path: PChar;
+  									fast_print: BOOL;
+                                    img: HBITMAP; 
+                                    app, wnd: HWND;
+                                    app_query: TAppCallBack): TFxImgResult; cdecl;
 
 
 implementation
