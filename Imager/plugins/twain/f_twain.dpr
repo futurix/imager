@@ -34,18 +34,24 @@ TWAIN_RegisterCallback(CallbackFxn);
 try
   if TWAIN_SelectImageSource(wnd)<>0 then
     begin
-    hdib:=TWAIN_AcquireNative(0,0);
-    TestDib:=TWAIN_GetDib(0);
-    CopyDibIntoImage(TestDib,bmp);
-    TWAIN_FreeNative(TestDib);
-    TestDib:=0;
-    Result:=bmp.Bitmap.Handle;
-    bmp.Bitmap.ReleaseHandle();
+    hdib:=TWAIN_AcquireNative(wnd,0);
+    if hdib<>0 then
+      begin
+      TestDib:=TWAIN_GetDib(0);
+      if TestDib<>0 then
+        begin
+        CopyDibIntoImage(TestDib,bmp);
+        TWAIN_FreeNative(TestDib);
+        TestDib:=0;
+        Result:=bmp.Bitmap.Handle;
+        bmp.Bitmap.ReleaseHandle();
+        end;
+      end;
     end;
   except
   end;
 // finish
-bmp.Free();
+FreeAndNil(bmp);
 end;
 
 procedure CallbackFxn(CurDib: THandle; index: Integer); stdcall;

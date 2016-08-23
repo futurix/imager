@@ -40,7 +40,7 @@ object frmShow: TfrmShow
       Top = 0
       Hint = 'Start|Start slide show'
       Caption = 'tbnStart'
-      ImageIndex = 19
+      ImageIndex = 15
       ParentShowHint = False
       ShowHint = True
       OnClick = tbnStartClick
@@ -50,7 +50,7 @@ object frmShow: TfrmShow
       Top = 0
       Hint = 'Stop|Stop slide show'
       Caption = 'tbnStop'
-      ImageIndex = 21
+      ImageIndex = 17
       ParentShowHint = False
       ShowHint = True
       OnClick = tbnStopClick
@@ -68,7 +68,7 @@ object frmShow: TfrmShow
       Top = 0
       Hint = 'Reverse|Reverse direction'
       Caption = 'tbnReverse'
-      ImageIndex = 23
+      ImageIndex = 19
       ParentShowHint = False
       ShowHint = True
       OnClick = tbnReverseClick
@@ -112,7 +112,7 @@ object frmShow: TfrmShow
       Top = 0
       Hint = 'Set|Change timer value'
       Caption = 'Set'
-      ImageIndex = 16
+      ImageIndex = 27
       ParentShowHint = False
       ShowHint = True
       OnClick = tbnSetClick

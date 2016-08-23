@@ -52,7 +52,6 @@ type
     miBack: TMenuItem;
     miForward: TMenuItem;
     N12: TMenuItem;
-    miFileManager: TMenuItem;
     N14: TMenuItem;
     miRevert: TMenuItem;
     miApplyChanges: TMenuItem;
@@ -93,9 +92,7 @@ type
     tbnPaste: TToolButton;
     Sep_3: TToolButton;
     tbnFullScreen: TToolButton;
-    tbnFileBrowser: TToolButton;
     tbnInfo: TToolButton;
-    Sep_5: TToolButton;
     tbnBack: TToolButton;
     tbnForward: TToolButton;
     N9: TMenuItem;
@@ -113,7 +110,6 @@ type
     mToolbars: TMenuItem;
     N11: TMenuItem;
     Sep_7: TToolButton;
-    tbnAbout: TToolButton;
     dlgInstPlug: TOpenDialog;
     tbnFilters: TToolButton;
     miFiltersDialog: TMenuItem;
@@ -157,7 +153,6 @@ type
     tbnLast: TToolButton;
     N30: TMenuItem;
     miNew: TMenuItem;
-    tbnHome: TToolButton;
     piZM75: TMenuItem;
     piZM150: TMenuItem;
     miZM75: TMenuItem;
@@ -166,12 +161,8 @@ type
     tbnZoomOrig: TToolButton;
     sbrMain: TStatusBar;
     miCleanUp: TMenuItem;
-    tbnFav: TToolButton;
-    miFavorites: TMenuItem;
-    Sep_10: TToolButton;
     miFuturisWebSite: TMenuItem;
     N16: TMenuItem;
-    N24: TMenuItem;
     miFDelete: TMenuItem;
     miFCopy: TMenuItem;
     miFRename: TMenuItem;
@@ -183,8 +174,6 @@ type
     Sep_12: TToolButton;
     N20: TMenuItem;
     imlDisabled: TImageList;
-    pnlDock: TPanel;
-    splSide: TSplitter;
     piCustomZoom: TMenuItem;
     mTricks: TMenuItem;
     N4: TMenuItem;
@@ -205,7 +194,6 @@ type
     procedure miCloseClick(Sender: TObject);
     procedure miSaveAsClick(Sender: TObject);
     procedure miExitClick(Sender: TObject);
-    procedure miFileManagerClick(Sender: TObject);
     procedure miCopyClick(Sender: TObject);
     procedure miPasteClick(Sender: TObject);
     procedure miFullScreenClick(Sender: TObject);
@@ -274,7 +262,6 @@ type
       Y: Integer);
     procedure tbnPrintClick(Sender: TObject);
     procedure miCleanUpClick(Sender: TObject);
-    procedure miFavoritesClick(Sender: TObject);
     procedure miFuturisWebSiteClick(Sender: TObject);
     procedure miFCopyClick(Sender: TObject);
     procedure miFDeleteClick(Sender: TObject);
@@ -529,11 +516,6 @@ end;
 procedure TfrmMain.miExitClick(Sender: TObject);
 begin
 frmMain.Close();
-end;
-
-procedure TfrmMain.miFileManagerClick(Sender: TObject);
-begin
-ShowFiles();
 end;
 
 procedure TfrmMain.miCopyClick(Sender: TObject);
@@ -1086,11 +1068,6 @@ reg.CloseKey();
 reg.OpenKey(sReg + '\Browser',true);
 reg.WriteString('LastDir','');
 reg.CloseKey();
-end;
-
-procedure TfrmMain.miFavoritesClick(Sender: TObject);
-begin
-ShowFavs();
 end;
 
 procedure TfrmMain.miFuturisWebSiteClick(Sender: TObject);

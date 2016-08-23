@@ -168,7 +168,7 @@ end;
 
 procedure Register;
 begin
-RegisterComponents('Futuris', [TFuturisOpenDialog, TFuturisSaveDialog]);
+RegisterComponents('Custom', [TFuturisOpenDialog, TFuturisSaveDialog]);
 end;
 
 end.

@@ -29,10 +29,8 @@ uses
   f_anim in 'f_anim.pas',
   globals in 'globals.pas',
   athread in 'athread.pas',
-  w_browser in 'w_browser.pas' {frmFile},
   w_show in 'w_show.pas' {frmShow},
   w_new in 'w_new.pas' {frmNew},
-  w_fav in 'w_fav.pas' {frmFav},
   f_reg in 'f_reg.pas',
   w_fltpreview in 'w_fltpreview.pas' {frmFltPreview};
 

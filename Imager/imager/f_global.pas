@@ -61,7 +61,6 @@ if reg.RIntC('OpenDef',1)=1 then Include(infSettings.options,opOpenDef)
 reg.CloseKey();
 
 reg.OpenKey(sReg + '\UI',true);
-frmMain.pnlDock.Width:=reg.RIntC('SideBarSize',200);
 if reg.RIntC('TBMain',1)=1 then ToggleMainToolbar(true,true)
   else ToggleMainToolbar(true,false);
 if reg.RIntC('TBStatus',1)=1 then ToggleStatusbar(true,true)
@@ -88,7 +87,6 @@ if infSettings.full_screen=false then
     else reg.WriteInteger('TBMain',0);
   if frmMain.sbrMain.Visible then reg.WriteInteger('TBStatus',1)
     else reg.WriteInteger('TBStatus',0);
-  reg.WInteger('SideBarSize',frmMain.pnlDock.Width);
   end;
 reg.CloseKey();
 
