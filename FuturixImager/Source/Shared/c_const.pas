@@ -7,16 +7,16 @@ uses
 
 const
   sAppName              = 'FuturixImager';
-  sVersion              = '6.0';
-  sVersionEx            = '6.0.0.0';
-  sAuthor               = 'Alex Tereshchenko';
-  sRights               = '© 1999-2010 Alex Tereshchenko';
+  sVersion              = '6.0.1';
+  sVersionEx            = '6.0.1.0';
+  sAuthor               = 'Alexander Frost';
+  sRights               = '© 1999-2011 Alexander Frost';
   sRegAssociation       = 'FuturixImager_6';
   sRegAssociationOld    = 'FuturixImager_6_BAK';
 
   FXVER_MAJOR           = 6;
   FXVER_MINOR           = 0;
-  FXVER_REVISION        = 0;
+  FXVER_REVISION        = 1;
   FXVER_BUILD           = 0;
 
   // registry paths
@@ -33,7 +33,7 @@ const
   FXFILE_HELP           = 'fxhelp.exe';
 
   // URLs
-  sURL                  = 'http://fximage.com/';
+  sURL                  = 'http://dev.fxfp.com/';
 
   // signatures //
   sThemeID              = 'FxImgThemeR6';

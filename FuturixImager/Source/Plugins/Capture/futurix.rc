@@ -1,0 +1,10 @@
+
+// set language
+LANGUAGE 0x09, 0x01
+
+// common defines
+#include "..\Shared\fximager_version.h"
+
+// version info
+#include "res\version.rc"
+

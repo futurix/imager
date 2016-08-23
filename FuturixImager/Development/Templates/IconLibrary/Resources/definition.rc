@@ -1,0 +1,17 @@
+STRINGTABLE
+BEGIN
+    // required value (for compatibility check)
+    1		"FxImgIconLibR6"
+    
+    // name (in English)
+    2		"Example"
+    
+    // description (leave empty if not needed)
+    3		"Example icon library"
+
+    // author
+    4		"Alexander Frost"
+    
+    // last version of FuturixImager tested with this
+    5		"6.0.1"
+END

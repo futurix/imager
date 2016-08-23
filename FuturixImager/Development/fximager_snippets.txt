@@ -1,22 +1,22 @@
 >>>>>>>>> VERSION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-Alex Tereshchenko
+Alexander Frost
 FuturixImager ###
-6.0.0.#
+6.0.1.#
 futuriximager_###
-© 1999-2010 Alex Tereshchenko
+© 1999-2011 Alexander Frost
 
 fx###.dll
 FuturixImager
-6.0
-http://fximage.com/
+6.0.1
+http://dev.fxfp.com/
 
 
 >>>>>>>>> PATHS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 $(FXIMAGER)\Bin
-$(FXIMAGER)\Source\Trash
-$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;
+$(FXIMAGER)\Source\Temp
+$(FXIMAGER)\Source\Shared;$(FXIMAGER)\Libraries\ImageEn;
 
 
 >>>>>>>>> MISC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

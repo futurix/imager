@@ -13,7 +13,7 @@
 #define SMODSEARCH				L"SOFTWARE\\Futurix\\FuturixImager\\PluginLocations"		// HKCU, HKLM
 
 // URLs
-#define SURL					L"http://fximage.com/"
+#define SURL					L"http://dev.fxfp.com/"
 
 // plug-in types
 #define PT_FNAME				1

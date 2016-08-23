@@ -25,10 +25,8 @@
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<BRCC_CompilerToUse>rc</BRCC_CompilerToUse>
 			<DCC_ExeOutput>$(FXIMAGER)\Bin</DCC_ExeOutput>
-			<DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
-			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\Patches;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-			<DCC_HppOutput>$(FXIMAGER)\Source\Trash</DCC_HppOutput>
-			<DCC_DcuOutput>$(FXIMAGER)\Source\Trash</DCC_DcuOutput>
+			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXIMAGER)\Libraries\ImageEn;$(FXIMAGER)\Libraries\Misc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_DcuOutput>$(FXIMAGER)\Source\Temp</DCC_DcuOutput>
 			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
 			<DCC_DependencyCheckOutputName>..\..\Bin\fximager.exe</DCC_DependencyCheckOutputName>
@@ -43,8 +41,6 @@
 			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
 			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
 			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
-			<DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
-			<DCC_HppOutput>$(FXIMAGER)\Source\Trash</DCC_HppOutput>
 			<DCC_ResourcePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_ResourcePath)</DCC_ResourcePath>
 			<DCC_ObjPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_ObjPath)</DCC_ObjPath>
 			<DCC_IncludePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_IncludePath)</DCC_IncludePath>
@@ -75,7 +71,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">2390</VersionInfo>
+						<VersionInfo Name="Build">2397</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -85,16 +81,16 @@
 						<VersionInfo Name="CodePage">1252</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
-						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.2390</VersionInfoKeys>
-						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">6.0.0.2397</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>
-						<VersionInfoKeys Name="OriginalFilename">fximager.exe</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">6.0</VersionInfoKeys>
-						<VersionInfoKeys Name="Comments">http://fximage.com/</VersionInfoKeys>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion"/>
+						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Source>
 						<Source Name="MainSource">fximager.dpr</Source>

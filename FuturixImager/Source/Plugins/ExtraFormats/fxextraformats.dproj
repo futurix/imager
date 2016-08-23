@@ -21,12 +21,11 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<BRCC_CompilerToUse>rc</BRCC_CompilerToUse>
-			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXIMAGER)\Libraries\ImageEn;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
 			<DCC_DependencyCheckOutputName>..\..\..\Bin\fxextraformats.dll</DCC_DependencyCheckOutputName>
 			<DCC_ExeOutput>$(FXIMAGER)\Bin</DCC_ExeOutput>
 			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
-			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
-			<DCC_DcuOutput>$(FXIMAGER)\Source\Trash</DCC_DcuOutput>
+			<DCC_DcuOutput>$(FXIMAGER)\Source\Temp</DCC_DcuOutput>
 			<GenDll>true</GenDll>
 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
 			<DCC_UsePackage>vcl;rtl;vclx</DCC_UsePackage>
@@ -83,7 +82,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">53</VersionInfo>
+						<VersionInfo Name="Build">57</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -93,16 +92,16 @@
 						<VersionInfo Name="CodePage">1252</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
-						<VersionInfoKeys Name="FileDescription">FuturixImager Extra File Formats Support</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.53</VersionInfoKeys>
-						<VersionInfoKeys Name="InternalName">futuriximager_extraformats</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">6.0.0.57</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>
-						<VersionInfoKeys Name="OriginalFilename">fxextraformats.dll</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">6.0</VersionInfoKeys>
-						<VersionInfoKeys Name="Comments">http://fximage.com/</VersionInfoKeys>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion"/>
+						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 				</Delphi.Personality>
 			</BorlandProject>

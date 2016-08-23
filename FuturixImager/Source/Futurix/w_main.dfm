@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 190
   Top = 79
   Caption = 'FuturixImager'
-  ClientHeight = 649
-  ClientWidth = 742
+  ClientHeight = 661
+  ClientWidth = 1015
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object frmMain: TfrmMain
   object sbxMain: TScrollBox
     Left = 0
     Top = 24
-    Width = 742
-    Height = 606
+    Width = 1015
+    Height = 618
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -32,12 +32,13 @@ object frmMain: TfrmMain
     ParentColor = False
     PopupMenu = popMain
     TabOrder = 0
-    ExplicitHeight = 506
+    ExplicitWidth = 742
+    ExplicitHeight = 606
     object img: TImageEnView
       Left = 0
       Top = 0
-      Width = 738
-      Height = 602
+      Width = 1011
+      Height = 614
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -45,7 +46,7 @@ object frmMain: TfrmMain
       LegacyBitmap = False
       DoubleBuffer = False
       MouseInteract = [miScroll]
-      ImageEnVersion = '3.1.0'
+      ImageEnVersion = '3.1.1'
       OnMouseWheel = imgMouseWheel
       EnableInteractionHints = True
       Align = alClient
@@ -54,13 +55,14 @@ object frmMain: TfrmMain
       TabStop = True
       OnDblClick = imgDblClick
       OnMouseDown = imgMouseDown
-      ExplicitHeight = 502
+      ExplicitWidth = 738
+      ExplicitHeight = 602
     end
   end
   object sbrMain: TStatusBar
     Left = 0
-    Top = 630
-    Width = 742
+    Top = 642
+    Width = 1015
     Height = 19
     Panels = <
       item
@@ -83,12 +85,13 @@ object frmMain: TfrmMain
         Width = 50
       end>
     PopupMenu = popBars
-    ExplicitTop = 530
+    ExplicitTop = 630
+    ExplicitWidth = 742
   end
   object tbrMain: TCoolBar
     Left = 0
     Top = 0
-    Width = 742
+    Width = 1015
     Height = 24
     AutoSize = True
     BandBorderStyle = bsNone
@@ -99,15 +102,16 @@ object frmMain: TfrmMain
         HorizontalOnly = True
         ImageIndex = -1
         MinHeight = 22
-        Width = 740
+        Width = 1015
       end>
     EdgeBorders = [ebTop]
     FixedOrder = True
     ShowText = False
+    ExplicitWidth = 742
     object itbMain: TToolBar
       Left = 0
       Top = 0
-      Width = 742
+      Width = 1015
       Height = 22
       AutoSize = True
       Caption = 'Toolbar'

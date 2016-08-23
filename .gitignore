@@ -14,3 +14,11 @@ FuturixImager/Development/Scraps/Localization/Tools/FuturixLocalizer/bin/*
 *.suo
 FuturixImager/Development/Scraps/Localization/Tools/*.exe
 FuturixImager/Development/Scraps/Localization/SDK/Translations/Editor/*.exe
+FuturixImager/Redist/Output/*.exe
+FuturixImager/Libraries/Apprehend/*
+FuturixImager/Libraries/ImageEn/*
+FuturixImager/Libraries/Help/*
+FuturixImager/Libraries/Misc/DELPHIAREA.INC
+FuturixImager/Libraries/Misc/Preview.dcr
+FuturixImager/Libraries/Misc/Preview.pas
+FuturixImager/Libraries/Misc/Preview.res

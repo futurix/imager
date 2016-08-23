@@ -1,0 +1,869 @@
+﻿FuturixImager <strong>6.0.1</strong> (04 June 2011)
+<ul>
+<li>Support for raw formats from more than 30 new digital cameras</li>
+<li>Speed improvements for raw camera formats plug-in</li>
+<li>Minor bug-fixes for Windows 7 Service Pack 1</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>6.0</strong> (10 April 2010)
+<ul>
+<li>Unicode support throughout the program</li>
+<li>Reworked plug-in system with major performance optimisations</li>
+<li>Improved UI on Windows 7 and Windows Vista</li>
+<li>Speed improvements in file format support and UI</li>
+<li>New simpler "Options" dialog</li>
+<li>Support for media keyboard keys, mouse wheel click, and side mouse buttons</li>
+<li>Smarter zoom behaviour</li>
+<li>Support for saving 32-bit images with alpha channel</li>
+<li>Support for auto-rotating images based on EXIF data</li>
+<li>Improved printing</li>
+<li>Rewritten file format associations code (with support for "Default Programs" API)</li>
+<li>Support for individual icons and descriptions for file format associations</li>
+<li>Removed support for animation</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.9.4</strong> (23 August 2009)
+<ul>
+<li>Added read/write support for JPEG XR format (also known as HD Photo or Windows Media Photo)</li>
+<li>Added Photoshop (PSD) write support and improved read support</li>
+<li>Faster loading of several rare TIFF variations</li>
+<li>Reworked support for writing WBMP images (aka wireless bitmaps)</li>
+<li>Improved "View as Wallpaper" plug-in</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.9.3</strong> (25 February 2009)
+<ul>
+<li>Improved compatibility with faulty HP printer drivers</li>
+<li>Added workaround for menu localization issue that was present in versions 5.9.x for some languages</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.9.2</strong> (11 January 2009)
+<ul>
+<li>Set of seven automatic image enhancement filters: auto crop, auto equalize, auto fix, auto gain, auto glow, auto sharp, auto white</li>
+<li>Experimental lossless JPEG crop</li>
+<li>Yet another fix for full-screen mode switch</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.9.1</strong> (31 December 2008)
+<ul>
+<li>Fixed full-screen mode switch</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.9</strong> (24 December 2008)
+<ul>
+<li>Support for embedded colour profiles in JPEG and TIFF images</li>
+<li>Reworked raw camera formats plug-in</li>
+<li>Visual style update: 32-bit bitmaps in themes, some new icons, icons in menus</li>
+<li>Added several options for customizing viewer's background style: gradient, solid color, checkboard pattern, etc</li>
+<li>Bug-fixes: solved minor glitches on Windows Vista SP1 and Windows Server 2008, better support for DWM, many others</li>
+<li>Windows 2000 is no longer supported</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8.8</strong> (15 March 2008)
+<ul>
+<li>Improved/fixed printing of transparent images</li>
+<li>Lossless JPEG transformations can be done without forced backup</li>
+<li>Speed up for "Image Information" dialog</li>
+<li>Fixed window title updates that could happen too quickly</li>
+<li>Improvements for selection tool in editor</li>
+<li>Update for raw camera formats support</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8.7</strong> (08 October 2007)
+<ul>
+<li>Restored and updated rare formats plug-in</li>
+<li>Major updates in bundled libraries</li>
+<li>Update for raw camera formats support</li>
+<li>Minor bug-fixes and speed improvements</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8.6</strong> (12 May 2007)
+<ul>
+<li>Update for raw camera formats support</li>
+<li>Better support for rare variants of TIFF and malformed PNGs</li>
+<li> Improved Windows Vista support</li>
+<li>Multiple bugfixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8.5</strong> (16 October 2006)
+<ul>
+<li>Improved TIFF support (including support for ZIP compression and several bugfixes)</li>
+<li>Improved support for 16-bit grayscale PNG images</li>
+<li>JPEG lossless transformations will update embedded EXIF data (optionally)</li>
+<li> Reworked "Delete" function to delete safely and to recycle bin only</li>
+<li> Raw camera formats update</li>
+<li>Fixed misbehaving keyboard input in several rare situations</li>
+<li>Printing and editing moved to modal dialogs</li>
+<li>To solve potential confusion TWAIN is now default scanning subsystem for WindowsXP</li>
+<li>Basic compatibility with Windows Vista</li>
+<li>Restored  compatibility with WindowsNT 4.0 SP6</li>
+<li> Italian translation now available, many other translations updated</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8.1</strong> (10 September 2006)
+<ul>
+<li>Update for raw camera formats support</li>
+<li>Minor bugfixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.8</strong> (03 September 2006)
+<ul>
+<li>Improved Photoshop format support</li>
+<li>Improved support for rare variations of TIFF format, including images created in Windows Imaging</li>
+<li>New  "Sharpen" filter</li>
+<li>Basic multi-page printing</li>
+<li> Several rarely used menu shortcuts and plug-ins removed as part of general speed optimisation </li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.7.2</strong> (25 May 2006)
+<ul>
+<li>Update for raw camera formats plug-in (more cameras supported now)</li>
+<li> Update for FreeImage plug-in (using latest libPNG now)</li>
+<li> FreeImage is now a part of main installer</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.7.1</strong> (18 April 2006)
+<ul>
+<li>Added option to change smoothing filter for image display (see "Options" dialog)</li>
+<li>FuturixImager now works fine in  limited user accounts (I've made a lot of  tests and fixed all found bugs)</li>
+<li>Improved multi-threading for several GUI operations</li>
+<li>FreeImage and e-mail plug-ins rewritten   in C++ (sources available in SDK)</li>
+<li>Reorganized and improved FuturixImager SDK (now including better documentation and complete source of 12 plug-ins)</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.7</strong> (10 April 2006)
+<ul>
+<li>WIA (Windows Image Acquisition) support </li>
+<li>Themes (custom toolbar and menu graphics) </li>
+<li>New "Options" dialog that integrates most FuturixImager settings in single   tabbed window </li>
+<li>Simplified installation of new localizations or themes </li>
+<li>File formats association with FuturixImager simplified and rare or   incompletely supported formats are now hidden by default (this affects only file   formats association dialog) </li>
+<li>All localizations now are Unicode-based internally </li>
+<li>New XP style theme available (separate download) </li>
+<li>Faster previews for raw camera files in the "Open" dialog </li>
+<li>Optimised PNG loading </li>
+<li>Added ability to load DIB files </li>
+<li>Fixed issue with delayed localization on program start-up </li>
+<li>Gradual zooming: 25% -&gt; 50% -&gt; 75% -&gt; 100% -&gt; 125% -&gt; 150%   -&gt; 200% -&gt; 300% -&gt; 400% </li>
+<li>Added keyboard shortcuts for 25%, 75%, 90%, 125%, 150%, 300%, 400% zooms </li>
+<li>Zooming is now default function for mouse wheel </li>
+<li>Mouse wheel should automatically switches FuturixImager to normal zoomable   mode (if needed) </li>
+<li>Now FuturixImager respects Windows settings for deleting files   (confirmation, Recycle Bin, etc) </li>
+<li>FuturixImager now detects deletions of images in current folder </li>
+<li>Improved animated GIF plug-in (rewritten in C++) </li>
+<li>Added basic help file (it will be expanded in the future) </li>
+<li>Plug-in system enhancements: plug-in configuration interface, not   recommended extensions interface, C++ compatibility - header and sample plug-in are available in SDK</li>
+<li>Starting from this release FuturixImager will no longer run on Win9x-based operating systems</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.6</strong> (28 February 2006)
+<ul>
+<li>new histogram in information dialog</li>
+<li>new graphics for most toolbar buttons</li>
+<li>more then 20 new toolbar buttons available for toolbar customization</li>
+<li>added optional toolbar buttons for several most popular plug-ins (screen capture, scan, send by e-mail, etc)</li>
+<li>editor and print preview windows now embedded into main window </li>
+<li>new colour selector in editor</li>
+<li>new editing tools: pencil and flood fill</li>
+<li>update for raw camera formats support</li>
+<li>fixes: keyboard shortcuts issues, support for EPS thumbnails, rare modal dialog issue, wireless bitmaps support, start-up crash on machines with several rare CPU types, printing problems, saving big images as ASCII text</li>
+<li>several plug-in system additions </li>
+<li>restored extra plug-in pack with automated installer </li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.5.3</strong> (22 January 2006)
+<ul>
+<li>speed optimization for FuturixImager start-up</li>
+<li>most  plug-ins load faster now</li>
+<li>added custom installation support</li>
+<li>if no import or export plug-ins installed corresponding menus will be hidden </li>
+<li>"Contrast" filter now works properly </li>
+<li>"Lightness" and "Darkness" filters merged together </li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.5.2</strong> (15 January 2006)
+<ul>
+<li>speed optimizations for large images loading</li>
+<li>more raw camera formats supported </li>
+<li>minor bugfixes in screen capture and  printing</li>
+<li>Swedish localization (separate download)</li>
+<li>new fast plug-in for animated GIFs playback (separate download)</li>
+<li>no more support for Windows95/98/Me (this time for real) and old processors without MMX (anything newer then Pentium-150 will work)</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.5.1</strong> (12 November 2005)
+<ul>
+<li>added option to open only one instance of FuturixImager</li>
+<li> added option to reverse direction of mouse wheel scrolling </li>
+<li>minor bugfixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>5.5</strong> (06 November 2005)
+<ul>
+<li>due to potential trademark conflict program renamed from Futuris Imager to FuturixImager</li>
+<li> localization support</li>
+<li>new built-in editor dialog with multilevel undo/redo and selection support</li>
+<li> main toolbar customization </li>
+<li>updated toolbar graphics</li>
+<li>huge speed-ups for  many file formats </li>
+<li> support for progressive image loading of common  formats (JPEG, TIFF, etc) </li>
+<li>JPEG lossless rotations</li>
+<li> remove EXIF (and other metadata) from JPEG files</li>
+<li>save images as ASCII text art</li>
+<li>most filters now have uniform dynamic preview inside editor dialog </li>
+<li>new interactive "Crop" tool (replaces old filter)</li>
+<li>new rotate and resize dialogs with additional quality options</li>
+<li>cut/copy/paste part of the image (for filters or clipboard) </li>
+<li> simple red eye removal filter </li>
+<li>redesigned "Options" dialog</li>
+<li>new customization options: mouse wheel behavior, mouse click and drag behavior, mouse double click function, arrow keys function, Enter key behavior, what to do on new image open</li>
+<li>new performance options: slower high quality resize filter with several related tweaks, optional faster memory loading strategy, color management for embedded profiles (now you can disable it) </li>
+<li>"Fit All" display mode</li>
+<li>update for raw camera formats plug-in (more cameras supported now) </li>
+<li>added support for JBIG, FlashPix, DICOM, Macintosh PICT, SVG (basic support) plus some other less known formats (downloadable separately)</li>
+<li>FreeImage plug-in updated to version 3.80 (downloadable separately)</li>
+<li>huge number of changes in plug-in system - this should speed up some plug-ins and add more capabilities for several plug-in types </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.3.1</strong> (24 August 2005)
+<ul>
+<li>added detection of incorrectly renamed images</li>
+<li>improved speed of previews in the "Open" dialog</li>
+<li>fixed rare printing issue with network printers </li>
+<li> screen capture now works better with multiple monitors</li>
+<li>improved stability of HEX viewer plug-in</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.3</strong> (1 August 2005)
+<ul>
+<li>improved playback of long animated GIFs</li>
+<li>added support for basic PDF and PostScript save</li>
+<li>improved GIF save</li>
+<li>new keyboard shortcuts</li>
+<li>multimedia keyboards support</li>
+<li>fixed some bugs in file operations </li>
+<li>most file operations now remember previously used folder</li>
+<li>C++ plug-ins support</li>
+<li>new smarter installer with upgrade possibility of all versions starting from 1.65</li>
+<li>improved support for dynamic XP theme changes</li>
+<li>changed all built-in links to the new Futuris Imager web-site at www.fxfp.com </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.2</strong> (25 June 2005)
+<ul>
+<li>support for various digital camera RAW photo formats </li>
+<li>support for 48-bit TIFF and PPM images (48 bits per pixel /16 bits per channel) </li>
+<li>support for embedded color profiles in TIFF and JPEG images </li>
+<li>support for HDR (High Dynamic Range) images </li>
+<li>improved support of 256 color TGA (Targa) images and 32-bit BMP images with alpha channel</li>
+<li>multiple file format support fixes</li>
+<li>speed optimizations in plug-in system</li>
+<li>updated FreeImage library to version 3.70</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.1</strong> (19 June 2005)
+<ul>
+<li>added list of recent files to the "Open" button</li>
+<li> increased size of recent files list</li>
+<li> new "Rotate" toolbar button</li>
+<li> merged all settings together into single dialog</li>
+<li> fixed failing drag&amp;drop on full screen switch</li>
+<li> now saving last selected extension in "Save image"</li>
+<li> fixed multiple icon info read issue</li>
+<li>some plug-ins separated from the main distribution</li>
+<li> multiple changes for plug-in developers (no more .bpl, helper changed, printing available to helper)</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.0.1</strong> (24 March 2005)
+<ul>
+<li>several bug-fixes - mostly related to handling of third-party plug-ins (filters and exporters)</li>
+<li>smaller installer</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>5.0</strong> (12 March 2005)
+<ul>
+<li>new display engine with very fast and memory efficient zooms</li>
+<li>added options to automatically fit large image into window and to center image in window </li>
+<li>now it is possible to turn off the scrollbars</li>
+<li>added multi-level undo for filters</li>
+<li>added new "Filter" dialog with customizable previews </li>
+<li>"File Information" dialog now shows EXIF data (including thumbnail), histogram and estimated compression level (for JPEGs)</li>
+<li> reimplemented support for JPEG, TIFF, PCX/DCX, PNG, TGA, JPEG2000 formats (much faster now, for example some JPEGs load up to 50% faster now)</li>
+<li> improved performance of JPEG previews in &ldquo;Open&rdquo; dialog (and a little faster with all other formats as well)</li>
+<li> improved TWAIN plug-in (now it should work without any problems on all operating systems)</li>
+<li> completely new (and stable) support for animated GIFs (no longer depends on GDI+ and in fact GDI+ no longer used at all!)</li>
+<li> moved help to HTML Help format (CHM) to save some space</li>
+<li> no more separate toolbars for multi-page images and animation (both integrated into main toolbar and main menu)</li>
+<li> now including FreeImage 3.61 for some rare formats (like Amiga IFF, DDS and other)</li>
+<li> now it is possible to disable recent files history</li>
+<li>miscellaneous bug fixes </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.7.1</strong> (14 November 2004)
+<ul>
+<li>numerous bug-fixes, including recent save bug</li>
+<li>updated and more compatible installer</li>
+<li>first version of Futuris Imager, that should work with WINE on Linux</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.7</strong> (24 October 2004)
+<ul>
+<li>added optional large toolbar icons (in XP style)</li>
+<li>added option to clear image history</li>
+<li>added single-level undo</li>
+<li>added "Set-as-Wallpaper" tool</li>
+<li>bug-fixes in MNG and JNG support, saving confirmations, etc.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.6</strong> (10 October 2004)
+<ul>
+<li>completely rewritten TWAIN support: new plug-in includes image preview, compatible with more scanners/cameras and works better with WIA on WindowsXP</li>
+<li>fixed loading for PhotoCD images that omit largest resolution (6144 x 4096) </li>
+<li> minor GUI updates for animated and multi-page images </li>
+<li>included newer GDI+ DLL because of recent Microsoft GDI+ JPEG security bug<br />
+Note: Futuris Imager never used and will never use GDI+ for JPEG images, so users of old versions are safe anyway</li>
+<li>updated LIBMNG to version 1.08</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.5</strong> (1 August 2004)
+<ul>
+<li>added screen capture tool (capture types: whole screen, active window, rectangle selection, polygon selection) </li>
+<li>added "HEX Viewer" tool </li>
+<li>improved toolbar icons look, added several new buttons ("go random", "custom zoom", etc) </li>
+<li>new slide-show toolbar with more options (and now it can be easily hidden during slide-show)</li>
+<li>added several print preview options ("proportional", "shrink only large", etc) </li>
+<li>added "Go Random" navigation mode (navigates between random images in current folder) - also added to new slide show toolbar </li>
+<li>added selected image thumbnail to save dialog</li>
+<li>"Filters" dialog now shows entire image at once </li>
+<li> first release of developer's SDK to create plug-ins for Futuris Imager (3.0 and 4.x) available now</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.2</strong> (19 July 2004)
+<ul>
+<li>Installer now resolves several possible upgrade issues</li>
+<li> Complete WindowsXP themes support for toolbars</li>
+<li> Numerous crash fixes (mostly for Windows9x)</li>
+<li> Added wide-screen and dual-screen wallpaper sizes to "View-as-wallpaper" plug-in</li>
+<li> Updated FreeImage library to version 3.4.0 - should fix some crashes </li>
+<li> Fixed compatibility with GDI+ 1.1 (beta)</li>
+<li>Updated plug-in system - new SDK for developers will be released soon </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.1</strong> (19 April 2004)
+<ul>
+<li>several bug fixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>4.0</strong> (30 March 2004)
+<ul>
+<li>added support for Commodore 64 Koala, Amiga IFF, DirectDraw Surface, Sun Raster and X11 Bitmap formats</li>
+<li>added support for high-resolution PhotoCD files</li>
+<li>added support for icons (ICO) with multiple images inside </li>
+<li> partially corrupted PNG files will open without any problems now </li>
+<li>19 new filters, including "Twist", "Fish Eye" and "Mosaic" </li>
+<li>"Crop" plug-in is back (it was mistakenly omitted in 3.0) </li>
+<li>updated XP-style GUI in main window, favorites and print preview window</li>
+<li>"Apply Filter" dialog no longer closes after canceling some filter </li>
+<li>other minor bug fixes </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>3.0</strong> (8 February 2004)
+<ul>
+<li>JPEG2000 support (read/write)</li>
+<li>rewritten support for GIF, JPEG, PNG, TIFF, Targa, PCX and portable bitmaps (PBM/PGM/PPM) - both reading and writing for all formats</li>
+<li>multi-page TIFF support (read only) </li>
+<li>DCX support (read only) </li>
+<li>high color icons and cursors support</li>
+<li> faster zooming for images</li>
+<li>improved multiple printers support </li>
+<li>new file browser</li>
+<li>both file browser and favorites appear docked now </li>
+<li>new filters dialog (with preview)</li>
+<li>huge improvements in stability </li>
+<li>complete support for WindowsXP/2003 themes</li>
+<li>support for file format registration on WindowsXP/2003</li>
+<li>fixed mouse scrolling </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.6c</strong> (6 January 2004)
+<ul>
+<li>new installer</li>
+<li>removed support for WindowsXP themes, since it was buggy</li>
+<li>some stability fixes </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.6a</strong> (21 February 2003)
+<ul>
+<li>several bug fixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.6</strong> (10 April 2002)
+<ul>
+<li>fixed broken long file names support (in previous versions "Back" and "Forward" buttons could act incorrectly if current image has file name larger then 8 symbols)</li>
+<li>file size has much nicer look now</li>
+<li>changed Windows Explorer document description to "Futuris Imager Document"</li>
+<li>support for WindowsXP themes is optional now</li>
+<li>new rewritten File Browser with preview</li>
+<li>"Create HTML" plug-in now adds DOCTYPE and content encoding to output HTML file</li>
+<li>"Web View" plug-in resolves some of HTTP errors now</li>
+<li>large GUI changes and improvements </li>
+<li>removed Futuris Bitmap plug-in, "Set Wallpaper" plug-in and capture tool - too buggy and useless</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.5.1</strong> (14 January 2002) 
+<ul>
+<li>PlacesBar will appear in "Open" dialog on Windows2000/Me/XP/2002</li>
+<li>misc. UI improvements</li>
+<li>fixed several bugs in Futuris Bitmaps support plug-in</li>
+<li>fixed some errors in documentation</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.5</strong> (1 January 2002) 
+<ul>
+<li>support for WindowsXP themes</li>
+<li>a LOT of UI updates (menus, toolbar skin, dialogs, etc.)</li>
+<li>support for Futuris Bitmap format (lossless high-compression format)</li>
+<li>some little bugs fixed (wrong file information, buggy "About" dialog, etc.)</li>
+<li>on Windows2000/Me/XP Futuris Imager will add itself to list of digital camera / scanner events</li>
+<li>much smaller installer (almost 500 kb. smaller)</li>
+<li>updated documentation</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.1a</strong> (1 December 2001) 
+<ul>
+<li>new installation program - included all additional plug-ins for Futuris Imager in main distribution package</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.1</strong> (10 June 2001) 
+<ul>
+<li>improved "Open" dialog - now with additional information about image and some UI changes</li>
+<li>"Open Special" and "Select Skin" dialogs now also have previews</li>
+<li>now Imager preserves your file associations and able to automatically restore them back on uninstall</li>
+<li>added "New Window" menu item, that opens new Futuris Imager window</li>
+<li>added file management functions in "Go" menu and pop-up menu</li>
+<li>new "Crop" filter</li>
+<li>"Zoom to Fit on Load" function added (automatically sizes image to window on load). See "View menu"</li>
+<li>new informational plug-in by Aqab Bin Talal included into distribution (allows you to get advanced information about bmp/pcx/ico/tga/gif images)</li>
+<li>additional skins added</li>
+<li>some plug-ins and thumbnail browser removed from standard download. You can download then on Futuris website.</li>
+<li>bug fixes and small improvements</li>
+<li>YAFU (yet another FAQ update)</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.0.2</strong> (28 May 2001) 
+<ul>
+<li>small FAQ update</li>
+<li>bug fixes and once again bugfixes</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.0.1</strong> (12 May 2001) 
+<ul>
+<li>new settings storage system - all settings saved in system Registry, so all users at your machine can have separate Imager configurations</li>
+<li>improved memory usage<b></b> - typically 600 kb. smaller</li>
+<li>advanced printing features - control image position, paper size and orientation, print preview zoom</li>
+<li>added "Favorites" panel for quick access to favorite local and web images</li>
+<li>support for JNG saving and PNG/JNG advanced exporting</li>
+<li>complete support for animated GIFs</li>
+<li>new "Clean Up" command, that quickly removes all Imager's browsing history/cache (aka "Privacy Enhancements")</li>
+<li>it is possible now, to scroll image with "Hand" tool</li>
+<li>optional integration with Filters Unlimited</li>
+<li>a lot of bug fixes and small improvements</li>
+<li>serious improvements for plug-in developers</li>
+<li>additional plug-ins and add-ons (including Macromedia Flash support) available for separate download on Futuris website</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>2.0</strong> (16 April 2001) 
+<ul>
+<li>Futuris Imager Plug-in System (FPS) - plug-in system, that allows developers to extend Futuris Imager functionality.</li>
+<li>Modularization - reduces all executables and dll sizes, moving common parts into separate dlls. Saves memory by loading required parts only when they actually needed.</li>
+<li>Improved "Open" dialog with preview.</li>
+<li>Command line support for /fs (Full Screen) and /print (Print) switches.</li>
+<li>Support for MNG, JNG formats</li>
+<li>Improved PNG support - more than 3 times faster than in 1.x versions </li>
+<li>Save to GIF and PNG added</li>
+<li>Advanced exporters for GIFs and JPEGs</li>
+<li>Support for WBMP (WAP bitmaps) open and save </li>
+<li>Image zooming (several methods available) and auto-fit zoom (hit [ENTER] to use) </li>
+<li>Print with preview</li>
+<li>Improved WebOpen (loading images from HTTP servers) - doesn't require MSIE anymore and image format selection is not required (auto-detection)</li>
+<li>File browser/manager with image preview</li>
+<li>Ability to create new (empty) images of custom colors</li>
+<li>Simple (in folder) slide shows</li>
+<li>10 filters (image transformations). More will be available soon.</li>
+<li>Windows9x logo changer</li>
+<li>Windows (all versions) wallpaper changer</li>
+<li>"Wallpaper tester" plug-in (view any image as wallpaper without need to set it as wallpaper in Windows)</li>
+<li>HEX Viewer</li>
+<li>Screen capture</li>
+<li>Custom toolbar skins and background colors</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6.5</strong> (7 October 2000) 
+<ul>
+<li>Support for EPS files (you can view TIFF previews, if they are included in EPS).</li>
+<li>Support for JPEGs with exotic extemsions - *.jpe and *.jfif </li>
+<li>More settings for UI: <br />
+- you can turn off all hints at once <br />
+- you can set HTTP referrer and HTTP user agent for WebOpen feature </li>
+<li>Totally reworked file formats registration - now you can choose icon for file formats associated with Imager (currently only 3, but I'll extend it), as well as unregister them from Imager. </li>
+<li>You can customize what files appear in Imager when you click "Back" and "Forward" buttons (some kind of search mask) - Quick Browser Masks. </li>
+<li>Massive improvements in UI (User Interface). </li>
+<li>New 'Check for Update' menu item takes you to our website, where you can learn about latest updates for Imager. </li>
+<li>This is the last version in 1.x series </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6.4</strong> 
+<ul>
+<li>Updated graphics engine, smaller and faster. </li>
+<li>Small bug-fixes. </li>
+<li>I changed ONLINE HELP format to separate html files suitable for all browsers. </li>
+<li>Futuris Flash Player 5.0 is included with Futuris Imager. </li>
+<li>Futuris Flash Player allows you to view and print Macromedia Flash movies (and create standalone projectors for them).</li>
+<li>In future versions I'm going to add some tutorials for Imager in Flash format and integrate Futuris Flash Player with Futuris Imager. </li>
+<li>Imager's version numbers changed (because some previous versions weren't big updates, with only bigfixes):<br />
+1.9 changes to 1.63<br />
+1.8 changes to 1.62<br />
+1.7 changes to 1.61 </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6.3</strong> (initially released as 1.9) 
+<ul>
+<li>Fixed support for TIFF images with LZW compression.</li>
+<li>Small bug-fixes.</li>
+<li>Small UI improvements. </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6.2</strong> (initially released as 1.8) 
+<ul>
+<li>Fixed support for GFI fax images (FAX) with CCITT compression.</li>
+<li>"WebOpen" deprication cancelled for a while.</li>
+<li>Export to JPEG (including Progressive JPEGs and Grayscale 24-bit JPEGs).</li>
+<li>Export to WAP Bitmap (WBMP) for cell-phones.</li>
+<li>All unavailable menu items and toolbars are grayed now to prevent errors.</li>
+<li>Small UI improvements. </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6.1</strong> (initially released as 1.7) 
+<ul>
+<li>Support for GFI fax images (FAX) with CCITT compression. </li>
+<li>Improved color support.</li>
+<li>User Interface (UI) is much redesigned and very cute now.</li>
+<li>FIX: Windows98 &amp; Windows2000 users will see 3D( or flat) menus (standart effect) now.</li>
+<li>Improved "File Browser", "File Search", "File Info". </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.6</strong>
+<ul>
+<li>Support for Portable Network Graphics (PNG)</li>
+<li>Support for PSP (Paint Shop Pro)</li>
+<li>When you browse through the folder, files are arranged in alphabetic order now.</li>
+<li>Now you can export images to BMP and TGA (Truevision TARGA) formats.</li>
+<li>File Search allows you quickly find files on your HDD(s). New format for online help (Microsoft HTMLHelp). For users, that don't have Microsoft Internet Explorer 4.0 (or higher) installed - provided special ZIP with HTML files for viewing in other browsers (visit out website to download it). </li>
+<li>Completely changed toolbars (some interesting settings now available, like 'old-style' buttons). </li>
+<li>Rewritten web-cam viewing functionality. </li>
+<li>New File Browser. </li>
+<li>Double-click any file to open it in Imager (if it supported by Imager). Otherwise it will open in external associated application. </li>
+<li>'Favorites' window now integrated with 'File Browser' to be more comfortable to view. Now you can choose, which files to display in 'File Browser' - it can be all files, all image files or only favorite files (IML).</li>
+<li>BUGFIX: Online Favorite didn't work if opened by double-clicking them in Windows Explorer. FIXED! </li>
+<li>BUGFIX: New copy of Imager launched every time you double-click file in 'File Browser' instead of opening file in current window. </li>
+<li>Added new pretty-looking icons for program and associated files. </li>
+<li>Completely changed 'File Association' dialog. Now description to most file formats available. </li>
+<li>BUGFIX: File formats associated with Imager from 'File Association' dialog sometimes did not work. FIXED! </li>
+<li>BUGFIX: Sometimes Imager incorrectly says, that format is already associated with Imager, but it was wrong. FIXED! </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.5</strong> (1 June 2000)
+<ul>
+<li>Support for Adobe Photoshop format (PSD) </li>
+<li>Support for Adobe PhotoDeluxe format (PDD) </li>
+<li>Support for additional Windows bitmap formats (DIB and RLE) </li>
+<li>Support for Portable Bitmap format (PBM) </li>
+<li>Support for Portable Pixel Map format (PPM) </li>
+<li>Support for Portable Grayscale Map format (PGM) </li>
+<li>Support for Dr. Halo CUT format (CUT + external palette *.pal files) </li>
+<li>Improved support for SGI images </li>
+<li>'Save as...' feature renamed to 'Save To Bitmap' and now it saves all images in Windows Bitmap format (and it works)</li>
+<li>Dialogs now indicated on toolbar "Info" dialog acts as toolbar now </li>
+<li>Status bar added to Imager (it displays hints for all buttons and menu items + progress for long operations, like 'web cam' loading) </li>
+<li>Many small improvements </li>
+<li>Completely rewritten file handling </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.4.1</strong>
+<ul>
+<li>PhotoCD and PCX images now can be browsed in directories </li>
+<li>File Browser speed increased in about 10 times! </li>
+<li>Context menus for all files in File Browser available </li>
+<li>Fixed installer issue (folders for favorites and cache wasn't autocreated by default) </li>
+<li>Some small improvements </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.4</strong>
+<ul>
+<li>Support for ZSoft PCX/PCC </li>
+<li>Support for Microsoft Word 5.5 SCR file format </li>
+<li>Support for Kodak PhotoCD (PCD) format </li>
+<li>Improved TIFF support </li>
+<li>Improved UI (color, Windows standard icons) </li>
+<li>Improved speed of loading </li>
+<li>More customizible (even toolbars handle style) </li>
+<li>MSIE-like favorites system </li>
+<li>Both WWW and local file favorites </li>
+<li>Built-in file browser (Windows Explorer - like) </li>
+<li>Resizable TWAIN-scanning window </li>
+<li>New 'stitch' image behavior (image auto-stretches to window size) </li>
+<li>FIXED TGA/TIFF images not closing </li>
+<li>New HTML-based help system (not HTMLhelp by Microsoft) </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.3</strong> 
+<ul>
+<li>WebImager now integrated to main Imager window as floating panel. </li>
+<li>Futuris Imager now should run on PCs without Common Controls Update (Win95a) </li>
+<li>New style of menu &laquo;Recent Files&raquo; moved to &laquo;Go&raquo; menu </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.2.1</strong> 
+<ul>
+<li>Better perfomance </li>
+<li>Fixed all directory navigating issues </li>
+<li>Fixed dialog boxes handling </li>
+<li>Registration for file formats improved </li>
+<li>Added &laquo;Register All&raquo; button for ALL formats registration in 1 second </li>
+<li>Imager now correctly opens an image, even if Windows Explorer gives it a name of file with spaces. </li>
+<li>Redesigned all dialogs </li>
+<li>Improved window sizing - much faster now, less blinking </li>
+<li>New keys for directory navigation - [INSERT] to go back and [HOME] to go forward (also available in full screen mode). </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.2</strong> 
+<ul>
+<li>Directory navigation features (next/prev files in directory, home image) </li>
+<li>QuickJump - switch from current image to any image from the same folder using special button </li>
+<li>You can register/unregister image formats, supported by Imager, to be opened with Imager in special dialog box (try 'Tools/Formats') </li>
+<li>New help system, based on standard Windows Help 4.0 </li>
+<li>All new icons </li>
+<li>Now Imager window cannot be smaller than 380x280 pixels (or about that) - so if you'll try to view small (10x10 pixels) images, toolbars and menu don't disappear now </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.1</strong> 
+<ul>
+<li>Favourite images system (just like in browsers) </li>
+<li>Help system </li>
+<li>You can view images directly from the web! And auto-refresh them in time periods you want - use 'Open from the web' </li>
+<li>You can acquire images from TWAIN-compliant devices now </li>
+<li>Most dialogs are not modal now (can be used together with main Imager window) </li>
+<li>Now Imager have standard Windows menu (I made this, because pop-up menu became really huge) </li>
+<li>Image pop-up menu is very simple now </li>
+<li>Main menu are now in Microsoft Office97/2000 style - can be docked and undocked </li>
+<li>Toolbar added (it can be docked anywhere you want). To show/hide toolbars use their pop-up menu </li>
+<li>All sizing/positioning routines has been completely rewritten (hope it's not so buggy now) </li>
+<li>If you decided not to open an image and closed "Open image..." dialog before selection was made then Imager will display default image path and "Close" menu item made available. FIXED </li>
+<li>New graphic formats supported: </li>
+<li>Animated GIFs (*.gif), TIFF images (*.tif; *.tiff) - uncompressed and LZW compressed, SGI black &amp; white images (*.bw), SGI RGB images (*.rgb), Autodesk CEL files (*.cel), Autodesk PIC files (*.pic), Truevision images (*.tga; *.vst; *.icb; *.vda; *.win) - uncompressed and RLE compressed.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.6</strong> 
+<ul>
+<li>Better 'recent images' handling and 'window position' handling </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.5</strong> 
+<ul>
+<li>Now you can print your images directly from Imager:</li>
+<li>'Print' - prints your images (or [Ctrl] + [P]) <br />
+'Printer Setup' - changes settings of printer </li>
+<li>New keyboard shortcuts (old do not available any more): <br />
+[UP] - Scroll Up <br />
+[DOWN] - Scroll Down <br />
+[LEFT] - Scroll Left <br />
+[RIGHT] - Scroll Right <br />
+[F11] - Go FullScreen <br />
+[SPACE] - AutoSize New "paging" keys <br />
+[PAGE UP] - Page Up <br />
+[PAGE DOWN] - Page Down <br />
+[DELETE] - Page Left <br />
+[END] - Page Right </li>
+<li>Fixed scrollbars and recent files issues </li>
+<li>Fixed default image centering in FullScreen mode </li>
+<li>Some changes in pop-up menu (re-arranged) </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.4</strong> 
+<ul>
+<li>Now you can work with ClipBoard (copy and paste) using Imager </li>
+<li>You can save any image to BMP inside Imager </li>
+<li>Imager now exits if [Esc] button pressed (it can be turned off in 'Settings') </li>
+<li>Imager can display image size in it's window title (can be turned on in 'Settings') </li>
+<li>Default settings are changed in this release ('window position saving' and 'image size in window title' are disabled) </li>
+<li>Imager now shows last modification date of the file </li>
+<li>New keyboard shortcuts: <br />
+[PAGE UP] - Scroll Up <br />
+[PAGE DOWN] - Scroll Down <br />
+[DELETE] - Scroll Left <br />
+[END] - Scroll Right <br />
+[INSERT] - Go FullScreen <br />
+[HOME] - AutoSize </li>
+<li>No more errors if 'sample.gif' file is deleted </li>
+<li>Special distribution with installer </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.3</strong> 
+<ul>
+<li>PCX Support Removed - Too buggy (that was a 3rd party module) </li>
+<li>Imager now won't change it's size when exiting </li>
+<li>Added "Recent files" system (you can open your last 4 opened files from special menu item) </li>
+<li>Drag'n'drop support (you can drag files from Windows programs right to Imager window) </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.2</strong> 
+<ul>
+<li>All routines in Imager have been completely rewrited (more stability added) </li>
+<li>"Lock" mode removed from program </li>
+<li>"Full Screen" mode emproved (with black background, image centering and more) </li>
+<li>Added PCX format support </li>
+<li>Now you can configure Imager settings from special "setting" window </li>
+<li>New "autosize" feature for image window </li>
+<li>All credits, license, this file are now in separate files </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0.1</strong> 
+<ul>
+<li>Now Imager correctly works when launched from root directory</li>
+<li>Scrollbars not flat now, hope you'll like the new look </li>
+<li>Now Imager correctly shows image path of default image </li>
+<li>Imager 1.01 supports files from command-line (so you can drop file on Image icon and associate it with file formats) </li>
+</ul>
+
+<p>&nbsp;</p>
+
+Futuris Imager <strong>1.0</strong> (24 November 1999) 
+<ul>
+<li>Initial release.</li>
+</ul>
