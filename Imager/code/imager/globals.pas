@@ -8,7 +8,7 @@ uses
   c_const, c_reg;
 
 type
-	TDoPrint = function(app: THandle; img: hBitmap; filename: PChar; fast: boolean):integer; stdcall;
+	TDoPrint = function(app: THandle; img: hBitmap; filename: PChar; fast: boolean):integer; cdecl;
 
 	TFileTypes = (ftNone, ftLocal, ftUnsaved);
 	TImageTypes = (itNone, itNormal, itAnimated, itMulti);
@@ -19,6 +19,9 @@ type
 var
 	files: TStringList;
 	reg: TFuturisRegistry;
+  	path_app: string = '';
+  	path_profile: string = '';
+  	path_tmp: string = '';
 
 const
     is_beta: boolean = false; // do not forget to set this to false for release versions

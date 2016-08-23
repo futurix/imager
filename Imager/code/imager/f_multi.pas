@@ -47,7 +47,7 @@ begin
 
 	// loading dll and settings
 	reg.OpenKey(sModules + '\Multi', true);
-	infMulti.lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(ExtractExt(path), '')));
+	infMulti.lib := LoadLibrary(PChar(reg.RStr(ExtractExt(path), '')));
 	reg.CloseKey();
 
 	if (infMulti.lib <> 0) then

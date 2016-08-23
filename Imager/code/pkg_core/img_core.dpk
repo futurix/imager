@@ -23,7 +23,7 @@ package img_core;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Futurix Core (custom build for Futuris Imager)'}
+{$DESCRIPTION 'Futuris Imager Core'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
 

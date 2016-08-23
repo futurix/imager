@@ -10,7 +10,7 @@ object frmNew: TfrmNew
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
@@ -31,14 +31,14 @@ object frmNew: TfrmNew
     object lblWidth: TLabel
       Left = 12
       Top = 14
-      Width = 31
+      Width = 32
       Height = 13
       Caption = 'Width:'
     end
     object lblHeight: TLabel
       Left = 88
       Top = 14
-      Width = 34
+      Width = 35
       Height = 13
       Caption = 'Height:'
     end

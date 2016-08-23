@@ -34,8 +34,8 @@ var
   image: TBitmap;
   reg: TFuturisRegistry;
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
-function FImport(info: PChar; app, wnd: THandle):hBitmap; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
+function FImport(info: PChar; app, wnd: THandle):hBitmap; cdecl;
 
 implementation
 

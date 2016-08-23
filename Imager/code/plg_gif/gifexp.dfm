@@ -1,6 +1,6 @@
 object frmGIFExport: TfrmGIFExport
   Left = 190
-  Top = 105
+  Top = 79
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'GIF Export'
@@ -10,7 +10,7 @@ object frmGIFExport: TfrmGIFExport
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter

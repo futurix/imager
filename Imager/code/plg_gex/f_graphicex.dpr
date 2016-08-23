@@ -6,7 +6,7 @@ uses
 
 {$R *.res}
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 	func(PT_FOPEN, 'eps', 'Encapsulated PostScript - thumbnail only (*.eps)');
 	func(PT_FOPEN, 'sgi', 'SGI Image (*.sgi)');
@@ -22,7 +22,7 @@ begin
 	Result := true;
 end;
 
-function FOpen(path,ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path,ext: PChar; app: THandle):hBitmap; cdecl;
 var
 	bmp: TBitmap;
 	sgi: TSGIGraphic;

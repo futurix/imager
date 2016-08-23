@@ -10,7 +10,7 @@ object frmSetup: TfrmSetup
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
@@ -160,7 +160,7 @@ object frmSetup: TfrmSetup
       object lblExtensions: TLabel
         Left = 10
         Top = 10
-        Width = 54
+        Width = 56
         Height = 13
         Caption = 'Extensions:'
       end
@@ -275,8 +275,8 @@ object frmSetup: TfrmSetup
       ImageIndex = 3
       object lblRestoreWinIconViewer: TLabel
         Left = 10
-        Top = 40
-        Width = 176
+        Top = 60
+        Width = 178
         Height = 13
         Cursor = crHandPoint
         Caption = 'Restore Windows default icon viewer'
@@ -284,7 +284,7 @@ object frmSetup: TfrmSetup
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
         Font.Height = -11
-        Font.Name = 'MS Shell Dlg'
+        Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsUnderline]
         ParentColor = False
         ParentFont = False
@@ -293,15 +293,15 @@ object frmSetup: TfrmSetup
       end
       object lblChangeFormatsDescription: TLabel
         Left = 10
-        Top = 60
-        Width = 213
+        Top = 80
+        Width = 222
         Height = 13
         Cursor = crHandPoint
         Caption = 'Change Futuris Imager file formats description'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
         Font.Height = -11
-        Font.Name = 'MS Shell Dlg'
+        Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsUnderline]
         ParentFont = False
         Transparent = True
@@ -309,15 +309,15 @@ object frmSetup: TfrmSetup
       end
       object lblClearMRU: TLabel
         Left = 10
-        Top = 90
-        Width = 93
+        Top = 110
+        Width = 97
         Height = 13
         Cursor = crHandPoint
         Caption = 'Clear recent files list'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
         Font.Height = -11
-        Font.Name = 'MS Shell Dlg'
+        Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsUnderline]
         ParentFont = False
         Transparent = True
@@ -326,18 +326,34 @@ object frmSetup: TfrmSetup
       object lblScanForNewPlugins: TLabel
         Left = 10
         Top = 10
-        Width = 156
+        Width = 159
         Height = 13
         Cursor = crHandPoint
         Caption = 'Scan for new or updated plug-ins'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
         Font.Height = -11
-        Font.Name = 'MS Shell Dlg'
+        Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsUnderline]
         ParentFont = False
         Transparent = True
         OnClick = lblScanForNewPluginsClick
+      end
+      object lblOpenCustomPluginsFolder: TLabel
+        Left = 10
+        Top = 30
+        Width = 134
+        Height = 13
+        Cursor = crHandPoint
+        Caption = 'Open custom plug-ins folder'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clHotLight
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = [fsUnderline]
+        ParentFont = False
+        Transparent = True
+        OnClick = lblOpenCustomPluginsFolderClick
       end
     end
   end

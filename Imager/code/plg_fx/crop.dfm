@@ -1,6 +1,6 @@
 object frmCrop: TfrmCrop
   Left = 190
-  Top = 105
+  Top = 79
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'Crop Image'
@@ -10,7 +10,7 @@ object frmCrop: TfrmCrop
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
@@ -20,14 +20,14 @@ object frmCrop: TfrmCrop
   object lblTop: TLabel
     Left = 8
     Top = 3
-    Width = 19
+    Width = 18
     Height = 13
     Caption = 'Top'
   end
   object lblLeft: TLabel
     Left = 80
     Top = 3
-    Width = 18
+    Width = 19
     Height = 13
     Caption = 'Left'
   end
@@ -41,7 +41,7 @@ object frmCrop: TfrmCrop
   object lblBottom: TLabel
     Left = 224
     Top = 3
-    Width = 33
+    Width = 34
     Height = 13
     Caption = 'Bottom'
   end
@@ -66,7 +66,7 @@ object frmCrop: TfrmCrop
   end
   object edtTop: TEdit
     Left = 7
-    Top = 16
+    Top = 17
     Width = 50
     Height = 21
     TabOrder = 2
@@ -74,7 +74,7 @@ object frmCrop: TfrmCrop
   end
   object edtBottom: TEdit
     Left = 225
-    Top = 16
+    Top = 17
     Width = 50
     Height = 21
     TabOrder = 3
@@ -82,7 +82,7 @@ object frmCrop: TfrmCrop
   end
   object edtRight: TEdit
     Left = 152
-    Top = 16
+    Top = 17
     Width = 50
     Height = 21
     TabOrder = 4
@@ -90,7 +90,7 @@ object frmCrop: TfrmCrop
   end
   object edtLeft: TEdit
     Left = 81
-    Top = 16
+    Top = 17
     Width = 50
     Height = 21
     TabOrder = 5
@@ -98,7 +98,7 @@ object frmCrop: TfrmCrop
   end
   object udTop: TUpDown
     Left = 57
-    Top = 16
+    Top = 17
     Width = 15
     Height = 21
     Associate = edtTop
@@ -108,7 +108,7 @@ object frmCrop: TfrmCrop
   end
   object udBottom: TUpDown
     Left = 275
-    Top = 16
+    Top = 17
     Width = 15
     Height = 21
     Associate = edtBottom
@@ -118,7 +118,7 @@ object frmCrop: TfrmCrop
   end
   object udRight: TUpDown
     Left = 202
-    Top = 16
+    Top = 17
     Width = 15
     Height = 21
     Associate = edtRight
@@ -128,7 +128,7 @@ object frmCrop: TfrmCrop
   end
   object udLeft: TUpDown
     Left = 131
-    Top = 16
+    Top = 17
     Width = 15
     Height = 21
     Associate = edtLeft

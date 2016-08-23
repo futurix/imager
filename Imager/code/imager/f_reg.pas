@@ -44,7 +44,7 @@ begin
 	reg.OpenKey('\FuturisImager', true);
 	reg.WriteString('', description);
 	reg.OpenKey('\FuturisImager\DefaultIcon', true);
-	reg.WriteString('', GetAppFolder() + 'imager.exe' + ',' + IntToStr(icon_num));
+	reg.WriteString('', path_app + 'imager.exe' + ',' + IntToStr(icon_num));
 	reg.OpenKey('\FuturisImager\Shell\Open', true);
 	reg.WriteString('', '&Open');
 	reg.OpenKey('\FuturisImager\Shell\Open\Command', true);
@@ -60,9 +60,10 @@ end;
 // writes folders info into Registry
 procedure PutRegDock();
 begin
-	reg.OpenKey(sReg + '\Paths', true);
-	reg.WriteString('Directory', GetAppFolder());
-	reg.WriteString('Executable', Application.ExeName);
+	reg.OpenKey(sReg, true);
+	reg.WriteString('FuturisImager', Application.ExeName);
+	reg.WriteString('InstallationPath', path_app);
+    reg.WriteString('ProfilePath', path_profile);
 	reg.CloseKey();
 end;
 

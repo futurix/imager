@@ -6,14 +6,14 @@ uses
 
 {$R *.res}
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 	func(PT_FOPEN, 'cur', 'Windows Cursor (*.cur)');
 
 	Result := true;
 end;
 
-function FOpen(path,ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path,ext: PChar; app: THandle):hBitmap; cdecl;
 var
 	bmp, tmp: TBitmap;
 	imh: THandle;

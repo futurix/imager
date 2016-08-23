@@ -10,7 +10,7 @@ object frmResize: TfrmResize
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
@@ -20,21 +20,21 @@ object frmResize: TfrmResize
   object lblHeight: TLabel
     Left = 142
     Top = 8
-    Width = 34
+    Width = 35
     Height = 13
     Caption = 'Height:'
   end
   object lblMethod: TLabel
     Left = 10
     Top = 71
-    Width = 73
+    Width = 74
     Height = 13
     Caption = 'Resize method:'
   end
   object lblWidth: TLabel
     Left = 10
     Top = 8
-    Width = 31
+    Width = 32
     Height = 13
     Caption = 'Width:'
   end

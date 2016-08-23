@@ -1,15 +1,24 @@
 library f_core;
 
 uses
-  SysUtils, Windows, Classes, Graphics, Forms, Dialogs,
-  ImageEnIO, ImageEnProc, hyieutils,
-  c_const, c_utils,
+  SysUtils,
+  Windows,
+  Classes,
+  Graphics,
+  Forms,
+  Dialogs,
+  ImageEnIO,
+  ImageEnProc,
+  hyieutils,
+  IEMView,
+  c_const,
+  c_utils,
   JPEG2Ksave in 'JPEG2Ksave.pas' {frmJPsave},
   TIFFsave in 'TIFFsave.pas' {frmTIFFsave},
   JPEGsave in 'JPEGsave.pas' {frmJPEGsave};
 
 var
-	mio: TImageEnIO;
+    mview: TImageEnMView;
     gframe: cardinal = 0;
     gframes: cardinal = 0;
     gfile: string = '';
@@ -23,7 +32,7 @@ var
 {$R *.RES}
 
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 	func(PT_FOPEN, 'jpg', 'Joint Photographic Experts Group (*.jpg)');
 	func(PT_FOPEN, 'jpeg', 'Joint Photographic Experts Group (*.jpeg)');
@@ -70,6 +79,9 @@ begin
 	func(PT_FSAVE, 'ppm', ' ');
 	func(PT_FSAVE, 'tga', ' ');
 	func(PT_FSAVE, 'tif', ' ');
+    func(PT_FSAVE, 'gif', ' ');
+    func(PT_FSAVE, 'pdf', 'Portable Document Format (*.pdf)');
+    func(PT_FSAVE, 'ps', 'PostScript (*.ps)');
 
     func(PT_FIMPORT, 'Get Image from Digital Camera or Scanner...', ' ');
 
@@ -82,7 +94,7 @@ begin
 	Result := true;
 end;
 
-function FOpen(path, ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path, ext: PChar; app: THandle):hBitmap; cdecl;
 var
 	bmp: TBitmap;
     io: TImageEnIO;
@@ -106,7 +118,7 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FSave(path, ext: PChar; app, wnd: THandle; img: hBitmap):integer; stdcall;
+function FSave(path, ext: PChar; app, wnd: THandle; img: hBitmap):integer; cdecl;
 var
 	bmp: TBitmap;
     mex: string;
@@ -263,6 +275,54 @@ begin
         FreeAndNil(io);
         end
 
+    else if (mex = 'gif') then
+    	begin
+        io := TImageEnIO.Create(nil);
+        io.IEBitmap.Assign(bmp);
+
+        io.SaveToFileGIF(String(path));
+
+        if not io.Aborting then
+        	Result := 1;
+
+        FreeAndNil(io);
+        end
+
+    else if (mex = 'pdf') then
+    	begin
+        io := TImageEnIO.Create(nil);
+
+        io.CreatePDFFile(String(path));
+
+		io.IEBitmap.Assign(bmp);
+        io.Params.PDF_Producer := sAppName;
+		io.Params.PDF_Compression:= ioPDF_JPEG;
+		io.SaveToPDF();
+
+		io.ClosePDFFile();
+
+        Result := 0; 	// loading of PDFs is not supported
+
+        FreeAndNil(io);
+        end
+
+    else if (mex = 'ps') then
+    	begin
+        io := TImageEnIO.Create(nil);
+
+        io.CreatePSFile(String(path));
+
+		io.IEBitmap.Assign(bmp);
+        io.Params.PS_Compression := ioPS_JPEG;
+		io.SaveToPS();
+
+		io.ClosePSFile();
+
+        Result := 0; 	// loading of PostScript is not supported
+
+        FreeAndNil(io);
+        end
+
     else if (mex = 'tif') then
     	begin
         frmTIFFsave := TfrmTIFFsave.Create(nil);
@@ -324,48 +384,45 @@ begin
 	FreeAndNil(bmp);
 end;
 
-function FAnimStart(filename, ext: PChar; app: THandle):integer; stdcall;
+function FAnimStart(filename, ext: PChar; app: THandle):integer; cdecl;
 begin
 	Result := 1;
     gframe := 0;
 
-	// initializing
-    mio := TImageEnIO.Create(nil);
-    gframes := mio.LoadFromFileGIF(String(filename));
+    mview := TImageEnMView.Create(nil);
+    mview.DisplayMode := mdSingle;
+    mview.MIO.LoadFromFileGIF(String(filename));
+
+    gframes := mview.MIO.ParamsCount;
     gfile := String(filename);
 
-    if (mio.Aborting or (gframes < 2)) then
-        Result := 0;
+    if (mview.MIO.Aborting or (gframes < 2)) then
+    	Result := 0;
 end;
 
-function FAnimRestart():integer; stdcall;
+function FAnimRestart():integer; cdecl;
 begin
 	gframe := 0;
 	Result := 1;
 end;
 
-function FAnimGetFrame(var img: hBitmap; var delay: integer):integer; stdcall;
+function FAnimGetFrame(var img: hBitmap; var delay: integer):integer; cdecl;
 var
 	bmp: TBitmap;
 begin
     Result := 1;
 
-	mio.Params.GIF_ImageIndex := gframe;
-    mio.LoadFromFileGIF(gfile);
-
-    // getting bitmap
     bmp := TBitmap.Create();
-    bmp.Assign(mio.IEBitmap.VclBitmap);
+    mview.SelectedImage := gframe;
+    bmp.Assign(mview.Bitmap);
     bmp.PixelFormat := pf24bit;
     img := bmp.ReleaseHandle();
+    delay := mview.MIO.Params[gframe].GIF_DelayTime*10;
     FreeAndNil(bmp);
 
-    // getting delay
-    delay := mio.Params.GIF_DelayTime*10;
+    if (delay < 10) then
+		delay := 10;
 
-    if (delay < 50) then
-		delay := 50;
-        
     // increasing
 	gframe := gframe + 1;
 
@@ -374,13 +431,13 @@ begin
 		gframe := 0;
 end;
 
-function FAnimStop():integer; stdcall;
+function FAnimStop():integer; cdecl;
 begin
-	Result := 1;
-	FreeAndNil(mio);
+    Result := 1;
+    FreeAndNil(mview);
 end;
 
-function FMultiStart(filename, ext: PChar; app: THandle):integer; stdcall;
+function FMultiStart(filename, ext: PChar; app: THandle):integer; cdecl;
 begin
     gpage := 0;
     iegEnableCMS := true;
@@ -409,7 +466,7 @@ begin
         end;
 end;
 
-function FMultiGetPage(index: integer):hBitmap; stdcall;
+function FMultiGetPage(index: integer):hBitmap; cdecl;
 var
 	bmp: TBitmap;
 begin
@@ -438,13 +495,13 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FMultiStop():integer; stdcall;
+function FMultiStop():integer; cdecl;
 begin
 	Result := 1;
     FreeAndNil(pio);
 end;
 
-function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: HBITMAP):HBITMAP; stdcall;
+function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: HBITMAP):HBITMAP; cdecl;
 var
 	bmp: TBitmap;
     proc: TImageEnProc;
@@ -471,7 +528,7 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FImport(info: PChar; app, wnd: THandle):hBitmap; stdcall;
+function FImport(info: PChar; app, wnd: THandle):hBitmap; cdecl;
 var
 	bmp: TBitmap;
     io: TImageEnIO;
@@ -496,7 +553,7 @@ begin
     	end;
 end;
 
-function FTool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
+function FTool(info, path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; cdecl;
 var
 	tmp, new: string;
 	html: TStringList;
@@ -506,49 +563,53 @@ begin
 	tmp := String(path);
 	Result := 0;
 
-	if (tmp <> '') then
-  		begin
-  		if (MessageBox(wnd, 'Would you like to create HTML file for current image ?', 'Futuris Imager', MB_YESNO + MB_ICONQUESTION) = ID_YES) then
-    		begin
-    		// creating html
-    		bmp := TBitmap.Create();
-    		bmp.Handle := img;
-    		wdth := bmp.Width;
-    		hght := bmp.Height;
-    		FreeAndNil(bmp);
+    if (String(info) = 'Create HTML for Image...') then
+    	begin
+        // HTML generator
+		if (tmp <> '') then
+  			begin
+  			if (MessageBox(wnd, 'Would you like to create HTML wrapper for current image ?', 'Futuris Imager', MB_YESNO + MB_ICONQUESTION) = ID_YES) then
+    			begin
+    			// creating html
+    			bmp := TBitmap.Create();
+    			bmp.Handle := img;
+    			wdth := bmp.Width;
+    			hght := bmp.Height;
+    			FreeAndNil(bmp);
 
-    		new := ChangeFileExt(tmp, '.html');
+    			new := ChangeFileExt(tmp, '.html');
 
-    		html := TStringList.Create();
-    		html.Add('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">');
-    		html.Add('<html>');
-    		html.Add('<head>');
-    		html.Add('<title>' + ExtractFileName(tmp) + '</title>');
-    		html.Add('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">');
-    		html.Add('</head>');
-    		html.Add('');
-    		html.Add('<body bgcolor="#FFFFFF" text="#000000">');
-    		html.Add('<img src="' + ExtractFileName(tmp) + '" alt="" width="' + IntToStr(wdth) + '" height="' + IntToStr(hght) + '">');
-    		html.Add('</body>');
-    		html.Add('</html>');
+    			html := TStringList.Create();
+    			html.Add('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">');
+    			html.Add('<html>');
+    			html.Add('<head>');
+    			html.Add('<title>' + ExtractFileName(tmp) + '</title>');
+    			html.Add('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">');
+    			html.Add('</head>');
+    			html.Add('');
+    			html.Add('<body bgcolor="#FFFFFF" text="#000000">');
+    			html.Add('<img src="' + ExtractFileName(tmp) + '" alt="" width="' + IntToStr(wdth) + '" height="' + IntToStr(hght) + '">');
+    			html.Add('</body>');
+    			html.Add('</html>');
 
-    		try
-      			html.SaveToFile(new);
-            except
-      			MessageBox(wnd, 'Error while saving resulting HTML file!', 'Error!', MB_OK + MB_ICONERROR);
-      			FreeAndNil(html);
-      			Exit;
-      		end;
+    			try
+      				html.SaveToFile(new);
+            	except
+      				MessageBox(wnd, 'Error while saving resulting HTML file!', 'Error!', MB_OK + MB_ICONERROR);
+      				FreeAndNil(html);
+      				Exit;
+      			end;
 
-    		FreeAndNil(html);
-    		MessageBox(wnd, PChar('HTML file created at: "' + new + '"'), 'Futuris Imager', MB_OK + MB_ICONINFORMATION);
-        	end;
-    	end
-	else
-  		begin
-  		// unsaved files
-  		MessageBox(wnd, 'This tool can work only with saved images.', 'Warning!', MB_OK + MB_ICONWARNING);
-  		end;
+    			FreeAndNil(html);
+    			MessageBox(wnd, PChar('HTML file created at: "' + new + '"'), 'Futuris Imager', MB_OK + MB_ICONINFORMATION);
+        		end;
+    		end
+		else
+  			begin
+  			// unsaved files
+  			MessageBox(wnd, 'This tool can work only with saved images.', 'Warning!', MB_OK + MB_ICONWARNING);
+  			end;
+    	end;
 end;
 
 exports

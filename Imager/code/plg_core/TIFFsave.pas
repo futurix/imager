@@ -22,7 +22,6 @@ type
     btnSave: TButton;
     tbrQuality: TTrackBar;
     lblQualityValue: TLabel;
-    bvlSep: TBevel;
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure tbrQualityChange(Sender: TObject);

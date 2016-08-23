@@ -12,7 +12,7 @@ object frmPrint: TfrmPrint
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   Icon.Data = {
     0000010001001010100000000000280100001600000028000000100000002000
@@ -97,7 +97,7 @@ object frmPrint: TfrmPrint
         OnClick = tbnPrintClick
       end
       object Sep_1: TToolButton
-        Left = 54
+        Left = 55
         Top = 0
         Width = 8
         Caption = 'Sep_1'
@@ -105,7 +105,7 @@ object frmPrint: TfrmPrint
         Style = tbsSeparator
       end
       object tbnZoom: TToolButton
-        Left = 62
+        Left = 63
         Top = 0
         Hint = 'Zoom'
         AutoSize = True

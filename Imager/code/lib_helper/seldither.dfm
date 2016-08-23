@@ -10,7 +10,7 @@ object frmDither: TfrmDither
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False

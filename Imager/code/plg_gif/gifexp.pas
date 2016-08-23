@@ -47,7 +47,7 @@ var
   frmGIFExport: TfrmGIFExport;
   bmp: TBitmap;
 
-function FExport(info: PChar; app, wnd: THandle; img: hBitmap):integer; stdcall;
+function FExport(info: PChar; app, wnd: THandle; img: hBitmap):integer; cdecl;
 
 implementation
 

@@ -22,7 +22,7 @@ type
 var
   frmSelectColor: TfrmSelectColor;
 
-function FHelpSelectColor(color: TColor; app, wnd: THandle):TColor; stdcall;
+function FHelpSelectColor(color: TColor; app, wnd: THandle):TColor; cdecl;
 
 implementation
 

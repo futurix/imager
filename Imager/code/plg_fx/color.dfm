@@ -10,7 +10,7 @@ object frmColor: TfrmColor
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
@@ -34,7 +34,7 @@ object frmColor: TfrmColor
   object lblGreen: TLabel
     Left = 6
     Top = 42
-    Width = 32
+    Width = 33
     Height = 13
     Caption = 'Green:'
   end

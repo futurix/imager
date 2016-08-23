@@ -11,7 +11,7 @@ object frmShow: TfrmShow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   FormStyle = fsStayOnTop
   KeyPreview = True
@@ -25,7 +25,7 @@ object frmShow: TfrmShow
   object lblTimer: TLabel
     Left = 143
     Top = 7
-    Width = 29
+    Width = 30
     Height = 13
     Caption = 'Timer:'
   end

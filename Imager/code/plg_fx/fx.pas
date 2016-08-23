@@ -33,8 +33,8 @@ var
   canceled: boolean = true;
   effect: string = 'Gaussian Blur';
 
-function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap; cdecl;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 
 implementation
 

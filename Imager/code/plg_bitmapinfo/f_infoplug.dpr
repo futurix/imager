@@ -490,7 +490,7 @@ begin
   setInfo('File Size (bytes)',PChar(s8));
 end;
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 func(PT_FINFO,'pcx',' ');
 func(PT_FINFO,'bmp',' ');
@@ -503,7 +503,7 @@ func(PT_FINFO,'gif',' ');
 Result:=true;
 end;
 
-function FInfo(path, ext: PChar; func: TDoubleCallBack; app, wnd: THandle):integer; stdcall;
+function FInfo(path, ext: PChar; func: TDoubleCallBack; app, wnd: THandle):integer; cdecl;
 var
   exten : string;
 begin

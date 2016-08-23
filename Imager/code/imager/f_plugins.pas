@@ -281,7 +281,7 @@ begin
 
 	try
   		reg.OpenKey(sModules + '\Filters', true);
-  		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(name, '')));
+  		lib := LoadLibrary(PChar(reg.RStr(name, '')));
   		reg.CloseKey();
 
   		if (lib = 0) then
@@ -337,7 +337,7 @@ begin
 
 	try
   		reg.OpenKey(sModules + '\Filters', true);
-  		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(name, '')));
+  		lib := LoadLibrary(PChar(reg.RStr(name, '')));
   		reg.CloseKey();
 
   		if (lib <> 0)then

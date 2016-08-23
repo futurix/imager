@@ -6,7 +6,7 @@ uses
 
 {$R *.RES}
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 	func(PT_FOPEN, 'wbmp', 'Wireless Bitmap (*.wbmp)');
 	func(PT_FOPEN, 'wbm', 'Wireless Bitmap (*.wbm)');
@@ -15,7 +15,7 @@ begin
 	Result := true;
 end;
 
-function FOpen(path,ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path,ext: PChar; app: THandle):hBitmap; cdecl;
 var
   bmp: TBitmap;
 begin
@@ -34,7 +34,7 @@ finally
 end;
 end;
 
-function FSave(path,ext: PChar; app, wnd: THandle; img: hBitmap):integer; stdcall;
+function FSave(path,ext: PChar; app, wnd: THandle; img: hBitmap):integer; cdecl;
 var
   bmp: TBitmap;
 begin

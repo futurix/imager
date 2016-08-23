@@ -48,7 +48,7 @@ begin
 
 	// loading dll and settings
 	reg.OpenKey(sModules + '\Anim', true);
-	infAnim.lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(ExtractExt(path), '')));
+	infAnim.lib := LoadLibrary(PChar(reg.RStr(ExtractExt(path), '')));
 	reg.CloseKey();
 
 	if infAnim.lib<>0 then

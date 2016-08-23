@@ -14,16 +14,10 @@ type
     pclInfo: TPageControl;
     shtGeneral: TTabSheet;
     shtEXIF: TTabSheet;
-    shtHistogram: TTabSheet;
-    boxHistogram: THistogramBox;
-    cbxRed: TCheckBox;
-    cbxGreen: TCheckBox;
-    cbxBlue: TCheckBox;
-    cbxGray: TCheckBox;
     imgThumb: TImageEnView;
     shtEXIFinfo: TTabSheet;
     lvwEXIF: TListView;
-    pnlPlaceholder: TPanel;
+    btnHistogram: TButton;
 
     procedure AddCommonInfo();
     procedure AddToList(name, value: string);
@@ -33,7 +27,7 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure cbxRedClick(Sender: TObject);
+    procedure btnHistogramClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,12 +40,12 @@ var
 function Log2(X: Extended): Extended;
 function Ceil(X: Extended): Integer;
 function IsInformed(ext: string):boolean;
-function GetInfo(name, value: PChar):BOOL; stdcall;
+function GetInfo(name, value: PChar):BOOL; cdecl;
 
 
 implementation
 
-uses main, globals, f_filectrl, f_tools;
+uses main, globals, f_filectrl, f_tools, w_hist;
 
 {$R *.DFM}
 
@@ -168,7 +162,7 @@ begin
 	if IsInformed(ExtractExt(infImage.path)) then
   		begin
   		reg.OpenKey(sModules + '\Info', true);
-  		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(ExtractExt(infImage.path), '')));
+  		lib := LoadLibrary(PChar(reg.RStr(ExtractExt(infImage.path), '')));
   		reg.CloseKey();
 
   		if (lib <> 0) then
@@ -185,9 +179,6 @@ begin
   		end
 	else
   		AddCommonInfo();
-
-    // setting histogram
-    boxHistogram.AttachedImageEnProc := frmMain.img.Proc;
 
     // adding EXIF and IPTC information (if applicable)
     if ((infImage.file_type = ftLocal) and (FileExists(infImage.path))) then
@@ -419,24 +410,13 @@ begin
   		Self.Close();
 end;
 
-procedure TfrmInfo.cbxRedClick(Sender: TObject);
+procedure TfrmInfo.btnHistogramClick(Sender: TObject);
 begin
-	if cbxRed.Checked then
-        boxHistogram.HistogramKind := boxHistogram.HistogramKind + [hkRed]
-    else
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind - [hkRed];
-	if cbxGreen.Checked then
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind + [hkGreen]
-    else
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind - [hkGreen];
-	if cbxBlue.Checked then
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind + [hkBlue]
-    else
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind - [hkBlue];
-	if cbxGray.Checked then
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind + [hkGray]
-    else
-    	boxHistogram.HistogramKind := boxHistogram.HistogramKind - [hkGray];
+	if not Assigned(frmHist) then
+  		begin
+  		Application.CreateForm(TfrmHist, frmHist);
+		frmHist.ShowModal();
+  		end;
 end;
 
 end.

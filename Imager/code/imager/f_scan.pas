@@ -12,52 +12,33 @@ var
 
 procedure DoScan();
 procedure ProcessLib(filename: string);
-function  SortData(module_type: integer; value1, value2: PChar):BOOL; stdcall;
+function  SortData(module_type: integer; value1, value2: PChar):BOOL; cdecl;
 procedure WriteData(key, value1: string; value2: string = ' ');
+procedure WriteLocale(name: string);
+procedure WriteTheme(name: string);
 
 
 implementation
 
-uses globals, main, f_tools;
+uses globals, main, f_tools, ComObj;
 
 procedure DoScan();
-var
-	current_folder: string;
 begin
 	// recreating registry keys
-	reg.OpenKey(sModules,true);
+    RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, sModules);
 
-	reg.DeleteKey('Open');
-	reg.DeleteKey('Save');
-	reg.DeleteKey('Import');
-	reg.DeleteKey('Export');
-	reg.DeleteKey('Filters');
-	reg.DeleteKey('Tools');
-	reg.DeleteKey('Descr');
-	reg.DeleteKey('Multi');
-	reg.DeleteKey('Anim');
-	reg.DeleteKey('Info');
-
-	reg.CreateKey('Open');
-	reg.CreateKey('Save');
-	reg.CreateKey('Import');
-	reg.CreateKey('Export');
-	reg.CreateKey('Filters');
-	reg.CreateKey('Tools');
-	reg.CreateKey('Descr');
-	reg.CreateKey('Multi');
-	reg.CreateKey('Anim');
-	reg.CreateKey('Info');
-
-	reg.CloseKey();
-
-	// looping through locations
-	current_folder := NoSlash(GetAppFolder());
-
-	if DirExists(current_folder) then
+	// going through locations
+	if DirExists(path_app) then
   		begin
-  		mod_folder := current_folder;
-  		ScanFolderRecF(current_folder, '*.dll', @ProcessLib);
+  		mod_folder := NoSlash(path_app);
+  		ScanFolderRecF(NoSlash(path_app), '*.dll', @ProcessLib);
+  		mod_folder := '';
+  		end;
+
+	if DirExists(path_profile) then
+  		begin
+  		mod_folder := NoSlash(path_profile);
+  		ScanFolderRecF(NoSlash(path_profile), '*.dll', @ProcessLib);
   		mod_folder := '';
   		end;
 end;
@@ -66,19 +47,38 @@ procedure ProcessLib(filename: string);
 var
 	lib: THandle;
 	supp: TFQuery;
+    tmp: string;
 begin
 	lib := LoadLibrary(PChar(filename));
 
     if (lib <> 0) then
   		begin
-  		if (GetProcAddress(lib, 'FQuery') <> nil) then
+        current_dll := filename;
+
+        if (LoadResString(lib, 1) = sLocaleID) then
+        	begin
+            // library is compatible locale
+            tmp := LoadResString(lib, 2);
+
+            if (Trim(tmp) <> '') then
+                WriteLocale(tmp);
+            end
+        else if (LoadResString(lib, 3) = sThemeID) then
+        	begin
+            // library is compatible theme
+            tmp := LoadResString(lib, 4);
+
+            if (Trim(tmp) <> '') then
+                WriteTheme(tmp);
+            end
+        else if (GetProcAddress(lib, 'FQuery') <> nil) then
     		begin
-    		current_dll := filename;
+            // library is compatible plug-in
     		@supp := GetProcAddress(lib, 'FQuery');
     		supp(PChar(current_dll), SortData, HInstance);
-    		current_dll := '';
     		end;
 
+        current_dll := '';
   		FreeLibrary(lib);
   		end;
 end;
@@ -106,7 +106,7 @@ end;
 procedure WriteData(key, value1: string; value2: string = ' ');
 begin
 	reg.OpenKey(sModules + '\' + key, true);
-    reg.WString(value1, ExtractFileName(current_dll));
+    reg.WString(value1, current_dll);
     reg.CloseKey();
 
     if ((Trim(value2) <> '') and (value2 <> '')) then
@@ -115,6 +115,20 @@ begin
         reg.WString(value1, value2);
         reg.CloseKey();
         end;
+end;
+
+procedure WriteLocale(name: string);
+begin
+	reg.OpenKey(sModules + '\Locales', true);
+    reg.WString(name, current_dll);
+    reg.CloseKey();
+end;
+
+procedure WriteTheme(name: string);
+begin
+	reg.OpenKey(sModules + '\Themes', true);
+    reg.WString(name, current_dll);
+    reg.CloseKey();
 end;
 
 end.

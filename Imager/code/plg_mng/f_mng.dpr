@@ -834,7 +834,7 @@ end;
 {**                                                                        **}
 {****************************************************************************}
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
 func(PT_FOPEN,'mng','Multiple-image Network Graphics (*.mng)');
 func(PT_FOPEN,'jng','JPEG Network Graphics (*.jng)');
@@ -846,7 +846,7 @@ end;
 
 {****************************************************************************}
 
-function FOpen (path, ext : PChar; app : THandle) : hBitmap; stdcall;
+function FOpen (path, ext : PChar; app : THandle) : hBitmap; cdecl;
 begin
   OFBitmap := TBitmap.Create;
 
@@ -871,7 +871,7 @@ end;
 
 {****************************************************************************}
 
-function FAnimStart (filename, ext : PChar; app : THandle) : integer; stdcall;
+function FAnimStart (filename, ext : PChar; app : THandle) : integer; cdecl;
 begin
   OFBitmap   := TBitmap.Create;
   SFFileName := filename;
@@ -890,7 +890,7 @@ end;
 
 {****************************************************************************}
 
-function FAnimRestart () : integer; stdcall;
+function FAnimRestart () : integer; cdecl;
 begin
   BFFirst := true;
   BFLast  := false;
@@ -905,7 +905,7 @@ end;
 
 {****************************************************************************}
 
-function FAnimGetFrame (var img : hBitmap; var delay : integer) : integer; stdcall;
+function FAnimGetFrame (var img : hBitmap; var delay : integer) : integer; cdecl;
 
 var OHBitmap : TBitmap;
 
@@ -941,7 +941,7 @@ end;
 
 {****************************************************************************}
 
-function FAnimStop () : integer; stdcall;
+function FAnimStop () : integer; cdecl;
 begin
   CleanupXNG;
 

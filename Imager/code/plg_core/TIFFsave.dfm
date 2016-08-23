@@ -4,13 +4,13 @@ object frmTIFFsave: TfrmTIFFsave
   ActiveControl = btnSave
   BorderStyle = bsDialog
   Caption = 'Save As TIFF'
-  ClientHeight = 196
-  ClientWidth = 408
+  ClientHeight = 217
+  ClientWidth = 274
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
@@ -18,17 +18,11 @@ object frmTIFFsave: TfrmTIFFsave
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object bvlSep: TBevel
-    Left = 7
-    Top = 155
-    Width = 394
-    Height = 2
-  end
   object gbxCompression: TGroupBox
     Left = 7
     Top = 7
-    Width = 394
-    Height = 85
+    Width = 259
+    Height = 105
     Caption = ' Compression '
     TabOrder = 0
     object rbnCNone: TRadioButton
@@ -50,8 +44,8 @@ object frmTIFFsave: TfrmTIFFsave
       TabStop = True
     end
     object rbnCJPEG: TRadioButton
-      Left = 260
-      Top = 17
+      Left = 10
+      Top = 37
       Width = 120
       Height = 17
       Caption = 'JPEG'
@@ -59,7 +53,7 @@ object frmTIFFsave: TfrmTIFFsave
     end
     object rbnCZLib: TRadioButton
       Left = 10
-      Top = 37
+      Top = 57
       Width = 120
       Height = 17
       Caption = 'CCITT (Huffman)'
@@ -74,7 +68,7 @@ object frmTIFFsave: TfrmTIFFsave
       TabOrder = 4
     end
     object rbnCG31: TRadioButton
-      Left = 10
+      Left = 135
       Top = 57
       Width = 120
       Height = 17
@@ -82,16 +76,16 @@ object frmTIFFsave: TfrmTIFFsave
       TabOrder = 5
     end
     object rbnCG32: TRadioButton
-      Left = 135
-      Top = 57
+      Left = 10
+      Top = 77
       Width = 120
       Height = 17
       Caption = 'CCITT G3, 2D'
       TabOrder = 6
     end
     object rbnCG4: TRadioButton
-      Left = 260
-      Top = 57
+      Left = 135
+      Top = 77
       Width = 120
       Height = 17
       Caption = 'CCITT G4, 2D'
@@ -100,13 +94,13 @@ object frmTIFFsave: TfrmTIFFsave
   end
   object gbxJPEG: TGroupBox
     Left = 7
-    Top = 94
-    Width = 241
+    Top = 119
+    Width = 259
     Height = 57
     Caption = ' Compression Level (only for JPEG) '
     TabOrder = 1
     object lblQualityValue: TLabel
-      Left = 209
+      Left = 220
       Top = 18
       Width = 12
       Height = 13
@@ -128,8 +122,8 @@ object frmTIFFsave: TfrmTIFFsave
     end
   end
   object btnCancel: TButton
-    Left = 326
-    Top = 161
+    Left = 191
+    Top = 183
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -137,8 +131,8 @@ object frmTIFFsave: TfrmTIFFsave
     OnClick = btnCancelClick
   end
   object btnSave: TButton
-    Left = 247
-    Top = 161
+    Left = 112
+    Top = 183
     Width = 75
     Height = 25
     Caption = 'Save'

@@ -10,7 +10,7 @@ object frmBrightness: TfrmBrightness
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   OldCreateOrder = False
   Position = poOwnerFormCenter
@@ -19,7 +19,7 @@ object frmBrightness: TfrmBrightness
   object lblOriginal: TLabel
     Left = 5
     Top = 290
-    Width = 35
+    Width = 36
     Height = 13
     Caption = 'Original'
     Transparent = True

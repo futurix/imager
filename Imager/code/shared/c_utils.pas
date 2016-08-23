@@ -4,7 +4,7 @@ unit c_utils;
 interface
 
 uses
-  Windows, SysUtils, Classes,
+  Windows, SysUtils, Classes, UxTheme, ShlObj, ActiveX,
   c_const;
   
 // search functions
@@ -36,6 +36,11 @@ procedure StrSplitI(s: string; sep: string; const list: TStrings);
 
 // system functions
 function  IsXP(): boolean;
+function  IsThemed(): boolean;
+function  GetShellFolderPath(const FolderID: Integer): string;
+
+// resource functions
+function  LoadResString(inst: cardinal; id: integer): string;
 
 
 implementation
@@ -283,11 +288,58 @@ if (list<>nil) then
 else Abort();
 end;
 
+// returns true if application is currently themed
+function IsThemed(): boolean;
+begin
+	Result := (IsXP() and UxTheme.UseThemes());
+end;
+
+// returns special shell folders paths
+function GetShellFolderPath(const FolderID: Integer): string;
+var
+	pidl: PItemIDList;
+	Buffer: array[0..MAX_PATH-1] of Char;
+	Malloc: IMalloc;
+begin
+	Result := '';
+
+	if FAILED(SHGetMalloc(Malloc)) then
+    	Malloc := nil;
+
+  	if SUCCEEDED(SHGetSpecialFolderLocation(0, FolderID, pidl)) then
+    	begin
+    	if SHGetPathFromIDList(pidl, Buffer) then
+      		Result := Buffer;
+    	if Assigned(Malloc) then
+      		Malloc.Free(pidl);
+  		end;
+end;
+
 // returns true if WindowsXP (or newer OS) installed
 function IsXP():boolean;
 begin
 	Result := (	(Win32Platform = VER_PLATFORM_WIN32_NT) and
     			((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))));
+end;
+
+// loads resource string from custom library
+function LoadResString(inst: cardinal; id: integer): string;
+const
+	MAX_RES_STRING_SIZE = 4097;
+var
+    fnc: integer;
+    buf: array[0..MAX_RES_STRING_SIZE] of char;
+begin
+    // default result is empty
+    Result := '';
+
+    if (inst <> 0) then
+    	begin
+    	fnc := LoadString(inst, id, buf, sizeof(buf));
+
+        if (fnc > 0) then
+        	Result := buf;
+        end;
 end;
 
 end.

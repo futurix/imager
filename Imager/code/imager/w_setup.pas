@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, ColorPickerButton,
-  CheckLst, c_const, c_utils;
+  CheckLst, ShellAPI, c_const, c_utils;
 
 type
   TfrmSetup = class(TForm)
@@ -45,6 +45,7 @@ type
     lblChangeFormatsDescription: TLabel;
     lblClearMRU: TLabel;
     lblScanForNewPlugins: TLabel;
+    lblOpenCustomPluginsFolder: TLabel;
 
     procedure LoadSettings();
     procedure SaveSettings();
@@ -81,6 +82,7 @@ type
     procedure lblChangeFormatsDescriptionClick(Sender: TObject);
     procedure lblScanForNewPluginsClick(Sender: TObject);
     procedure lblClearMRUClick(Sender: TObject);
+    procedure lblOpenCustomPluginsFolderClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -589,6 +591,11 @@ end;
 procedure TfrmSetup.lblClearMRUClick(Sender: TObject);
 begin
     frmMain.MRU.Files.Clear();
+end;
+
+procedure TfrmSetup.lblOpenCustomPluginsFolderClick(Sender: TObject);
+begin
+	ShellExecute(Application.Handle, 'open', PChar(path_profile), nil, nil, SW_SHOWNORMAL);
 end;
 
 end.

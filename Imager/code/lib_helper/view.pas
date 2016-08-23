@@ -56,7 +56,7 @@ type
     { Public declarations }
   end;
 
-function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; stdcall;
+function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; cdecl;
 
 var
   frmPrint: TfrmPrint;

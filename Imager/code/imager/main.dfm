@@ -9,7 +9,7 @@ object frmMain: TfrmMain
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   Menu = mnuMain
@@ -46,7 +46,7 @@ object frmMain: TfrmMain
       LegacyBitmap = False
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
-      ImageEnVersion = '2.1.9_beta'
+      ImageEnVersion = '2.1.9'
       FlatScrollBars = True
       Align = alClient
       PopupMenu = popMain
@@ -798,21 +798,25 @@ object frmMain: TfrmMain
       object miFCopy: TMenuItem
         Caption = 'Copy File'
         Hint = 'Copy current file'
+        ShortCut = 16468
         OnClick = miFCopyClick
       end
       object miFDelete: TMenuItem
         Caption = 'Delete File'
         Hint = 'Delete current file'
+        ShortCut = 46
         OnClick = miFDeleteClick
       end
       object miFMove: TMenuItem
         Caption = 'Move File'
         Hint = 'Move current file'
+        ShortCut = 16461
         OnClick = miFMoveClick
       end
       object miFRename: TMenuItem
         Caption = 'Rename File'
         Hint = 'Rename current file'
+        ShortCut = 16473
         OnClick = miFRenameClick
       end
     end

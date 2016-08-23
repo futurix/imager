@@ -10,7 +10,7 @@ object frmFltPreview: TfrmFltPreview
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
@@ -24,7 +24,7 @@ object frmFltPreview: TfrmFltPreview
   object lblFilters: TLabel
     Left = 452
     Top = 7
-    Width = 30
+    Width = 33
     Height = 13
     Caption = 'Filters:'
     Transparent = True
@@ -32,7 +32,7 @@ object frmFltPreview: TfrmFltPreview
   object lblPreview: TLabel
     Left = 7
     Top = 7
-    Width = 41
+    Width = 42
     Height = 13
     Caption = 'Preview:'
     Transparent = True
@@ -198,6 +198,7 @@ object frmFltPreview: TfrmFltPreview
       ScrollBars = ssNone
       MouseInteract = [miZoom, miScroll]
       EnableAlphaChannel = True
+      ImageEnVersion = '2.1.9'
       TabOrder = 0
     end
   end

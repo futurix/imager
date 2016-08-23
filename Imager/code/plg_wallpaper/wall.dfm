@@ -9,7 +9,7 @@ object frmWallpaper: TfrmWallpaper
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   Icon.Data = {
     0000010001001010100000000000280100001600000028000000100000002000
@@ -40,14 +40,14 @@ object frmWallpaper: TfrmWallpaper
     object lblCustom: TLabel
       Left = 7
       Top = 5
-      Width = 35
+      Width = 36
       Height = 13
       Caption = 'Custom'
     end
     object lblX: TLabel
       Left = 41
       Top = 23
-      Width = 7
+      Width = 6
       Height = 13
       Caption = 'X'
     end

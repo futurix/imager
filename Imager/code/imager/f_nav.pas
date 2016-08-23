@@ -8,7 +8,7 @@ uses
   c_const, c_utils;
 
 procedure ScanFolder(path: string);
-procedure FindCallback(filename: string); stdcall;
+procedure FindCallback(filename: string); cdecl;
 procedure GoPrev();
 procedure GoNext();
 procedure GoLast();

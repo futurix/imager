@@ -109,27 +109,27 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=2
+MinorVer=3
 Release=0
-Build=196
+Build=199
 Debug=0
 PreRelease=0
 Special=0
 Private=0
 DLL=1
-Locale=2057
+Locale=1033
 CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Advanced GIF Export Plug-in
-FileVersion=5.2.0.196
+FileVersion=5.3.0.199
 InternalName=plg_gif
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=f_gif.dll
 ProductName=Futuris Imager
-ProductVersion=5.2
-Comments=http://www.ukfog.com/
+ProductVersion=5.3
+Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

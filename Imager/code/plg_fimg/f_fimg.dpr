@@ -2,6 +2,7 @@ library f_fimg;
 
 uses
   SysUtils, Windows, Classes, Graphics,
+  ImageEnIO, ImageEnProc, hyieutils, IEMView,
   freeimage, c_const;
 
 var
@@ -10,25 +11,25 @@ var
 {$R *.RES}
 
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
 begin
-func(PT_FOPEN,'koa','Commodore 64 Koala format (*.koa)');
-func(PT_FOPEN,'iff','Amiga IFF (*.iff)');
-func(PT_FOPEN,'ilbm','Amiga IFF (*.ilbm)');
-func(PT_FOPEN,'lbm','Amiga IFF (*.lbm)');
-func(PT_FOPEN,'dds','DirectDraw Surface (*.dds)');
-func(PT_FOPEN,'ras','Sun Rasterfile (*.ras)');
-func(PT_FOPEN,'xbm','X11 Bitmap Format (*.xbm)');
-func(PT_FOPEN,'xpm','X11 Pixmap Format (*.xpm)');
-func(PT_FOPEN,'ico','Windows Icon (*.ico)');
-func(PT_FOPEN,'hdr','High Dynamic Range Image (*.hdr)');
+	func(PT_FOPEN, 'koa', 'Commodore 64 Koala format (*.koa)');
+	func(PT_FOPEN, 'iff', 'Amiga IFF (*.iff)');
+	func(PT_FOPEN, 'ilbm', 'Amiga IFF (*.ilbm)');
+	func(PT_FOPEN, 'lbm', 'Amiga IFF (*.lbm)');
+	func(PT_FOPEN, 'dds', 'DirectDraw Surface (*.dds)');
+	func(PT_FOPEN, 'ras', 'Sun Rasterfile (*.ras)');
+	func(PT_FOPEN, 'xbm', 'X11 Bitmap Format (*.xbm)');
+	func(PT_FOPEN, 'xpm', 'X11 Pixmap Format (*.xpm)');
+	func(PT_FOPEN, 'ico', 'Windows Icon (*.ico)');
+	func(PT_FOPEN, 'hdr', 'High Dynamic Range Image (*.hdr)');
 
-func(PT_FOPENMULTI,'ico',' ');
+	func(PT_FOPENMULTI, 'ico', ' ');
 
-Result:=true;
+	Result := true;
 end;
 
-function FOpen(path,ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path,ext: PChar; app: THandle):hBitmap; cdecl;
 var
   dib: PFIBITMAP;
   t: FREE_IMAGE_FORMAT;
@@ -70,7 +71,7 @@ if (t <> FIF_UNKNOWN) then
   end;
 end;
 
-function FMultiStart(filename, ext: PChar; app: THandle):integer; stdcall;
+function FMultiStart(filename, ext: PChar; app: THandle):integer; cdecl;
 var
 	mp: PFIMULTIBITMAP;
 begin
@@ -86,7 +87,7 @@ begin
   		end;
 end;
 
-function FMultiGetPage(index: integer):hBitmap; stdcall;
+function FMultiGetPage(index: integer):hBitmap; cdecl;
 var
 	mp: PFIMULTIBITMAP;
   	dib: PFIBITMAP;
@@ -116,14 +117,14 @@ begin
         end;
 end;
 
-function FMultiStop():integer; stdcall;
+function FMultiStop():integer; cdecl;
 begin
 	Result := 1;
 end;
 
 exports
-  FQuery, FOpen,
-  FMultiStart, FMultiGetPage, FMultiStop;
+	FQuery, FOpen,
+	FMultiStart, FMultiGetPage, FMultiStop;
 
 begin
 end.

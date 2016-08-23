@@ -6,8 +6,8 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Dialogs,
   c_const, c_utils, c_reg;
 
-function FHelpGetBitmap(path: PChar; app: THandle):HBITMAP; stdcall;
-function FHelpBrowseForBitmap(app, wnd: THandle):HBITMAP; stdcall;
+function FHelpGetBitmap(path: PChar; app: THandle):HBITMAP; cdecl;
+function FHelpBrowseForBitmap(app, wnd: THandle):HBITMAP; cdecl;
 
 
 implementation
@@ -18,20 +18,16 @@ var
   bmp: HBITMAP;
   lib: THandle;
   reg: TFuturisRegistry;
-  ext, lib_path, folder: string;
+  ext, lib_path: string;
 begin
 // initializing
 reg:=TFuturisRegistry.Create();
 reg.RootKey:=HKEY_CURRENT_USER;
 
-reg.OpenKey(sReg + '\Paths',true);
-folder:=reg.RStr('Directory','');
-reg.Closekey();
-
 ext:=ExtractExt(path);
 
 reg.OpenKey(sModules + '\Open',true);
-lib_path:=folder + reg.RStr(ext,'');
+lib_path := reg.RStr(ext,'');
 reg.CloseKey();
 
 // main stuff

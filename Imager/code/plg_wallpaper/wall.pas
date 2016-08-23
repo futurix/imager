@@ -47,8 +47,8 @@ type
     { Public declarations }
   end;
 
-function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
-function FTool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; cdecl;
+function FTool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; cdecl;
 
 var
   frmWallpaper: TfrmWallpaper;

@@ -1,11 +1,12 @@
-// Futuris Imager
 program imager;
 
 {$R 'futuris.res' 'futuris.rc'}
 
 uses
   Forms,
+  SysUtils,
   Graphics,
+  Dialogs,
   main in 'main.pas' {frmMain},
   w_about in 'w_about.pas' {frmAbout},
   w_custzoom in 'w_custzoom.pas' {frmCustZoom},
@@ -29,16 +30,25 @@ uses
   w_new in 'w_new.pas' {frmNew},
   f_reg in 'f_reg.pas',
   w_fltpreview in 'w_fltpreview.pas' {frmFltPreview},
-  f_scan in 'f_scan.pas';
+  f_scan in 'f_scan.pas',
+  w_hist in 'w_hist.pas' {frmHist};
 
 {$R *.RES}
 
 begin
-  Graphics.DefFontData.Name := 'MS Shell Dlg';
+	if ((ParamStr(1) = '/uninstall') or (ParamStr(1) = '-uninstall')) then
+    	begin
+        Uninstall();
+        UpdateAssociations();
+        end
+    else
+    	begin
+        Graphics.DefFontData.Name := 'MS Shell Dlg 2';
 
-  Application.Initialize;
-  Application.Title := 'Futuris Imager';
-  Application.HelpFile := '';
-  Application.CreateForm(TfrmMain, frmMain);
-  Application.Run;
+  		Application.Initialize();
+  		Application.Title := 'Futuris Imager';
+  		Application.HelpFile := '';
+  		Application.CreateForm(TfrmMain, frmMain);
+  		Application.Run();
+  		end;
 end.

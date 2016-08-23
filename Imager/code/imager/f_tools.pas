@@ -5,16 +5,15 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  c_const, c_utils;
+  c_const, c_utils, c_reg;
 
 procedure PrintImage(fast: boolean = false);
 procedure CommandLine();
+procedure Uninstall();
 procedure PlugScan();
 procedure FileNotFound(path: string);
-procedure CheckLibrariesDependancies();
 procedure Report(what: string; priority: integer = 1);
 procedure ExecInFolder(what: string);
-function  GetAppFolder(with_slash: boolean = true):string;
 
 
 implementation
@@ -82,19 +81,82 @@ begin
             if ((ParamStr(i) = '/fs') or (ParamStr(i) = '-fs')) then
         		if not infSettings.full_screen then
           			ToggleFS();
-            if ((ParamStr(i) = '/unreg') or (ParamStr(i) = '-unreg')) then
-               	begin
-				Application.CreateForm(TfrmSetup, frmSetup);
-				frmSetup.btnSelectNone.Click();
-				frmSetup.Uninstall();
-        		FreeAndNil(frmSetup);
-
-            	UpdateAssociations();
-        		Application.ShowMainForm:=false;
-        		Application.Terminate();
-                end;
    			end;
   		end;
+end;
+
+// removes all registry associations about Futuris Imager
+procedure Uninstall();
+var
+	lreg: TFuturisRegistry;
+    exts: TStringList;
+    i: integer;
+    tmp: string;
+begin
+    lreg := TFuturisRegistry.Create();
+    lreg.RootKey := HKEY_CURRENT_USER;
+
+    exts := TStringList.Create();
+
+	lreg.OpenKey(sModules + '\Open', true);
+	lreg.GetValueNames(exts);
+	lreg.CloseKey();
+
+    exts.Sort();
+
+	for i := 0 to (exts.Count - 1) do
+    	begin
+        lreg.RootKey := HKEY_CLASSES_ROOT;
+
+		lreg.OpenKey('\.' + exts[i], true);
+
+  		if lreg.RStr('', '') = 'FuturisImager' then
+    		begin
+			if lreg.ValueExists('FuturisImager.bak') then
+      			begin
+      			tmp := lreg.RStr('FuturisImager.bak', '');
+      			lreg.WriteString('', tmp);
+      			lreg.DeleteValue('FuturisImager.bak');
+      			end
+    		else
+                lreg.DeleteValue('');
+    		end
+  		else
+    		if lreg.ValueExists('FuturisImager.bak') then
+      			lreg.DeleteValue('FuturisImager.bak');
+
+		lreg.CloseKey();
+
+        // XP/2003 support
+		if IsXP() then
+  			begin
+  			lreg.RootKey := HKEY_CURRENT_USER;
+
+  			lreg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.' + exts[i], true);
+
+  			if lreg.RStr('ProgID', '') = 'FuturisImager' then
+    			begin
+    			if lreg.ValueExists('FuturisImager.bak') then
+      				begin
+      				tmp := lreg.RStr('FuturisImager.bak', '');
+      				lreg.WString('ProgID', tmp);
+      				lreg.DeleteValue('FuturisImager.bak');
+      				end
+    			else
+      				lreg.DeleteValue('ProgID');
+    			end
+  			else
+    			if lreg.ValueExists('FuturisImager.bak') then
+      				lreg.DeleteValue('FuturisImager.bak');
+
+  			lreg.CloseKey();
+  			end;
+
+  		lreg.RootKey:=HKEY_CURRENT_USER;
+        end;
+
+    FreeAndNil(exts);
+    FreeAndNil(lreg);
 end;
 
 // scans for plug-ins
@@ -126,18 +188,6 @@ begin
   		end;
 end;
 
-// checks for libraries existance (and warns about missing ones)
-procedure CheckLibrariesDependancies();
-begin
-	if not FileExists(GetAppFolder() + 'img_helper.dll') then
-  		begin
-  		frmMain.tbnPrint.Visible := false;
-  		frmMain.miPrint.Visible := false;
-  		frmMain.miPrintPreview.Visible := false;
-  		frmMain.Sep_1.Free();
-  		end;
-end;
-
 // error report
 procedure Report(what: string; priority: integer = 1);
 begin
@@ -166,17 +216,8 @@ procedure ExecInFolder(what: string);
 var
 	tmp: string;
 begin
-	tmp:=GetAppFolder() + what;
+	tmp := path_app + what;
 	ShellExecute(Application.Handle, 'open', PChar(tmp), nil, nil, SW_SHOWNORMAL);
-end;
-
-// returns application folder with/without trailing slash
-function GetAppFolder(with_slash: boolean = true):string;
-begin
-	if with_slash then
-  		Result := Slash(ExtractFileDir(Application.ExeName))
-	else
-  		Result := NoSlash(ExtractFileDir(Application.ExeName))
 end;
 
 end.

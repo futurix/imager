@@ -40,8 +40,8 @@ type
 var
   frmDither: TfrmDither;
 
-function FHelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; stdcall;
-function FHelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; stdcall;
+function FHelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; cdecl;
+function FHelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; cdecl;
 
 implementation
 

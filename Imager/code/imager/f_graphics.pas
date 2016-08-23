@@ -77,7 +77,7 @@ begin
 
   		if (opOpenAfterSave in infSettings.options) then
     		begin
-    		if (res = 1) then
+    		if (res > 0) then
       			begin
       			tmp := frmMain.dlgSave.FileName;
 
@@ -92,9 +92,7 @@ begin
       			CloseImage();
       			Load(tmp);
       			end;
-            end
-  		else
-    		FillImage(infImage.path, infImage.file_type, infImage.image_type);
+            end;
   		end;
 end;
 
@@ -164,7 +162,7 @@ begin
 
 	ext := ExtractExt(path);
 	reg.OpenKey(sModules + '\Open', true);
-	lib_path := GetAppFolder() + reg.RStr(ext, '');
+	lib_path := reg.RStr(ext, '');
 	reg.CloseKey();
 
 	// main stuff
@@ -208,7 +206,7 @@ begin
 
 	Delete(ext, 1, 1);
 	reg.OpenKey(sModules + '\Save', true);
-	lib_path := GetAppFolder() + reg.RStr(ext, '');
+	lib_path := reg.RStr(ext, '');
 	reg.CloseKey();
 
 	// main stuff

@@ -26,6 +26,7 @@ type
 
 function RegDeleteKeyIncludingSubkeys(const Key: HKEY; const Name: PChar): Longint;
 
+
 implementation
 
 function TFuturisRegistry.RBool(name: string; default: boolean):boolean;

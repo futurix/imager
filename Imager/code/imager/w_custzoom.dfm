@@ -10,7 +10,7 @@ object frmCustZoom: TfrmCustZoom
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   FormStyle = fsStayOnTop
   KeyPreview = True

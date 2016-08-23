@@ -52,16 +52,8 @@ begin
 
 	reg.OpenKey(sReg + '\UI', true);
 
-    if (Screen.Width > 1300) then
-    	begin
-		if reg.RIntC('TBStyle', 1) = 1 then ApplyToolbarSkin(true)
-  			else ApplyToolbarSkin(false);
-        end
-    else
-    	begin
-		if reg.RIntC('TBStyle', 0) = 1 then ApplyToolbarSkin(true)
-  			else ApplyToolbarSkin(false);
-        end;
+    if reg.RIntC('TBStyle', 0) = 1 then ApplyToolbarSkin(true)
+    	else ApplyToolbarSkin(false);
 
 	if reg.RIntC('TBMain', 1) = 1 then ToggleMainToolbar(true, true)
   		else ToggleMainToolbar(true, false);

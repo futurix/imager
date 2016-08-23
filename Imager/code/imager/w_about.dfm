@@ -10,7 +10,7 @@ object frmAbout: TfrmAbout
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'MS Shell Dlg'
+  Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
   FormStyle = fsStayOnTop
   KeyPreview = True
@@ -25,7 +25,7 @@ object frmAbout: TfrmAbout
   object lblProgram: TLabel
     Left = 76
     Top = 15
-    Width = 66
+    Width = 70
     Height = 13
     Caption = 'Futuris Imager'
     Transparent = True
@@ -33,7 +33,7 @@ object frmAbout: TfrmAbout
   object lblCopy: TLabel
     Left = 76
     Top = 30
-    Width = 24
+    Width = 25
     Height = 13
     Caption = 'Copy'
     Transparent = True
@@ -47,14 +47,14 @@ object frmAbout: TfrmAbout
   object lblWeb: TLabel
     Left = 15
     Top = 70
-    Width = 127
+    Width = 132
     Height = 13
     Cursor = crHandPoint
     Caption = 'Visit Futuris Imager website'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clHotLight
     Font.Height = -11
-    Font.Name = 'MS Shell Dlg'
+    Font.Name = 'MS Shell Dlg 2'
     Font.Style = [fsUnderline]
     ParentFont = False
     Transparent = True

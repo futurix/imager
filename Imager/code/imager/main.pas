@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, Registry, UxTheme,
   MRUfiles, futuris_dlgopen, c_const, c_pos, c_reg, AgOpenDialog, c_utils,
-  ieview, imageenview, hyieutils, c_toolbar, ImageEnIO;
+  ieview, imageenview, hyieutils, c_toolbar, ShlObj, ImageEnIO;
 
 type
   TfrmMain = class(TForm)
@@ -201,8 +201,6 @@ type
     popNoMRU: TPopupMenu;
     piMyOpen: TMenuItem;
 
-    procedure Initialize();
-    procedure ShutDown();
     procedure HandleFImport(Sender: TObject);
     procedure HandleFExport(Sender: TObject);
     procedure HandleFFilter(Sender: TObject);
@@ -288,14 +286,10 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure Localize();
+    procedure UpdateThemes();
+    procedure NoticeThemeChange(var msg: TMessage); message WM_THEMECHANGED;
   end;
-
-resourcestring
-	rsSuppExtStatusYes = 'Supported';
-	rsSuppExtStatusNo = 'Not supported';
-	rsFileTypeUnknown = 'Unknown image type';
-	rsNoSizeAvailable = 'No size information available';
 
 var
 	frmMain: TfrmMain;
@@ -309,69 +303,6 @@ uses w_about, w_custzoom, w_setup, w_info,
 
 {$R *.DFM}
 
-// program start-up
-procedure TfrmMain.Initialize();
-begin
-	// initializing randomizer
-	Randomize();
-
-	// setting image view
-	frmMain.img.Blank();
-	frmMain.img.Proc.UndoLimit := 32;
-	frmMain.img.Proc.ClearAllUndo();
-    frmMain.img.MouseWheelParams.Action := iemwVScroll;
-
-	// XP tweak
-	if (IsXP() and UseThemes()) then
-  		begin
-  		frmMain.tbrMain.EdgeBorders:= [];
-        frmMain.sbxMain.BorderStyle := bsNone;
-  		end;
-
-	// setting app events
-	Application.OnHint := appHint;
-	Application.OnIdle := appIdle;
-
-	// setting common variables
-	files := TStringList.Create();
-
-	// setting registry
-	reg := TFuturisRegistry.Create();
-	reg.RootKey := HKEY_CURRENT_USER;
-
-	// main stuff
-	DragAcceptFiles(frmMain.Handle, true);
-	StartUpChecks();
-
-	// setting toolbar
-	tbnZoomMisc.WholeDropDown := true;
-
-    // setting image view
-    img.VScrollBarParams.LineStep := 10;
-    img.HScrollBarParams.LineStep := 10;
-    
-	// more
-	c_pos.RestoreWindowState(frmMain, reg, sReg + '\Position\Main', 25, 750, 25, 550, 2, 3);
-	ReadSettings();
-	CheckLibrariesDependancies();
-	InstallPlugIns();
-
-	// final
-	Able(false);
-	CommandLine();
-end;
-
-// program shut down
-procedure TfrmMain.ShutDown();
-begin
-	// working
-	c_pos.SaveWindowState(frmMain, reg, sReg + '\Position\Main');
-	SaveSettings();
-
-	// shutting down registry
-	FreeAndNil(reg);
-end;
-
 // FImport handler
 procedure TfrmMain.HandleFImport(Sender: TObject);
 var
@@ -381,7 +312,7 @@ var
 begin
 	try
   		reg.OpenKey(sModules + '\Import', true);
-  		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
+  		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
   		reg.CloseKey();
 
   		if (lib = 0) then
@@ -412,7 +343,7 @@ var
 begin
 	try
   		reg.OpenKey(sModules + '\Export', true);
-  		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
+  		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
   		reg.CloseKey();
 
   		if (lib = 0) then
@@ -451,7 +382,7 @@ var
 begin
 	try
 		reg.OpenKey(sModules + '\Tools', true);
-		lib := LoadLibrary(PChar(GetAppFolder() + reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
+		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
 		reg.CloseKey();
 
 		if (lib = 0) then
@@ -509,12 +440,113 @@ end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-	Initialize();
+	// initializing randomizer
+	Randomize();
+
+    // setting folder variables
+    path_app := Slash(ExtractFilePath(Application.ExeName));
+    path_profile := Slash(GetShellFolderPath(CSIDL_APPDATA)) + sProfile;
+    path_tmp := Slash(path_profile) + sProfileTemp;    
+
+    // checking paths for existance
+    if (not DirExists(path_profile)) then
+  		DirCreate(path_profile);
+    if (not DirExists(path_tmp)) then
+  		DirCreate(path_tmp);
+
+	// setting registry
+	reg := TFuturisRegistry.Create();
+	reg.RootKey := HKEY_CURRENT_USER;
+
+	// setting image view
+	frmMain.img.Blank();
+	frmMain.img.Proc.UndoLimit := 32;
+	frmMain.img.Proc.ClearAllUndo();
+    frmMain.img.MouseWheelParams.Action := iemwVScroll;
+
+	// XP GUI updates
+	UpdateThemes();
+
+	// setting app events
+	Application.OnHint := appHint;
+	Application.OnIdle := appIdle;
+
+	// setting common variables
+	files := TStringList.Create();
+
+	// main stuff
+	DragAcceptFiles(frmMain.Handle, true);
+	StartUpChecks();
+
+	// setting toolbar
+	tbnZoomMisc.WholeDropDown := true;
+
+    // setting image view
+    img.VScrollBarParams.LineStep := 10;
+    img.HScrollBarParams.LineStep := 10;
+    
+	// more
+	c_pos.RestoreWindowState(frmMain, reg, sReg + '\Position\Main', 25, 750, 25, 550, 2, 3);
+	ReadSettings();
+
+	if not FileExists(path_app + 'img_helper.dll') then
+  		begin
+  		frmMain.tbnPrint.Visible := false;
+  		frmMain.miPrint.Visible := false;
+  		frmMain.miPrintPreview.Visible := false;
+  		frmMain.Sep_1.Free();
+  		end;
+        
+	InstallPlugIns();
+
+    Localize();
+
+	// final
+	Able(false);
+	CommandLine();
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-	ShutDown();
+	// working
+	c_pos.SaveWindowState(frmMain, reg, sReg + '\Position\Main');
+	SaveSettings();
+
+	// shutting down registry
+	FreeAndNil(reg);
+end;
+
+procedure TfrmMain.Localize();
+begin
+end;
+
+// updates application GUI on theme changes
+procedure TfrmMain.UpdateThemes();
+begin
+    if IsThemed() then
+    	begin
+        // themes
+  		frmMain.tbrMain.EdgeBorders:= [];
+        frmMain.sbxMain.BorderStyle := bsNone;
+        end
+    else
+    	begin
+        // no themes, standard Windows GUI
+  		frmMain.tbrMain.EdgeBorders:= [ebTop];
+        frmMain.sbxMain.BorderStyle := bsSingle;
+        end;
+
+    sbrMain.Repaint();    // force status bar repait
+end;
+
+// allows application to do custom thing during system theme changes
+procedure TfrmMain.NoticeThemeChange(var msg: TMessage);
+begin
+	// running our own procedure
+	UpdateThemes();
+
+    // result
+    msg.Result := 0;
 end;
 
 procedure TfrmMain.miOpenClick(Sender: TObject);
@@ -576,6 +608,11 @@ end;
 procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
 	msg: TWMKey;
+const
+	VK_BROWSER_BACK 	= 166;
+	VK_BROWSER_FORWARD 	= 167;
+	VK_BROWSER_REFRESH 	= 168;
+	VK_BROWSER_STOP 	= 169;
 begin
 	msg.CharCode := Key;
 
@@ -606,6 +643,17 @@ begin
     		VK_BACK:
             	if (ssShift in Shift) then GoFirst() else GoPrev();
 
+            // multimedia keyboard keys
+            VK_BROWSER_BACK:
+            	if (ssShift in Shift) then GoFirst() else GoPrev();
+           	VK_BROWSER_FORWARD:
+                if (ssShift in Shift) then GoLast() else GoNext();
+            VK_BROWSER_REFRESH:
+            	tbnDispClick(Self);
+            VK_BROWSER_STOP:
+            	miFullScreenClick(Self);
+
+            // extended keys on mouse
             5:
             	GoPrev();  // VK_XBUTTON1
 			6:
@@ -780,20 +828,20 @@ begin
 	else
   		begin
         Sender.PreviewImage.Visible := false;
-  		Sender.Size.Caption := rsNoSizeAvailable;
+  		Sender.Size.Caption := 'No size information available';
   		end;
 
 	// support info
 	Sender.Name.Caption := 'File: ' + ExtractFileName(Sender.FileName);
 
 	// getting file type
-	Sender.FileType.Caption := ('Type: ' + GetTypeString(Ext, rsFileTypeUnknown));
+	Sender.FileType.Caption := ('Type: ' + GetTypeString(Ext, 'Unknown image type'));
 
 	// is supported ?
 	if SupportedExt(Ext) then
-    	Sender.Support.Caption := rsSuppExtStatusYes
+    	Sender.Support.Caption := 'Supported'
     else
-    	Sender.Support.Caption := rsSuppExtStatusNo;
+    	Sender.Support.Caption := 'Not supported';
 end;
 
 procedure TfrmMain.dlgOpenFolderChange(Sender: TObject);
@@ -909,12 +957,22 @@ begin
 	if (infImage.path <> '') then
   		begin
   		if (MRU.Files.Count >= 2) then
-    		Load(MRU.Files[1]);
+            begin
+            if FileExists(MRU.Files[1]) then
+    			Load(MRU.Files[1])
+            else
+            	MRU.Remove(MRU.Files[1]);
+            end;
   		end
 	else
   		begin
   		if (MRU.Files.Count >= 1) then
-    		Load(MRU.Files[0]);
+            begin
+        	if FileExists(MRU.Files[0]) then
+    			Load(MRU.Files[0])
+            else
+            	MRU.Remove(MRU.Files[0]);
+            end;
   		end;
 end;
 
