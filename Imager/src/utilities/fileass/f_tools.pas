@@ -15,6 +15,8 @@ function  IsStrongUser(): boolean;
 
 implementation
 
+uses w_optgeneral;
+
 // removes all registry associations
 procedure Uninstall();
 var

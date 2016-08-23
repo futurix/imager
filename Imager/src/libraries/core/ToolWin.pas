@@ -1,9 +1,8 @@
-
 {*******************************************************}
 {                                                       }
-{       Borland Delphi Visual Component Library         }
+{       CodeGear Delphi Visual Component Library        }
 {                                                       }
-{  Copyright (c) 1995-2001 Borland Software Corporation }
+{           Copyright (c) 1995-2007 CodeGear            }
 {                                                       }
 {*******************************************************}
 
@@ -91,6 +90,7 @@ uses SysUtils;
 constructor TToolWindow.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  ControlStyle := ControlStyle + [csPannable];
   FEdgeBorders := [ebLeft, ebTop, ebRight, ebBottom];
   FEdgeInner := esRaised;
   FEdgeOuter := esLowered;
@@ -246,6 +246,7 @@ constructor TToolDockForm.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   BorderWidth := 1;
+  Position := poDesigned;
 end;
 
 procedure TToolDockForm.CreateParams(var Params: TCreateParams);

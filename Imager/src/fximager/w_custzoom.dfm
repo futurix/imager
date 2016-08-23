@@ -12,9 +12,9 @@ object frmCustZoom: TfrmCustZoom
   Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
-  FormStyle = fsStayOnTop
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate

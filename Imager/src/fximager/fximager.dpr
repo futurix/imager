@@ -55,8 +55,9 @@ begin
     else
     	begin
         Application.Initialize();
+        Application.MainFormOnTaskbar := True;
         Application.Title := 'FuturixImager';
         Application.CreateForm(TfrmMain, frmMain);
-  Application.Run();
+  		Application.Run();
         end;
 end.

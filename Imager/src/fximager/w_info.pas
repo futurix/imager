@@ -38,7 +38,6 @@ type
   private
     { Private declarations }
   public
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -80,12 +79,17 @@ begin
 end;
 
 procedure TfrmInfo.AddCommonInfo();
+var
+	date: TDateTime;
 begin
     if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
     	begin
         AddToList(LoadLStr(1200), infImage.path);
         AddToList(LoadLStr(1201), Format(LoadLStr(1204), [(FileSize(infImage.path) / 1024)]));
-        AddToList(LoadLStr(1205), DateTimeToStr(FileDateToDateTime(FileAge(infImage.path))));
+
+        if FileAge(infImage.path, date) = true then
+        	AddToList(LoadLStr(1205), DateTimeToStr(date));
+
         AddToList('', '');
         end;
 
@@ -404,18 +408,6 @@ procedure TfrmInfo.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftStat
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
-end;
-
-procedure TfrmInfo.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-	else if Assigned(Screen.ActiveForm) then
-		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmInfo.Localize();

@@ -1,0 +1,63 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{34909646-2739-4aaf-942e-637ae20cd287}</ProjectGuid>
+    <MainSource>fxcapture.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\..\..\bin\fxcapture.dll</DCC_DependencyCheckOutputName>
+    <DCC_EnabledPackages>true</DCC_EnabledPackages>
+    <DCC_UsePackage>fxcore</DCC_UsePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+    <DCC_ExeOutput>$(FXIMAGER)\bin</DCC_ExeOutput>
+    <DCC_DcuOutput>$(FXIMAGER)\src\output</DCC_DcuOutput>
+    <DCC_ObjOutput>$(FXIMAGER)\src\output</DCC_ObjOutput>
+    <DCC_HppOutput>$(FXIMAGER)\src\output</DCC_HppOutput>
+    <DCC_UnitSearchPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_ResourcePath>
+    <DCC_ObjPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_ObjPath>
+    <DCC_IncludePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_IncludePath>
+    <DCC_ImageBase>1600000</DCC_ImageBase>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+    <DCC_ExeOutput>$(FXIMAGER)\bin</DCC_ExeOutput>
+    <DCC_DcuOutput>$(FXIMAGER)\src\output</DCC_DcuOutput>
+    <DCC_ObjOutput>$(FXIMAGER)\src\output</DCC_ObjOutput>
+    <DCC_HppOutput>$(FXIMAGER)\src\output</DCC_HppOutput>
+    <DCC_UnitSearchPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_ResourcePath>
+    <DCC_ObjPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_ObjPath>
+    <DCC_IncludePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;</DCC_IncludePath>
+    <DCC_ImageBase>1600000</DCC_ImageBase>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">5</VersionInfo><VersionInfo Name="MinorVer">9</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">40</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">True</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys><VersionInfoKeys Name="FileDescription">FuturixImager Screen Capture Plug-in</VersionInfoKeys><VersionInfoKeys Name="FileVersion">5.9.0.40</VersionInfoKeys><VersionInfoKeys Name="InternalName">capture</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">© 1999-2008 Alexander Tereshchenko</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">fxcapture.dll</VersionInfoKeys><VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">5.9</VersionInfoKeys><VersionInfoKeys Name="Comments">http://fximage.com/</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">fxcapture.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="fxcapture.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="fcapt.pas">
+      <Form>frmCapture</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>

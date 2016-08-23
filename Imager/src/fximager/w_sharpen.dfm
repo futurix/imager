@@ -14,6 +14,7 @@ object frmSharpen: TfrmSharpen
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate

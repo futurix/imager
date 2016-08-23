@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.8.8"                    						// last version of Futuris Imager this locale was updated for
+    5		"5.9"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -284,8 +284,6 @@ BEGIN
     583		"Screen Capture|Save screenshots"
     584		"JPEG Lossless"
     585		"JPEG Lossless Transformations|Losslessly transform current photo (JPEG format only)"
-    586		"View As HEX"
-    587		"View As HEX|View current document in binary codes"
     588		"New Window"
     589		"New Window|Open new program window"
     590		"Go To Page"
@@ -386,7 +384,7 @@ BEGIN
 
     840     "Options"
     841     "General"
-    842     "Misc"
+    842     "More"
     843     "File Formats"
     844     "Languages"
     845     "Tasks"
@@ -397,7 +395,7 @@ BEGIN
     850     "Start in full screen mode"
     851     "Clear recent files list"
     852     ""
-    853     "Window color:"
+    853     "Background color:"
     854     "Full screen color:"
     855     "Extensions:"
     856     "Change file formats description"
@@ -824,17 +822,18 @@ BEGIN
     
     3250	"Print Preview"
     3251	"Print"
-    3252	""
+    3252	"Print"
     3253	"Zoom"
-    3254	""
+    3254	"Zoom"
     3255	"Setup"
-    3256	""
+    3256	"Setup"
     3257	"Proportional"
     3258	"Shrink large images"
     3259	"Center"
     3260	"Cannot get current image for printing."
     3261	"No printers found."
     3262	"Print all pages"
+    3263	"Print using original resolution"
     
     3300	"Arrow keys function:"
     3301	"File navigation"
@@ -845,7 +844,7 @@ BEGIN
     3306	"Enable ""Fit All"" display mode"
     3307	"Switch to full screen mode on image double click"
     3308	"It is not recommended to combine high quality display filter with progressive image loading"
-    3309	""
+    3309	"Enable search for embedded color profiles"
     3310	"Load all images directly into memory"
     3311	"Do not use this option if computer has less then 1Gb of RAM and you are viewing huge images"
     3312	"Mouse wheel default function:"
@@ -877,6 +876,13 @@ BEGIN
     3338	"White on black drawing"
     3339	"Black on white drawing"
     3340	"Set file format associations"
+    3350	"Gradient color:"
+    3351	" Background style "
+    3352	"Gradient"
+    3353	"Solid color"
+    3354	"System default"
+    3355	"Box pattern"
+    3356	"Diagonals"
 
     3400	"JPEG Lossless Transformations"
     3401	"JPEG Lossless Transformations..."

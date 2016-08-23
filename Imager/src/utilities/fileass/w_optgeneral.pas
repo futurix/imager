@@ -7,6 +7,10 @@ uses
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, ShellAPI,
   c_const, c_utils, ToolWin, c_reg, c_locales, Menus;
 
+const
+    // application filenames
+    FN_APP					= 'fximager.exe';
+
 type
   TfrmOptions = class(TForm)
     btnOK: TButton;

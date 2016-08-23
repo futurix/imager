@@ -23,9 +23,10 @@ package fxcore;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $600000}
-{$DESCRIPTION 'FuturixImager Shared Core'}
+{$DESCRIPTION 'FuturixImager Shared Libraries'}
 {$RUNONLY}
 {$IMPLICITBUILD OFF}
+{$DEFINE RELEASE}
 
 contains
   Forms,

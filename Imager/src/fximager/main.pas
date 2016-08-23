@@ -7,7 +7,7 @@ uses
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, Registry, UxTheme,
   MRUfiles, futuris_dlgopen, c_const, c_wndpos, c_reg, AgOpenDialog, c_utils,
   ieview, imageenview, hyieutils, ToolbarEx, ShlObj, ImageEnIO, AppEvnts,
-  ClipBrd, Printers, c_locales, c_themes, hyiedefs, f_instance;
+  ClipBrd, Printers, c_locales, c_themes, c_iml32, hyiedefs, f_instance;
 
 var
     ver_status: integer = 0; 	// 0 - release, 1 - alpha, 2 - beta, 3 - gamma, 7 - release candidate
@@ -19,6 +19,13 @@ const
 	VK_BROWSER_FORWARD 		= 167;
 	VK_BROWSER_REFRESH 		= 168;
 	VK_BROWSER_STOP 		= 169;
+
+    // application filenames
+    FN_APP					= 'fximager.exe';
+    FN_FORMATS				= 'fxformats.exe';
+    FN_ADDRAW				= 'fxraw.dll';
+    FN_ADDJBIG				= 'fxjbig.dll';
+    FN_ADDMAGICK			= 'fxmagick.dll';
 
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
@@ -138,7 +145,6 @@ type
     N34: TMenuItem;
     N13: TMenuItem;
     N20: TMenuItem;
-    imlDis: TImageList;
     piZoomCustom: TMenuItem;
     N4: TMenuItem;
     tbrMain: TCoolBar;
@@ -220,7 +226,6 @@ type
     tbnRMail: TToolButton;
     tbnRCapture: TToolButton;
     tbnRJPEG: TToolButton;
-    tbnRHEX: TToolButton;
     tbnGoToPage: TToolButton;
     tbnFDelete: TToolButton;
     tbnFCopy: TToolButton;
@@ -237,6 +242,8 @@ type
     tbnOnline: TToolButton;
     tbnAbout: TToolButton;
     imlFixed: TImageList;
+    dlgOpenV: TFileOpenDialog;
+    dlgSaveV: TFileSaveDialog;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -324,7 +331,6 @@ type
     procedure miCustTBClick(Sender: TObject);
     procedure miLoadLastClick(Sender: TObject);
     procedure tbnRCaptureClick(Sender: TObject);
-    procedure tbnRHEXClick(Sender: TObject);
     procedure tbnRJPEGClick(Sender: TObject);
     procedure tbnRMailClick(Sender: TObject);
     procedure tbnRScanClick(Sender: TObject);
@@ -368,6 +374,14 @@ var
 	files: TStringList;
   	path_app: string = '';
 
+    fx: record
+        ColorDefault: TColor;
+        ColorFullScreen: TColor;
+        ColorGradient: TColor;
+
+        BackgroundStyle: integer;
+    	end;
+
 	infImage: record
 		path: string;
 		image_type: TImageTypes;
@@ -393,7 +407,7 @@ var
 		end;
 
 	infRoles: record
-		capture, scan, email, hex, jpegll: boolean;
+		capture, scan, email, jpegll: boolean;
 		end;
 
 function  FxImgGlobalCallback(query_type, value, xtra: longword): TFxImgResult; cdecl;
@@ -467,16 +481,19 @@ begin
     infRoles.capture := false;
     infRoles.scan := false;
     infRoles.email := false;
-    infRoles.hex := false;
     infRoles.jpegll := false;
 
 	// initializing randomizer
 	Randomize();
 
+    // fixing image lists
+    ConvertTo32BitImageList(imlStd);
+    ConvertTo32BitImageList(imlFixed);
+
     // localization and themes
     InitLocalization(HInstance);
     LoadTheme(HInstance);
-
+    
     // setting folder variables
     path_app := Slash(ExtractFilePath(Application.ExeName));
 
@@ -502,8 +519,9 @@ begin
 	// writing paths
 	PutRegDock();
 
-	// setting toolbar
+	// setting toolbar and main menu
 	tbnZoomMisc.WholeDropDown := true;
+    mnuMain.Images := imlFixed;
 
     // setting image view
     img.VScrollBarParams.LineStep := 10;
@@ -517,8 +535,10 @@ begin
 	// reading settings
     if wreg.OpenKey(sSettings, false) then
     	begin
-		frmMain.sbxMain.Color := StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
-    	frmMain.img.Background := frmMain.sbxMain.Color;
+        fx.ColorDefault := StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
+        fx.ColorFullScreen := StringToColor(wreg.RStr('FSColor', 'clBlack'));
+        fx.ColorGradient := StringToColor(wreg.RStr('Gradient', 'clSilver'));
+        fx.BackgroundStyle := wreg.RInt('BgStyle', 0);
 
     	frmMain.bOpenAfterSave := (wreg.RInt('OpenAfterSave', 1) = 1);
     	frmMain.bOpenDef := (wreg.RInt('OpenDef', 1) = 1);
@@ -584,8 +604,10 @@ begin
     	end
     else
     	begin
-		frmMain.sbxMain.Color := clAppWorkSpace;
-    	frmMain.img.Background := frmMain.sbxMain.Color;
+        fx.ColorDefault := clAppWorkSpace;
+        fx.ColorFullScreen := clBlack;
+        fx.ColorGradient := clSilver;
+        fx.BackgroundStyle := 0;
 
     	frmMain.bOpenAfterSave := true;
     	frmMain.bOpenDef := true;
@@ -617,7 +639,8 @@ begin
 
     	frmMain.bFullPathInTitle := false;
         end;
-        
+
+    ApplyBackground();
     ApplyCustomToolbar();
     ApplyTheme();
 
@@ -629,7 +652,7 @@ begin
 	CommandLine();
 
     FreeAndNil(wreg);
-
+    
     starting := false;
 end;
 
@@ -1181,8 +1204,6 @@ begin
     tbnRCapture.Hint		:= LoadLStr(583);
     tbnRJPEG.Caption		:= LoadLStr(584);
     tbnRJPEG.Hint			:= LoadLStr(585);
-    tbnRHEX.Caption			:= LoadLStr(586);
-    tbnRHEX.Hint			:= LoadLStr(587);
     tbnGoToPage.Caption		:= LoadLStr(590);
     tbnGoToPage.Hint		:= LoadLStr(591);
 
@@ -2089,11 +2110,6 @@ end;
 procedure TfrmMain.tbnRCaptureClick(Sender: TObject);
 begin
 	ExecuteRole(PR_CAPTURE);
-end;
-
-procedure TfrmMain.tbnRHEXClick(Sender: TObject);
-begin
-	ExecuteRole(PR_HEX);
 end;
 
 procedure TfrmMain.tbnRJPEGClick(Sender: TObject);

@@ -126,7 +126,6 @@ type
     procedure SetCurrentMode(mode: integer);
   public
     nCurrentMode, nPreviousMode: integer;
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -1003,18 +1002,6 @@ procedure TfrmEditor.FormShow(Sender: TObject);
 begin
     btnApply.Realign();
     btnCancel.Realign();
-end;
-
-procedure TfrmEditor.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-    else if Assigned(Screen.ActiveForm) then
-    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

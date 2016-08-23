@@ -17,6 +17,7 @@ object frmInfo: TfrmInfo
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -81,6 +82,10 @@ object frmInfo: TfrmInfo
       Caption = 'EXIF'
       ImageIndex = 3
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lvwEXIF: TListView
         Left = 0
         Top = 0
@@ -112,6 +117,10 @@ object frmInfo: TfrmInfo
       Caption = 'EXIF Thumbnail'
       ImageIndex = 1
       TabVisible = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object imgThumb: TImageEnView
         Left = 0
         Top = 0
@@ -132,6 +141,10 @@ object frmInfo: TfrmInfo
       Caption = 'Histogram'
       ImageIndex = 3
       OnShow = shtHistShow
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object rgbCurves: TRGBCurves
         Left = 0
         Top = 0
@@ -161,7 +174,6 @@ object frmInfo: TfrmInfo
         Height = 28
         Align = alBottom
         BevelOuter = bvNone
-        ParentBackground = True
         TabOrder = 1
         object rbnAll: TRadioButton
           Left = 0

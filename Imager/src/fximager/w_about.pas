@@ -22,7 +22,6 @@ type
   private
     { Private declarations }
   public
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -58,6 +57,7 @@ begin
     Localize();
 
     SetStyleAsLink(lblWeb);
+    lblWeb.Hint := sURL;
 
 	imgAbout.Picture.Icon.Handle := LoadImageW(HInstance, 'MAINICON', IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
 
@@ -85,18 +85,6 @@ end;
 procedure TfrmAbout.lblWebClick(Sender: TObject);
 begin
 	frmMain.miWebSiteClick(Self);
-end;
-
-procedure TfrmAbout.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-    else if Assigned(Screen.ActiveForm) then
-    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmAbout.Localize();

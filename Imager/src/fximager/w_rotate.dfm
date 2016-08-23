@@ -15,6 +15,7 @@ object frmRotate: TfrmRotate
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate

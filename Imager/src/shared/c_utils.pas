@@ -309,8 +309,13 @@ end;
 // returns true if current OS is WindowsXP (or newer)
 function IsXP(): boolean;
 begin
-    Result := (	(Win32Platform = VER_PLATFORM_WIN32_NT) and
-    			((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1))));
+    Result := ((Win32MajorVersion > 5) or ((Win32MajorVersion = 5) and (Win32MinorVersion >= 1)));
+end;
+
+// returns true if current OS is Windows Vista (or newer)
+function IsVista(): boolean;
+begin
+    Result := (Win32MajorVersion >= 6);
 end;
 
 // returns true if application is currently themed

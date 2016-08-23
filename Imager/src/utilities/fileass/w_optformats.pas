@@ -45,7 +45,6 @@ type
     procedure lblChangeDescrClick(Sender: TObject);
   private
   public
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -195,18 +194,6 @@ end;
 procedure TfrmOptFormats.lblChangeDescrClick(Sender: TObject);
 begin
 	ChangeDescription();
-end;
-
-procedure TfrmOptFormats.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-	else if Assigned(Screen.ActiveForm) then
-		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmOptFormats.Localize();

@@ -1,6 +1,6 @@
-!include "MUI.nsh"
+!include "MUI2.nsh"
 
-!define FXVERSION "5.8.8"
+!define FXVERSION "5.9"
 
 Name "FuturixImager Extras"
 OutFile "output\futuriximager_extras.exe"
@@ -15,7 +15,7 @@ BrandingText "FuturixImager ${FXVERSION} Extras"
 InstallDir "$PROGRAMFILES\FuturixImager"
 
 !define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION} Extras"
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager Extras.\r\n\r\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager Extras.$\r$\n$\r$\n$_CLICK"
 
 !define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING
@@ -110,11 +110,6 @@ Section "Support for writing wireless bitmaps (WBMP)"
   File "..\bin\fxwireless.dll"
 SectionEnd
 
-Section "XP-style toobar theme"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxthemexp.dll"
-SectionEnd
-
 
 Section Uninstall
   SetDetailsPrint none
@@ -124,7 +119,6 @@ Section Uninstall
   Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
-  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
 SectionEnd

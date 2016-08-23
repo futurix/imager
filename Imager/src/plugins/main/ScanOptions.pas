@@ -11,7 +11,6 @@ type
     btnOK: TButton;
     btnCancel: TButton;
     rgpSystem: TRadioGroup;
-    lblWIAwarn: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnOKClick(Sender: TObject);
@@ -34,15 +33,13 @@ begin
 	Self.Caption 			:= LoadLStr(3701);
 
     rgpSystem.Caption		:= LoadLStr(3702);
-    rgpSystem.Items[0]		:= LoadLStr(3703);
-    rgpSystem.Items[1]		:= LoadLStr(3704);
-    rgpSystem.Items[2]		:= LoadLStr(3705);
-    lblWIAwarn.Caption		:= LoadLStr(3706);
+    rgpSystem.Items[0]		:= LoadLStr(3704);
+    rgpSystem.Items[1]		:= LoadLStr(3705);
 
     btnOK.Caption			:= LoadLStr(50);
     btnCancel.Caption		:= LoadLStr(51);
 
-    rgpSystem.ItemIndex 	:= FxRegRInt('Scan_Subsystem', 0);
+    rgpSystem.ItemIndex 	:= FxRegRInt('Imaging_Subsystem', 0);
 end;
 
 procedure TfrmScanOpt.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -64,7 +61,7 @@ end;
 
 procedure TfrmScanOpt.btnOKClick(Sender: TObject);
 begin
-	FxRegWInt('Scan_Subsystem', rgpSystem.ItemIndex);
+	FxRegWInt('Imaging_Subsystem', rgpSystem.ItemIndex);
 
     Close();
 end;

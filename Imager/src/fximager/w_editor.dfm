@@ -1,19 +1,57 @@
 object frmEditor: TfrmEditor
   Left = 190
   Top = 79
-  Width = 747
-  Height = 573
   ActiveControl = img
   BorderIcons = [biSystemMenu]
   Caption = 'Edit Image'
+  ClientHeight = 546
+  ClientWidth = 739
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
+  Icon.Data = {
+    0000010001001010000001002000680400001600000028000000100000002000
+    000001002000000000004004000000000000000000000000000000000000FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00A068
+    50FF804830FF804820FF804820FF905840FFA07060FFA07060FFA07060FF9060
+    40FF804020FF803010FF703010FF703010FF703010FF0000000000000000A070
+    50FFF0E0D0FFD0B8A0FFC09880FFC09080FFC0A090FF707070FF505850FF0000
+    00FFA0A8A0FF806050FF503830FF503830FF703010FF0000000000000000A078
+    60FFF0F0F0FFF0D8D0FFE0C0B0FFD0A890FFC0A090FFA0A0A0FFFFFFFFFF5090
+    B0FF101010FFA0A8A0FF807060FF605040FF703010FF0000000000000000A078
+    60FFFFF8FFFFFFF0F0FFF0E0D0FFE0B8A0FFC0A090FFA0A0A0FF90B8C0FF70D0
+    E0FF5098B0FF101010FFA0A8A0FF000800FF803010FF0000000000000000B080
+    70FFA08070FFF0F0F0FFFFF0F0FFF0E0D0FFE0B0A0FFC0B8B0FF50A0B0FF90E0
+    F0FF60C0D0FF5098B0FF101010FFA0A8A0FF804020FF0000000000000000B088
+    70FFF0E0E0FFA08070FFF0E8E0FFF0E8E0FFF0D0D0FFD0C0B0FFC0B8B0FF50A0
+    B0FF90E0F0FF60C0D0FF5098B0FF101010FF806860FF0000000000000000C090
+    80FFFFFFFFFFF0E0E0FFA08070FFF0E8E0FFF0D8D0FF605040FFD0B0A0FFE0C8
+    C0FF60A8B0FF90E0F0FF60C0D0FF5098B0FF101010FF3058603000000000C098
+    80FFFFFFFFFFFFFFFFFFF0E0E0FFA08070FFA08070FFF0D8D0FFFFE0D0FFFFD8
+    C0FFE0C8C0FF70B0C0FF90E0F0FF70C8E0FF808880FF303890FF30388050C0A0
+    90FFFFFFFFFFFFFFFFFFFFFFFFFFFFF8F0FFFFF0F0FFFFF0E0FFD0C8D0FF2050
+    D0FF2050C0FFE0C8C0FF80B0C0FFD0B8B0FF7088D0FF6070B0FF303890FFC0A8
+    90FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8F0FFFFF0F0FF3060D0FF70C0
+    FFFF4090D0FF2050C0FFE0C8C0FF6070B0FF7090E0FF6078D0FF6070B0FFD0A8
+    90FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8F0FF3060D0FFC0E8
+    FFFF70C0FFFF2050D0FFFFD8C0FFE0C8C0FF6070B0FF6070B0FF6078C030D0A8
+    90FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD0D8F0FF3060
+    D0FF3060D0FFD0C8D0FFFFE0D0FFE0C0B0FF804820FF0000000000000000D0A8
+    90FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8
+    F0FFFFF0F0FFFFF0E0FFFFE8E0FFFFE0D0FF804830FF0000000000000000D0A8
+    90FFD0A890FFD0A890FFD0A890FFC0A890FFC0A090FFC09880FFC09080FFB088
+    70FFB08070FFA07860FFA07860FFA07050FFA06850FF0000000000000000FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+    FFFF0003FFFF0003FFFF0003FFFF0003FFFF0003FFFF0003FFFF0001FFFF0000
+    FFFF0000FFFF0000FFFF0000FFFF0003FFFF0003FFFF0003FFFFFFFFFFFF}
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -32,9 +70,8 @@ object frmEditor: TfrmEditor
     ParentCtl3D = False
     LegacyBitmap = False
     ScrollBars = ssNone
-    EnableAlphaChannel = True
     AutoShrink = True
-    ImageEnVersion = '2.3.2'
+    ImageEnVersion = '3.0.0'
     Align = alClient
     Visible = False
     TabOrder = 4
@@ -66,9 +103,6 @@ object frmEditor: TfrmEditor
       AutoSize = True
       BorderWidth = 1
       Caption = 'Editor Toolbar'
-      DisabledImages = frmMain.imlDis
-      EdgeBorders = []
-      Flat = True
       HideClippedButtons = True
       Images = frmMain.imlStd
       TabOrder = 0
@@ -79,7 +113,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Select'
-        ImageIndex = 31
+        ImageIndex = 28
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnModSelClick
@@ -89,7 +123,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Hand'
-        ImageIndex = 32
+        ImageIndex = 29
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnModHandClick
@@ -99,7 +133,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Pencil'
-        ImageIndex = 33
+        ImageIndex = 30
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnModPencilClick
@@ -109,7 +143,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Flood Fill'
-        ImageIndex = 35
+        ImageIndex = 31
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnModFloodClick
@@ -119,7 +153,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Draw'
-        ImageIndex = 36
+        ImageIndex = 32
         ParentShowHint = False
         ShowHint = True
         Visible = False
@@ -137,7 +171,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Cut'
-        ImageIndex = 21
+        ImageIndex = 6
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnCutClick
@@ -147,7 +181,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Copy'
-        ImageIndex = 5
+        ImageIndex = 7
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnCopyClick
@@ -157,7 +191,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Paste'
-        ImageIndex = 6
+        ImageIndex = 8
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnPasteClick
@@ -167,7 +201,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Paste+'
-        ImageIndex = 26
+        ImageIndex = 39
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnPasteSelClick
@@ -185,7 +219,7 @@ object frmEditor: TfrmEditor
         AutoSize = True
         Caption = 'Undo'
         Enabled = False
-        ImageIndex = 18
+        ImageIndex = 9
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnUndoClick
@@ -196,7 +230,7 @@ object frmEditor: TfrmEditor
         AutoSize = True
         Caption = 'Redo'
         Enabled = False
-        ImageIndex = 22
+        ImageIndex = 10
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnRedoClick
@@ -213,7 +247,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Fit Mode'
-        ImageIndex = 25
+        ImageIndex = 38
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnSetFitClick
@@ -224,7 +258,7 @@ object frmEditor: TfrmEditor
         AutoSize = True
         Caption = 'Zoom'
         DropdownMenu = popZoom
-        ImageIndex = 24
+        ImageIndex = 37
         ParentShowHint = False
         ShowHint = True
         Style = tbsDropDown
@@ -242,7 +276,7 @@ object frmEditor: TfrmEditor
         AutoSize = True
         Caption = 'Selection'
         DropdownMenu = popSelection
-        ImageIndex = 28
+        ImageIndex = 41
         ParentShowHint = False
         ShowHint = True
         Style = tbsDropDown
@@ -252,7 +286,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Erase'
-        ImageIndex = 29
+        ImageIndex = 42
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnEraseSelectionClick
@@ -269,7 +303,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Resize'
-        ImageIndex = 27
+        ImageIndex = 40
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnResizeClick
@@ -279,7 +313,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Crop'
-        ImageIndex = 23
+        ImageIndex = 36
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnCropClick
@@ -289,7 +323,7 @@ object frmEditor: TfrmEditor
         Top = 0
         AutoSize = True
         Caption = 'Rotate'
-        ImageIndex = 20
+        ImageIndex = 34
         ParentShowHint = False
         ShowHint = True
         OnClick = tbnRotateClick
@@ -337,7 +371,6 @@ object frmEditor: TfrmEditor
       AutoSize = True
       BevelOuter = bvNone
       BorderWidth = 2
-      ParentBackground = True
       TabOrder = 2
       Visible = False
       object lblTolerance: TLabel
@@ -349,6 +382,7 @@ object frmEditor: TfrmEditor
         Caption = 'Tolerance: '
         Transparent = True
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object pnlTolerance: TPanel
         Left = 56
@@ -357,7 +391,6 @@ object frmEditor: TfrmEditor
         Height = 32
         Align = alLeft
         BevelOuter = bvNone
-        ParentBackground = True
         TabOrder = 0
         object edtTolerance: TEdit
           Left = 1
@@ -403,7 +436,6 @@ object frmEditor: TfrmEditor
       Align = alTop
       BevelOuter = bvNone
       BorderWidth = 5
-      ParentBackground = True
       TabOrder = 0
       object pnlColor: TPanel
         Left = 5
@@ -412,7 +444,6 @@ object frmEditor: TfrmEditor
         Height = 19
         Align = alTop
         BevelOuter = bvNone
-        ParentBackground = True
         ParentColor = True
         TabOrder = 0
         object lblColor: TLabel
@@ -426,6 +457,7 @@ object frmEditor: TfrmEditor
           FocusControl = boxColorSelector
           Transparent = True
           Layout = tlCenter
+          ExplicitHeight = 13
         end
         object sbxColor: TScrollBox
           Left = 32
@@ -460,7 +492,6 @@ object frmEditor: TfrmEditor
         Height = 5
         Align = alTop
         BevelOuter = bvNone
-        ParentBackground = True
         TabOrder = 2
       end
     end
@@ -471,7 +502,6 @@ object frmEditor: TfrmEditor
       Height = 10
       Align = alTop
       BevelOuter = bvNone
-      ParentBackground = True
       TabOrder = 1
     end
     object lvwFilters: TListView
@@ -480,7 +510,6 @@ object frmEditor: TfrmEditor
       Width = 221
       Height = 295
       Align = alClient
-      BorderStyle = bsNone
       Columns = <
         item
           Caption = 'Filters'
@@ -493,7 +522,6 @@ object frmEditor: TfrmEditor
       HotTrackStyles = [htHandPoint, htUnderlineHot]
       ReadOnly = True
       RowSelect = True
-      ParentColor = True
       ShowColumnHeaders = False
       SmallImages = frmMain.imlFixed
       TabOrder = 2
@@ -513,8 +541,7 @@ object frmEditor: TfrmEditor
     LegacyBitmap = False
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
-    EnableAlphaChannel = True
-    ImageEnVersion = '2.3.2'
+    ImageEnVersion = '3.0.0'
     Align = alClient
     TabOrder = 2
     TabStop = True
@@ -524,6 +551,7 @@ object frmEditor: TfrmEditor
   object proc: TImageEnProc
     AttachedImageEn = img
     Background = clAppWorkSpace
+    PreviewsParams = [prppShowResetButton, prppHardReset]
     PreviewFont.Charset = DEFAULT_CHARSET
     PreviewFont.Color = clWindowText
     PreviewFont.Height = -11

@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, UxTheme,
-  ShellAPI, c_const, c_themes, c_locales, c_reg;
+  ShellAPI, imageenview,
+  c_const, c_themes, c_locales, c_reg;
 
 procedure ApplyTheme();
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
@@ -14,6 +15,7 @@ procedure FSRestorePos(toolbars_only: boolean = false);
 procedure FSSavePos(toolbars_only: boolean = false);
 procedure Header();
 procedure ToggleFS();
+procedure ApplyBackground();
 
 
 implementation
@@ -25,7 +27,7 @@ procedure ApplyTheme();
 var
     bmp: TBitmap;
 begin
-    bmp := LoadBitmapFromTheme('TBSA');
+    bmp := LoadBitmapFromTheme('IMGMAIN');
 
     if (bmp <> nil) then
     	begin
@@ -39,21 +41,7 @@ begin
     else
     	frmMain.imlStd.Clear();
 
-    bmp := LoadBitmapFromTheme('TBSD');
-
-    if (bmp <> nil) then
-    	begin
-    	frmMain.imlDis.Height := bmp.Height;
-    	frmMain.imlDis.Width := bmp.Height;
-    	frmMain.imlDis.Clear();
-    	frmMain.imlDis.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
-
-    	FreeAndNil(bmp);
-        end
-    else
-    	frmMain.imlDis.Clear();
-
-    bmp := LoadBitmapFromTheme('IFXD');
+    bmp := LoadBitmapFromTheme('IMGFIXED');
 
     if (bmp <> nil) then
     	begin
@@ -144,7 +132,6 @@ begin
     frmMain.tbnRMail.Enabled := (infRoles.email and is_filled);
     frmMain.tbnRCapture.Enabled := infRoles.capture;
     frmMain.tbnRJPEG.Enabled := (infRoles.jpegll and is_filled);
-    frmMain.tbnRHEX.Enabled := (infRoles.hex and is_filled);
 
 	frmMain.miSaveAs.Enabled := is_filled;
 	frmMain.tbnSave.Enabled := is_filled;
@@ -303,9 +290,6 @@ begin
   		// starting FS
   		FSSavePos();
 
-        frmMain.sbxMain.Color := StringToColor(FxRegRStr('FSColor', 'clBlack'));
-        frmMain.img.Background := frmMain.sbxMain.Color;
-
   		frmMain.miFullScreen.Checked := true;
   		frmMain.tbnFullScreen.Down := true;
   		frmMain.piFullScreen.Checked := true;
@@ -328,9 +312,6 @@ begin
   		frmMain.tbnFullScreen.Down := false;
   		frmMain.piFullScreen.Checked := false;
 
-        frmMain.sbxMain.Color := StringToColor(FxRegRStr('Color', 'clAppWorkSpace'));
-        frmMain.img.Background := frmMain.sbxMain.Color;
-
   		frmMain.WindowState := wsNormal;
   		frmMain.BorderStyle := bsSizeable;
   		frmMain.Menu := frmMain.mnuMain;
@@ -346,11 +327,86 @@ begin
   		frmMain.full_screen := false;
   		end;
 
+    ApplyBackground();
+
     if not starting then
     	frmMain.img.SetFocus();
 
 	// restore drag-n-drop support
     DragAcceptFiles(frmMain.Handle, true);
+end;
+
+procedure ApplyBackground();
+begin
+	// checking correct style
+    case fx.BackgroundStyle of
+        0: // gradient
+        	begin
+            if frmMain.img.Background <> fx.ColorDefault then
+            	frmMain.img.Background := fx.ColorDefault;
+            if frmMain.img.GradientEndColor <> fx.ColorGradient then
+            	frmMain.img.GradientEndColor := fx.ColorGradient;
+
+            if frmMain.img.BackgroundStyle <> iebsGradient then
+                frmMain.img.BackgroundStyle := iebsGradient;
+            end;
+
+        1: // solid color
+            begin
+            if not frmMain.full_screen then
+        		begin
+                if frmMain.img.Background <> fx.ColorDefault then
+                    frmMain.img.Background := fx.ColorDefault;
+            	end
+            else
+            	begin
+                if frmMain.img.Background <> fx.ColorFullScreen then
+                    frmMain.img.Background := fx.ColorFullScreen;
+            	end;
+
+            if frmMain.img.BackgroundStyle <> iebsSolid then
+                frmMain.img.BackgroundStyle := iebsSolid;
+            end;
+
+        2: // system color
+            begin
+            if not frmMain.full_screen then
+        		begin
+                if frmMain.img.Background <> clAppWorkSpace then
+                    frmMain.img.Background := clAppWorkSpace;
+            	end
+            else
+            	begin
+                if frmMain.img.Background <> fx.ColorFullScreen then
+                    frmMain.img.Background := fx.ColorFullScreen;
+            	end;
+
+            if frmMain.img.BackgroundStyle <> iebsSolid then
+                frmMain.img.BackgroundStyle := iebsSolid;
+            end;
+
+        3: // box pattern
+            begin
+            if frmMain.img.Background <> fx.ColorDefault then
+            	frmMain.img.Background := fx.ColorDefault;
+            if frmMain.img.GradientEndColor <> fx.ColorGradient then
+            	frmMain.img.GradientEndColor := fx.ColorGradient;
+
+            if frmMain.img.BackgroundStyle <> iebsChessboard then
+                frmMain.img.BackgroundStyle := iebsChessboard;
+            end;
+
+        4: // diagonals
+            begin
+            if frmMain.img.Background <> fx.ColorDefault then
+            	frmMain.img.Background := fx.ColorDefault;
+            if frmMain.img.GradientEndColor <> fx.ColorGradient then
+            	frmMain.img.GradientEndColor := fx.ColorGradient;
+
+            if frmMain.img.BackgroundStyle <> iebsDiagonals then
+                frmMain.img.BackgroundStyle := iebsDiagonals;
+            end;
+    	end;
 end;
 
 end.

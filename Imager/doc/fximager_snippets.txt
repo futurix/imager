@@ -2,27 +2,24 @@
 
 Alexander Tereshchenko
 FuturixImager ###
-5.8.8.#
+5.9.0.#
 ###
 © 1999-2008 Alexander Tereshchenko
 
 fx###.dll
 FuturixImager
-5.8.8
-http://www.fximage.com/
+5.9
+http://fximage.com/
 
 
 >>>>>>>>> PATHS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-..\..\..\bin
-..\..\output
-.\;..\..\shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Includes;
-..\..\shared
+$(FXIMAGER)\bin
+$(FXIMAGER)\src\output
+.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;
+$(FXIMAGER)\src\shared
 
-
->>>>>>>>> PACKAGES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-fxcore
+.\;$(FXIMAGER)\src\shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Includes;
 
 
 >>>>>>>>> MISC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

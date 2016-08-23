@@ -7,8 +7,8 @@
 
 // application strings (ANSI only)
 #define SAPPNAME 			"FuturixImager"
-#define SVERSION			"5.8.8"
-#define SVERSIONEX			"5.8.8.0"
+#define SVERSION			"5.9"
+#define SVERSIONEX			"5.9.0.0"
 #define SAUTHOR 			"Alexander Tereshchenko"
 #define SRIGHTS 			"© 1999-2008 Alexander Tereshchenko"
 #define SREGASSOCIATION		"FuturixImager"
@@ -16,8 +16,8 @@
 
 // version info
 #define FXVER_MAJOR			5
-#define FXVER_MINOR			8
-#define FXVER_REVISION		8
+#define FXVER_MINOR			9
+#define FXVER_REVISION		0
 #define FXVER_BUILD			0
 
 // registry paths
@@ -29,24 +29,17 @@
 #define SINTERNALFORMAT		"fx_internal"
 
 // URLs
-#define SURL				"http://www.fximage.com/"
+#define SURL				"http://fximage.com/"
 
 // plug-in signatures
 #define SLOCALEID 			"FxImgLocaleR2"
-#define STHEMEID 			"FxImgThemeR1"
+#define STHEMEID 			"FxImgThemeR2"
 
 // registry value names
 #define SLOCALENAME			"CurrentLocaleName"
 #define SLOCALELIB			"CurrentLocaleLib"
 #define STHEMENAME			"CurrentThemeName"
 #define STHEMELIB			"CurrentThemeLib"
-
-// application filenames
-#define FN_APP				"fximager.exe"
-#define FN_FORMATS			"fxformats.exe"
-#define FN_ADDRAW			"fxraw.dll"
-#define FN_ADDJBIG			"fxjbig.dll"
-#define FN_ADDMAGICK		"fxmagick.dll"
 
 // registry access constants
 #define RA_FULL				(KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS | \
@@ -137,7 +130,6 @@
 #define PR_EMAIL			"ROLE::EMAIL"
 #define PR_CAPTURE			"ROLE::CAPTURE"
 #define PR_JPEGLL			"ROLE::JPEGLL"
-#define PR_HEX				"ROLE::HEX"
 
 
 // result structure

@@ -42,4 +42,4 @@ Copyright © 1999-2008 Alexander Tereshchenko
 All rights reserved
 
 E-mail: info@fximage.com
-Web: http://www.fximage.com/
+Web: http://fximage.com/

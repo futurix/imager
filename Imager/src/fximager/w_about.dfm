@@ -14,6 +14,7 @@ object frmAbout: TfrmAbout
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -49,6 +50,8 @@ object frmAbout: TfrmAbout
     Width = 39
     Height = 13
     Caption = 'Website'
+    ParentShowHint = False
+    ShowHint = True
     Transparent = True
     OnClick = lblWebClick
   end

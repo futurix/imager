@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, TileImage, c_const, c_locales;
+  StdCtrls, ExtCtrls, TileImage, c_const, c_locales, c_utils;
 
 type
   TfrmWallpaper = class(TForm)
@@ -244,6 +244,9 @@ end;
 
 procedure TfrmWallpaper.FormCreate(Sender: TObject);
 begin
+    if IsThemed() then
+        sbxWall.BorderStyle := bsNone;
+
 	Self.Caption			:= LoadLStr(3002);
 
     lblCustom.Caption		:= LoadLStr(3003);

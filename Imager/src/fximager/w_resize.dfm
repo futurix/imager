@@ -15,6 +15,7 @@ object frmResize: TfrmResize
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMode = pmAuto
   Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
@@ -125,6 +126,10 @@ object frmResize: TfrmResize
     object shtScale: TTabSheet
       Caption = 'Scale'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblPercent: TLabel
         Left = 175
         Top = 32

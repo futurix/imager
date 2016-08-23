@@ -4,8 +4,8 @@ object frmScanOpt: TfrmScanOpt
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'Scanning Options'
-  ClientHeight = 173
-  ClientWidth = 351
+  ClientHeight = 121
+  ClientWidth = 336
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,17 +18,9 @@ object frmScanOpt: TfrmScanOpt
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object lblWIAwarn: TLabel
-    Left = 10
-    Top = 115
-    Width = 212
-    Height = 13
-    Caption = 'Note: WIA is not available for Windows2000'
-    Transparent = True
-  end
   object btnOK: TButton
-    Left = 183
-    Top = 135
+    Left = 172
+    Top = 87
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -37,8 +29,8 @@ object frmScanOpt: TfrmScanOpt
     OnClick = btnOKClick
   end
   object btnCancel: TButton
-    Left = 264
-    Top = 135
+    Left = 253
+    Top = 87
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -46,14 +38,13 @@ object frmScanOpt: TfrmScanOpt
     OnClick = btnCancelClick
   end
   object rgpSystem: TRadioGroup
-    Left = 10
-    Top = 10
-    Width = 330
-    Height = 100
+    Left = 8
+    Top = 8
+    Width = 320
+    Height = 73
     Caption = ' Imaging subsystem '
     ItemIndex = 0
     Items.Strings = (
-      'System default'
       'WIA (Windows Image Acquisition)'
       'TWAIN')
     TabOrder = 2

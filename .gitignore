@@ -33,3 +33,7 @@ Imager/src/plugins/fimg/library/*
 *.suo
 Imager/redist/international/*/*.dll
 Imager/redist/output/*
+Imager/src/FuturixImager.groupproj.local
+*.dproj.local
+*.identcache
+Imager/src/output/*

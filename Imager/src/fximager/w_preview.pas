@@ -5,12 +5,11 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, ExtCtrls, ToolWin, Printers, Preview, ImgList, Registry, Menus,
-  c_const, c_reg, StdCtrls, ToolbarEx, c_wndpos, c_locales;
+  c_const, c_reg, StdCtrls, c_wndpos, c_locales, c_utils, ToolbarEx;
 
 type
   TfrmPrint = class(TForm)
     prwPrint: TPrintPreview;
-    imlPrint: TImageList;
     itbPrintMain: TToolBar;
     tbnZoom: TToolButton;
     tbnPrint: TToolButton;
@@ -36,6 +35,7 @@ type
     cbxShrinkOnlyLarge: TCheckBox;
     cbxCenter: TCheckBox;
     cbxAllPages: TCheckBox;
+    cbxDPI: TCheckBox;
     procedure DrawView();
     procedure tbnPrintClick(Sender: TObject);
     procedure piZMFitClick(Sender: TObject);
@@ -47,7 +47,6 @@ type
     procedure piZM100Click(Sender: TObject);
     procedure piZM150Click(Sender: TObject);
     procedure piZM200Click(Sender: TObject);
-    function SetupClicked():boolean;
     procedure tbnSetupClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure cbxProportionalClick(Sender: TObject);
@@ -58,7 +57,6 @@ type
   private
     { Private declarations }
   public
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -68,13 +66,14 @@ var
   
 implementation
 
-uses main, f_ui, w_show, f_multi;
+uses main, f_ui, w_show, f_multi, f_tools;
 
 {$R *.DFM}
 
 procedure TfrmPrint.DrawView();
 var
     bmp: TBitmap;
+    tmp: TRect;
 begin
     bmp := TBitmap.Create();
     frmMain.img.IEBitmap.CopyToTBitmap(bmp);
@@ -82,7 +81,19 @@ begin
     bmp.PixelFormat := pf24bit;
 
 	prwPrint.BeginDoc();
-	prwPrint.PaintGraphicEx(prwPrint.PageBounds, frmMain.img.IEBitmap.VclBitmap, frmPrint.cbxProportional.Checked, frmPrint.cbxShrinkOnlyLarge.Checked, frmPrint.cbxCenter.Checked);
+
+    if cbxDPI.Checked then
+        begin
+        tmp.Left := 0;
+    	tmp.Top := 0;
+    	tmp.Right := prwPrint.ConvertX(Round(frmMain.img.IEBitmap.Width * (Screen.PixelsPerInch / frmMain.img.IO.Params.DpiX)), mmPixel, prwPrint.Units);
+    	tmp.Bottom := prwPrint.ConvertY(Round(frmMain.img.IEBitmap.Height * (Screen.PixelsPerInch / frmMain.img.IO.Params.DpiY)), mmPixel, prwPrint.Units);
+
+    	prwPrint.PaintGraphicEx(tmp, frmMain.img.IEBitmap.VclBitmap, false, false, false);
+        end
+    else
+        prwPrint.PaintGraphicEx(prwPrint.PageBounds, frmMain.img.IEBitmap.VclBitmap, cbxProportional.Checked, cbxShrinkOnlyLarge.Checked, cbxCenter.Checked);
+
 	prwPrint.EndDoc();
 
     FreeAndNil(bmp);
@@ -93,6 +104,7 @@ var
 	i: integer;
     bmp: TBitmap;
     img: HBITMAP;
+    tmp: TRect;
 begin
     if ((infImage.image_type = itMulti) and (infMulti.pages > 1) and cbxAllPages.Checked) then
         begin
@@ -106,7 +118,19 @@ begin
                 bmp.Handle := img;
 
                 prwPrint.BeginDoc();
-				prwPrint.PaintGraphicEx(prwPrint.PageBounds, bmp, frmPrint.cbxProportional.Checked, frmPrint.cbxShrinkOnlyLarge.Checked, frmPrint.cbxCenter.Checked);
+
+                if cbxDPI.Checked then
+                	begin
+        			tmp.Left := 0;
+    				tmp.Top := 0;
+    				tmp.Right := prwPrint.ConvertX(bmp.Width, mmPixel, prwPrint.Units);
+    				tmp.Bottom := prwPrint.ConvertY(bmp.Height, mmPixel, prwPrint.Units);
+
+    				prwPrint.PaintGraphicEx(tmp, bmp, false, false, false);
+                    end
+                else
+					prwPrint.PaintGraphicEx(prwPrint.PageBounds, bmp, cbxProportional.Checked, cbxShrinkOnlyLarge.Checked, cbxCenter.Checked);
+
 				prwPrint.EndDoc();
                 
             	prwPrint.Print();
@@ -170,18 +194,11 @@ begin
 	prwPrint.Zoom := 200;
 end;
 
-function TfrmPrint.SetupClicked():boolean;
-begin
-	Result := dlgPageSetup.Execute();
-	prwPrint.GetPrinterOptions();
-
-	DrawView();
-end;
-
 procedure TfrmPrint.tbnSetupClick(Sender: TObject);
 begin
 	dlgPageSetup.Execute();
 	prwPrint.GetPrinterOptions();
+
 	DrawView();
 end;
 
@@ -192,6 +209,10 @@ end;
 
 procedure TfrmPrint.cbxProportionalClick(Sender: TObject);
 begin
+    cbxProportional.Enabled := not cbxDPI.Checked;
+    cbxShrinkOnlyLarge.Enabled := not cbxDPI.Checked;
+    cbxCenter.Enabled := not cbxDPI.Checked;
+
 	DrawView();
 end;
 
@@ -204,6 +225,7 @@ begin
     tbnZoom.Hint 				:= LoadLStr(3254);
     tbnSetup.Caption 			:= LoadLStr(3255);
     tbnSetup.Hint 				:= LoadLStr(3256);
+    cbxDPI.Caption				:= LoadLStr(3263);
     cbxProportional.Caption		:= LoadLStr(3257);
     cbxShrinkOnlyLarge.Caption	:= LoadLStr(3258);
     cbxCenter.Caption			:= LoadLStr(3259);
@@ -238,6 +260,8 @@ begin
 
     // tweaks
     tbnZoom.WholeDropDown := true;
+    if IsThemed() then
+        prwPrint.BorderStyle := bsNone;
 
     // reading settings
 	if wreg.OpenKey(sSettings, false) then
@@ -255,6 +279,7 @@ begin
     		3: prwPrint.ZoomState := zsZoomToWidth;
     		end;
 
+        cbxDPI.Checked := wreg.RBool('Print_DPI', false);
     	cbxProportional.Checked := wreg.RBool('Print_Proportional', true);
     	cbxShrinkOnlyLarge.Checked := wreg.RBool('Print_ShrinkOnlyLarge', true);
     	cbxCenter.Checked := wreg.RBool('Print_Center', true);
@@ -265,6 +290,7 @@ begin
     else
     	begin
     	prwPrint.ZoomState := zsZoomToFit;
+        cbxDPI.Checked := false;
     	cbxProportional.Checked := true;
     	cbxShrinkOnlyLarge.Checked := true;
     	cbxCenter.Checked := true;
@@ -306,6 +332,7 @@ begin
         		wreg.WInteger('Print_ZoomState',3);
             end;
 
+        wreg.WBool('Print_DPI', cbxDPI.Checked);
     	wreg.WBool('Print_Proportional', cbxProportional.Checked);
     	wreg.WBool('Print_ShrinkOnlyLarge', cbxShrinkOnlyLarge.Checked);
     	wreg.WBool('Print_Center', cbxCenter.Checked);
@@ -331,18 +358,6 @@ procedure TfrmPrint.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSta
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
-end;
-
-procedure TfrmPrint.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-    else if Assigned(Screen.ActiveForm) then
-    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

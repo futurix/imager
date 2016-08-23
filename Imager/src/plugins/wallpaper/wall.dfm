@@ -1,10 +1,10 @@
 object frmWallpaper: TfrmWallpaper
   Left = 190
   Top = 79
-  Width = 775
-  Height = 575
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'View as Wallpaper'
+  ClientHeight = 548
+  ClientWidth = 767
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

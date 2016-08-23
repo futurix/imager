@@ -7,16 +7,16 @@ uses
 
 const
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.8.8';
-  sVersionEx			= '5.8.8.0';
+  sVersion				= '5.9';
+  sVersionEx			= '5.9.0.0';
   sAuthor				= 'Alexander Tereshchenko';
   sRights 				= '© 1999-2008 Alexander Tereshchenko';
   sRegAssociation		= 'FuturixImager';
   sRegAssociationOld	= 'FuturixImager.old';
 
   FXVER_MAJOR			= 5;
-  FXVER_MINOR			= 8;
-  FXVER_REVISION		= 8;
+  FXVER_MINOR			= 9;
+  FXVER_REVISION		= 0;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';
@@ -26,24 +26,17 @@ const
   sInternalFormat		= 'fx_internal';
 
   // URLs
-  sURL					= 'http://www.fximage.com/';
+  sURL					= 'http://fximage.com/';
 
   // signatures
   sLocaleID 			= 'FxImgLocaleR2';
-  sThemeID 				= 'FxImgThemeR1';
+  sThemeID 				= 'FxImgThemeR2';
 
   // registry value names
   sLocaleName			= 'CurrentLocaleName';
   sLocaleLib			= 'CurrentLocaleLib';
   sThemeName			= 'CurrentThemeName';
   sThemeLib				= 'CurrentThemeLib';
-
-  // application filenames
-  FN_APP				= 'fximager.exe';
-  FN_FORMATS			= 'fxformats.exe';
-  FN_ADDRAW				= 'fxraw.dll';
-  FN_ADDJBIG			= 'fxjbig.dll';
-  FN_ADDMAGICK			= 'fxmagick.dll';
 
   // registry access
   RA_FULL				= KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or
@@ -130,7 +123,6 @@ const
   PR_EMAIL				= 'ROLE::EMAIL';
   PR_CAPTURE			= 'ROLE::CAPTURE';
   PR_JPEGLL				= 'ROLE::JPEGLL';
-  PR_HEX				= 'ROLE::HEX';
   
   // boolean values
   FX_FALSE				= 0;

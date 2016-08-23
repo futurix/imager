@@ -1,6 +1,6 @@
-!include "MUI.nsh"
+!include "MUI2.nsh"
 
-!define FXVERSION "5.8.8"
+!define FXVERSION "5.9"
 
 Name "FuturixImager"
 OutFile "output\futuriximager.exe"
@@ -16,7 +16,7 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 InstallDirRegKey HKCU "Software\alex_t\FuturixImager" "InstallationPath"
 
 !define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION}"
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager.\r\n\r\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager.$\r$\n$\r$\n$_CLICK"
 
 !define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING
@@ -75,7 +75,7 @@ Section "FuturixImager"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayVersion" "${FXVERSION}"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
-  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.fximage.com/"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://fximage.com/"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoModify" 1
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoRepair" 1
    

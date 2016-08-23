@@ -1,6 +1,8 @@
->>>> 5.8.8
-+ bugfix/improvement for printing transparent images
-+ restored support for localization and themes
-+ several bugfixes and small improvements from beta version 5.9 (direct lossless JPEG transformations,
-  speed up for "Info" dialog, fixed header over-updating)
-+ added support for new raw camera formats
+- .NET integration
+- Vista-friendly registry associations
+- merge formats tools back to main executable
+- separate editor to DLL of its own
+- text tool in editor
+- tune zoom via scrolling wheel
+- lossless JPEG crop
+- icons for lossless JPEG transformation operations

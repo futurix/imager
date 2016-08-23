@@ -10,7 +10,7 @@ const
 	sAllButtons: string = 	'open,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
     						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,nav,fs,info,random,' +
                             'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rmail,rcapt,' +
-                            'rjpeg,rhex,gopage';
+                            'rjpeg,gopage';
     sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,sep,copy,paste,sep,editor,undo,' +
     							'sep,zoomin,zoomout,sep,zoom,dispopt,nav,fs,sep,info,sep,random,sep,back,forward';
 
@@ -134,7 +134,6 @@ begin
     else if (code = 'rmail') then AddButtonA(frmMain.tbnRMail)
     else if (code = 'rcapt') then AddButtonA(frmMain.tbnRCapture)
     else if (code = 'rjpeg') then AddButtonA(frmMain.tbnRJPEG)
-    else if (code = 'rhex') then AddButtonA(frmMain.tbnRHEX)
     else if (code = 'gopage') then AddButtonA(frmMain.tbnGoToPage);
 end;
 
@@ -189,7 +188,6 @@ begin
     else if (code = 'rmail') then HideButtonA(frmMain.tbnRMail)
     else if (code = 'rcapt') then HideButtonA(frmMain.tbnRCapture)
     else if (code = 'rjpeg') then HideButtonA(frmMain.tbnRJPEG)
-    else if (code = 'rhex') then HideButtonA(frmMain.tbnRHEX)
     else if (code = 'gopage') then HideButtonA(frmMain.tbnGoToPage);
 end;
 
@@ -253,7 +251,6 @@ begin
     else if (code = 'rmail') then Result := LoadLStr(580)
     else if (code = 'rcapt') then Result := LoadLStr(582)
     else if (code = 'rjpeg') then Result := LoadLStr(584)
-    else if (code = 'rhex') then Result := LoadLStr(586)
     else if (code = 'gopage') then Result := LoadLStr(590)
     else Result := LoadLStr(3502);
 end;
@@ -302,7 +299,6 @@ begin
     else if (code = LoadLStr(580)) then Result := 'rmail'
     else if (code = LoadLStr(582)) then Result := 'rcapt'
     else if (code = LoadLStr(584)) then Result := 'rjpeg'
-    else if (code = LoadLStr(586)) then Result := 'rhex'
     else if (code = LoadLStr(590)) then Result := 'gopage'
     else Result := 'sep';
 end;

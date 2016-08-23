@@ -488,7 +488,7 @@ begin
     	begin
         if ((role = PR_SCAN) or (role = PR_CAPTURE)) then
             frmMain.DoHandleFImport(lib_path, role) 		// importer roles
-        else if ((role = PR_JPEGLL) or (role = PR_HEX) or (role = PR_EMAIL)) then
+        else if ((role = PR_JPEGLL) or (role = PR_EMAIL)) then
             frmMain.DoHandleFTool(lib_path, role); 			// tool roles
         end;
 end;

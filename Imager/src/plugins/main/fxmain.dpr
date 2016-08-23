@@ -552,13 +552,10 @@ begin
 
     if ((String(info) = LoadLStr(3080)) or (String(info) = PR_SCAN)) then
     	begin
-        api := ieaTWain;
-            
-        case FxRegRInt('Scan_Subsystem', 7) of
-        	0, 1:
-            	if IsXP() then
-                	api := ieaWIA;
-            end;
+        api := ieaWIA;
+
+        if (FxRegRInt('Imaging_Subsystem', 0) = 1) then
+        	api := ieaTWain;
 
         // working
 		io := TImageEnIO.Create(nil);

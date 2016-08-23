@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, CheckLst, ShellAPI,
   c_const, c_utils, c_locales, imageenio, hyiedefs, hyieutils, ToolWin,
-  ImgList, c_themes, c_reg, Menus;
+  ImgList, c_themes, c_reg, c_iml32, Menus;
 
 const
 	SETTING_OPENAFTERSAVE 				= 0;
@@ -19,6 +19,7 @@ const
     SETTING_PROGRESSIVELOAD				= 7;
     SETTING_HQDISPLAYFILTER				= 8;
     SETTING_DELAYDISPLAYFILTER			= 9;
+    SETTING_ENABLECMS					= 10;
 
 type
   TfrmOptions = class(TForm)
@@ -120,15 +121,15 @@ type
     ToolButton57: TToolButton;
     ToolButton58: TToolButton;
     ToolButton59: TToolButton;
-    ToolButton60: TToolButton;
-    ToolButton61: TToolButton;
-    ToolButton62: TToolButton;
     shtPlugCfg: TTabSheet;
     lblPlugCfg: TLabel;
     lvwPlugCfg: TListView;
     lblResample: TLabel;
     cbxResample: TComboBox;
     lblFormats: TLabel;
+    lblSGradColor: TLabel;
+    sbxGradColor: TScrollBox;
+    rdgBg: TRadioGroup;
 
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -146,6 +147,7 @@ type
     procedure lvwPlugCfgDblClick(Sender: TObject);
     procedure lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure lblFormatsClick(Sender: TObject);
+    procedure sbxGradColorClick(Sender: TObject);
   private
     procedure InitLocales();
     procedure InitThemes();
@@ -157,7 +159,6 @@ type
     bLangChanged: boolean;
     bThemeChanged: boolean;
 
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -219,7 +220,7 @@ var
     theme_name: string;
 	wreg: TFRegistry;
 begin
-    // loading languages
+    // loading themes
     themes := TStringList.Create();
     cbxThemes.Items.Clear();
 
@@ -300,7 +301,7 @@ begin
             begin
             item := lvwPlugCfg.Items.Add();
             item.Caption := list[i];
-            item.ImageIndex := 7;
+            item.ImageIndex := 6;
             end;
 
         wreg.CloseKey();
@@ -376,6 +377,9 @@ begin
     bLangChanged := false;
     bThemeChanged := false;
 
+    // fixing image lists
+    ConvertTo32BitImageList(imlPreview);
+
     Localize();
 
 	AddSetting(SETTING_OPENAFTERSAVE, LoadLStr(847));
@@ -388,7 +392,8 @@ begin
     AddSetting(SETTING_PROGRESSIVELOAD, LoadLStr(868));
     AddSetting(SETTING_HQDISPLAYFILTER, LoadLStr(869));
     AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
-
+    AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
+    
     SetStyleAsLink(lblClearMRU);
     SetStyleAsLink(lblPlugScan);
     SetStyleAsLink(lblOpenPlugFolder);
@@ -406,6 +411,9 @@ begin
     	begin
 		sbxMainColor.Color 			:= StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
 		sbxFSColor.Color 			:= StringToColor(wreg.RStr('FSColor', 'clBlack'));
+        sbxGradColor.Color			:= StringToColor(wreg.RStr('Gradient', 'clSilver'));
+
+        rdgBg.ItemIndex				:= wreg.RInt('BgStyle', 0);
 
     	cbxArrows.ItemIndex 		:= wreg.RInt('ArrowKeys', 0);
     	cbxEnter.ItemIndex 			:= wreg.RInt('EnterKey', 0);
@@ -425,13 +433,17 @@ begin
     	SetSetting(SETTING_PROGRESSIVELOAD, wreg.RBool('ProgressiveImageLoad', false));
     	SetSetting(SETTING_HQDISPLAYFILTER, wreg.RBool('HighQualityDisplay', true));
     	SetSetting(SETTING_DELAYDISPLAYFILTER, wreg.RBool('DelayZoomFilter', false));
-    	
+        SetSetting(SETTING_ENABLECMS, wreg.RBool('UseCMS', false));
+
     	wreg.CloseKey();
    		end
     else
     	begin
 		sbxMainColor.Color 			:= clAppWorkSpace;
 		sbxFSColor.Color 			:= clBlack;
+        sbxGradColor.Color			:= clSilver;
+
+        rdgBg.ItemIndex				:= 0;
 
     	cbxArrows.ItemIndex 		:= 0;
     	cbxEnter.ItemIndex 			:= 0;
@@ -451,6 +463,7 @@ begin
     	SetSetting(SETTING_PROGRESSIVELOAD, false);
     	SetSetting(SETTING_HQDISPLAYFILTER, true);
     	SetSetting(SETTING_DELAYDISPLAYFILTER, false);
+        SetSetting(SETTING_ENABLECMS, false);
         end;
 
     FreeAndNil(wreg);
@@ -477,6 +490,13 @@ begin
 
 		wreg.WString('Color', ColorToString(sbxMainColor.Color));
 		wreg.WString('FSColor', ColorToString(sbxFSColor.Color));
+        wreg.WString('Gradient', ColorToString(sbxGradColor.Color));
+        wreg.WInteger('BgStyle', rdgBg.ItemIndex);
+
+        fx.ColorDefault := sbxMainColor.Color;
+        fx.ColorFullScreen := sbxFSColor.Color;
+        fx.ColorGradient := sbxGradColor.Color;
+        fx.BackgroundStyle := rdgBg.ItemIndex;
 
 		if GetSetting(SETTING_SHOWALLFILTERDEFAULT) then
     		wreg.WInteger('OpenDef', 1)
@@ -496,6 +516,7 @@ begin
         wreg.WInteger('Resampler', cbxResample.ItemIndex);
     	wreg.WBool('HighQualityDisplay', GetSetting(SETTING_HQDISPLAYFILTER));
     	wreg.WBool('DelayZoomFilter', GetSetting(SETTING_DELAYDISPLAYFILTER));
+        wreg.WBool('UseCMS', GetSetting(SETTING_ENABLECMS));
     	wreg.WBool('OneInstanceOnly', not GetSetting(SETTING_ALLOWMULTIPLEINST));
     	wreg.WBool('ReverseMouseWheel', cbxReverseWheel.Checked);
 
@@ -604,11 +625,7 @@ begin
     frmMain.bOpenAfterSave := GetSetting(SETTING_OPENAFTERSAVE);
     frmMain.bProgressiveLoad := GetSetting(SETTING_PROGRESSIVELOAD);
 
-	if frmMain.full_screen then
-    	frmMain.sbxMain.Color := sbxFSColor.Color
-    else
-    	frmMain.sbxMain.Color := sbxMainColor.Color;
-    frmMain.img.Background := frmMain.sbxMain.Color;
+    ApplyBackground();
 
     frmMain.bOpenDef := GetSetting(SETTING_SHOWALLFILTERDEFAULT);
     frmMain.bNoMRU := GetSetting(SETTING_DISABLEMRU);
@@ -644,6 +661,8 @@ begin
     else
     	frmMain.img.ZoomFilter := rfNone;
 
+    iegEnableCMS := GetSetting(SETTING_ENABLECMS);
+    
     frmMain.img.DelayZoomFilter := GetSetting(SETTING_DELAYDISPLAYFILTER);
 
     FreeAndNil(wreg);
@@ -662,18 +681,6 @@ begin
     frmMain.MRU.Files.Clear();
 end;
 
-procedure TfrmOptions.CreateParams(var Params: TCreateParams);
-begin
-	Params.Style := (Params.Style or WS_POPUP);
-
-	inherited;
-
-	if (Owner is TForm) then
-		Params.WndParent := (Owner as TWinControl).Handle
-	else if Assigned(Screen.ActiveForm) then
-		Params.WndParent := Screen.ActiveForm.Handle;
-end;
-
 procedure TfrmOptions.Localize();
 var
 	temp_itemindex: integer;
@@ -685,10 +692,21 @@ begin
     shtGeneral.Caption 			:= LoadLStr(841);
 
     lblClearMRU.Caption			:= LoadLStr(851);
+
     lblSWinColor.Caption		:= LoadLStr(853);
     sbxMainColor.Hint			:= LoadLStr(745);
     lblSFSColor.Caption			:= LoadLStr(854);
     sbxFSColor.Hint				:= LoadLStr(745);
+    lblSGradColor.Caption		:= LoadLStr(3350);
+    sbxGradColor.Hint			:= LoadLStr(745);
+
+    rdgBg.Caption				:= LoadLStr(3351);
+
+    rdgBg.Items[0] 				:= LoadLStr(3352);
+    rdgBg.Items[1] 				:= LoadLStr(3353);
+    rdgBg.Items[2] 				:= LoadLStr(3354);
+    rdgBg.Items[3] 				:= LoadLStr(3355);
+    rdgBg.Items[4] 				:= LoadLStr(3356);
 
     shtBeh.Caption				:= LoadLStr(842);
 
@@ -790,6 +808,21 @@ begin
     FreeAndNil(dlg);
 end;
 
+procedure TfrmOptions.sbxGradColorClick(Sender: TObject);
+var
+	dlg: TColorDialog;
+begin
+	dlg := TColorDialog.Create(Self);
+
+    dlg.Color := sbxGradColor.Color;
+    dlg.Options := [cdFullOpen, cdAnyColor];
+
+    if dlg.Execute then
+        sbxGradColor.Color := dlg.Color;
+
+    FreeAndNil(dlg);
+end;
+
 procedure TfrmOptions.cbxLanguagesChange(Sender: TObject);
 var
     locale_str, lang_loc: string;
@@ -887,7 +920,7 @@ begin
                                                 LoadLStr(3554) + ' ' + LoadResString(lib, 4) + #10 +
                                                 LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(lib, 5);
 
-                        bmp := LoadBitmapFromCustomTheme(lib, 'TBSA');
+                        bmp := LoadBitmapFromCustomTheme(lib, 'IMGMAIN');
 
                         if (bmp <> nil) then
                         	begin
@@ -913,7 +946,7 @@ begin
         						LoadLStr(3554) + ' ' + LoadResString(HInstance, 4) + #10 +
         						LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(HInstance, 5);
 
-        bmp := LoadBitmapFromCustomTheme(HInstance, 'TBSA');
+        bmp := LoadBitmapFromCustomTheme(HInstance, 'IMGMAIN');
 
         if (bmp <> nil) then
         	begin

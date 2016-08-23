@@ -1,6 +1,6 @@
-!include "MUI.nsh"
+!include "MUI2.nsh"
 
-!define FXVERSION "5.8.8"
+!define FXVERSION "5.9"
 
 Name "FuturixImager SDK"
 OutFile "output\futuriximager_sdk.exe"
@@ -15,7 +15,7 @@ BrandingText "FuturixImager ${FXVERSION} SDK"
 InstallDir "$PROGRAMFILES\FuturixImager SDK"
 
 !define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION} SDK"
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager SDK.\r\n\r\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager SDK.$\r$\n$\r$\n$_CLICK"
 
 !define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING

@@ -26,6 +26,7 @@ begin
         Graphics.DefFontData.Name := 'MS Shell Dlg 2';
 
   		Application.Initialize();
+        Application.MainFormOnTaskbar := True;
   		Application.Title := 'FuturixImager';
   		Application.CreateForm(TfrmOptions, frmOptions);
   		Application.Run();
