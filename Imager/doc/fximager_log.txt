@@ -1,1 +1,7 @@
->>>> 5.9.3
+>>>> 5.9.4
++ read/write support for JPEG XR format (also known as HD Photo or Windows Media Photo)
++ improved Photoshop (PSD) read support
++ PSD write support
++ faster loading of several rare TIFF variations
++ improved 'View as Wallpaper' plug-in
++ reworked support for WBMP (wireless bitmaps)

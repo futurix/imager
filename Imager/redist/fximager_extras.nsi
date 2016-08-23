@@ -1,6 +1,6 @@
 !include "MUI2.nsh"
 
-!define FXVERSION "5.9.3"
+!define FXVERSION "5.9.4"
 
 Name "FuturixImager Extras"
 OutFile "output\futuriximager_extras.exe"
@@ -67,6 +67,7 @@ Section "-Core"
   Delete $INSTDIR\fxmng.dll
   Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxmoreinfo.dll
+  Delete $INSTDIR\fxwireless.dll
   
   # deleting old files
   Delete $INSTDIR\fxjbig.dll
@@ -74,7 +75,6 @@ Section "-Core"
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxthemexp.dll
-  Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
   
   # creating uninstaller
@@ -105,11 +105,6 @@ Section "Support for PhotoCD, EPS thumbnails..."
   File "..\bin\fxgraphicex.dll"
 SectionEnd
 
-Section "Support for writing wireless bitmaps (WBMP)"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxwireless.dll"
-SectionEnd
-
 
 Section Uninstall
   SetDetailsPrint none
@@ -119,7 +114,6 @@ Section Uninstall
   Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
-  Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
 SectionEnd
 

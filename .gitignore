@@ -37,3 +37,6 @@ Imager/src/FuturixImager.groupproj.local
 *.dproj.local
 *.identcache
 Imager/src/output/*
+Imager/src/plugins/fimg/plugin/Debug/*
+Imager/src/plugins/fimg/plugin/Release/*
+*.ncb

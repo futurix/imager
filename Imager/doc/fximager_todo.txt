@@ -1,0 +1,12 @@
+- experimental WIC support for main formats (initially as separate download)
+
+- preserve alpha channel internally
+
+- import digital camera dump (raw image) from unknown extensions
+
+- credits for used libraries
+- new raw plug-in using libRAW
+
+- option to use Vista dialogs
+- new scan UI (with explicit WIA / TWAIN selection)
+? new DICOM support

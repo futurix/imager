@@ -8,7 +8,7 @@
 // application strings (ANSI only)
 #define SAPPNAME 			"FuturixImager"
 #define SVERSION			"5.9"
-#define SVERSIONEX			"5.9.3.0"
+#define SVERSIONEX			"5.9.4.0"
 #define SAUTHOR 			"Alexander Tereshchenko"
 #define SRIGHTS 			"© 1999-2009 Alexander Tereshchenko"
 #define SREGASSOCIATION		"FuturixImager"
@@ -17,7 +17,7 @@
 // version info
 #define FXVER_MAJOR			5
 #define FXVER_MINOR			9
-#define FXVER_REVISION		3
+#define FXVER_REVISION		4
 #define FXVER_BUILD			0
 
 // registry paths

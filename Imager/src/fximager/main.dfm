@@ -45,8 +45,9 @@ object frmMain: TfrmMain
       DoubleBuffer = False
       MouseInteract = [miScroll]
       OnProgress = imgProgress
-      ImageEnVersion = '3.0.0'
+      ImageEnVersion = '3.0.3'
       OnMouseWheel = imgMouseWheel
+      EnableInteractionHints = True
       Align = alClient
       PopupMenu = popMain
       TabOrder = 0

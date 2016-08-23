@@ -4,13 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, TileImage, c_const, c_locales, c_utils;
+  StdCtrls, ExtCtrls, c_const, c_locales, c_utils,
+  ieview, imageenview, hyieutils;
 
 type
   TfrmWallpaper = class(TForm)
     pnlButtons: TPanel;
     sbxWall: TScrollBox;
-    tilWall: TTileImage;
     btnOK: TButton;
     btn800x600: TButton;
     btn1024x768: TButton;
@@ -27,6 +27,7 @@ type
     btn1920x1200: TButton;
     btn3200x1200: TButton;
     btn2560x1024: TButton;
+    imgWallpaper: TImageEnView;
     procedure btnOKClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -42,7 +43,7 @@ type
     procedure btn2560x1024Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
-    { Private declarations }
+    procedure SetWallpaper(w, h: integer);
   public
     procedure CreateParams(var Params: TCreateParams); override;
   end;
@@ -87,42 +88,44 @@ end;
 
 function FxImgTool(document_path, info: PChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
-	temp_res: TFxImgResult;
+  temp_res: TFxImgResult;
 begin
-    Result.result_type := RT_BOOL;
-    Result.result_value := FX_TRUE;
+  Result.result_type := RT_BOOL;
+  Result.result_value := FX_TRUE;
 
-	Application.Handle := app;
+  Application.Handle := app;
 
-    if (@app_query <> nil) then
-        begin
-    	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
+  if (@app_query <> nil) then
+    begin
+    temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
 
-        if (temp_res.result_type = RT_HANDLE) then
-        	begin
-            locale_lib := temp_res.result_value;
-            backup_lib := temp_res.result_xtra;
-            end;
-        end;
+    if (temp_res.result_type = RT_HANDLE) then
+      begin
+      locale_lib := temp_res.result_value;
+      backup_lib := temp_res.result_xtra;
+      end;
+    end;
 
-	image := TBitmap.Create();
-	image.Handle := img;
+  image := TBitmap.Create();
+  image.Handle := img;
 
-    if (String(info) = LoadLStr(3000)) then
-    	begin
-		frmWallpaper := TfrmWallpaper.Create(Application);
-		frmWallpaper.tilWall.Picture.Assign(image);
-		frmWallpaper.ShowModal();
-    	FreeAndNil(frmWallpaper);
-    	end
-    else
-    	begin
-		frmWallpaperS := TfrmWallpaperS.Create(Application);
-		frmWallpaperS.ShowModal();
-		FreeAndNil(frmWallpaperS);
-        end;
+  if (String(info) = LoadLStr(3000)) then
+    begin
+    frmWallpaper := TfrmWallpaper.Create(Application);
+    frmWallpaper.imgWallpaper.Blank();
+    frmWallpaper.imgWallpaper.MouseWheelParams.Action := iemwNone;
+    frmWallpaper.imgWallpaper.WallPaper.Assign(image);
+    frmWallpaper.ShowModal();
+    FreeAndNil(frmWallpaper);
+    end
+  else
+    begin
+    frmWallpaperS := TfrmWallpaperS.Create(Application);
+    frmWallpaperS.ShowModal();
+    FreeAndNil(frmWallpaperS);
+    end;
 
-	FreeAndNil(image);
+  FreeAndNil(image);
 end;
 
 procedure TfrmWallpaper.btnOKClick(Sender: TObject);
@@ -140,58 +143,43 @@ begin
 	frmWallpaper := nil;
 end;
 
+procedure TfrmWallpaper.SetWallpaper(w, h: integer);
+begin
+  imgWallpaper.Width := w;
+  imgWallpaper.Height := h;
+
+  edtCustWidth.Text := IntToStr(w);
+  edtCustHeight.Text := IntToStr(h);
+end;
+
 procedure TfrmWallpaper.btn640x480Click(Sender: TObject);
 begin
-	tilWall.Width := 640;
-	tilWall.Height := 480;
-
-	edtCustWidth.Text := '640';
-	edtCustHeight.Text := '480';
+  SetWallpaper(640, 480);
 end;
 
 procedure TfrmWallpaper.btn800x600Click(Sender: TObject);
 begin
-	tilWall.Width := 800;
-	tilWall.Height := 600;
-
-	edtCustWidth.Text := '800';
-	edtCustHeight.Text := '600';
+  SetWallpaper(800, 600);
 end;
 
 procedure TfrmWallpaper.btn1024x768Click(Sender: TObject);
 begin
-	tilWall.Width := 1024;
-	tilWall.Height := 768;
-
-	edtCustWidth.Text := '1024';
-	edtCustHeight.Text := '768';
+  SetWallpaper(1024, 768);
 end;
 
 procedure TfrmWallpaper.btn1280x1024Click(Sender: TObject);
 begin
-	tilWall.Width := 1280;
-	tilWall.Height := 1024;
-
-	edtCustWidth.Text := '1280';
-	edtCustHeight.Text := '1024';
+  SetWallpaper(1280, 1024);
 end;
 
 procedure TfrmWallpaper.btn1600x1200Click(Sender: TObject);
 begin
-	tilWall.Width := 1600;
-	tilWall.Height := 1200;
-
-	edtCustWidth.Text := '1600';
-	edtCustHeight.Text := '1200';
+  SetWallpaper(1600, 1200);
 end;
 
 procedure TfrmWallpaper.btn3000x2250Click(Sender: TObject);
 begin
-	tilWall.Width := 3000;
-	tilWall.Height := 2250;
-
-	edtCustWidth.Text := '3000';
-	edtCustHeight.Text := '2250';
+  SetWallpaper(3000, 2250);
 end;
 
 procedure TfrmWallpaper.btnSetCustomClick(Sender: TObject);
@@ -211,59 +199,46 @@ begin
         		Abort();
   		end;
 
-	tilWall.Width := tmp_w;
-	tilWall.Height := tmp_h;
+  SetWallpaper(tmp_w, tmp_h);
 end;
 
 procedure TfrmWallpaper.btn1920x1200Click(Sender: TObject);
 begin
-	tilWall.Width := 1920;
-	tilWall.Height := 1200;
-
-	edtCustWidth.Text := '1920';
-	edtCustHeight.Text := '1200';
+  SetWallpaper(1920, 1200);
 end;
 
 procedure TfrmWallpaper.btn3200x1200Click(Sender: TObject);
 begin
-	tilWall.Width := 3200;
-	tilWall.Height := 1200;
-
-	edtCustWidth.Text := '3200';
-	edtCustHeight.Text := '1200';
+  SetWallpaper(3200, 1200);
 end;
 
 procedure TfrmWallpaper.btn2560x1024Click(Sender: TObject);
 begin
-	tilWall.Width := 2560;
-	tilWall.Height := 1024;
-
-	edtCustWidth.Text := '2560';
-	edtCustHeight.Text := '1024';
+  SetWallpaper(2560, 1024);
 end;
 
 procedure TfrmWallpaper.FormCreate(Sender: TObject);
 begin
-    if IsThemed() then
-        sbxWall.BorderStyle := bsNone;
+  if IsThemed() then
+    sbxWall.BorderStyle := bsNone;
 
-	Self.Caption			:= LoadLStr(3002);
+  Self.Caption          := LoadLStr(3002);
 
-    lblCustom.Caption		:= LoadLStr(3003);
-    lblX.Caption			:= LoadLStr(3004);
+  lblCustom.Caption     := LoadLStr(3003);
+  lblX.Caption          := LoadLStr(3004);
 
-    btnSetCustom.Caption	:= LoadLStr(3006);
-    btnOK.Caption			:= LoadLStr(54);
+  btnSetCustom.Caption  := LoadLStr(3006);
+  btnOK.Caption         := LoadLStr(54);
 
-    btn640x480.Caption		:= Format(LoadLStr(3005), [IntToStr(640), IntToStr(480)]);
-    btn800x600.Caption		:= Format(LoadLStr(3005), [IntToStr(800), IntToStr(600)]);
-    btn1024x768.Caption		:= Format(LoadLStr(3005), [IntToStr(1024), IntToStr(768)]);
-    btn1280x1024.Caption	:= Format(LoadLStr(3005), [IntToStr(1280), IntToStr(1024)]);
-    btn1600x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(1600), IntToStr(1200)]);
-    btn3000x2250.Caption	:= Format(LoadLStr(3005), [IntToStr(3000), IntToStr(2250)]);
-    btn1920x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(1920), IntToStr(1200)]);
-    btn3200x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(3200), IntToStr(1200)]);
-    btn2560x1024.Caption	:= Format(LoadLStr(3005), [IntToStr(2560), IntToStr(1024)]);
+  btn640x480.Caption		:= Format(LoadLStr(3005), [IntToStr(640), IntToStr(480)]);
+  btn800x600.Caption		:= Format(LoadLStr(3005), [IntToStr(800), IntToStr(600)]);
+  btn1024x768.Caption		:= Format(LoadLStr(3005), [IntToStr(1024), IntToStr(768)]);
+  btn1280x1024.Caption	:= Format(LoadLStr(3005), [IntToStr(1280), IntToStr(1024)]);
+  btn1600x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(1600), IntToStr(1200)]);
+  btn3000x2250.Caption	:= Format(LoadLStr(3005), [IntToStr(3000), IntToStr(2250)]);
+  btn1920x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(1920), IntToStr(1200)]);
+  btn3200x1200.Caption	:= Format(LoadLStr(3005), [IntToStr(3200), IntToStr(1200)]);
+  btn2560x1024.Caption	:= Format(LoadLStr(3005), [IntToStr(2560), IntToStr(1024)]);
 end;
 
 procedure TfrmWallpaper.CreateParams(var Params: TCreateParams);

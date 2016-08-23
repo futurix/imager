@@ -14,22 +14,24 @@ uses
   c_utils,
   c_locales,
   c_reg,
+  iewic,
   hyiedefs,
   JPEG2Ksave in 'JPEG2Ksave.pas' {frmJPsave},
   TIFFsave in 'TIFFsave.pas' {frmTIFFsave},
   JPEGsave in 'JPEGsave.pas' {frmJPEGsave},
-  ScanOptions in 'ScanOptions.pas' {frmScanOpt};
+  ScanOptions in 'ScanOptions.pas' {frmScanOpt},
+  XRsave in 'XRsave.pas' {frmXRsave};
 
 var
-    gframe: cardinal = 0;
-    gframes: cardinal = 0;
-    gfile: string = '';
+  gframe: cardinal = 0;
+  gframes: cardinal = 0;
+  gfile: string = '';
 
-	pio: TImageEnIO;
-    gpage: cardinal = 0;
-    gpages: cardinal = 0;
-    gfilep: string = '';
-    gext: string = '';
+  pio: TImageEnIO;
+  gpage: cardinal = 0;
+  gpages: cardinal = 0;
+  gfilep: string = '';
+  gext: string = '';
 
 {$R *.RES}
 
@@ -37,62 +39,82 @@ var
 function FxImgQuery(plugin_path: PChar; info_call: TPlugInCallBack; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
 	temp_res: TFxImgResult;
+  wic: TIEWICReader;
 begin
-    Result.result_type := RT_BOOL;
-    Result.result_value := FX_TRUE;
+  Result.result_type := RT_BOOL;
+  Result.result_value := FX_TRUE;
 
-    if (@app_query <> nil) then
-        begin
-    	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
+  if (@app_query <> nil) then
+    begin
+    temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
 
-        if (temp_res.result_type = RT_HANDLE) then
-        	begin
-            locale_lib := temp_res.result_value;
-            backup_lib := temp_res.result_xtra;
-            end;
-        end;
+    if (temp_res.result_type = RT_HANDLE) then
+      begin
+      locale_lib := temp_res.result_value;
+      backup_lib := temp_res.result_xtra;
+      end;
+    end;
 
-    info_call(PT_FNAME, 'Core functions', '');
-    info_call(PT_FROLE, PR_SCAN, '');
-    info_call(PT_FCONFIG, PChar(LoadLStr(3700)), '');
+  info_call(PT_FNAME, 'Core functions', '');
+  info_call(PT_FROLE, PR_SCAN, '');
+  info_call(PT_FCONFIG, PChar(LoadLStr(3700)), '');
 
-    info_call(PT_FOPEN, 'cur', '');
+  info_call(PT_FOPEN, 'cur', '');
 
-	info_call(PT_FOPENMULTI, 'dcx', '');
-	info_call(PT_FOPENMULTI, 'tif', '');
-	info_call(PT_FOPENMULTI, 'tiff', '');
+  info_call(PT_FOPENMULTI, 'dcx', '');
+  info_call(PT_FOPENMULTI, 'tif', '');
+  info_call(PT_FOPENMULTI, 'tiff', '');
 
-    info_call(PT_FSAVE, 'jp2', '');
-    info_call(PT_FSAVE, 'j2k', '');
-    info_call(PT_FSAVE, 'bmp', '');
-	info_call(PT_FSAVE, 'jpg', '');
-	info_call(PT_FSAVE, 'pcx', '');
-	info_call(PT_FSAVE, 'png', '');
-	info_call(PT_FSAVE, 'pbm', '');
-	info_call(PT_FSAVE, 'pgm', '');
-	info_call(PT_FSAVE, 'ppm', '');
-	info_call(PT_FSAVE, 'tga', '');
-	info_call(PT_FSAVE, 'tif', '');
-    info_call(PT_FSAVE, 'gif', '');
-    info_call(PT_FSAVE, 'pdf', '');
-    info_call(PT_FSAVE, 'ps', '');
-    info_call(PT_FSAVE, 'txt', '');
+  info_call(PT_FSAVE, 'jp2', '');
+  info_call(PT_FSAVE, 'j2k', '');
+  info_call(PT_FSAVE, 'bmp', '');
+  info_call(PT_FSAVE, 'jpg', '');
+  info_call(PT_FSAVE, 'pcx', '');
+  info_call(PT_FSAVE, 'png', '');
+  info_call(PT_FSAVE, 'pbm', '');
+  info_call(PT_FSAVE, 'pgm', '');
+  info_call(PT_FSAVE, 'ppm', '');
+  info_call(PT_FSAVE, 'tga', '');
+  info_call(PT_FSAVE, 'tif', '');
+  info_call(PT_FSAVE, 'gif', '');
+  info_call(PT_FSAVE, 'pdf', '');
+  info_call(PT_FSAVE, 'ps', '');
+  info_call(PT_FSAVE, 'txt', '');
+  info_call(PT_FSAVE, 'psd', '');
 
-    info_call(PT_FIMPORT, PChar(LoadLStr(3080)), ' ');
+  info_call(PT_FIMPORT, PChar(LoadLStr(3080)), ' ');
 
-    info_call(PT_FDESCR, 'pdf', PChar(LoadLStr(1031)));
-    info_call(PT_FDESCR, 'ps', PChar(LoadLStr(1032)));
-    info_call(PT_FDESCR, 'cur', PChar(LoadLStr(1033)));
-    info_call(PT_FDESCR, 'txt', PChar(LoadLStr(1034)));
+  info_call(PT_FDESCR, 'pdf', PChar(LoadLStr(1031)));
+  info_call(PT_FDESCR, 'ps', PChar(LoadLStr(1032)));
+  info_call(PT_FDESCR, 'cur', PChar(LoadLStr(1033)));
+  info_call(PT_FDESCR, 'txt', PChar(LoadLStr(1034)));
+
+  // Windows Imaging Component
+  wic := TIEWICReader.Create();
+
+  if wic.IsAvailable then
+    begin
+    info_call(PT_FOPEN, 'hdp', '');
+    info_call(PT_FOPEN, 'wdp', '');
+
+    info_call(PT_FSAVE, 'hdp', '');
+
+    info_call(PT_FNOTREC, 'wdp', '');
+
+    info_call(PT_FDESCR, 'hdp', PChar(LoadLStr(1065)));
+    info_call(PT_FDESCR, 'wdp', PChar(LoadLStr(1065)));
+
+    wic.Free();
+    end;
 end;
 
 function FxImgOpen(document_path, info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
-	bmp, tmp: TBitmap;
-    io: TImageEnIO;
-	imh: THandle;
-	pic: TPicture;
-	iif: TIconInfo;
+  bmp, tmp: TBitmap;
+  io: TImageEnIO;
+  imh: THandle;
+  pic: TPicture;
+  iif: TIconInfo;
 begin
     Result.result_type := RT_HBITMAP;
     Result.result_value := 0;
@@ -133,7 +155,7 @@ begin
     	io := TImageEnIO.Create(nil);
     	bmp := TBitmap.Create();
 
-        io.Params.JPEG_DCTMethod := ioJPEG_IFAST;
+      io.Params.JPEG_DCTMethod := ioJPEG_IFAST;
 
     	io.LoadFromFile(String(document_path));
 
@@ -246,6 +268,30 @@ begin
         FreeAndNil(frmJPEGsave);
         end
 
+    else if (mex = 'hdp') then
+    	begin
+  		frmXRsave := TfrmXRsave.Create(nil);
+  		frmXRsave.ShowModal();
+
+      if xr_confirm then
+        begin
+        io := TImageEnIO.Create(nil);
+        io.IEBitmap.Assign(bmp);
+
+        io.Params.HDP_ImageQuality := frmXRsave.tbrQuality.Position / 100;
+        io.Params.HDP_Lossless := frmXRsave.cbxLossless.Checked;
+
+        io.SaveToFileHDP(String(document_path));
+
+        if not io.Aborting then
+          Result.result_value := FX_TRUE;
+
+        FreeAndNil(io);
+        end;
+
+      FreeAndNil(frmXRsave);
+      end
+
     else if (mex = 'pcx') then
     	begin
         io := TImageEnIO.Create(nil);
@@ -274,6 +320,19 @@ begin
 
         FreeAndNil(io);
         end
+
+    else if (mex = 'psd') then
+    	begin
+      io := TImageEnIO.Create(nil);
+      io.IEBitmap.Assign(bmp);
+
+      io.SaveToFilePSD(String(document_path));
+
+      if not io.Aborting then
+        Result.result_value := FX_TRUE;
+
+      FreeAndNil(io);
+      end
 
     else if ((mex = 'pbm') or (mex = 'pgm') or (mex = 'ppm')) then
     	begin

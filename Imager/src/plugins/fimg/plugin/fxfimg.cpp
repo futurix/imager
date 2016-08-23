@@ -71,6 +71,8 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgQuery(
 	info_call(PT_FOPEN, "ico", "");
 	info_call(PT_FOPEN, "hdr", "");
 
+	info_call(PT_FSAVE, "wbmp", "");
+
 	info_call(PT_FOPENMULTI, "ico", "");
 
     info_call(PT_FNOTREC, "koa", "");
@@ -283,4 +285,98 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgMultiStop(
 	
 	return result;
 }
+
+extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgSave(
+	LPSTR document_path, LPSTR info,
+	HBITMAP img,
+	HWND app, HWND wnd,
+	APPCALLBACK app_query)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	
+	// setting up result structure
+	FXIMGRESULT result;
+	::ZeroMemory(&result, sizeof(FXIMGRESULT));
+	result.result_type = RT_BOOL;
+	result.result_value = FX_FALSE;
+	
+	// extension should be lowercase
+	CStringA csExt = info;
+	csExt = csExt.MakeLower();
+
+	// trying to save the file
+	if ((csExt == "wbmp") && (img))
+	{
+		// initializing FreeImage
+		FreeImage_Initialise(TRUE);
+
+		// converting to FreeImage
+		FIBITMAP *dib = NULL;
+
+		BITMAP bm;
+		GetObject(img, sizeof(BITMAP), (LPSTR)&bm);
+		
+		dib = FreeImage_Allocate(bm.bmWidth, bm.bmHeight, bm.bmBitsPixel);
+    
+		// The GetDIBits function clears the biClrUsed and biClrImportant BITMAPINFO members (dont't know why)
+		// So we save these infos below. This is needed for palettized images only.
+
+		int nColors = FreeImage_GetColorsUsed(dib);
+		HDC dc = GetDC(NULL);
+		int Success = GetDIBits(dc, img, 0, FreeImage_GetHeight(dib), FreeImage_GetBits(dib), FreeImage_GetInfo(dib), DIB_RGB_COLORS);
+		ReleaseDC(NULL, dc);
+		
+		// restore BITMAPINFO members
+		FreeImage_GetInfoHeader(dib)->biClrUsed = nColors;
+		FreeImage_GetInfoHeader(dib)->biClrImportant = nColors;
+		
+		// resizing image to WBMP limits
+		{
+			int imgWidth = FreeImage_GetWidth(dib);
+			int imgHeight = FreeImage_GetHeight(dib);
+
+			if ((imgWidth > 255) || (imgHeight > 255))
+			{
+				FIBITMAP *dib_rs = NULL;
+				
+				if (imgWidth >= imgHeight)
+					dib_rs = FreeImage_Rescale(dib, 255, imgHeight * 255 / imgWidth, FILTER_BICUBIC);
+				else
+					dib_rs = FreeImage_Rescale(dib, imgWidth * 255 / imgHeight, 255, FILTER_BICUBIC);
+				
+				if (dib_rs)
+				{
+					FreeImage_Unload(dib);
+
+					dib = dib_rs;
+				}
+			}
+		}
+		
+		// ensuring image is correct
+		if (FreeImage_GetBPP(dib) != 1)
+		{
+			FIBITMAP *dib_bw = FreeImage_Dither(dib, FID_FS);
+
+			if (dib_bw)
+			{
+				FreeImage_Unload(dib);
+
+				dib = dib_bw;
+			}
+		}
+
+		// saving
+		if (FreeImage_Save(FIF_WBMP, dib, document_path) == TRUE)
+			result.result_value = FX_TRUE;
+		
+		// clean up
+		FreeImage_Unload(dib);
+
+		// cleaning
+		FreeImage_DeInitialise();
+	}
+	
+	return result;
+} 
 

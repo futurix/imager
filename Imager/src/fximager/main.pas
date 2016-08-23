@@ -10,22 +10,22 @@ uses
   ClipBrd, Printers, c_locales, c_themes, c_iml32, hyiedefs, f_instance;
 
 var
-    ver_status: integer = 0; 	// 0 - release, 1 - alpha, 2 - beta, 3 - gamma, 7 - release candidate
-    ver_number: integer = 0; 	// version of the above (should be 0 for release)
+  ver_status: integer = 0; 	// 0 - release, 1 - alpha, 2 - beta, 3 - gamma, 7 - release candidate
+  ver_number: integer = 0; 	// version of the above (should be 0 for release)
 
 const
 	// extended keyboard keys
-	VK_BROWSER_BACK 		= 166;
+	VK_BROWSER_BACK 		  = 166;
 	VK_BROWSER_FORWARD 		= 167;
 	VK_BROWSER_REFRESH 		= 168;
-	VK_BROWSER_STOP 		= 169;
+	VK_BROWSER_STOP 		  = 169;
 
     // application filenames
-    FN_APP					= 'fximager.exe';
-    FN_FORMATS				= 'fxformats.exe';
-    FN_ADDRAW				= 'fxraw.dll';
-    FN_ADDJBIG				= 'fxjbig.dll';
-    FN_ADDMAGICK			= 'fxmagick.dll';
+  FN_APP					  = 'fximager.exe';
+  FN_FORMATS				= 'fxformats.exe';
+  FN_ADDRAW				  = 'fxraw.dll';
+  FN_ADDJBIG				= 'fxjbig.dll';
+  FN_ADDMAGICK			= 'fxmagick.dll';
 
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);

@@ -7,8 +7,8 @@ uses
 
 const
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.9.3';
-  sVersionEx			= '5.9.3.0';
+  sVersion				= '5.9.4';
+  sVersionEx			= '5.9.4.0';
   sAuthor				= 'Alexander Tereshchenko';
   sRights 				= '© 1999-2009 Alexander Tereshchenko';
   sRegAssociation		= 'FuturixImager';
@@ -16,7 +16,7 @@ const
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 9;
-  FXVER_REVISION		= 3;
+  FXVER_REVISION		= 4;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';

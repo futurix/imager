@@ -1,6 +1,7 @@
 object frmWallpaper: TfrmWallpaper
   Left = 190
   Top = 79
+  ActiveControl = btnOK
   BorderIcons = [biSystemMenu, biMaximize]
   Caption = 'View as Wallpaper'
   ClientHeight = 548
@@ -31,11 +32,11 @@ object frmWallpaper: TfrmWallpaper
   PixelsPerInch = 96
   TextHeight = 13
   object pnlButtons: TPanel
-    Left = 620
+    Left = 0
     Top = 0
-    Width = 147
+    Width = 150
     Height = 548
-    Align = alRight
+    Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
     object lblCustom: TLabel
@@ -114,7 +115,7 @@ object frmWallpaper: TfrmWallpaper
       Width = 60
       Height = 21
       TabOrder = 6
-      Text = '768'
+      Text = '1600'
     end
     object edtCustHeight: TEdit
       Left = 80
@@ -122,7 +123,7 @@ object frmWallpaper: TfrmWallpaper
       Width = 60
       Height = 21
       TabOrder = 7
-      Text = '576'
+      Text = '1200'
     end
     object btnSetCustom: TButton
       Left = 7
@@ -137,11 +138,12 @@ object frmWallpaper: TfrmWallpaper
     object pnlClose: TPanel
       Left = 0
       Top = 508
-      Width = 147
+      Width = 150
       Height = 40
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 9
+      ExplicitWidth = 147
       object btnOK: TButton
         Left = 7
         Top = 10
@@ -182,9 +184,9 @@ object frmWallpaper: TfrmWallpaper
     end
   end
   object sbxWall: TScrollBox
-    Left = 0
+    Left = 150
     Top = 0
-    Width = 620
+    Width = 617
     Height = 548
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
@@ -194,12 +196,20 @@ object frmWallpaper: TfrmWallpaper
     Color = clAppWorkSpace
     ParentColor = False
     TabOrder = 1
-    object tilWall: TTileImage
+    object imgWallpaper: TImageEnView
       Left = 0
       Top = 0
       Width = 1600
       Height = 1200
-      TileImage = True
+      Background = clAppWorkSpace
+      ParentCtl3D = False
+      BorderStyle = bsNone
+      LegacyBitmap = False
+      ScrollBars = ssNone
+      ImageEnVersion = '3.0.3'
+      WallPaperStyle = iewoTile
+      EnableInteractionHints = True
+      TabOrder = 0
     end
   end
 end

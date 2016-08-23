@@ -1,7 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2008/05/26 14:33:16.078.cpp,C:\Documents and Settings\Alex\My Documents\RAD Studio\Projects\File1.cpp=D:\Projects\FuturixImager\src\plugins\dcraw\project.cpp</Transaction>
-    <Transaction>2008/05/26 14:33:19.703.cbproj,C:\Documents and Settings\Alex\My Documents\RAD Studio\Projects\Project1.cbproj=D:\Projects\FuturixImager\src\plugins\dcraw\fxraw.cbproj</Transaction>
-  </Transactions>
-</BorlandProject>
+<BorlandProject/>

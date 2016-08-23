@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.9.3"                    						// last version of Futuris Imager this locale was updated for
+    5		"5.9.4"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -536,6 +536,7 @@ BEGIN
     1062    "Khoros VIFF / Visualization Image File Format"
     1063    "GIMP Image"
     1064	"ILM OpenEXR"
+    1065	"JPEG XR / HD Photo"
 
     1200    "Path"
     1201    "File Size"
@@ -934,6 +935,9 @@ BEGIN
     3559	"Plug-in configuration:"
     
     3600	"Send by E-mail..."
+    
+    3650	"Save As JPEG XR / HD Photo"
+    3651	"Lossless"
     
     3700	"WIA/TWAIN scanning options"
     3701	"Scanning Options"
