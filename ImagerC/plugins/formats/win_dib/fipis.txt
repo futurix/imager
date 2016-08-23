@@ -1,0 +1,8 @@
+[FIPISopen]
+dib=
+rle=
+
+[FIPISdescr]
+dib=Windows DIBs (*.dib)
+rle=RLE-compressed Windows Bitmap (*.rle)
+

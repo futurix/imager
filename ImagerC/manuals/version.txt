@@ -1,0 +1,11 @@
+Alexander Tereschenko
+Futuris Imager GIF Plug-in
+2.6.0.1555
+f_bla
+© 1999-2002 Alexander Tereschenko
+Futuris is a trademark of Alexander Tereschenko
+f_bla.dll
+Futuris Imager
+2.6
+http://alext.plastiqueweb.com/
+

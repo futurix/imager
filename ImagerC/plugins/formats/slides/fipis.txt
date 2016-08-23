@@ -1,0 +1,5 @@
+[FIPISopen]
+sld=
+
+[FIPISdescr]
+sld=AutoCAD slide files (*.sld)

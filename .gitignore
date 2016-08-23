@@ -1,0 +1,8 @@
+ImagerC/distrib/output/*
+*.dsk
+ImagerC/release/plugins/*.dll
+ImagerC/release/*.exe
+ImagerC/release/*.bpl
+ImagerC/release/*.dcp
+ImagerC/release/*.dll
+ImagerC/vcomps/*

@@ -1,0 +1,5 @@
+body {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt; color: #000000; background-color: #FFFFFF; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px}
+td {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt}
+a {  color: #006699; text-decoration: none}
+a:hover {  text-decoration: underline}
+.justify {  text-align: justify}

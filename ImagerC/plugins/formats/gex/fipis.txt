@@ -1,0 +1,65 @@
+[General]
+RegEx=?scr?pic?win?
+
+[FIPISopen]
+tif=
+tiff=
+fax=
+eps=
+bw=
+rgb=
+rgba=
+sgi=
+cel=
+pic=
+tga=
+vst=
+icb=
+vda=
+win=
+pcx=
+pcc=
+scr=
+pcd=
+ppm=
+pgm=
+pbm=
+cut=
+rla=
+rpf=
+psd=
+pdd=
+psp=
+
+[FIPISsave]
+tga=
+
+[FIPISdescr]
+tif=Tagged Image Format (*.tif)
+tiff=Tagged Image Format (*.tiff)
+fax=GFI Fax images (*.fax)
+eps=Encapsulated PostScript (*.eps)
+bw=SGI images (*.bw)
+rgb=SGI images (*.rgb)
+rgba=SGI images (*.rgba)
+sgi=SGI images (*.sgi)
+cel=Autodesk Images (*.cel)
+pic=Autodesk Images (*.pic)
+tga=Truevision images (*.tga)
+vst=Truevision images (*.vst)
+icb=Truevision images (*.icb)
+vda=Truevision images (*.vda)
+win=Truevision images (*.win)
+pcx=ZSoft Paintbrush images (*.pcx)
+pcc=ZSoft Paintbrush images (*.pcc)
+scr=Microsoft Word 5.x screen capture files (*.scr)
+pcd=Kodak Photo-CD images (*.pcd)
+ppm=Portable pixel/gray map images (*.ppm)
+pgm=Portable pixel/gray map images (*.pgm)
+pbm=Portable pixel/gray map images (*.pbm)
+cut=Dr. Halo images (*.cut)
+rla=SGI Wavefront images (*.rla)
+rpf=SGI Wavefront images (*.rpf)
+psd=Adobe Photoshop images (*.psd)
+pdd=Adobe PhotoDeluxe images (*.pdd)
+psp=Paintshop Pro images (*.psp)

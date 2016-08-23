@@ -1,0 +1,15 @@
+[FIPISopen]
+bmp=
+ico=
+emf=
+wmf=
+
+[FIPISsave]
+bmp=
+
+[FIPISdescr]
+bmp=Windows Bitmap (*.bmp)
+ico=Windows icons (*.ico)
+wmf=Windows metafiles (*.wmf)
+emf=Enhanced metafiles (*.emf)
+

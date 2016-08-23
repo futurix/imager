@@ -1,0 +1,14 @@
+[FIPISopen]
+gif=
+
+[FIPISsave]
+gif=
+
+[FIPISexport]
+CompuServe GIF=
+
+[FIPISAnim]
+gif=
+
+[FIPISdescr]
+gif=CompuServe GIF images (*.gif)

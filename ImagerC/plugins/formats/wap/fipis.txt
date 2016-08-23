@@ -1,0 +1,10 @@
+[FIPISopen]
+wbmp=
+wbm=
+
+[FIPISsave]
+wbmp=
+
+[FIPISdescr]
+wbm=WAP Bitmap (*.wbm)
+wbmp=WAP Bitmap (*.wbmp)

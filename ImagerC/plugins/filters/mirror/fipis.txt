@@ -1,0 +1,3 @@
+[FIPISfilter]
+Mirror Right=
+Mirror Down=

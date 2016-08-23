@@ -1,0 +1,2 @@
+[FIPISimport]
+TWAIN Acquire=

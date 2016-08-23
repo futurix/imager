@@ -1,0 +1,7 @@
+[FIPISopen]
+411=
+
+[FIPISdescr]
+411=Mavica Format (*.411)
+
+

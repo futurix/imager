@@ -1,0 +1,6 @@
+[FIPISsave]
+png=
+jng=
+
+[FIPISexport]
+Export as PNG or JNG=

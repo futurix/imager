@@ -1,0 +1,70 @@
+package futuris;
+
+{$R *.RES}
+{$R '..\..\vcomps\ColorPickerButton.dcr'}
+{$ALIGN ON}
+{$ASSERTIONS OFF}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST ON}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'Futuris Imager RTL'}
+{$RUNONLY}
+{$IMPLICITBUILD OFF}
+
+contains
+  SysUtils in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Sys\sysutils.pas',
+  Windows in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\windows.pas',
+  Messages in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\messages.pas',
+  Controls in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\controls.pas',
+  Classes in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\classes.pas',
+  Graphics in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\graphics.pas',
+  ExtCtrls in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\extctrls.pas',
+  Dialogs in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\dialogs.pas',
+  Forms in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\forms.pas',
+  ComCtrls in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\comctrls.pas',
+  StdCtrls in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\stdctrls.pas',
+  ToolWin in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\toolwin.pas',
+  Registry in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\registry.pas',
+  ImgList in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\imglist.pas',
+  ShlObj in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\shlobj.pas',
+  ShellAPI in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\shellapi.pas',
+  IniFiles in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\inifiles.pas',
+  CheckLst in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\checklst.pas',
+  Buttons in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\buttons.pas',
+  Menus in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\menus.pas',
+  FileCtrl in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\filectrl.pas',
+  Clipbrd in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\clipbrd.pas',
+  Contnrs in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\contnrs.pas',
+  ComStrs in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\comstrs.pas',
+  Consts in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\consts.pas',
+  ActnList in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\actnlist.pas',
+  Printers in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\printers.pas',
+  StdActns in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\stdactns.pas',
+  TypInfo in 'C:\Program Files\BORLAND\Delphi5\Source\Vcl\typinfo.pas',
+  SysConst in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Sys\sysconst.pas',
+  Math in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Sys\math.pas',
+  MultiMon in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\multimon.pas',
+  FlatSB in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\flatsb.pas',
+  ActiveX in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Win\activex.pas',
+  ComObj in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Sys\comobj.pas',
+  ComConst in 'C:\Program Files\BORLAND\Delphi5\Source\Rtl\Sys\comconst.pas',
+  futuris_hint in '..\..\vcomps\futuris_hint.pas',
+  ColorPickerButton in '..\..\vcomps\ColorPickerButton.pas';
+
+end.

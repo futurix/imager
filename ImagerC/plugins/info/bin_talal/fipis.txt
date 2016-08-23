@@ -1,0 +1,9 @@
+[FIPISinfo]
+pcx=
+bmp=
+ico=
+tga=
+vst=
+icb=
+vda=
+gif=

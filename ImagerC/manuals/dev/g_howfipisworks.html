@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>FDK Documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000" link="#0033CC" vlink="#0033CC" alink="#FF0000">
+<table width="600" border="0" cellspacing="0" cellpadding="0" bgcolor="#999999">
+  <tr>
+    <td height="50" align="center" valign="middle"> <font size="6">How FIPIS works 
+      ? </font></td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td align="right"><a href="index.html">Back to index</a></td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr> 
+    <td> 
+      <p>When Futuris Imager starts - it reads contents of <i>&quot;HKEY_CURRENT_USER\Software\Futuris\FIPIS&quot; 
+        </i>Windows Registry key. It contains list of all plugins available to 
+        Imager.</p>
+      <p>This file automatically generated on Futuris Imager installation. Later 
+        it can be updated by user (if it launch &quot;Settings&quot; -&gt; &quot;Plug-ins&quot; 
+        -&gt; &quot;Scan for Plug-ins&quot; menu item or by launching <i>plugscan.exe</i> 
+        file in same folder with <i>plugins.ini</i> file. Both ways lead to same 
+        process, called &quot;Plug-in Scan&quot;.</p>
+      <p>During &quot;Plug-in Scan&quot; special DLL ( <i>plugscan.dll</i> ) will 
+        check all DLLs found in <i>plugins</i> subfolder of Imager's folder for 
+        special resource section and extract all plug-in information from this 
+        section to <i>&quot;HKEY_CURRENT_USER\Software\Futuris\FIPIS&quot; </i>Windows 
+        Registry key.</p>
+      <p>After Imager loaded data from Registry - can start plug-ins registered 
+        there by calling exported functions.</p>
+      </td>
+  </tr>
+</table>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<table width="600" border="0" cellspacing="0" cellpadding="0"  bgcolor="#CCCCCC">
+  <tr>
+    <td bgcolor="#CCCCCC" height="20">&copy; 1999-2001 <a href="author.html">Alexander S. 
+      Tereschenko</a></td>
+  </tr>
+</table></body>
+</html>

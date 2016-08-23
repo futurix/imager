@@ -1,0 +1,23 @@
+[FIPISopen]
+jpg=
+jpeg=
+jpe=
+jfif=
+
+[FIPISsave]
+jpg=
+
+[FIPISexport]
+JPEG Export=
+
+[FIPISinfo]
+jpg=
+jpeg=
+jpe=
+jfif=
+
+[FIPISdescr]
+jpg=JPEG Images (*.jpg)
+jpeg=JPEG Images (*.jpeg)
+jpe=JPEG Images (*.jpe)
+jfif=JPEG Images (*.jfif)
