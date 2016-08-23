@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms,
-  ImageEnIO, c_const, c_utils, c_locales;
+  ImageEnIO, c_const, c_utils, c_reg, c_locales;
 
 procedure OpenImage();
 procedure Reopen();
@@ -21,6 +21,8 @@ function  SupportedExt(ext: string):boolean;
 function  FileType(path: string):integer;
 function  IsSupported(filename: string):boolean;
 function  GetTypeString(ext: string; default: string = ''):string;
+function  IsSupportedRole(role: string): boolean;
+procedure ExecuteRole(role: string);
 
 
 implementation
@@ -516,6 +518,50 @@ begin
 	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
 	Result := reg.RStr(ext, default);
 	reg.CloseKey();
+end;
+
+function IsSupportedRole(role: string): boolean;
+var
+	lr: TFRegistry;
+begin
+    Result := false;
+    
+    lr := TFRegistry.Create(RA_READONLY);
+
+	if lr.OpenKey(sModules + '\' + PS_FROLE, false) then
+    	begin
+        Result := (lr.RStr(role, '') <> '');
+
+        lr.CloseKey();
+        end;
+
+    FreeAndNil(lr);
+end;
+
+procedure ExecuteRole(role: string);
+var
+	lr: TFRegistry;
+    lib_path: string;
+begin
+    lib_path := '';
+
+    lr := TFRegistry.Create(RA_READONLY);
+
+	if lr.OpenKey(sModules + '\' + PS_FROLE, false) then
+    	begin
+        lib_path := lr.RStr(role, '');
+        lr.CloseKey();
+        end;
+
+    FreeAndNil(lr);
+
+    if (lib_path <> '') then
+    	begin
+        if ((role = PR_SCAN) or (role = PR_CAPTURE)) then
+            frmMain.DoHandleFImport(lib_path, role) 		// importer roles
+        else if ((role = PR_JPEGLL) or (role = PR_HEX) or (role = PR_EMAIL)) then
+            frmMain.DoHandleFTool(lib_path, role); 			// tool roles
+        end;
 end;
 
 end.

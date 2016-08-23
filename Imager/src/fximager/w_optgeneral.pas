@@ -64,6 +64,7 @@ type
     procedure sbnLanguagesClick(Sender: TObject);
   private
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -240,6 +241,18 @@ end;
 procedure TfrmOptGeneral.lblClearMRUClick(Sender: TObject);
 begin
     frmMain.MRU.Files.Clear();
+end;
+
+procedure TfrmOptGeneral.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmOptGeneral.Localize();

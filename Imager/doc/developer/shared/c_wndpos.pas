@@ -1,4 +1,3 @@
-// functions for window position saving/restoring 
 unit c_wndpos;
 
 interface

@@ -123,19 +123,94 @@ object frmInfo: TfrmInfo
         LegacyBitmap = False
         MouseInteract = [miZoom, miScroll]
         EnableAlphaChannel = True
-        ImageEnVersion = '2.2.0'
+        ImageEnVersion = '2.2.2'
         Align = alClient
         TabOrder = 0
       end
     end
-  end
-  object btnHistogram: TButton
-    Left = 5
-    Top = 390
-    Width = 75
-    Height = 25
-    Caption = 'Histogram'
-    TabOrder = 2
-    OnClick = btnHistogramClick
+    object shtHist: TTabSheet
+      BorderWidth = 5
+      Caption = 'Histogram'
+      ImageIndex = 3
+      object rgbCurves: TRGBCurves
+        Left = 0
+        Top = 0
+        Width = 563
+        Height = 311
+        Cursor = crCross
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Times New Roman'
+        Font.Style = []
+        ShowHistogram = True
+        HistogramDisplayMode = HDmTransparent
+        HistogramRGBMode = HmAll
+        Histogramscalemode = HSmauto
+        BorderFixed = 50
+        ShowVerticalCaptions = True
+        ShowMedianLine = False
+        Align = alClient
+        Color = clWhite
+        ParentColor = False
+      end
+      object pnlHist: TPanel
+        Left = 0
+        Top = 311
+        Width = 563
+        Height = 28
+        Align = alBottom
+        BevelOuter = bvNone
+        ParentBackground = True
+        TabOrder = 1
+        object rbnAll: TRadioButton
+          Left = 0
+          Top = 6
+          Width = 90
+          Height = 17
+          Caption = 'All'
+          Checked = True
+          TabOrder = 0
+          TabStop = True
+          OnClick = rbnAllClick
+        end
+        object rbnGrey: TRadioButton
+          Left = 95
+          Top = 6
+          Width = 90
+          Height = 17
+          Caption = 'Grey'
+          TabOrder = 1
+          OnClick = rbnAllClick
+        end
+        object rbnRed: TRadioButton
+          Left = 190
+          Top = 6
+          Width = 90
+          Height = 17
+          Caption = 'Red'
+          TabOrder = 2
+          OnClick = rbnAllClick
+        end
+        object rbnGreen: TRadioButton
+          Left = 285
+          Top = 6
+          Width = 90
+          Height = 17
+          Caption = 'Green'
+          TabOrder = 3
+          OnClick = rbnAllClick
+        end
+        object rbnBlue: TRadioButton
+          Left = 380
+          Top = 6
+          Width = 90
+          Height = 17
+          Caption = 'Blue'
+          TabOrder = 4
+          OnClick = rbnAllClick
+        end
+      end
+    end
   end
 end

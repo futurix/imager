@@ -1,7 +1,6 @@
 library fxmain;
 
 uses
-  FastMM,
   SysUtils,
   Windows,
   Classes,
@@ -14,6 +13,7 @@ uses
   c_const,
   c_utils,
   c_locales,
+  hyiedefs,
   JPEG2Ksave in 'JPEG2Ksave.pas' {frmJPsave},
   TIFFsave in 'TIFFsave.pas' {frmTIFFsave},
   JPEGsave in 'JPEGsave.pas' {frmJPEGsave};
@@ -51,14 +51,13 @@ begin
         end;
 
     info_call(PT_FNAME, 'Core Functions Plug-in', '');
+    info_call(PT_FROLE, PR_SCAN, '');
 
     info_call(PT_FOPEN, 'cur', '');
 
 	info_call(PT_FOPENMULTI, 'dcx', '');
 	info_call(PT_FOPENMULTI, 'tif', '');
 	info_call(PT_FOPENMULTI, 'tiff', '');
-
-    //info_call(PT_FOPENANIM, 'gif', '');
 
     info_call(PT_FSAVE, 'jp2', '');
     info_call(PT_FSAVE, 'j2k', '');
@@ -156,6 +155,7 @@ var
 	bmp: TBitmap;
     mex: string;
     io: TImageEnIO;
+    proc: TImageEnProc;
 begin
     Result.result_type := RT_BOOL;
     Result.result_value := FX_FALSE;
@@ -376,10 +376,18 @@ begin
         io := TImageEnIO.Create(nil);
 
 		io.IEBitmap.Assign(bmp);
+
+        proc := TImageEnProc.Create(nil);
+        proc.AttachedIEBitmap := io.IEBitmap;
+
+        if (io.IEBitmap.Width > 80) then
+        	proc.Resample(80, -1);
+
         io.SaveToText(String(document_path), ioUnknown, ietfASCIIArt);
 
        	Result.result_value := FX_FALSE;
 
+        FreeAndNil(proc);
         FreeAndNil(io);
         end
 
@@ -525,6 +533,8 @@ begin
     Result.result_type := RT_HBITMAP;
     Result.result_value := 0;
 
+    Application.Handle := app;
+
     if (@app_query <> nil) then
         begin
     	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
@@ -536,7 +546,7 @@ begin
             end;
         end;
 
-    if (String(info) = LoadLStr(3080)) then
+    if ((String(info) = LoadLStr(3080)) or (String(info) = PR_SCAN)) then
     	begin
         // working
 		io := TImageEnIO.Create(nil);

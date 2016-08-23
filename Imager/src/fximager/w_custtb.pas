@@ -39,6 +39,7 @@ type
   private
     { Private declarations }
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure FillLists(template: string = '');
 	procedure SaveLists();
 
@@ -177,11 +178,19 @@ end;
 
 procedure TfrmCustTB.btnAddClick(Sender: TObject);
 begin
-	if ((lbxBar.ItemIndex <> -1) and (lbxAvailable.ItemIndex <> -1)) then
-   		begin
-   		lbxBar.Items.Insert(lbxBar.ItemIndex, lbxAvailable.Items[lbxAvailable.ItemIndex]);
-   		lbxAvailable.Items.Delete(lbxAvailable.ItemIndex);
-   		end;
+    if (lbxAvailable.ItemIndex <> -1) then
+    	begin
+		if (lbxBar.ItemIndex <> -1) then
+   			begin
+   			lbxBar.Items.Insert(lbxBar.ItemIndex, lbxAvailable.Items[lbxAvailable.ItemIndex]);
+   			lbxAvailable.Items.Delete(lbxAvailable.ItemIndex);
+   			end
+        else
+        	begin
+   			lbxBar.Items.Insert(lbxBar.Count - 1, lbxAvailable.Items[lbxAvailable.ItemIndex]);
+   			lbxAvailable.Items.Delete(lbxAvailable.ItemIndex);
+            end;
+        end;
 end;
 
 procedure TfrmCustTB.btnRemoveClick(Sender: TObject);
@@ -278,6 +287,18 @@ end;
 procedure TfrmCustTB.lbxBarEndDrag(Sender, Target: TObject; X, Y: Integer);
 begin
 	//
+end;
+
+procedure TfrmCustTB.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+    else if Assigned(Screen.ActiveForm) then
+    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

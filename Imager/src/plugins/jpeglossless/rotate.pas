@@ -35,7 +35,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure CreateParams(var Params: TCreateParams); override;
   end;
 
 var
@@ -81,6 +81,18 @@ begin
     sbnNone.Caption			:= LoadLStr(3412);
 
     btnCancel.Caption		:= LoadLStr(51);
+end;
+
+procedure TfrmJPEG.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmJPEG.sbnRotate90Click(Sender: TObject);

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, StdCtrls, c_const, c_utils, ImageEnIO, histogrambox, ieview,
-  imageenview, ExtCtrls, c_locales;
+  imageenview, ExtCtrls, c_locales, RGBCurvesdiagrammer, ToolWin;
 
 type
   TfrmInfo = class(TForm)
@@ -17,7 +17,14 @@ type
     imgThumb: TImageEnView;
     shtEXIFinfo: TTabSheet;
     lvwEXIF: TListView;
-    btnHistogram: TButton;
+    shtHist: TTabSheet;
+    rgbCurves: TRGBCurves;
+    pnlHist: TPanel;
+    rbnAll: TRadioButton;
+    rbnGrey: TRadioButton;
+    rbnRed: TRadioButton;
+    rbnGreen: TRadioButton;
+    rbnBlue: TRadioButton;
     procedure AddCommonInfo();
     procedure AddToList(name, value: string);
     procedure AddToEXIF(name, value: string);
@@ -26,10 +33,11 @@ type
     procedure btnCloseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure btnHistogramClick(Sender: TObject);
+    procedure rbnAllClick(Sender: TObject);
   private
     { Private declarations }
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -44,7 +52,7 @@ function GetInfo(name, value: PChar):BOOL; cdecl;
 
 implementation
 
-uses main, f_filectrl, f_tools, w_hist;
+uses main, f_filectrl, f_tools;
 
 {$R *.DFM}
 
@@ -85,6 +93,7 @@ begin
         end;
 
     AddToList(LoadLStr(1206), Format(LoadLStr(1207), [IntToStr(frmMain.img.IEBitmap.VclBitmap.Width), IntToStr(frmMain.img.IEBitmap.VclBitmap.Height)]));
+    rgbCurves.GetHistogramfromBMP(frmMain.img.IEBitmap.VclBitmap);
 end;
 
 function GetInfo(name, value: PChar):BOOL;
@@ -140,6 +149,8 @@ var
     temps: string;
     io: TImageEnIO;
 begin
+    rgbCurves.CurveMode := cmViewFunction;
+
     Localize();
     AddCommonInfo();
 
@@ -400,27 +411,54 @@ begin
   		Self.Close();
 end;
 
-procedure TfrmInfo.btnHistogramClick(Sender: TObject);
+procedure TfrmInfo.CreateParams(var Params: TCreateParams);
 begin
-	if not Assigned(frmHist) then
-  		begin
-  		Application.CreateForm(TfrmHist, frmHist);
-		frmHist.ShowModal();
-  		end;
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmInfo.Localize();
 begin
     Self.Caption					:= LoadLStr(750);
+
     shtGeneral.Caption				:= LoadLStr(751);
-    shtEXIFinfo.Caption     		:= LoadLStr(752);
-    shtEXIF.Caption					:= LoadLStr(753);
-    btnClose.Caption				:= LoadLStr(54);
-    btnHistogram.Caption			:= LoadLStr(754);
     lvwInfo.Columns[0].Caption		:= LoadLStr(755);
     lvwInfo.Columns[1].Caption		:= LoadLStr(756);
+
+    shtEXIFinfo.Caption     		:= LoadLStr(752);
     lvwEXIF.Columns[0].Caption		:= lvwInfo.Columns[0].Caption;
     lvwEXIF.Columns[1].Caption		:= lvwInfo.Columns[1].Caption;
+
+    shtEXIF.Caption					:= LoadLStr(753);
+
+    shtHist.Caption					:= LoadLStr(754);
+    rbnAll.Caption					:= LoadLStr(735);
+    rbnRed.Caption					:= LoadLStr(731);
+    rbnGreen.Caption				:= LoadLStr(732);
+    rbnBlue.Caption					:= LoadLStr(733);
+    rbnGrey.Caption					:= LoadLStr(734);
+
+    btnClose.Caption				:= LoadLStr(54);
+end;
+
+procedure TfrmInfo.rbnAllClick(Sender: TObject);
+begin
+    if rbnAll.Checked then
+        rgbCurves.HistogramRGBMode := HmAll
+    else if rbnRed.Checked then
+    	rgbCurves.HistogramRGBMode := HmRed
+    else if rbnGreen.Checked then
+    	rgbCurves.HistogramRGBMode := HmGreen
+    else if rbnBlue.Checked then
+    	rgbCurves.HistogramRGBMode := HmBlue
+    else
+    	rgbCurves.HistogramRGBMode := HmGray;
 end;
 
 end.

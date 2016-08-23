@@ -92,6 +92,7 @@ begin
             frmMain.mMulti.Visible := true;
             frmMain.tbnMultiPrev.Enabled := true;
     		frmMain.tbnMultiNext.Enabled := true;
+            frmMain.tbnGoToPage.Enabled := true;
     		frmMain.pMulti.Visible := true;
 
     		Able();
@@ -211,6 +212,7 @@ begin
     frmMain.mMulti.Visible := false;
     frmMain.tbnMultiPrev.Enabled := false;
     frmMain.tbnMultiNext.Enabled := false;
+    frmMain.tbnGoToPage.Enabled := false;
 	frmMain.pMulti.Visible := false;
 	FillImage('', itNone);
 end;

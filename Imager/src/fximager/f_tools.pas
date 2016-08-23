@@ -7,7 +7,14 @@ uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
   ShlObj, Printers, c_const, c_utils, c_reg, c_locales;
 
-procedure PrintImage(fast: boolean = false);
+const
+    VK_XBUTTON1			= 5;
+    VK_XBUTTON2			= 6;
+	VK_BROWSER_BACK 	= 166;
+	VK_BROWSER_FORWARD 	= 167;
+	VK_BROWSER_REFRESH 	= 168;
+	VK_BROWSER_STOP 	= 169;
+
 procedure CommandLine();
 procedure Uninstall();
 procedure FileNotFound(path: string);
@@ -15,40 +22,13 @@ procedure OpenURL(url: string);
 procedure UpdateAssociations();
 procedure WriteHandler();
 procedure PutRegDock();
+function  IsShift(): boolean;
+function  IsCtrl(): boolean;
 
 
 implementation
 
 uses main, w_show, f_graphics, f_ui, f_nav, f_filectrl, w_preview;
-
-// print with preview
-procedure PrintImage(fast: boolean = false);
-begin
-	if (Printer.Printers.Count > 0) then
-		begin
-        if not Assigned(frmPrint) then
-  			begin
-  			Application.CreateForm(TfrmPrint, frmPrint);
-
-        	if FileExists(infImage.path) then
-        		frmPrint.prwPrint.PrintJobTitle := ExtractFileName(infImage.path)
-        	else
-        		frmPrint.prwPrint.PrintJobTitle := sAppName;
-
-        	frmPrint.DrawView();
-
-        	if fast then
-        		begin
-            	if frmPrint.SetupClicked() then
-            		frmPrint.prwPrint.Print();
-            	end
-        	else
-        		frmPrint.ShowModal();
-  			end;
-        end
-	else
-  		ShowMessage(LoadLStr(3261));
-end;
 
 // reads command line
 procedure CommandLine();
@@ -240,6 +220,16 @@ begin
 	reg.WriteString(sRegAssociation, Application.ExeName);
 	reg.WriteString('InstallationPath', path_app);
 	reg.CloseKey();
+end;
+
+function IsShift(): boolean;
+begin
+	Result := (HiWord(GetKeyState(VK_SHIFT)) <> 0);
+end;
+
+function IsCtrl(): boolean;
+begin
+	Result := (HiWord(GetKeyState(VK_CONTROL)) <> 0);
 end;
 
 end.

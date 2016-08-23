@@ -29,6 +29,7 @@ begin
 	// recreating registry keys
     reg.OpenKey(sModules, true);
     reg.DeleteKey(PS_FNAME);
+    reg.DeleteKey(PS_FROLE);
     reg.DeleteKey(PS_FOPEN);
     reg.DeleteKey(PS_FOPENMULTI);
     reg.DeleteKey(PS_FOPENANIM);
@@ -64,6 +65,8 @@ begin
 	WriteInternal(PS_FOPEN, 'tga');
 	WriteInternal(PS_FOPEN, 'tif');
 	WriteInternal(PS_FOPEN, 'tiff');
+    WriteInternal(PS_FOPEN, 'wbmp');
+    WriteInternal(PS_FOPEN, 'wbm');
 
 	WriteDescr('jpg', LoadLStr(1000) + ' (*.jpg)');
 	WriteDescr('jpeg', LoadLStr(1000) + ' (*.jpeg)');
@@ -85,11 +88,13 @@ begin
 	WriteDescr('tga', LoadLStr(1012) + ' (*.tga)');
 	WriteDescr('tif', LoadLStr(1013) + ' (*.tif)');
 	WriteDescr('tiff', LoadLStr(1013) + ' (*.tiff)');
+    WriteDescr('wbmp', LoadLStr(1014) + ' (*.wbmp)');
+    WriteDescr('wbm', LoadLStr(1014) + ' (*.wbm)');
 
     if FileExists(path_app + FN_ADDRAW) then
     	begin
         current_dll := path_app + FN_ADDRAW;
-        WriteData(PS_FNAME, 'Raw Formats Add-on');
+        WriteData(PS_FNAME, 'Raw Camera Formats Add-on');
         current_dll := '';
 
         WriteInternal(PS_FOPEN, 'crw');
@@ -246,6 +251,7 @@ begin
     // working
 	case module_type of
         PT_FNAME: 		WriteData(PS_FNAME, 	 	String(value1));
+        PT_FROLE: 		WriteData(PS_FROLE, 	 	String(value1));
   		PT_FOPEN: 		WriteData(PS_FOPEN, 	 	String(value1));
   		PT_FOPENMULTI: 	WriteData(PS_FOPENMULTI,	String(value1));
   		PT_FOPENANIM: 	WriteData(PS_FOPENANIM, 	String(value1));

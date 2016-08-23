@@ -6,13 +6,16 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, ieview, imageenview, ComCtrls, ToolWin, StdCtrls,
   imageenproc, AppEvnts, c_const, ToolbarEx, c_wndpos, c_utils, Clipbrd, Menus,
-  hyieutils, hyiedefs, c_locales;
+  hyieutils, hyiedefs, ImageEnpaintengine, imageenpeutils, c_locales,
+  hsvbox;
 
 const
   FM_RECTSELECT 				= 0;
   FM_HAND 						= 1;
   FM_DRAW 						= 2;
   FM_PREVIEW 					= 3;
+  FM_PENCIL						= 4;
+  FM_FLOODFILL					= 5;
 
 type
   TfrmEditor = class(TForm)
@@ -53,8 +56,6 @@ type
     tbnSetFit: TToolButton;
     tbnEraseSelection: TToolButton;
     tbnPasteSel: TToolButton;
-    pclSide: TPageControl;
-    shtFilters: TTabSheet;
     piZm6: TMenuItem;
     piZm12: TMenuItem;
     piZm25: TMenuItem;
@@ -68,13 +69,23 @@ type
     tbnModDraw: TToolButton;
     tbnModHand: TToolButton;
     Sep1: TToolButton;
+    pnlColorSelector: TPanel;
+    boxColorSelector: THSVBox;
+    pnlSep1: TPanel;
+    pnlSep2: TPanel;
+    tbnModPencil: TToolButton;
+    tbnModFlood: TToolButton;
+    pnlFlood: TPanel;
+    lblTolerance: TLabel;
+    pnlTolerance: TPanel;
+    edtTolerance: TEdit;
+    updTolerance: TUpDown;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnApplyClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
-    procedure sbxColorClick(Sender: TObject);
     procedure tbnCutClick(Sender: TObject);
     procedure tbnCopyClick(Sender: TObject);
     procedure tbnPasteClick(Sender: TObject);
@@ -104,6 +115,12 @@ type
     procedure tbnModSelClick(Sender: TObject);
     procedure tbnModHandClick(Sender: TObject);
     procedure tbnModDrawClick(Sender: TObject);
+    procedure boxColorSelectorChange(Sender: TObject);
+    procedure tbnModPencilClick(Sender: TObject);
+    procedure tbnModFloodClick(Sender: TObject);
+    procedure imgMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure imgMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
   private
     procedure HandleFilter(name: string);
     procedure SetCurrentMode(mode: integer);
@@ -114,13 +131,15 @@ type
 
 var
 	frmEditor: TfrmEditor;
+ 	pe: TimageenPaintEngine;
+  	PaintingStopped: boolean = true;
 
 function ProcessPreview(preview: HBITMAP): BOOL; cdecl;
 
 
 implementation
 
-uses main, w_resize, w_rotate;
+uses main, w_resize, w_rotate, f_ui, w_show;
 
 {$R *.dfm}
 
@@ -129,6 +148,14 @@ var
 	filters: TStringList;
     i: integer;
 begin
+	frmMain.Menu := nil;
+    FSSavePos(true);
+    frmMain.tbrMain.Hide();
+    frmmain.sbrMain.Hide();
+
+    if Assigned(frmShow) then
+  		frmShow.Close();
+
     img.Blank();
     img.EnableShiftKey := false;
     tbnSelection.WholeDropDown := true;
@@ -137,7 +164,7 @@ begin
     Localize();
 
     nPreviousMode := FM_RECTSELECT;
-    Self.SetCurrentMode(FM_RECTSELECT);
+    SetCurrentMode(FM_RECTSELECT);
 
     // XP or not XP - that is the question
     if IsThemed() then
@@ -146,31 +173,19 @@ begin
         imgPreview.BorderStyle := bsNone;
         img.BorderStyle := bsNone;
         sbxColor.BevelEdges := [];
-        end
-    else
-    	begin
-        lvwFilters.BorderStyle := bsNone;
-        lvwFilters.ParentColor := true;
         end;
 
     // reading settings
 	reg.OpenKey(sSettings, true);
     if reg.RBool('Editor_ZoomToFit', true) then
         tbnSetFitClick(Self);
+    updTolerance.Position := reg.RInt('Editor_Tolerance', 10);
     sbxColor.Color := StringToColor(reg.RStr('Editor_Color', 'clWhite'));
+    boxColorSelector.SetColor(sbxColor.Color);
 	reg.CloseKey();
-
-    // getting window size
-    RestoreWindowSize(@Self, sSettings + '\Wnd', 775, 575, 'Editor_');
-
-	// fixing toolbar size
-    tbrEditor.ButtonHeight := frmMain.imlStd.Height + 6;
-    tbrEditor.ButtonWidth := frmMain.imlStd.Height + 8;
 
 	// getting main image
     img.Background := frmMain.sbxMain.Color;
-    img.DelayZoomFilter := frmMain.img.DelayZoomFilter;
-    img.ZoomFilter := frmMain.img.ZoomFilter;
     img.IEBitmap.AssignImage(frmMain.img.IEBitmap);
     img.Update();
 
@@ -201,6 +216,9 @@ end;
 
 procedure TfrmEditor.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+    frmMain.Menu := frmMain.mnuMain;
+    FSRestorePos(true);
+    
 	Action := caFree;
 end;
 
@@ -217,17 +235,16 @@ end;
 
 procedure TfrmEditor.btnApplyClick(Sender: TObject);
 begin
-    // saving window position
-    SaveWindowSize(@Self, sSettings + '\Wnd', 'Editor_');
-
     // saving settings
 	reg.OpenKey(sSettings, true);
     reg.WBool('Editor_ZoomToFit', img.AutoShrink);
-    reg.WString('Editor_Color', ColorToString(sbxColor.Color));
+    reg.WString('Editor_Color', ColorToString(boxColorSelector.Color));
+    reg.WInteger('Editor_Tolerance', updTolerance.Position);
 	reg.CloseKey();
 
     // working
 	frmMain.img.Proc.SaveUndo();
+    frmMain.img.Proc.ClearAllRedo();
     frmMain.img.IEBitmap.AssignImage(img.IEBitmap);
     frmMain.img.Update();
 
@@ -237,21 +254,6 @@ end;
 procedure TfrmEditor.btnCancelClick(Sender: TObject);
 begin
 	Self.Close();
-end;
-
-procedure TfrmEditor.sbxColorClick(Sender: TObject);
-var
-	dlg: TColorDialog;
-begin
-	dlg := TColorDialog.Create(Self);
-
-    dlg.Color := sbxColor.Color;
-    dlg.Options := [cdFullOpen, cdAnyColor];
-
-    if dlg.Execute then
-        sbxColor.Color := dlg.Color;
-
-    FreeAndNil(dlg);
 end;
 
 procedure TfrmEditor.tbnCutClick(Sender: TObject);
@@ -269,6 +271,7 @@ begin
     FreeAndNil(bmp);
 
     proc.Fill(TColor2TRGB(sbxColor.Color));
+    proc.ClearAllRedo();
 end;
 
 procedure TfrmEditor.tbnCopyClick(Sender: TObject);
@@ -277,6 +280,7 @@ begin
     	proc.SelCopyToClip()
     else
         proc.CopyToClipboard();
+    proc.ClearAllRedo();
 end;
 
 procedure TfrmEditor.tbnPasteClick(Sender: TObject);
@@ -290,7 +294,8 @@ begin
         proc.PasteFromClipboard();
 
     proc.ConvertTo24Bit();
-
+    
+    proc.ClearAllRedo();
     proc.AutoUndo := true;
 end;
 
@@ -304,6 +309,7 @@ begin
 		proc.SelPasteFromClip();
     	proc.ConvertTo24Bit();
 
+        proc.ClearAllRedo();
     	proc.AutoUndo := true;
     	end;
 end;
@@ -317,7 +323,7 @@ end;
 
 procedure TfrmEditor.tbnRedoClick(Sender: TObject);
 begin
-	proc.SaveUndo();
+    proc.SaveUndo();
 	proc.Redo();
     proc.ClearRedo();
 end;
@@ -347,6 +353,7 @@ end;
 procedure TfrmEditor.tbnCropClick(Sender: TObject);
 begin
 	proc.CropSel();
+    proc.ClearAllRedo();
 
     if not img.AutoShrink then
     	img.Fit();
@@ -355,6 +362,7 @@ end;
 procedure TfrmEditor.tbnEraseSelectionClick(Sender: TObject);
 begin
     proc.Fill(TColor2TRGB(sbxColor.Color));
+    proc.ClearAllRedo();
 end;
 
 procedure TfrmEditor.appEventsIdle(Sender: TObject; var Done: Boolean);
@@ -451,13 +459,22 @@ begin
     if (func_result = 0) then
     	begin
     	if (name = LoadLStr(1750)) then
-            proc.Negative()
+            begin
+            proc.Negative();
+            proc.ClearAllRedo();
+            end
 
     	else if (name = LoadLStr(1751)) then
-            proc.ConvertToGray()
+            begin
+            proc.ConvertToGray();
+            proc.ClearAllRedo();
+            end
 
         else if (name = LoadLStr(1752)) then
-        	proc.RemoveRedEyes()
+            begin
+        	proc.RemoveRedEyes();
+            proc.ClearAllRedo();
+            end
 
         else if (name = LoadLStr(1753)) then
         	begin
@@ -501,6 +518,7 @@ begin
 
         img.Update();
 
+        proc.ClearAllRedo();
         proc.AutoUndo := true;
 
         FreeAndNil(local_result);
@@ -573,8 +591,11 @@ begin
             tbnModSel.Down := true;
             tbnModHand.Down := false;
             tbnModDraw.Down := false;
+            tbnModPencil.Down := false;
+            tbnModFlood.Down := false;
             tbrEditor.Enabled := true;
 
+            Sep1.Visible := true;
             tbnCut.Visible := true;
             tbnCopy.Visible := true;
             tbnPaste.Visible := true;
@@ -593,7 +614,7 @@ begin
             tbnCrop.Visible := true;
             tbnRotate.Visible := true;
 
-            pclSide.ActivePage := shtFilters;
+            pnlFlood.Visible := false;
 
             img.MouseInteract := [miSelect];
             end;
@@ -606,8 +627,11 @@ begin
             tbnModSel.Down := false;
             tbnModHand.Down := true;
             tbnModDraw.Down := false;
+            tbnModPencil.Down := false;
+            tbnModFlood.Down := false;
 			tbrEditor.Enabled := true;
 
+            Sep1.Visible := true;
             tbnCut.Visible := true;
             tbnCopy.Visible := true;
             tbnPaste.Visible := true;
@@ -626,7 +650,7 @@ begin
             tbnCrop.Visible := false;
             tbnRotate.Visible := true;
 
-            pclSide.ActivePage := shtFilters;
+            pnlFlood.Visible := false;
 
             img.DeSelect();
             img.MouseInteract := [miScroll];
@@ -640,11 +664,14 @@ begin
             tbnModSel.Down := false;
             tbnModHand.Down := false;
             tbnModDraw.Down := true;
+            tbnModPencil.Down := false;
+            tbnModFlood.Down := false;
             tbrEditor.Enabled := true;
 
-            tbnCut.Visible := true;
-            tbnCopy.Visible := true;
-            tbnPaste.Visible := true;
+            Sep1.Visible := false;
+            tbnCut.Visible := false;
+            tbnCopy.Visible := false;
+            tbnPaste.Visible := false;
             tbnPasteSel.Visible := false;
             Sep2.Visible := true;
             tbnUndo.Visible := true;
@@ -652,15 +679,15 @@ begin
             Sep3.Visible := true;
             tbnSetFit.Visible := true;
             tbnZoom.Visible := true;
-            Sep5.Visible := true;
+            Sep5.Visible := false;
             tbnSelection.Visible := false;
             tbnEraseSelection.Visible := false;
             Sep6.Visible := false;
-            tbnResize.Visible := true;
+            tbnResize.Visible := false;
             tbnCrop.Visible := false;
-            tbnRotate.Visible := true;
+            tbnRotate.Visible := false;
 
-            pclSide.ActivePage := shtFilters;
+            pnlFlood.Visible := false;
 
             img.DeSelect();
             img.MouseInteract := [];
@@ -674,8 +701,11 @@ begin
             tbnModSel.Down := false;
             tbnModHand.Down := false;
             tbnModDraw.Down := false;
+            tbnModPencil.Down := false;
+            tbnModFlood.Down := false;
             tbrEditor.Enabled := false;
 
+            Sep1.Visible := true;
             tbnCut.Visible := true;
             tbnCopy.Visible := true;
             tbnPaste.Visible := true;
@@ -694,9 +724,83 @@ begin
             tbnCrop.Visible := true;
             tbnRotate.Visible := true;
 
-            pclSide.ActivePage := shtFilters;
+            pnlFlood.Visible := false;
 
-            img.MouseInteract := [miSelect];            
+            img.MouseInteract := [miSelect];
+            end;
+
+  		FM_PENCIL:
+        	begin
+            img.Visible := true;
+            imgPreview.Visible := false;
+
+            tbnModSel.Down := false;
+            tbnModHand.Down := false;
+            tbnModDraw.Down := false;
+            tbnModPencil.Down := true;
+            tbnModFlood.Down := false;
+			tbrEditor.Enabled := true;
+
+            Sep1.Visible := false;
+            tbnCut.Visible := false;
+            tbnCopy.Visible := false;
+            tbnPaste.Visible := false;
+            tbnPasteSel.Visible := false;
+            Sep2.Visible := true;
+            tbnUndo.Visible := true;
+            tbnRedo.Visible := true;
+            Sep3.Visible := true;
+            tbnSetFit.Visible := true;
+            tbnZoom.Visible := true;
+            Sep5.Visible := false;
+            tbnSelection.Visible := false;
+            tbnEraseSelection.Visible := false;
+            Sep6.Visible := false;
+            tbnResize.Visible := false;
+            tbnCrop.Visible := false;
+            tbnRotate.Visible := false;
+
+            pnlFlood.Visible := false;
+
+            img.DeSelect();
+            img.MouseInteract := [];
+            end;
+
+  		FM_FLOODFILL:
+        	begin
+            img.Visible := true;
+            imgPreview.Visible := false;
+
+            tbnModSel.Down := false;
+            tbnModHand.Down := false;
+            tbnModDraw.Down := false;
+            tbnModPencil.Down := false;
+            tbnModFlood.Down := true;
+			tbrEditor.Enabled := true;
+
+            Sep1.Visible := false;
+            tbnCut.Visible := false;
+            tbnCopy.Visible := false;
+            tbnPaste.Visible := false;
+            tbnPasteSel.Visible := false;
+            Sep2.Visible := true;
+            tbnUndo.Visible := true;
+            tbnRedo.Visible := true;
+            Sep3.Visible := true;
+            tbnSetFit.Visible := true;
+            tbnZoom.Visible := true;
+            Sep5.Visible := false;
+            tbnSelection.Visible := false;
+            tbnEraseSelection.Visible := false;
+            Sep6.Visible := false;
+            tbnResize.Visible := false;
+            tbnCrop.Visible := false;
+            tbnRotate.Visible := false;
+
+            pnlFlood.Visible := true;
+
+            img.DeSelect();
+            img.MouseInteract := [];
             end;
     end;
 end;
@@ -761,6 +865,11 @@ begin
     tbnModHand.Hint				:= LoadLStr(885);
     tbnModDraw.Caption			:= LoadLStr(886);
     tbnModDraw.Hint				:= LoadLStr(887);
+    tbnModPencil.Caption		:= LoadLStr(922);
+    tbnModPencil.Hint			:= LoadLStr(923);
+    tbnModFlood.Caption			:= LoadLStr(924);
+    tbnModFlood.Hint			:= LoadLStr(925);
+
     tbnCut.Caption				:= LoadLStr(888);
     tbnCut.Hint					:= LoadLStr(889);
     tbnCopy.Caption				:= LoadLStr(890);
@@ -814,12 +923,59 @@ begin
     piZm400.Caption				:= LoadLStr(252);
     piZm400.Hint				:= LoadLStr(253);
 
-    shtFilters.Caption			:= LoadLStr(920);
-
     lblColor.Caption			:= LoadLStr(921);
-    sbxColor.Hint				:= LoadLStr(745);
+    boxColorSelector.Hint		:= LoadLStr(745);
+
+    lblTolerance.Caption		:= LoadLStr(926);
     btnApply.Caption			:= LoadLStr(55);
     btnCancel.Caption			:= LoadLStr(51);
+end;
+
+procedure TfrmEditor.boxColorSelectorChange(Sender: TObject);
+begin
+    sbxColor.Color := boxColorSelector.Color;
+end;
+
+procedure TfrmEditor.tbnModPencilClick(Sender: TObject);
+begin
+	SetCurrentMode(FM_PENCIL);
+end;
+
+procedure TfrmEditor.tbnModFloodClick(Sender: TObject);
+begin
+	SetCurrentMode(FM_FLOODFILL);
+end;
+
+procedure TfrmEditor.imgMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+    if (ssLeft in Shift) then
+    	begin
+    	if (nCurrentMode = FM_PENCIL) then
+    		begin
+        	// pencil
+            proc.AutoUndo := false;
+            proc.SaveUndo();
+            proc.ClearAllRedo();
+            proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
+            img.Update();
+            proc.AutoUndo := true;
+        	end
+    	else if (nCurrentMode = FM_FLOODFILL) then
+    		begin
+        	// flood fill
+        	proc.CastColor(img.XScr2Bmp(X), img.Yscr2Bmp(Y), CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue), updTolerance.Position);
+        	end;
+        end;
+end;
+
+procedure TfrmEditor.imgMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+	if ((ssLeft in Shift) and (nCurrentMode = FM_PENCIL)) then
+    	begin
+        // pencil
+        proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
+        img.Update();
+        end;
 end;
 
 end.

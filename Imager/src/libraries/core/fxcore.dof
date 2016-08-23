@@ -94,7 +94,7 @@ OutputDir=
 UnitOutputDir=..\..\output
 PackageDLLOutputDir=..\..\..\bin
 PackageDCPOutputDir=..\..\shared
-SearchPath=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+SearchPath=.\;..\..\shared;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
 Packages=vcl;rtl;dbrtl;vcldb;vclx;adortl
 Conditionals=
 DebugSourceDirs=
@@ -108,10 +108,10 @@ DebugCWD=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=1
-MajorVer=6
-MinorVer=0
+MajorVer=5
+MinorVer=6
 Release=0
-Build=10
+Build=20
 Debug=0
 PreRelease=0
 Special=0
@@ -122,21 +122,24 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Core Library
-FileVersion=6.0.0.10
+FileVersion=5.6.0.20
 InternalName=core
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxcore.dll
 ProductName=FuturixImager
-ProductVersion=6.0
+ProductVersion=5.6
 Comments=http://www.fxfp.com/
+[Excluded Packages]
+c:\program files\borland\delphi7\Projects\Bpl\Misc.bpl=Misc Components
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=2
-Item0=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
-Item1=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\ImageEn;
+Count=3
+Item0=.\;..\..\shared;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+Item1=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\Misc;$(FXSHARED)\ImageEn;
+Item2=.\;..\..\shared;$(FXSHARED)\Fast;$(FXSHARED)\ImageEn;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

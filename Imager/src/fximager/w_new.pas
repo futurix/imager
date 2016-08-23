@@ -27,6 +27,7 @@ type
   private
     { Private declarations }
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -107,6 +108,18 @@ procedure TfrmNew.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
+end;
+
+procedure TfrmNew.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmNew.Localize();

@@ -7,10 +7,12 @@ uses
   ComCtrls, Dialogs, c_utils, c_const, c_reg, c_locales;
 
 const
-	sAllButtons: string = 	'open,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
-    						'zoomin,zoomout,rotate90,zoom,dispopt,fs,info,random,undo,fit';
-    sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,sep,copy,paste,sep,editor,undo,sep,prevpage,nextpage,' +
-    							'sep,zoomin,zoomout,rotate90,sep,zoom,dispopt,fs,sep,info,sep,random,sep,back,forward';
+	sAllButtons: string = 	'open,new,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
+    						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,fs,info,random,' +
+                            'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rmail,rcapt,' +
+                            'rjpeg,rhex,newwnd,gopage';
+    sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,rscan,rcapt,sep,copy,paste,sep,editor,undo,' +
+    							'sep,zoomin,zoomout,sep,zoom,dispopt,fs,sep,info,sep,random,sep,back,forward';
 
 procedure ApplyCustomToolbar(again: boolean = false);
 procedure AddButton(code: string);
@@ -94,6 +96,7 @@ end;
 procedure AddButton(code: string);
 begin
 	if (code = 'open') then AddButtonA(frmMain.tbnOpen)
+    else if (code = 'new') then AddButtonA(frmMain.tbnNew)
 	else if (code = 'save') then AddButtonA(frmMain.tbnSave)
     else if (code = 'loadlast') then AddButtonA(frmMain.tbnLast)
     else if (code = 'close') then AddButtonA(frmMain.tbnClose)
@@ -114,7 +117,29 @@ begin
     else if (code = 'info') then AddButtonA(frmMain.tbnInfo)
     else if (code = 'random') then AddButtonA(frmMain.tbnGoRandom)
     else if (code = 'back') then AddButtonA(frmMain.tbnGoBack)
-    else if (code = 'forward') then AddButtonA(frmMain.tbnGoForward);
+    else if (code = 'forward') then AddButtonA(frmMain.tbnGoForward)
+    else if (code = 'fdelete') then AddButtonA(frmMain.tbnFDelete)
+    else if (code = 'fcopy') then AddButtonA(frmMain.tbnFCopy)
+    else if (code = 'fmove') then AddButtonA(frmMain.tbnFMove)
+    else if (code = 'frename') then AddButtonA(frmMain.tbnFRename)
+    else if (code = 'z100') then AddButtonA(frmMain.tbnZoom100)
+    else if (code = 'zwidth') then AddButtonA(frmMain.tbnZoomWidth)
+    else if (code = 'zheight') then AddButtonA(frmMain.tbnZoomHeight)
+    else if (code = 'rotateccw') then AddButtonA(frmMain.tbnRotateCCW)
+    else if (code = 'first') then AddButtonA(frmMain.tbnGoFirst)
+    else if (code = 'last') then AddButtonA(frmMain.tbnGoLast)
+    else if (code = 'show') then AddButtonA(frmMain.tbnShow)
+    else if (code = 'opt') then AddButtonA(frmMain.tbnOptions)
+    else if (code = 'help') then AddButtonA(frmMain.tbnHelp)
+    else if (code = 'www') then AddButtonA(frmMain.tbnOnline)
+    else if (code = 'about') then AddButtonA(frmMain.tbnAbout)
+    else if (code = 'rscan') then AddButtonA(frmMain.tbnRScan)
+    else if (code = 'rmail') then AddButtonA(frmMain.tbnRMail)
+    else if (code = 'rcapt') then AddButtonA(frmMain.tbnRCapture)
+    else if (code = 'rjpeg') then AddButtonA(frmMain.tbnRJPEG)
+    else if (code = 'rhex') then AddButtonA(frmMain.tbnRHEX)
+    else if (code = 'newwnd') then AddButtonA(frmMain.tbnNewWnd)
+    else if (code = 'gopage') then AddButtonA(frmMain.tbnGoToPage);
 end;
 
 // actually moves button
@@ -128,6 +153,7 @@ end;
 procedure HideButton(code: string);
 begin
 	if (code = 'open') then HideButtonA(frmMain.tbnOpen)
+    else if (code = 'new') then HideButtonA(frmMain.tbnNew)
 	else if (code = 'save') then HideButtonA(frmMain.tbnSave)
     else if (code = 'loadlast') then HideButtonA(frmMain.tbnLast)
     else if (code = 'close') then HideButtonA(frmMain.tbnClose)
@@ -148,7 +174,29 @@ begin
     else if (code = 'info') then HideButtonA(frmMain.tbnInfo)
     else if (code = 'random') then HideButtonA(frmMain.tbnGoRandom)
     else if (code = 'back') then HideButtonA(frmMain.tbnGoBack)
-    else if (code = 'forward') then HideButtonA(frmMain.tbnGoForward);
+    else if (code = 'forward') then HideButtonA(frmMain.tbnGoForward)
+    else if (code = 'fdelete') then HideButtonA(frmMain.tbnFDelete)
+    else if (code = 'fcopy') then HideButtonA(frmMain.tbnFCopy)
+    else if (code = 'fmove') then HideButtonA(frmMain.tbnFMove)
+    else if (code = 'frename') then HideButtonA(frmMain.tbnFRename)
+    else if (code = 'z100') then HideButtonA(frmMain.tbnZoom100)
+    else if (code = 'zwidth') then HideButtonA(frmMain.tbnZoomWidth)
+    else if (code = 'zheight') then HideButtonA(frmMain.tbnZoomHeight)
+    else if (code = 'rotateccw') then HideButtonA(frmMain.tbnRotateCCW)
+    else if (code = 'first') then HideButtonA(frmMain.tbnGoFirst)
+    else if (code = 'last') then HideButtonA(frmMain.tbnGoLast)
+    else if (code = 'show') then HideButtonA(frmMain.tbnShow)
+    else if (code = 'opt') then HideButtonA(frmMain.tbnOptions)
+    else if (code = 'help') then HideButtonA(frmMain.tbnHelp)
+    else if (code = 'www') then HideButtonA(frmMain.tbnOnline)
+    else if (code = 'about') then HideButtonA(frmMain.tbnAbout)
+    else if (code = 'rscan') then HideButtonA(frmMain.tbnRScan)
+    else if (code = 'rmail') then HideButtonA(frmMain.tbnRMail)
+    else if (code = 'rcapt') then HideButtonA(frmMain.tbnRCapture)
+    else if (code = 'rjpeg') then HideButtonA(frmMain.tbnRJPEG)
+    else if (code = 'rhex') then HideButtonA(frmMain.tbnRHEX)
+    else if (code = 'newwnd') then HideButtonA(frmMain.tbnNewWnd)
+    else if (code = 'gopage') then HideButtonA(frmMain.tbnGoToPage);
 end;
 
 procedure HideButtonA(btn: TToolButton);
@@ -171,6 +219,7 @@ function ExpandSynName(code: string):string;
 begin
     if (code = 'sep') then Result := LoadLStr(3502)
 	else if (code = 'open') then Result := LoadLStr(502)
+    else if (code = 'new') then Result := LoadLStr(546)
 	else if (code = 'save') then Result := LoadLStr(506)
     else if (code = 'loadlast') then Result := LoadLStr(504)
     else if (code = 'close') then Result := LoadLStr(508)
@@ -192,6 +241,28 @@ begin
     else if (code = 'random') then Result := LoadLStr(542)
     else if (code = 'back') then Result := LoadLStr(536)
     else if (code = 'forward') then Result := LoadLStr(538)
+    else if (code = 'fdelete') then Result := LoadLStr(548)
+    else if (code = 'fcopy') then Result := LoadLStr(550)
+    else if (code = 'fmove') then Result := LoadLStr(552)
+    else if (code = 'frename') then Result := LoadLStr(554)
+    else if (code = 'z100') then Result := LoadLStr(556)
+    else if (code = 'zwidth') then Result := LoadLStr(558)
+    else if (code = 'zheight') then Result := LoadLStr(560)
+    else if (code = 'rotateccw') then Result := LoadLStr(562)
+    else if (code = 'first') then Result := LoadLStr(564)
+    else if (code = 'last') then Result := LoadLStr(566)
+    else if (code = 'show') then Result := LoadLStr(568)
+    else if (code = 'opt') then Result := LoadLStr(570)
+    else if (code = 'help') then Result := LoadLStr(572)
+    else if (code = 'www') then Result := LoadLStr(574)
+    else if (code = 'about') then Result := LoadLStr(576)
+    else if (code = 'rscan') then Result := LoadLStr(578)
+    else if (code = 'rmail') then Result := LoadLStr(580)
+    else if (code = 'rcapt') then Result := LoadLStr(582)
+    else if (code = 'rjpeg') then Result := LoadLStr(584)
+    else if (code = 'rhex') then Result := LoadLStr(586)
+    else if (code = 'newwnd') then Result := LoadLStr(588)
+    else if (code = 'gopage') then Result := LoadLStr(590)
     else Result := LoadLStr(3502);
 end;
 
@@ -199,6 +270,7 @@ function CollapseSynName(code: string):string;
 begin
     if (code = LoadLStr(3502)) then Result := 'sep'
 	else if (code = LoadLStr(502)) then Result := 'open'
+    else if (code = LoadLStr(546)) then Result := 'new'
 	else if (code = LoadLStr(506)) then Result := 'save'
     else if (code = LoadLStr(504)) then Result := 'loadlast'
     else if (code = LoadLStr(508)) then Result := 'close'
@@ -220,6 +292,28 @@ begin
     else if (code = LoadLStr(542)) then Result := 'random'
     else if (code = LoadLStr(536)) then Result := 'back'
     else if (code = LoadLStr(538)) then Result := 'forward'
+    else if (code = LoadLStr(548)) then Result := 'fdelete'
+    else if (code = LoadLStr(550)) then Result := 'fcopy'
+    else if (code = LoadLStr(552)) then Result := 'fmove'
+    else if (code = LoadLStr(554)) then Result := 'frename'
+    else if (code = LoadLStr(556)) then Result := 'z100'
+    else if (code = LoadLStr(558)) then Result := 'zwidth'
+    else if (code = LoadLStr(560)) then Result := 'zheight'
+    else if (code = LoadLStr(562)) then Result := 'rotateccw'
+    else if (code = LoadLStr(564)) then Result := 'first'
+    else if (code = LoadLStr(566)) then Result := 'last'
+    else if (code = LoadLStr(568)) then Result := 'show'
+    else if (code = LoadLStr(570)) then Result := 'opt'
+    else if (code = LoadLStr(572)) then Result := 'help'
+    else if (code = LoadLStr(574)) then Result := 'www'
+    else if (code = LoadLStr(576)) then Result := 'about'
+    else if (code = LoadLStr(578)) then Result := 'rscan'
+    else if (code = LoadLStr(580)) then Result := 'rmail'
+    else if (code = LoadLStr(582)) then Result := 'rcapt'
+    else if (code = LoadLStr(584)) then Result := 'rjpeg'
+    else if (code = LoadLStr(586)) then Result := 'rhex'
+    else if (code = LoadLStr(588)) then Result := 'newwnd'
+    else if (code = LoadLStr(590)) then Result := 'gopage'
     else Result := 'sep';
 end;
 

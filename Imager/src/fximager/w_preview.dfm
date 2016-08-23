@@ -1,11 +1,13 @@
 object frmPrint: TfrmPrint
   Left = 190
   Top = 79
-  Width = 750
-  Height = 550
   ActiveControl = btnClose
+  Align = alClient
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsNone
   Caption = 'Print Preview'
+  ClientHeight = 523
+  ClientWidth = 742
   Color = clBtnFace
   Constraints.MinHeight = 400
   Constraints.MinWidth = 400
@@ -26,7 +28,8 @@ object frmPrint: TfrmPrint
     0000000C00000008000000010000000300000003000000030000000300000003
     000000070000000F0000000F0000000F0000001F0000003F0000007F0000}
   OldCreateOrder = False
-  Position = poOwnerFormCenter
+  Position = poDefault
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -35,9 +38,9 @@ object frmPrint: TfrmPrint
   TextHeight = 13
   object prwPrint: TPrintPreview
     Left = 0
-    Top = 28
+    Top = 22
     Width = 742
-    Height = 458
+    Height = 464
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -58,7 +61,7 @@ object frmPrint: TfrmPrint
     Left = 0
     Top = 0
     Width = 742
-    Height = 28
+    Height = 22
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -67,7 +70,7 @@ object frmPrint: TfrmPrint
         Control = itbPrintMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 28
+        MinHeight = 22
         Width = 742
       end>
     EdgeBorders = []
@@ -77,16 +80,14 @@ object frmPrint: TfrmPrint
       Left = 0
       Top = 0
       Width = 738
-      Height = 28
+      Height = 22
       AutoSize = True
-      BorderWidth = 1
-      ButtonHeight = 24
-      ButtonWidth = 57
+      ButtonWidth = 55
       Caption = 'Print'
       EdgeBorders = []
       Flat = True
       HideClippedButtons = True
-      Images = imlPrint
+      Images = frmMain.imlStd
       List = True
       ShowCaptions = True
       TabOrder = 0
@@ -97,11 +98,11 @@ object frmPrint: TfrmPrint
         Top = 0
         AutoSize = True
         Caption = 'Print'
-        ImageIndex = 0
+        ImageIndex = 4
         OnClick = tbnPrintClick
       end
       object Sep_1: TToolButton
-        Left = 55
+        Left = 53
         Top = 0
         Width = 8
         Caption = 'Sep_1'
@@ -109,21 +110,21 @@ object frmPrint: TfrmPrint
         Style = tbsSeparator
       end
       object tbnZoom: TToolButton
-        Left = 63
+        Left = 61
         Top = 0
         AutoSize = True
         Caption = 'Zoom'
         DropdownMenu = popZoom
         Grouped = True
-        ImageIndex = 1
+        ImageIndex = 10
         Style = tbsDropDown
       end
       object tbnSetup: TToolButton
-        Left = 135
+        Left = 131
         Top = 0
         AutoSize = True
         Caption = 'Setup'
-        ImageIndex = 2
+        ImageIndex = 34
         OnClick = tbnSetupClick
       end
     end

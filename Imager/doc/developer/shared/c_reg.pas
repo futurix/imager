@@ -1,4 +1,3 @@
-// fail-safe registry object 
 unit c_reg;
 
 interface

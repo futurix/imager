@@ -3,7 +3,6 @@ program fximager;
 {$R 'futurix.res' 'futurix.rc'}
 
 uses
-  FastMM,
   Windows,
   Messages,
   Forms,
@@ -27,7 +26,6 @@ uses
   w_show in 'w_show.pas' {frmShow},
   w_new in 'w_new.pas' {frmNew},
   f_scan in 'f_scan.pas',
-  w_hist in 'w_hist.pas' {frmHist},
   w_editor in 'w_editor.pas' {frmEditor},
   w_resize in 'w_resize.pas' {frmResize},
   w_rotate in 'w_rotate.pas' {frmRotate},

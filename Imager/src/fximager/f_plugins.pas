@@ -114,6 +114,13 @@ begin
 	FreeAndNil(s);
 	FreeAndNil(i);
 
+    // setting roles
+    infRoles.capture := IsSupportedRole(PR_CAPTURE);
+    infRoles.scan := IsSupportedRole(PR_SCAN);
+    infRoles.email := IsSupportedRole(PR_EMAIL);
+    infRoles.hex := IsSupportedRole(PR_HEX);
+    infRoles.jpegll := IsSupportedRole(PR_JPEGLL);
+
     // optimizing menus
     frmMain.mImport.Visible := (frmMain.mImport.Count > 0);
     frmMain.mExport.Visible := (frmMain.mExport.Count > 0);

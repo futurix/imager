@@ -25,7 +25,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure CreateParams(var Params: TCreateParams); override;
   end;
 
 var
@@ -97,6 +97,18 @@ begin
 
     btnSave.Caption				:= LoadLStr(56);
     btnCancel.Caption			:= LoadLStr(51);
+end;
+
+procedure TfrmJPEGsave.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

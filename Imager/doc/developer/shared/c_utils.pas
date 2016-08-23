@@ -1,4 +1,3 @@
-// various utility functions 
 unit c_utils;
 
 interface

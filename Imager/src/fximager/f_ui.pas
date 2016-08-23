@@ -4,20 +4,22 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, UxTheme,
-  ShellAPI, c_const;
+  ShellAPI, c_const, c_locales;
 
 procedure ApplyToolbarSkin();
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
 procedure ToggleStatusbar(strict: boolean = false; visible: boolean = true);
 procedure Able();
-procedure FSSavePos();
+procedure FSRestorePos(toolbars_only: boolean = false);
+procedure FSSavePos(toolbars_only: boolean = false);
 procedure Header();
 procedure ToggleFS();
 
 
 implementation
 
-uses main, f_nav, f_graphics, f_tools, w_show, f_images;
+uses main, f_nav, f_graphics, f_tools, w_show, f_images, w_editor,
+  w_preview;
 
 procedure ApplyToolbarSkin();
 var
@@ -49,9 +51,6 @@ begin
 
     FreeAndNil(bmp);
     FreeAndNil(res);
-
-    frmMain.itbMain.ButtonHeight := frmMain.imlStd.Height + 6;
-    frmMain.itbMain.ButtonWidth := frmMain.imlStd.Height + 8;
 end;
 
 // toggles main toolbar
@@ -123,6 +122,12 @@ begin
     is_writable := not ((infImage.image_type = itAnimated) or (infImage.image_type = itMulti) or (infImage.image_type = itNone));
     is_filled := (infImage.image_type <> itNone);
 
+    frmMain.tbnRScan.Enabled := infRoles.scan;
+    frmMain.tbnRMail.Enabled := (infRoles.email and is_filled);
+    frmMain.tbnRCapture.Enabled := infRoles.capture;
+    frmMain.tbnRJPEG.Enabled := (infRoles.jpegll and is_filled);
+    frmMain.tbnRHEX.Enabled := (infRoles.hex and is_filled);
+
 	frmMain.miReopen.Enabled := is_file;
 
 	frmMain.miSaveAs.Enabled := is_filled;
@@ -137,7 +142,6 @@ begin
     else
     	frmMain.mExport.Enabled := false;
 
-	frmMain.miPrint.Enabled := is_filled;
 	frmMain.miPrintPreview.Enabled := is_filled;
 	frmMain.tbnPrint.Enabled := is_filled;
 
@@ -152,6 +156,10 @@ begin
 	frmMain.tbnZoomMisc.Enabled := is_filled;
     frmMain.tbnZoomFit.Enabled := is_filled;
 	frmMain.tbnRotate.Enabled := is_filled;
+    frmMain.tbnZoom100.Enabled := is_filled;
+    frmMain.tbnZoomWidth.Enabled := is_filled;
+    frmMain.tbnZoomHeight.Enabled := is_filled;
+    frmMain.tbnRotateCCW.Enabled := is_filled;
 
 	frmMain.miEditor.Enabled := is_writable;
 	frmMain.tbnEditor.Enabled := is_writable;
@@ -175,26 +183,36 @@ begin
 	frmMain.tbnGoBack.Enabled := is_file;
 	frmMain.tbnGoForward.Enabled := is_file;
     frmMain.tbnGoRandom.Enabled := is_file;
+    frmMain.tbnGoFirst.Enabled := is_file;
+    frmMain.tbnGoLast.Enabled := is_file;
 	frmMain.piBack.Enabled := is_file;
 	frmMain.piForward.Enabled := is_file;
 
 	frmMain.miShow.Enabled := is_file;
 	frmMain.miStartShow.Enabled := is_file;
+    frmMain.tbnShow.Enabled := is_file;
 
 	frmMain.miFMove.Enabled := is_file;
 	frmMain.miFRename.Enabled := is_file;
 	frmMain.miFCopy.Enabled := is_file;
 	frmMain.miFDelete.Enabled := is_file;
+    frmMain.tbnFDelete.Enabled := is_file;
+    frmMain.tbnFCopy.Enabled := is_file;
+    frmMain.tbnFMove.Enabled := is_file;
+    frmMain.tbnFRename.Enabled := is_file;
 end;
 
-procedure FSRestorePos();
+procedure FSRestorePos(toolbars_only: boolean = false);
 begin
 	reg.OpenKey(sSettings, true);
 
-	case reg.RInt('FS_State', 0) of
-  		0: frmMain.WindowState := wsNormal;
-  		1: frmMain.WindowState := wsMaximized;
-  	end;
+    if not toolbars_only then
+    	begin
+		case reg.RInt('FS_State', 0) of
+  			0: frmMain.WindowState := wsNormal;
+  			1: frmMain.WindowState := wsMaximized;
+        end;
+    	end;
 
 	// common part
 	case reg.RInt('FS_TBMain', 0) of
@@ -207,7 +225,7 @@ begin
   		1: frmMain.sbrMain.Visible := true;
   	end;
 
-    if (frmMain.WindowState <> wsMaximized) then
+    if ((not toolbars_only) and (frmMain.WindowState <> wsMaximized)) then
   		begin
   		frmMain.Top := reg.RInt('FS_Top', 0);
   		frmMain.Left := reg.RInt('FS_Left', 0);
@@ -219,21 +237,24 @@ begin
 end;
 
 // saves temp window position to ini
-procedure FSSavePos();
+procedure FSSavePos(toolbars_only: boolean = false);
 begin
 	reg.OpenKey(sSettings, true);
 
-	case frmMain.WindowState of
-  		wsMaximized: reg.WriteInteger('FS_State', 1);
-  	else
+    if not toolbars_only then
     	begin
-   		reg.WriteInteger('FS_State', 0);
-        reg.WriteInteger('FS_Top', frmMain.Top);
-    	reg.WriteInteger('FS_Left', frmMain.Left);
-    	reg.WriteInteger('FS_Width', frmMain.Width);
-    	reg.WriteInteger('FS_Height', frmMain.Height);
-    	end;
-	end;
+ 		case frmMain.WindowState of
+  			wsMaximized: reg.WriteInteger('FS_State', 1);
+  		else
+    		begin
+   			reg.WriteInteger('FS_State', 0);
+        	reg.WriteInteger('FS_Top', frmMain.Top);
+    		reg.WriteInteger('FS_Left', frmMain.Left);
+    		reg.WriteInteger('FS_Width', frmMain.Width);
+    		reg.WriteInteger('FS_Height', frmMain.Height);
+    		end;
+		end;
+        end;
 
 	if frmMain.tbrMain.Visible then
     	reg.WriteInteger('FS_TBMain', 1)
@@ -251,7 +272,7 @@ end;
 // sets Imager's window header
 procedure Header();
 begin
-	if (infImage.path <> '') then
+	if ((infImage.path <> '') and (not Assigned(frmEditor)) and (not Assigned(frmPrint))) then
   		begin
   		if frmMain.bFullPathInTitle then
     		begin
@@ -267,14 +288,30 @@ begin
   		end
 	else
   		begin
-  		Application.Title := sAppName;
-  		frmMain.Caption := sAppName;
+        if Assigned(frmEditor) then
+        	begin
+  			Application.Title := sAppName + ' - ' + LoadLStr(534);
+  			frmMain.Caption := sAppName + ' - ' + LoadLStr(534);
+            end
+        else if Assigned(frmPrint) then
+        	begin
+  			Application.Title := sAppName + ' - ' + LoadLStr(3250);
+  			frmMain.Caption := sAppName + ' - ' + LoadLStr(3250);
+            end
+        else
+        	begin
+  			Application.Title := sAppName;
+  			frmMain.Caption := sAppName;
+            end;
   		end;
 end;
 
 // full-screen toggle
 procedure ToggleFS();
 begin
+    if ((Assigned(frmEditor)) or (Assigned(frmPrint))) then
+    	Abort();
+
 	if not frmMain.full_screen then
   		begin
   		// starting FS

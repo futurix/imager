@@ -1,6 +1,6 @@
 
          FuturixImager SDK
-         Version 5.5.1
+         Version 5.6
 
 -------------------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ Contents:
   2. Localizable strings for FuturixImager.
   3. Instructions.
 
-All samples should compile in Delphi 7. Visual C++ samples coming up soon.
+All samples should compile in Delphi 7.
 
 -------------------------------------------------------------------------------
 
@@ -18,8 +18,8 @@ Folder structure of SDK:
 \components\
  - Delphi VCL components that are used by provided plug-ins (you will need to
    install these components if you want to compile some plug-ins)
-   WARNING: some of the components in this folder are custom modified and not
-   the original versions from developers' websites
+   WARNING: some of the components in this folder are modified and not the 
+   original versions from developers' websites
 
 \localization\
  - resource script with localizable strings for FuturixImager
@@ -28,8 +28,7 @@ Folder structure of SDK:
  - sample localization DLL project for Visual C++ 2005
 
 \plugins\
- - plug-in sources (binaries of these plug-ins are included with
-   FuturixImager 5.5)
+ - plug-in sources (binaries are included with FuturixImager 5.6)
 
 \shared\
  - several source files from FuturixImager itself (these files contain useful
@@ -39,52 +38,70 @@ Folder structure of SDK:
 
 Provided plug-in sources:
 
-plugin_capture
+bitmapinfo
+ - bitmap information plug-in
+ - shows how to implement FxImgInfo plug-in
+ - created by Aqab Bin Talal (http://elektron.its.tudelft.nl/~bintalal/)
+
+capture
  - screen capture plug-in
- - shows how to implement FxImgImport plug-in
- - includes Apprehend components (no need to install them)
+ - shows how to implement FxImgImport plug-in and PR_CAPTURE role
+ - uses Apprehend components (to compile install provided version)
 
-plugin_email
- - tool plug-in
- - shows how to implement FxImgTool plug-in
- - very simple
-
-plugin_freeimage
- - FreeImage library plug-in
- - shows how to implement FxImgOpen and FxImgMulti plug-ins
- - uses FreeImage header (modified version included)
- - compiled version will require renamed FreeImage DLL (take from
-   FuturixImager download page)
-
-plugin_fx
+effects
  - filter plug-in
  - shows how to implement FxImgFilter plug-in
-   
-plugin_gex
- - GraphicEx library plug-in
- - shows how to implement FxImgOpen plug-in
- - modified GraphicEx library included
- 
-plugin_gif
+
+email
+ - tool plug-in
+ - shows how to implement FxImgTool plug-in and PR_EMAIL role
+ - very simple
+
+freeimage
+ - FreeImage library plug-in
+ - shows how to implement FxImgOpen and FxImgMulti plug-ins
+ - uses modified version of FreeImage header (included)
+ - compiled version will require renamed FreeImage DLL (install FuturixImager 
+   Extras to get it)
+
+gif
  - GIF exporter plug-in
  - shows how to implement FxImgExport plug-in
- - uses custom version of TGifImage library (located in plug-in folder, do not
-   install it into Delphi IDE!)
+ - uses custom version of TGifImage library (included, do not install it into
+   Delphi IDE!)
+
+graphicex
+ - GraphicEx library plug-in
+ - shows how to implement FxImgOpen plug-in
+ - uses slightly modified GraphicEx library (included)
    
-plugin_hex
+hex
  - HEX viewer plug-in
- - shows how to implement FxImgTool plug-in
+ - shows how to implement FxImgTool plug-in and PR_HEX role
  - uses TMPHexEditor (to compile install provided version)
 
-plugin_wallpaper
+mng
+ - MNG playback plug-in
+ - shows how to implement FxImgAnim plug-in
+ - requires libMNG 1.0.6 (newer versions do not work, download from
+   FuturixImager homepage)
+ - created by Gerard Juyn (http://www.libmng.com/)
+
+playgif
+ - animated GIF playback plug-in
+ - shows how to implement FxImgAnim plug-in
+ - uses GDI+ (Delphi headers included)
+ - requires gdiplus.dll on Windows2000
+
+wallpaper
  - wallpaper tools plug-in
  - shows how to implement multiple plug-ins (FxImgTool plug-ins in this case)
    in one DLL
  - uses TTileImage (to compile install provided version)
 
-plugin_wap
- - WBMP support plug-in
- - shows how to implement FxImgOpen and FxImgSave plug-ins
+wireless
+ - WBMP save support plug-in
+ - shows how to implement simple FxImgSave plug-in
 
 -------------------------------------------------------------------------------
 
@@ -99,10 +116,6 @@ Useful source files:
  
  - c_reg.pas
    extended version of TRegistry
- 
- - c_toolbar.pas
-   ugly hack that allows to have BTNS_WHOLEDROPDOWN style for TToolBar (just
-   include this file in uses list AFTER ComCtrls)
  
  - c_utils.pas
    some utility functions
@@ -177,9 +190,23 @@ FuturixImager plug-in types:
  - available in "Tools" menu
  - tools should export FxImgQuery and FxImgTool functions
 
+ > role
+ - simple way for some plug-ins to get button on FuturixImager toolbar
+ - real functionality must be implemented in required FxImg* function, then in
+   FxImgQuery plug-in should tell FuturixImager that it supports specific role;
+   when called from GUI by user FuturixImager will call FxImg* function with
+   role name as parameter (check email plug-in for simple example)
+ - available roles:
+     PR_SCAN - implement scanner functionality in FxImgImport function
+     PR_EMAIL - implement e-mail functionality in FxImgTool function
+     PR_CAPTURE - implement screen capture in FxImgImport function
+     PR_JPEGLL - implement JPEG lossless transformations in FxImgTool function
+     PR_HEX - implement HEX viewer/editor functionality in FxImgTool function
+ - more roles will be added in the near future
+
  > localization
  - resource-only DLLs with translated strings from FuturixImager (up-to-date
-   English strings always located in fx_imager.exe) 
+   English strings always located in fximager.exe)
 
  > future types (planned for the next versions)
  - thumbnail extractors
@@ -200,7 +227,7 @@ Notes:
    give plug-in name to host application. The plug-in name should be in
    English.
 4. Plug-ins created with this version of SDK will work only with FuturixImager
-   5.5 and newer.
+   5.6 and newer.
 
 -------------------------------------------------------------------------------
 
@@ -223,5 +250,5 @@ More information about used libraries:
 
 -------------------------------------------------------------------------------
 
-Copyright © 1999-2005 Alexander Tereshchenko
+Copyright © 1999-2006 Alexander Tereshchenko
 All rights reserved

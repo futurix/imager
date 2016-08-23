@@ -2,8 +2,9 @@ object frmEditor: TfrmEditor
   Left = 190
   Top = 79
   ActiveControl = img
-  AutoScroll = False
+  Align = alClient
   BorderIcons = []
+  BorderStyle = bsNone
   Caption = 'Edit Image'
   ClientHeight = 548
   ClientWidth = 767
@@ -15,7 +16,8 @@ object frmEditor: TfrmEditor
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
-  Position = poOwnerFormCenter
+  Position = poDefault
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -24,9 +26,9 @@ object frmEditor: TfrmEditor
   TextHeight = 13
   object imgPreview: TImageEnView
     Left = 0
-    Top = 26
+    Top = 22
     Width = 542
-    Height = 486
+    Height = 490
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
@@ -34,7 +36,7 @@ object frmEditor: TfrmEditor
     ScrollBars = ssNone
     EnableAlphaChannel = True
     AutoShrink = True
-    ImageEnVersion = '2.2.1'
+    ImageEnVersion = '2.2.2'
     Align = alClient
     Visible = False
     TabOrder = 4
@@ -43,7 +45,7 @@ object frmEditor: TfrmEditor
     Left = 0
     Top = 0
     Width = 767
-    Height = 26
+    Height = 22
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -52,7 +54,7 @@ object frmEditor: TfrmEditor
         Control = tbrEditor
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 26
+        MinHeight = 22
         Width = 767
       end>
     EdgeBorders = []
@@ -62,9 +64,8 @@ object frmEditor: TfrmEditor
       Left = 0
       Top = 0
       Width = 763
-      Height = 26
+      Height = 22
       AutoSize = True
-      BorderWidth = 1
       Caption = 'Editor Toolbar'
       DisabledImages = frmMain.imlDis
       EdgeBorders = []
@@ -94,26 +95,46 @@ object frmEditor: TfrmEditor
         ShowHint = True
         OnClick = tbnModHandClick
       end
-      object tbnModDraw: TToolButton
+      object tbnModPencil: TToolButton
         Left = 46
         Top = 0
         AutoSize = True
-        Caption = 'Draw'
+        Caption = 'Pencil'
         ImageIndex = 33
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnModPencilClick
+      end
+      object tbnModFlood: TToolButton
+        Left = 69
+        Top = 0
+        AutoSize = True
+        Caption = 'Flood Fill'
+        ImageIndex = 35
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnModFloodClick
+      end
+      object tbnModDraw: TToolButton
+        Left = 92
+        Top = 0
+        AutoSize = True
+        Caption = 'Draw'
+        ImageIndex = 36
         ParentShowHint = False
         ShowHint = True
         Visible = False
         OnClick = tbnModDrawClick
       end
       object Sep1: TToolButton
-        Left = 69
+        Left = 115
         Top = 0
         Width = 8
         ImageIndex = 24
         Style = tbsSeparator
       end
       object tbnCut: TToolButton
-        Left = 77
+        Left = 123
         Top = 0
         AutoSize = True
         Caption = 'Cut'
@@ -123,7 +144,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnCutClick
       end
       object tbnCopy: TToolButton
-        Left = 100
+        Left = 146
         Top = 0
         AutoSize = True
         Caption = 'Copy'
@@ -133,7 +154,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnCopyClick
       end
       object tbnPaste: TToolButton
-        Left = 123
+        Left = 169
         Top = 0
         AutoSize = True
         Caption = 'Paste'
@@ -143,7 +164,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnPasteClick
       end
       object tbnPasteSel: TToolButton
-        Left = 146
+        Left = 192
         Top = 0
         AutoSize = True
         Caption = 'Paste+'
@@ -153,14 +174,14 @@ object frmEditor: TfrmEditor
         OnClick = tbnPasteSelClick
       end
       object Sep2: TToolButton
-        Left = 169
+        Left = 215
         Top = 0
         Width = 8
         ImageIndex = 9
         Style = tbsSeparator
       end
       object tbnUndo: TToolButton
-        Left = 177
+        Left = 223
         Top = 0
         AutoSize = True
         Caption = 'Undo'
@@ -171,7 +192,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnUndoClick
       end
       object tbnRedo: TToolButton
-        Left = 200
+        Left = 246
         Top = 0
         AutoSize = True
         Caption = 'Redo'
@@ -182,14 +203,14 @@ object frmEditor: TfrmEditor
         OnClick = tbnRedoClick
       end
       object Sep3: TToolButton
-        Left = 223
+        Left = 269
         Top = 0
         Width = 8
         ImageIndex = 10
         Style = tbsSeparator
       end
       object tbnSetFit: TToolButton
-        Left = 231
+        Left = 277
         Top = 0
         AutoSize = True
         Caption = 'Fit Mode'
@@ -199,7 +220,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnSetFitClick
       end
       object tbnZoom: TToolButton
-        Left = 254
+        Left = 300
         Top = 0
         AutoSize = True
         Caption = 'Zoom'
@@ -210,14 +231,14 @@ object frmEditor: TfrmEditor
         Style = tbsDropDown
       end
       object Sep5: TToolButton
-        Left = 290
+        Left = 336
         Top = 0
         Width = 8
         ImageIndex = 101
         Style = tbsSeparator
       end
       object tbnSelection: TToolButton
-        Left = 298
+        Left = 344
         Top = 0
         AutoSize = True
         Caption = 'Selection'
@@ -228,7 +249,7 @@ object frmEditor: TfrmEditor
         Style = tbsDropDown
       end
       object tbnEraseSelection: TToolButton
-        Left = 334
+        Left = 380
         Top = 0
         AutoSize = True
         Caption = 'Erase'
@@ -238,14 +259,14 @@ object frmEditor: TfrmEditor
         OnClick = tbnEraseSelectionClick
       end
       object Sep6: TToolButton
-        Left = 357
+        Left = 403
         Top = 0
         Width = 8
         ImageIndex = 102
         Style = tbsSeparator
       end
       object tbnResize: TToolButton
-        Left = 365
+        Left = 411
         Top = 0
         AutoSize = True
         Caption = 'Resize'
@@ -255,7 +276,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnResizeClick
       end
       object tbnCrop: TToolButton
-        Left = 388
+        Left = 434
         Top = 0
         AutoSize = True
         Caption = 'Crop'
@@ -265,7 +286,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnCropClick
       end
       object tbnRotate: TToolButton
-        Left = 411
+        Left = 457
         Top = 0
         AutoSize = True
         Caption = 'Rotate'
@@ -288,17 +309,6 @@ object frmEditor: TfrmEditor
     DesignSize = (
       767
       36)
-    object lblColor: TLabel
-      Left = 0
-      Top = 0
-      Width = 47
-      Height = 36
-      Align = alLeft
-      Caption = '    Color:  '
-      FocusControl = sbxColor
-      Transparent = True
-      Layout = tlCenter
-    end
     object btnApply: TButton
       Left = 604
       Top = 6
@@ -319,42 +329,65 @@ object frmEditor: TfrmEditor
       TabOrder = 1
       OnClick = btnCancelClick
     end
-    object pnlColor: TPanel
-      Left = 47
+    object pnlFlood: TPanel
+      Left = 0
       Top = 0
-      Width = 75
+      Width = 129
       Height = 36
       Align = alLeft
       AutoSize = True
       BevelOuter = bvNone
-      BorderWidth = 5
+      BorderWidth = 2
       ParentBackground = True
-      ParentColor = True
       TabOrder = 2
-      object sbxColor: TScrollBox
-        Left = 5
-        Top = 5
-        Width = 65
-        Height = 26
-        Cursor = crHandPoint
+      Visible = False
+      object lblTolerance: TLabel
+        Left = 2
+        Top = 2
+        Width = 54
+        Height = 32
         Align = alLeft
-        AutoScroll = False
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Color = clWhite
-        ParentColor = False
-        ParentShowHint = False
-        ShowHint = True
+        Caption = 'Tolerance: '
+        Transparent = True
+        Layout = tlCenter
+      end
+      object pnlTolerance: TPanel
+        Left = 56
+        Top = 2
+        Width = 71
+        Height = 32
+        Align = alLeft
+        BevelOuter = bvNone
+        ParentBackground = True
         TabOrder = 0
-        OnClick = sbxColorClick
+        object edtTolerance: TEdit
+          Left = 1
+          Top = 6
+          Width = 49
+          Height = 21
+          Cursor = crArrow
+          ReadOnly = True
+          TabOrder = 0
+          Text = '10'
+        end
+        object updTolerance: TUpDown
+          Left = 50
+          Top = 6
+          Width = 15
+          Height = 21
+          Associate = edtTolerance
+          Max = 32
+          Position = 10
+          TabOrder = 1
+        end
       end
     end
   end
   object sbxSide: TScrollBox
     Left = 542
-    Top = 26
+    Top = 22
     Width = 225
-    Height = 486
+    Height = 490
     Align = alRight
     AutoScroll = False
     BevelEdges = [beLeft, beRight]
@@ -363,62 +396,129 @@ object frmEditor: TfrmEditor
     BevelKind = bkSoft
     BorderStyle = bsNone
     TabOrder = 1
-    object pclSide: TPageControl
+    object pnlColorSelector: TPanel
       Left = 0
       Top = 0
       Width = 221
-      Height = 486
-      ActivePage = shtFilters
-      Align = alClient
-      HotTrack = True
-      MultiLine = True
+      Height = 179
+      Align = alTop
+      BevelOuter = bvNone
+      BorderWidth = 5
+      ParentBackground = True
       TabOrder = 0
-      object shtFilters: TTabSheet
-        BorderWidth = 5
-        Caption = 'Filters'
-        object lvwFilters: TListView
+      object pnlColor: TPanel
+        Left = 5
+        Top = 5
+        Width = 211
+        Height = 19
+        Align = alTop
+        BevelOuter = bvNone
+        ParentBackground = True
+        ParentColor = True
+        TabOrder = 0
+        object lblColor: TLabel
           Left = 0
           Top = 0
-          Width = 203
-          Height = 448
+          Width = 32
+          Height = 19
+          Align = alLeft
+          Alignment = taRightJustify
+          Caption = 'Color: '
+          FocusControl = boxColorSelector
+          Transparent = True
+          Layout = tlCenter
+        end
+        object sbxColor: TScrollBox
+          Left = 32
+          Top = 0
+          Width = 179
+          Height = 19
           Align = alClient
-          Columns = <
-            item
-              AutoSize = True
-              Caption = 'Filters'
-              MinWidth = 100
-            end>
-          ColumnClick = False
-          HotTrackStyles = [htHandPoint, htUnderlineHot]
-          ReadOnly = True
-          RowSelect = True
-          ShowColumnHeaders = False
-          SmallImages = frmMain.imlStd
+          AutoScroll = False
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Color = clWhite
+          ParentColor = False
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
-          ViewStyle = vsReport
-          OnDblClick = lvwFiltersDblClick
-          OnKeyDown = lvwFiltersKeyDown
         end
       end
+      object boxColorSelector: THSVBox
+        Left = 5
+        Top = 29
+        Width = 211
+        Height = 145
+        OnChange = boxColorSelectorChange
+        Align = alClient
+        ParentShowHint = False
+        ShowHint = True
+      end
+      object pnlSep1: TPanel
+        Left = 5
+        Top = 24
+        Width = 211
+        Height = 5
+        Align = alTop
+        BevelOuter = bvNone
+        ParentBackground = True
+        TabOrder = 2
+      end
+    end
+    object pnlSep2: TPanel
+      Left = 0
+      Top = 179
+      Width = 221
+      Height = 10
+      Align = alTop
+      BevelOuter = bvNone
+      ParentBackground = True
+      TabOrder = 1
+    end
+    object lvwFilters: TListView
+      Left = 0
+      Top = 189
+      Width = 221
+      Height = 301
+      Align = alClient
+      BorderStyle = bsNone
+      Columns = <
+        item
+          AutoSize = True
+          Caption = 'Filters'
+          MinWidth = 100
+        end>
+      ColumnClick = False
+      HotTrackStyles = [htHandPoint, htUnderlineHot]
+      ReadOnly = True
+      RowSelect = True
+      ParentColor = True
+      ShowColumnHeaders = False
+      SmallImages = frmMain.imlStd
+      TabOrder = 2
+      ViewStyle = vsReport
+      OnDblClick = lvwFiltersDblClick
+      OnKeyDown = lvwFiltersKeyDown
     end
   end
   object img: TImageEnView
     Left = 0
-    Top = 26
+    Top = 22
     Width = 542
-    Height = 486
+    Height = 490
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
     LegacyBitmap = False
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
-    DelayZoomFilter = True
     EnableAlphaChannel = True
-    ImageEnVersion = '2.2.1'
+    ImageEnVersion = '2.2.2'
     Align = alClient
     TabOrder = 2
     TabStop = True
+    OnMouseDown = imgMouseDown
+    OnMouseMove = imgMouseMove
   end
   object proc: TImageEnProc
     AttachedImageEn = img

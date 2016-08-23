@@ -11,21 +11,20 @@ object frmMain: TfrmMain
   Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
-  KeyPreview = True
   Menu = mnuMain
   OldCreateOrder = False
   Visible = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyDown = FormKeyDown
+  OnShortCut = FormShortCut
   PixelsPerInch = 96
   TextHeight = 13
   object sbxMain: TScrollBox
     Left = 0
-    Top = 30
+    Top = 24
     Width = 742
-    Height = 455
+    Height = 461
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -39,7 +38,7 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 451
+      Height = 457
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -49,7 +48,7 @@ object frmMain: TfrmMain
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
       OnProgress = imgProgress
-      ImageEnVersion = '2.2.1'
+      ImageEnVersion = '2.2.2'
       OnMouseWheel = imgMouseWheel
       Align = alClient
       PopupMenu = popMain
@@ -89,7 +88,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 742
-    Height = 30
+    Height = 24
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -98,7 +97,7 @@ object frmMain: TfrmMain
         Control = itbMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 28
+        MinHeight = 22
         Width = 742
       end>
     EdgeBorders = [ebTop]
@@ -108,10 +107,8 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 28
+      Height = 22
       AutoSize = True
-      BorderWidth = 1
-      ButtonHeight = 24
       Caption = 'Main Toolbar'
       DisabledImages = imlDis
       EdgeBorders = []
@@ -172,7 +169,7 @@ object frmMain: TfrmMain
         ImageIndex = 4
         ParentShowHint = False
         ShowHint = True
-        OnClick = tbnPrintClick
+        OnClick = miPrintPreviewClick
       end
       object tbnCopy: TToolButton
         Left = 128
@@ -352,6 +349,242 @@ object frmMain: TfrmMain
         ShowHint = True
         OnClick = miZmFitClick
       end
+      object tbnNew: TToolButton
+        Left = 545
+        Top = 0
+        AutoSize = True
+        Caption = 'New'
+        ImageIndex = 37
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miNewClick
+      end
+      object tbnShow: TToolButton
+        Left = 568
+        Top = 0
+        AutoSize = True
+        Caption = 'Slide Show'
+        ImageIndex = 48
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miStartShowClick
+      end
+      object tbnRScan: TToolButton
+        Left = 591
+        Top = 0
+        AutoSize = True
+        Caption = 'Scan'
+        Enabled = False
+        ImageIndex = 53
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRScanClick
+      end
+      object tbnRMail: TToolButton
+        Left = 614
+        Top = 0
+        AutoSize = True
+        Caption = 'E-mail'
+        Enabled = False
+        ImageIndex = 54
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRMailClick
+      end
+      object tbnRCapture: TToolButton
+        Left = 637
+        Top = 0
+        AutoSize = True
+        Caption = 'Capture'
+        Enabled = False
+        ImageIndex = 55
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRCaptureClick
+      end
+      object tbnRJPEG: TToolButton
+        Left = 660
+        Top = 0
+        AutoSize = True
+        Caption = 'JPEG Transf.'
+        Enabled = False
+        ImageIndex = 56
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRJPEGClick
+      end
+      object tbnRHEX: TToolButton
+        Left = 683
+        Top = 0
+        AutoSize = True
+        Caption = 'HEX'
+        Enabled = False
+        ImageIndex = 57
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRHEXClick
+      end
+      object tbnNewWnd: TToolButton
+        Left = 706
+        Top = 0
+        AutoSize = True
+        Caption = 'New Window'
+        ImageIndex = 58
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miNewWindowClick
+      end
+      object tbnGoToPage: TToolButton
+        Left = 729
+        Top = 0
+        AutoSize = True
+        Caption = 'Page'
+        Enabled = False
+        ImageIndex = 59
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnGoToPageClick
+      end
+      object tbnFDelete: TToolButton
+        Left = 752
+        Top = 0
+        AutoSize = True
+        Caption = 'Delete File'
+        ImageIndex = 38
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miFDeleteClick
+      end
+      object tbnFCopy: TToolButton
+        Left = 775
+        Top = 0
+        AutoSize = True
+        Caption = 'Copy File'
+        ImageIndex = 39
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miFCopyClick
+      end
+      object tbnFMove: TToolButton
+        Left = 798
+        Top = 0
+        AutoSize = True
+        Caption = 'Move File'
+        ImageIndex = 40
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miFMoveClick
+      end
+      object tbnFRename: TToolButton
+        Left = 821
+        Top = 0
+        AutoSize = True
+        Caption = 'Rename File'
+        ImageIndex = 41
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miFRenameClick
+      end
+      object tbnZoom100: TToolButton
+        Left = 844
+        Top = 0
+        AutoSize = True
+        Caption = '100%'
+        ImageIndex = 42
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miZM100Click
+      end
+      object tbnZoomWidth: TToolButton
+        Left = 867
+        Top = 0
+        AutoSize = True
+        Caption = 'Fit To Width'
+        ImageIndex = 43
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miZmWidthClick
+      end
+      object tbnZoomHeight: TToolButton
+        Left = 890
+        Top = 0
+        AutoSize = True
+        Caption = 'Fit To Height'
+        ImageIndex = 44
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miZmHeightClick
+      end
+      object tbnRotateCCW: TToolButton
+        Left = 913
+        Top = 0
+        AutoSize = True
+        Caption = 'Rotate CCW'
+        ImageIndex = 45
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miRotateViewCCWClick
+      end
+      object tbnGoFirst: TToolButton
+        Left = 936
+        Top = 0
+        AutoSize = True
+        Caption = 'First'
+        ImageIndex = 46
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miGoFirstClick
+      end
+      object tbnGoLast: TToolButton
+        Left = 959
+        Top = 0
+        AutoSize = True
+        Caption = 'Last'
+        ImageIndex = 47
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miGoLastClick
+      end
+      object tbnOptions: TToolButton
+        Left = 982
+        Top = 0
+        AutoSize = True
+        Caption = 'Options'
+        ImageIndex = 49
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miOptionsClick
+      end
+      object tbnHelp: TToolButton
+        Left = 1005
+        Top = 0
+        AutoSize = True
+        Caption = 'Help'
+        ImageIndex = 50
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miHelpContentsClick
+      end
+      object tbnOnline: TToolButton
+        Left = 1028
+        Top = 0
+        AutoSize = True
+        Caption = 'WWW'
+        ImageIndex = 51
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miWebSiteClick
+      end
+      object tbnAbout: TToolButton
+        Left = 1051
+        Top = 0
+        AutoSize = True
+        Caption = 'About'
+        ImageIndex = 52
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = miAboutClick
+      end
     end
   end
   object mnuMain: TMainMenu
@@ -372,6 +605,7 @@ object frmMain: TfrmMain
       end
       object miLoadLast: TMenuItem
         Caption = 'Load Last'
+        ShortCut = 118
         OnClick = miLoadLastClick
       end
       object miReopen: TMenuItem
@@ -384,6 +618,10 @@ object frmMain: TfrmMain
       object miNew: TMenuItem
         Caption = 'New Image...'
         OnClick = miNewClick
+      end
+      object miNewWindow: TMenuItem
+        Caption = 'New Window'
+        OnClick = miNewWindowClick
       end
       object miSaveAs: TMenuItem
         Caption = 'Save As...'
@@ -426,23 +664,22 @@ object frmMain: TfrmMain
         end
         object miFCopy: TMenuItem
           Caption = 'Copy File'
+          ShortCut = 16468
           OnClick = miFCopyClick
         end
         object miFMove: TMenuItem
           Caption = 'Move File'
+          ShortCut = 16461
           OnClick = miFMoveClick
         end
         object miFRename: TMenuItem
           Caption = 'Rename File'
+          ShortCut = 16473
           OnClick = miFRenameClick
         end
       end
       object N3: TMenuItem
         Caption = '-'
-      end
-      object miPrint: TMenuItem
-        Caption = 'Print'
-        OnClick = miPrintClick
       end
       object miPrintPreview: TMenuItem
         Caption = 'Print Preview...'
@@ -743,7 +980,7 @@ object frmMain: TfrmMain
       Caption = 'Help'
       object miHelpContents: TMenuItem
         Caption = 'Online Documention'
-        Visible = False
+        ShortCut = 112
         OnClick = miHelpContentsClick
       end
       object miWebSite: TMenuItem
@@ -755,19 +992,23 @@ object frmMain: TfrmMain
       end
       object miAbout: TMenuItem
         Caption = 'About...'
+        ShortCut = 16496
         OnClick = miAboutClick
       end
     end
   end
   object popMain: TPopupMenu
+    Images = imlStd
     Left = 475
     Top = 159
     object piBack: TMenuItem
       Caption = 'Back'
+      ImageIndex = 13
       OnClick = miGoBackClick
     end
     object piForward: TMenuItem
       Caption = 'Forward'
+      ImageIndex = 15
       OnClick = miGoForwardClick
     end
     object N22: TMenuItem
@@ -775,10 +1016,12 @@ object frmMain: TfrmMain
     end
     object piOpen: TMenuItem
       Caption = 'Open'
+      ImageIndex = 0
       OnClick = miOpenClick
     end
     object piClose: TMenuItem
       Caption = 'Close'
+      ImageIndex = 3
       OnClick = miCloseClick
     end
     object N13: TMenuItem
@@ -841,6 +1084,7 @@ object frmMain: TfrmMain
     end
     object piFullScreen: TMenuItem
       Caption = 'Full Screen'
+      ImageIndex = 11
       OnClick = miFullScreenClick
     end
   end

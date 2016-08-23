@@ -22,6 +22,7 @@ type
   private
     { Private declarations }
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -69,6 +70,18 @@ end;
 procedure TfrmAbout.lblWebClick(Sender: TObject);
 begin
 	frmMain.miWebSiteClick(Self);
+end;
+
+procedure TfrmAbout.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+    else if Assigned(Screen.ActiveForm) then
+    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmAbout.Localize();

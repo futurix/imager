@@ -30,6 +30,8 @@ Tips:
 
 7. When you have translated language_terms.rc file - send it to me by e-mail
    (to alex@fxfp.com address). Do not send me compiled DLL - I need .rc file!
+   Exception: languages with strange encodings - in this case I may need both
+   DLL and .rc file.
 
 8. And thank you for your contributions!
 
@@ -47,16 +49,16 @@ If you want to test your translations you have two ways:
    - run compile_res.bat (this will give you compiled language_terms.RES file)
    - run Resource Hacker (ResHacker.exe) from resource_hacker folder and do
      following in it:
-        > open fx_lang_eng.dll from testkit folder in Resource Hacker
+        > open test.dll from testkit folder in Resource Hacker
           ("File" -> "Open ...")
         > select "Action" -> "Update all Resources"
         > selection language_terms.RES file that you compiled before
-        > now save fx_lang_eng.dll ("File" -> "Save")
-   - copy resulting fx_lang_eng.dll to FuturixImager folder
+        > now save test.dll ("File" -> "Save")
+   - copy resulting test.dll to FuturixImager folder
    - in FuturixImager scan for new plug-ins
    - switch to your language and test it :-)
 
 -------------------------------------------------------------------------------
 
-Copyright © 2005 Alexander Tereshchenko
+Copyright © 2006 Alexander Tereshchenko
 All rights reserved

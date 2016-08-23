@@ -7,7 +7,7 @@ uses
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, Registry, UxTheme,
   MRUfiles, futuris_dlgopen, c_const, c_wndpos, c_reg, AgOpenDialog, c_utils,
   ieview, imageenview, hyieutils, ToolbarEx, ShlObj, ImageEnIO, AppEvnts,
-  ClipBrd, c_locales, hyiedefs, f_instance;
+  ClipBrd, Printers, c_locales, hyiedefs, f_instance;
 
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
@@ -31,7 +31,6 @@ type
     miReopen: TMenuItem;
     mImport: TMenuItem;
     mExport: TMenuItem;
-    miPrint: TMenuItem;
     miExit: TMenuItem;
     miCopy: TMenuItem;
     miPaste: TMenuItem;
@@ -209,13 +208,40 @@ type
     tbnGoRandom: TToolButton;
     tbnZoomFit: TToolButton;
     miLoadLast: TMenuItem;
+    tbnNew: TToolButton;
+    tbnShow: TToolButton;
+    tbnRScan: TToolButton;
+    tbnRMail: TToolButton;
+    tbnRCapture: TToolButton;
+    tbnRJPEG: TToolButton;
+    tbnRHEX: TToolButton;
+    tbnNewWnd: TToolButton;
+    tbnGoToPage: TToolButton;
+    tbnFDelete: TToolButton;
+    tbnFCopy: TToolButton;
+    tbnFMove: TToolButton;
+    tbnFRename: TToolButton;
+    tbnZoom100: TToolButton;
+    tbnZoomWidth: TToolButton;
+    tbnZoomHeight: TToolButton;
+    tbnRotateCCW: TToolButton;
+    tbnGoFirst: TToolButton;
+    tbnGoLast: TToolButton;
+    tbnOptions: TToolButton;
+    tbnHelp: TToolButton;
+    tbnOnline: TToolButton;
+    tbnAbout: TToolButton;
+    miNewWindow: TMenuItem;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure HandleFImport(Sender: TObject);
+    procedure DoHandleFImport(lib_path, name: string);
     procedure HandleFExport(Sender: TObject);
+    procedure DoHandleFExport(lib_path, name: string);
     procedure HandleFTool(Sender: TObject);
+    procedure DoHandleFTool(lib_path, name: string);
     procedure DragNDrop(var msg: TWMDropFiles); message WM_DropFiles;
     procedure miAboutClick(Sender: TObject);
     procedure miOpenClick(Sender: TObject);
@@ -228,8 +254,6 @@ type
     procedure miFullScreenClick(Sender: TObject);
     procedure miGoBackClick(Sender: TObject);
     procedure miGoForwardClick(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure miPrintClick(Sender: TObject);
     procedure miZM12Click(Sender: TObject);
     procedure miZM25Click(Sender: TObject);
     procedure miZM50Click(Sender: TObject);
@@ -264,7 +288,6 @@ type
     procedure miShowClick(Sender: TObject);
     procedure miStartShowClick(Sender: TObject);
     procedure miNewClick(Sender: TObject);
-    procedure tbnPrintClick(Sender: TObject);
     procedure miWebSiteClick(Sender: TObject);
     procedure miFCopyClick(Sender: TObject);
     procedure miFDeleteClick(Sender: TObject);
@@ -298,6 +321,13 @@ type
     procedure imgMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     procedure miCustTBClick(Sender: TObject);
     procedure miLoadLastClick(Sender: TObject);
+    procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure miNewWindowClick(Sender: TObject);
+    procedure tbnRCaptureClick(Sender: TObject);
+    procedure tbnRHEXClick(Sender: TObject);
+    procedure tbnRJPEGClick(Sender: TObject);
+    procedure tbnRMailClick(Sender: TObject);
+    procedure tbnRScanClick(Sender: TObject);
   private
     prev_progress: integer;
 
@@ -360,6 +390,10 @@ var
 		FxImgAnimRestart: TFxImgAnimRestart;
 		FxImgAnimGetFrame: TFxImgAnimGetFrame;
 		FxImgAnimStop: TFxImgAnimStop;
+		end;
+
+	infRoles: record
+		capture, scan, email, hex, jpegll: boolean;
 		end;
 
 function  FxImgGlobalCallback(query_type, value, xtra: longword): TFxImgResult; cdecl;
@@ -425,6 +459,11 @@ begin
 	// setting common variables
 	files := TStringList.Create();
     SaveExtensions := TStringList.Create();
+    infRoles.capture := false;
+    infRoles.scan := false;
+    infRoles.email := false;
+    infRoles.hex := false;
+    infRoles.jpegll := false;
 
 	// initializing randomizer
 	Randomize();
@@ -500,7 +539,7 @@ begin
     miDSFitAll.Visible := reg.RBool('EnableFitAll', false);
     piDSFitAll.Visible := miDSFitAll.Visible;
 
-    if reg.RBool('HighQualityDisplay', false) then
+    if reg.RBool('HighQualityDisplay', true) then
         img.ZoomFilter := rfFastLinear
     else
     	img.ZoomFilter := rfNone;
@@ -546,7 +585,7 @@ begin
 	// saving settings
     reg.OpenKey(sSettings, true);
 
-	if frmMain.full_screen = false then
+	if ((not frmMain.full_screen) and (not Assigned(frmEditor)) and (not Assigned(frmPrint))) then
   		begin
   		if frmMain.tbrMain.Visible then reg.WriteInteger('TBMain', 1)
     		else reg.WriteInteger('TBMain', 0);
@@ -579,15 +618,26 @@ end;
 
 procedure TfrmMain.HandleFImport(Sender: TObject);
 var
+    lib_path, name: string;
+begin
+	reg.OpenKey(sModules + '\' + PS_FIMPORT, true);
+    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
+    reg.CloseKey();
+
+    name := StripHotKey(TMenuItem(Sender).Caption);
+
+    DoHandleFImport(lib_path, name);
+end;
+
+procedure TfrmMain.DoHandleFImport(lib_path, name: string);
+var
 	FxImgImport: TFxImgImport;
 	lib: THandle;
 	func_result: hBitmap;
     tmp_res: TFxImgResult;
 begin
 	try
-  		reg.OpenKey(sModules + '\' + PS_FIMPORT, true);
-  		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
-  		reg.CloseKey();
+  		lib := LoadLibrary(PChar(lib_path));
 
   		if (lib = 0) then
     		ShowMessage(LoadLStr(601))
@@ -597,7 +647,7 @@ begin
 
     		if (@FxImgImport <> nil) then
       			begin
-                tmp_res := FxImgImport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+                tmp_res := FxImgImport(PChar(name), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
                 if (tmp_res.result_type = RT_HBITMAP) then
       				func_result := tmp_res.result_value
@@ -616,14 +666,25 @@ end;
 
 procedure TfrmMain.HandleFExport(Sender: TObject);
 var
+    lib_path, name: string;
+begin
+	reg.OpenKey(sModules + '\' + PS_FEXPORT, true);
+    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
+    reg.CloseKey();
+
+    name := StripHotKey(TMenuItem(Sender).Caption);
+
+    DoHandleFExport(lib_path, name);
+end;
+
+procedure TfrmMain.DoHandleFExport(lib_path, name: string);
+var
 	FxImgExport: TFxImgExport;
 	lib: THandle;
 	img: TBitmap;
 begin
 	try
-  		reg.OpenKey(sModules + '\' + PS_FEXPORT, true);
-  		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
-  		reg.CloseKey();
+  		lib := LoadLibrary(PChar(lib_path));
 
   		if (lib = 0) then
     		ShowMessage(LoadLStr(602))
@@ -636,7 +697,7 @@ begin
     		@FxImgExport := GetProcAddress(lib, EX_EXPORT);
 
     		if (@FxImgExport <> nil) then
-      			FxImgExport(PChar(StripHotKey(TMenuItem(Sender).Caption)), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+      			FxImgExport(PChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
     		FreeLibrary(lib);
     		FreeAndNil(img);
@@ -648,15 +709,26 @@ end;
 // FTool handler
 procedure TfrmMain.HandleFTool(Sender: TObject);
 var
+    lib_path, name: string;
+begin
+	reg.OpenKey(sModules + '\' + PS_FTOOL, true);
+    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
+    reg.CloseKey();
+
+    name := StripHotKey(TMenuItem(Sender).Caption);
+
+    DoHandleFTool(lib_path, name);
+end;
+
+procedure TfrmMain.DoHandleFTool(lib_path, name: string);
+var
 	FxImgTool: TFxImgTool;
 	lib: THandle;
 	img: TBitmap;
     tmp_res: TFxImgResult;
 begin
 	try
-		reg.OpenKey(sModules + '\' + PS_FTOOL, true);
-		lib := LoadLibrary(PChar(reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '')));
-		reg.CloseKey();
+		lib := LoadLibrary(PChar(lib_path));
 
 		if (lib = 0) then
   			ShowMessage(LoadLStr(603))
@@ -671,7 +743,7 @@ begin
     			img.PixelFormat := pf24bit;
 
     			try
-                    tmp_res := FxImgTool(PChar(infImage.path), PChar(StripHotKey(TMenuItem(Sender).Caption)), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+                    tmp_res := FxImgTool(PChar(infImage.path), PChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
                     if (tmp_res.result_type = RT_HBITMAP) then
                         OpenUntitled(nil, tmp_res.result_value)
@@ -737,6 +809,8 @@ begin
     miReopen.Hint			:= LoadLStr(125);
     miNew.Caption			:= LoadLStr(126);
     miNew.Hint				:= LoadLStr(127);
+    miNewWindow.Caption		:= LoadLStr(158);
+    miNewWindow.Hint		:= LoadLStr(159);
     miSaveAs.Caption		:= LoadLStr(128);
     miSaveAs.Hint			:= LoadLStr(129);
     miClose.Caption         := LoadLStr(130);
@@ -754,8 +828,6 @@ begin
     miFMove.Hint			:= LoadLStr(145);
     miFRename.Caption		:= LoadLStr(146);
     miFRename.Hint			:= LoadLStr(147);
-    miPrint.Caption			:= LoadLStr(150);
-    miPrint.Hint			:= LoadLStr(151);
     miPrintPreview.Caption	:= LoadLStr(152);
     miPrintPreview.Hint		:= LoadLStr(153);
     miExit.Caption			:= LoadLStr(154);
@@ -1021,6 +1093,52 @@ begin
     tbnUndo.Hint            := LoadLStr(541);
     tbnZoomFit.Caption      := LoadLStr(544);
     tbnZoomFit.Hint         := LoadLStr(545);
+    tbnNew.Caption			:= LoadLStr(546);
+    tbnNew.Hint				:= LoadLStr(547);
+    tbnFDelete.Caption		:= LoadLStr(548);
+    tbnFDelete.Hint			:= LoadLStr(549);
+    tbnFCopy.Caption		:= LoadLStr(550);
+    tbnFCopy.Hint			:= LoadLStr(551);
+    tbnFMove.Caption		:= LoadLStr(552);
+    tbnFMove.Hint			:= LoadLStr(553);
+    tbnFRename.Caption		:= LoadLStr(554);
+    tbnFRename.Hint			:= LoadLStr(555);
+    tbnZoom100.Caption		:= LoadLStr(556);
+    tbnZoom100.Hint			:= LoadLStr(557);
+    tbnZoomWidth.Caption	:= LoadLStr(558);
+    tbnZoomWidth.Hint		:= LoadLStr(559);
+    tbnZoomHeight.Caption	:= LoadLStr(560);
+    tbnZoomHeight.Hint		:= LoadLStr(561);
+    tbnRotateCCW.Caption	:= LoadLStr(562);
+    tbnRotateCCW.Hint		:= LoadLStr(563);
+    tbnGoFirst.Caption		:= LoadLStr(564);
+    tbnGoFirst.Hint			:= LoadLStr(565);
+    tbnGoLast.Caption		:= LoadLStr(566);
+    tbnGoLast.Hint			:= LoadLStr(567);
+    tbnShow.Caption			:= LoadLStr(568);
+    tbnShow.Hint			:= LoadLStr(569);
+    tbnOptions.Caption		:= LoadLStr(570);
+    tbnOptions.Hint			:= Format(LoadLStr(571), [sAppName]);
+    tbnHelp.Caption			:= LoadLStr(572);
+    tbnHelp.Hint			:= Format(LoadLStr(573), [sAppName]);
+    tbnOnline.Caption		:= LoadLStr(574);
+    tbnOnline.Hint			:= Format(LoadLStr(575), [sAppName]);
+    tbnAbout.Caption		:= LoadLStr(576);
+    tbnAbout.Hint			:= Format(LoadLStr(577), [sAppName]);
+    tbnRScan.Caption		:= LoadLStr(578);
+    tbnRScan.Hint			:= LoadLStr(579);
+    tbnRMail.Caption		:= LoadLStr(580);
+    tbnRMail.Hint			:= LoadLStr(581);
+    tbnRCapture.Caption		:= LoadLStr(582);
+    tbnRCapture.Hint		:= LoadLStr(583);
+    tbnRJPEG.Caption		:= LoadLStr(584);
+    tbnRJPEG.Hint			:= LoadLStr(585);
+    tbnRHEX.Caption			:= LoadLStr(586);
+    tbnRHEX.Hint			:= LoadLStr(587);
+    tbnNewWnd.Caption		:= LoadLStr(588);
+    tbnNewWnd.Hint			:= LoadLStr(589);
+    tbnGoToPage.Caption		:= LoadLStr(590);
+    tbnGoToPage.Hint		:= LoadLStr(591);
 
     miCustTB.Caption		:= LoadLStr(3500);
     miCustTB.Hint			:= LoadLStr(3501);
@@ -1135,121 +1253,6 @@ begin
   		GoLast()
 	else
   		GoNext();
-end;
-
-procedure TfrmMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-var
-	msg: TWMKey;
-const
-	VK_BROWSER_BACK 	= 166;
-	VK_BROWSER_FORWARD 	= 167;
-	VK_BROWSER_REFRESH 	= 168;
-	VK_BROWSER_STOP 	= 169;
-begin
-	msg.CharCode := Key;
-
-	if not mnuMain.IsShortCut(msg) then
-  		begin
-  		// keys manager
-  		case Key of
-    		VK_ADD:
-            	ZoomIn();
-    		VK_SUBTRACT:
-            	ZoomOut();
-            187:
-            	ZoomIn();
-            189:
-            	ZoomOut();
-
-			// directory navigation
-			VK_PRIOR:
-				if (ssShift in Shift) then GoFirst() else GoPrev();
-			VK_NEXT:
-				if (ssShift in Shift) then GoLast() else GoNext();
-    		VK_SPACE:
-            	if (ssShift in Shift) then GoLast() else GoNext();
-    		VK_BACK:
-            	if (ssShift in Shift) then GoFirst() else GoPrev();
-
-            // multimedia keyboard keys
-            VK_BROWSER_BACK:
-            	if (ssShift in Shift) then GoFirst() else GoPrev();
-           	VK_BROWSER_FORWARD:
-                if (ssShift in Shift) then GoLast() else GoNext();
-            VK_BROWSER_REFRESH:
-            	tbnDispClick(Self);
-            VK_BROWSER_STOP:
-            	miFullScreenClick(Self);
-
-            // extended keys on mouse
-            5:
-            	GoPrev();  // VK_XBUTTON1
-			6:
-            	GoNext();  // VK_XBUTTON2
-
-    		// slide show toolbar
-    		VK_F3:
-            	if (Assigned(frmShow)) then
-                	frmShow.Visible := (not frmShow.Visible);
-
-    		// fit/normal toggle
-    		VK_RETURN:
-                if (frmMain.nEnter = 0) then
-                	tbnDispClick(Self)
-                else
-                	miFullScreenClick(Self);
-
-            // scrolling and paging
-            VK_UP:
-                if (frmMain.nArrows = 0) then
-                    GoPrev()
-                else
-                	begin
-                	if (ssShift in Shift) then
-            			img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEUP, 0), 0)
-                	else
-                		img.Perform(WM_VSCROLL, MakeWParam(SB_LINEUP, 0), 0);
-                    end;
-
-            VK_DOWN:
-                if (frmMain.nArrows = 0) then
-                    GoNext()
-                else
-                	begin
-               		if (ssShift in Shift) then
-            			img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEDOWN, 0), 0)
-                	else
-                		img.Perform(WM_VSCROLL, MakeWParam(SB_LINEDOWN, 0), 0);
-                    end;
-
-            VK_RIGHT:
-                if (frmMain.nArrows = 0) then
-                    GoNext()
-                else
-                	begin
-                	if (ssShift in Shift) then
-            			img.Perform(WM_HSCROLL, MakeWParam(SB_PAGERIGHT, 0), 0)
-                	else
-                		img.Perform(WM_HSCROLL, MakeWParam(SB_LINERIGHT, 0), 0);
-                    end;
-
-            VK_LEFT:
-                if (frmMain.nArrows = 0) then
-                    GoPrev()
-                else
-                	begin
-                	if (ssShift in Shift) then
-            			img.Perform(WM_HSCROLL, MakeWParam(SB_PAGELEFT, 0), 0)
-                	else
-                		img.Perform(WM_HSCROLL, MakeWParam(SB_LINELEFT, 0), 0);
-                    end;
-    		end;
-  		end;
-end;
-
-procedure TfrmMain.miPrintClick(Sender: TObject);
-begin
-	PrintImage(true);
 end;
 
 procedure TfrmMain.miZM12Click(Sender: TObject);
@@ -1454,8 +1457,12 @@ procedure TfrmMain.miEditorClick(Sender: TObject);
 begin
 	if not Assigned(frmEditor) then
   		begin
-  		Application.CreateForm(TfrmEditor, frmEditor);
-  		frmEditor.ShowModal();
+        Application.CreateForm(TfrmEditor, frmEditor);
+
+        Header();
+
+        frmEditor.Parent := frmMain;
+        frmEditor.Show();
   		end;
 end;
 
@@ -1508,7 +1515,26 @@ end;
 
 procedure TfrmMain.miPrintPreviewClick(Sender: TObject);
 begin
-	PrintImage(false);
+	if (Printer.Printers.Count > 0) then
+		begin
+        if not Assigned(frmPrint) then
+  			begin
+  			Application.CreateForm(TfrmPrint, frmPrint);
+
+        	if FileExists(infImage.path) then
+        		frmPrint.prwPrint.PrintJobTitle := ExtractFileName(infImage.path)
+        	else
+        		frmPrint.prwPrint.PrintJobTitle := sAppName;
+
+            Header();
+
+            frmPrint.Parent := frmMain;
+            frmPrint.DrawView();
+        	frmPrint.Show();
+  			end;
+        end
+	else
+  		ShowMessage(LoadLStr(3261));
 end;
 
 procedure TfrmMain.miShowClick(Sender: TObject);
@@ -1537,14 +1563,6 @@ begin
   		Application.CreateForm(TfrmNew, frmNew);
   		frmNew.ShowModal();
   		end;
-end;
-
-procedure TfrmMain.tbnPrintClick(Sender: TObject);
-begin
-	if (HiWord(GetKeyState(VK_SHIFT)) <> 0) then
-    	PrintImage(true)
-    else
-    	PrintImage();
 end;
 
 procedure TfrmMain.miWebSiteClick(Sender: TObject);
@@ -1989,6 +2007,421 @@ begin
         if FileExists(S) then
         	Load(S);
     	end;
+end;
+
+procedure TfrmMain.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+begin
+    if (Assigned(frmEditor) or Assigned(frmPrint)) then
+    	Exit;
+
+    case Msg.CharCode of
+    	VK_RETURN:
+            begin
+            if (frmMain.nEnter = 0) then
+            	tbnDispClick(Self)
+            else
+            	miFullScreenClick(Self);
+
+			Handled := true;
+            end;
+
+        VK_ADD, 187:
+            begin
+            if tbnZoomIn.Enabled then
+        		ZoomIn();
+
+            Handled := true;
+            end;
+
+        VK_SUBTRACT, 189:
+            begin
+            if tbnZoomOut.Enabled then
+        		ZoomOut();
+
+            Handled := true;
+            end;
+
+        VK_PRIOR, VK_BACK, VK_BROWSER_BACK, VK_XBUTTON1:
+            begin
+            if tbnGoBack.Enabled then
+            	begin
+        		if IsShift() then
+            		GoFirst()
+            	else
+            		GoPrev();
+                end;
+
+            Handled := true;
+            end;
+
+        VK_NEXT, VK_SPACE, VK_BROWSER_FORWARD, VK_XBUTTON2:
+            begin
+            if tbnGoForward.Enabled then
+            	begin
+        		if IsShift() then
+            		GoLast()
+            	else
+            		GoNext();
+                end;
+
+            Handled := true;
+            end;
+
+        VK_BROWSER_REFRESH:
+            begin
+        	tbnDispClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_BROWSER_STOP:
+            begin
+        	miFullScreenClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F1:
+        	begin
+            if IsCtrl() then
+                miAboutClick(Self)
+            else
+            	miHelpContentsClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F2:
+        	begin
+            if (miEditor.Enabled and (not frmMain.full_screen)) then
+            	miEditorClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F3:
+            begin
+        	if Assigned(frmShow) then
+            	frmShow.Visible := (not frmShow.Visible);
+
+            Handled := true;
+            end;
+
+        VK_F5:
+            begin
+            if tbnGoRandom.Enabled then
+            	miGoRandomClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F6:
+            begin
+            if miStartShow.Enabled then
+            	miStartShowClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F7:
+            begin
+            if miLoadLast.Enabled then
+            	miLoadLastClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_F11:
+            begin
+            miFullScreenClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_UP:
+            begin
+        	if (frmMain.nArrows = 0) then
+                begin
+                if tbnGoBack.Enabled then
+            		GoPrev();
+                end
+            else
+            	begin
+                if IsShift() then
+                	img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEUP, 0), 0)
+                else
+                	img.Perform(WM_VSCROLL, MakeWParam(SB_LINEUP, 0), 0);
+                end;
+
+            Handled := true;
+            end;
+
+        VK_DOWN:
+            begin
+        	if (frmMain.nArrows = 0) then
+                begin
+                if tbnGoForward.Enabled then
+            		GoNext();
+                end
+            else
+            	begin
+                if IsShift() then
+                	img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEDOWN, 0), 0)
+                else
+                	img.Perform(WM_VSCROLL, MakeWParam(SB_LINEDOWN, 0), 0);
+                end;
+
+            Handled := true;
+            end;
+
+        VK_RIGHT:
+            begin
+        	if (frmMain.nArrows = 0) then
+                begin
+                if tbnGoForward.Enabled then
+            		GoNext();
+                end
+            else
+            	begin
+            	if IsShift() then
+            		img.Perform(WM_HSCROLL, MakeWParam(SB_PAGERIGHT, 0), 0)
+                else
+                	img.Perform(WM_HSCROLL, MakeWParam(SB_LINERIGHT, 0), 0);
+                end;
+
+            Handled := true;
+            end;
+
+        VK_LEFT:
+            begin
+        	if (frmMain.nArrows = 0) then
+                begin
+                if tbnGoBack.Enabled then
+            		GoPrev();
+                end
+            else
+            	begin
+                if IsShift() then
+                	img.Perform(WM_HSCROLL, MakeWParam(SB_PAGELEFT, 0), 0)
+                else
+                	img.Perform(WM_HSCROLL, MakeWParam(SB_LINELEFT, 0), 0);
+                end;
+
+            Handled := true;
+            end;
+
+        Word('1'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                	miZM100Click(Self);
+
+                Handled := true;
+                end;
+
+        Word('2'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                	miZM200Click(Self);
+
+                Handled := true;
+                end;
+
+        Word('5'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                	miZM50Click(Self);
+
+                Handled := true;
+                end;
+
+        Word('`'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                	miZMCustomClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('C'):
+            if IsCtrl() then
+            	begin
+                if miCopy.Enabled then
+                	miCopyClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('I'):
+            if IsCtrl() then
+            	begin
+                if miInfo.Enabled then
+                	miInfoClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('K'):
+            if IsCtrl() then
+            	begin
+                if tbnMultiPrev.Enabled then
+                	tbnMultiPrevClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('L'):
+            if IsCtrl() then
+            	begin
+                if tbnMultiNext.Enabled then
+                	tbnMultiNextClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('M'):
+            if IsCtrl() then
+            	begin
+                if miFMove.Enabled then
+                	miFMoveClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('O'):
+            if IsCtrl() then
+            	begin
+                if miOpen.Enabled then
+                	miOpenClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('P'):
+            if IsCtrl() then
+            	begin
+                if miPrintPreview.Enabled then
+                	miPrintPreviewClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('R'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                	begin
+                	if IsShift() then
+                		miRotateViewCCWClick(Self)
+                	else
+                    	miRotateViewClick(Self);
+                    end;
+
+                Handled := true;
+                end;
+
+        Word('S'):
+            if IsCtrl() then
+            	begin
+                if miSaveAs.Enabled then
+                	miSaveAsClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('T'):
+            if IsCtrl() then
+            	begin
+                if miFCopy.Enabled then
+                	miFCopyClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('V'):
+            if IsCtrl() then
+            	begin
+                if miPaste.Enabled then
+                	miPasteClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('X'):
+            if IsCtrl() then
+            	begin
+                if miClose.Enabled then
+                	miCloseClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('Y'):
+            if IsCtrl() then
+            	begin
+                if miFRename.Enabled then
+                	miFRenameClick(Self);
+
+                Handled := true;
+                end;
+
+        Word('Z'):
+            if IsCtrl() then
+            	begin
+                if miUndo.Enabled then
+                	miUndoClick(Self);
+
+                Handled := true;
+                end;
+
+        VK_DELETE:
+        	begin
+            if miFDelete.Enabled then
+            	miFDeleteClick(Self);
+
+            Handled := true;
+            end;
+
+        VK_ESCAPE:
+        	begin
+            miExitClick(Self);
+
+            Handled := true;
+            end;
+    end;
+end;
+
+procedure TfrmMain.miNewWindowClick(Sender: TObject);
+begin
+    ShellExecute(Self.Handle, 'open', PChar(Application.ExeName), PChar(infImage.path), nil, SW_SHOWNORMAL);
+end;
+
+procedure TfrmMain.tbnRCaptureClick(Sender: TObject);
+begin
+	ExecuteRole(PR_CAPTURE);
+end;
+
+procedure TfrmMain.tbnRHEXClick(Sender: TObject);
+begin
+	ExecuteRole(PR_HEX);
+end;
+
+procedure TfrmMain.tbnRJPEGClick(Sender: TObject);
+begin
+	ExecuteRole(PR_JPEGLL);
+end;
+
+procedure TfrmMain.tbnRMailClick(Sender: TObject);
+begin
+	ExecuteRole(PR_EMAIL);
+end;
+
+procedure TfrmMain.tbnRScanClick(Sender: TObject);
+begin
+	ExecuteRole(PR_SCAN);
 end;
 
 end.

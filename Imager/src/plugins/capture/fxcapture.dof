@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=5
-Release=3
-Build=5
+MinorVer=6
+Release=0
+Build=12
 Debug=0
 PreRelease=0
 Special=0
@@ -122,20 +122,20 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Screen Capture Plug-in
-FileVersion=5.5.3.5
+FileVersion=5.6.0.12
 InternalName=capture
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxcapture.dll
 ProductName=FuturixImager
-ProductVersion=5.5
+ProductVersion=5.6
 Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=1
-Item0=.\;..\..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Apprehend;
+Item0=.\;..\..\shared;$(FXSHARED)\Includes;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

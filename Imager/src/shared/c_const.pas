@@ -9,7 +9,7 @@ const
   FI_MESSAGE 			= WM_USER + 147;
 
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.5.3';
+  sVersion				= '5.6';
   sRights 				= '© 1999-2006 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
   sRegAssociationOld	= sAppName + '.old';
@@ -43,6 +43,7 @@ const
 
   // plug-in types
   PT_FNAME 				= 1;
+  PT_FROLE 				= 2;
   PT_FDESCR 			= 5;
   PT_FOPEN 				= 10;
   PT_FOPENMULTI 		= 11;
@@ -56,6 +57,7 @@ const
 
   // plug-in type strings
   PS_FNAME 				= 'Plug-ins';
+  PS_FROLE 				= 'Roles';
   PS_FDESCR 			= 'Descriptions';
   PS_FLOCALE 			= 'Locales';
   PS_FTHEME 			= 'Themes';
@@ -113,7 +115,11 @@ const
   // predefined plug-in roles
   PR_PRINT				= 'ROLE::PRINT';
   PR_PRINTPREVIEW		= 'ROLE::PRINTPREVIEW';
-  PR_TWAIN				= 'ROLE::TWAIN';
+  PR_SCAN				= 'ROLE::SCAN';
+  PR_EMAIL				= 'ROLE::EMAIL';
+  PR_CAPTURE			= 'ROLE::CAPTURE';
+  PR_JPEGLL				= 'ROLE::JPEGLL';
+  PR_HEX				= 'ROLE::HEX';
   
   // boolean values
   FX_FALSE				= 0;

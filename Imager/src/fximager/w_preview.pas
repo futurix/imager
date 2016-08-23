@@ -66,7 +66,7 @@ var
   
 implementation
 
-uses main;
+uses main, f_ui, w_show;
 
 {$R *.DFM}
 
@@ -193,6 +193,14 @@ end;
 
 procedure TfrmPrint.FormCreate(Sender: TObject);
 begin
+	frmMain.Menu := nil;
+    FSSavePos(true);
+    frmMain.tbrMain.Hide();
+    frmmain.sbrMain.Hide();
+
+    if Assigned(frmShow) then
+  		frmShow.Close();
+
     // tweaks
     tbnZoom.WholeDropDown := true;
 
@@ -215,14 +223,15 @@ begin
 
     reg.CloseKey();
 
-    RestoreWindowSize(@Self, sSettings + '\Wnd', 750, 550, 'PrintPreview_');
-
     // localization
 	Localize();
 end;
 
 procedure TfrmPrint.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+    frmMain.Menu := frmMain.mnuMain;
+    FSRestorePos(true);
+
     // saving settings
     reg.OpenKey(sSettings, true);
 
@@ -245,8 +254,6 @@ begin
     reg.WBool('Print_Center', cbxCenter.Checked);
 
     reg.CloseKey();
-
-    SaveWindowSize(@Self, sSettings + '\Wnd', 'PrintPreview_');
 
     // to be freed
     Action := caFree;

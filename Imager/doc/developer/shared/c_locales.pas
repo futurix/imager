@@ -1,4 +1,3 @@
-// localization support
 unit c_locales;
 
 interface

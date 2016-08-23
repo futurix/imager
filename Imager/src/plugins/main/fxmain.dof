@@ -101,7 +101,7 @@ DebugSourceDirs=
 UsePackages=1
 [Parameters]
 RunParams=
-HostApplication=
+HostApplication=D:\Software\FxImager\bin\fximager.exe
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=5
-Release=3
-Build=12
+MinorVer=6
+Release=0
+Build=31
 Debug=0
 PreRelease=0
 Special=0
@@ -122,21 +122,22 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Main Plug-in
-FileVersion=5.5.3.12
+FileVersion=5.6.0.31
 InternalName=main
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxmain.dll
 ProductName=FuturixImager
-ProductVersion=5.5
+ProductVersion=5.6
 Comments=http://www.fxfp.com/
+[Excluded Packages]
+c:\program files\borland\delphi7\Projects\Bpl\Misc.bpl=Misc Components
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=2
-Item0=.\;..\..\shared;$(FXSHARED)\Includes;$(FXSHARED)\ImageEn;
-Item1=.\;..\..\shared;$(FXSHARED)\Includes;
+Count=1
+Item0=.\;..\..\shared;$(FXSHARED)\Includes;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

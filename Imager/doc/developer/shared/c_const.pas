@@ -1,4 +1,3 @@
-// common constants and function declarations
 unit c_const;
 
 interface
@@ -10,8 +9,8 @@ const
   FI_MESSAGE 			= WM_USER + 147;
 
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.5';
-  sRights 				= '© 1999-2005 Alexander Tereshchenko';
+  sVersion				= '5.6';
+  sRights 				= '© 1999-2006 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
   sRegAssociationOld	= sAppName + '.old';
 
@@ -32,11 +31,10 @@ const
   sThemeID 				= 'FxImgThemeR1';
 
   // application filenames
-  FN_APP				= 'fx_imager.exe';
-  FN_HELPERS			= 'fx_imghelper.dll';
-  FN_ADDRAW				= 'fx_dcraw.dll';
-  FN_ADDJBIG			= 'fx_jbig.dll';
-  FN_ADDMAGICK			= 'fx_imagemagick.dll';
+  FN_APP				= 'fximager.exe';
+  FN_ADDRAW				= 'fxraw.dll';
+  FN_ADDJBIG			= 'fxjbig.dll';
+  FN_ADDMAGICK			= 'fxmagick.dll';
 
   // registry access
   RA_FULL				= KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or
@@ -45,6 +43,7 @@ const
 
   // plug-in types
   PT_FNAME 				= 1;
+  PT_FROLE 				= 2;
   PT_FDESCR 			= 5;
   PT_FOPEN 				= 10;
   PT_FOPENMULTI 		= 11;
@@ -58,6 +57,7 @@ const
 
   // plug-in type strings
   PS_FNAME 				= 'Plug-ins';
+  PS_FROLE 				= 'Roles';
   PS_FDESCR 			= 'Descriptions';
   PS_FLOCALE 			= 'Locales';
   PS_FTHEME 			= 'Themes';
@@ -115,7 +115,11 @@ const
   // predefined plug-in roles
   PR_PRINT				= 'ROLE::PRINT';
   PR_PRINTPREVIEW		= 'ROLE::PRINTPREVIEW';
-  PR_TWAIN				= 'ROLE::TWAIN';
+  PR_SCAN				= 'ROLE::SCAN';
+  PR_EMAIL				= 'ROLE::EMAIL';
+  PR_CAPTURE			= 'ROLE::CAPTURE';
+  PR_JPEGLL				= 'ROLE::JPEGLL';
+  PR_HEX				= 'ROLE::HEX';
   
   // boolean values
   FX_FALSE				= 0;

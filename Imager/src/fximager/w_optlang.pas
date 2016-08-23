@@ -26,6 +26,7 @@ type
   private
     procedure InitPlugs();
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -135,6 +136,18 @@ procedure TfrmOptLang.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftS
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
+end;
+
+procedure TfrmOptLang.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+	else if Assigned(Screen.ActiveForm) then
+		Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 procedure TfrmOptLang.Localize();
