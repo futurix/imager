@@ -87,21 +87,21 @@ DebugInfo=0
 RemoteSymbols=0
 MinStackSize=16384
 MaxStackSize=1048576
-ImageBase=23068672
-ExeDescription=FuturixImager Main Plug-in
+ImageBase=4194304
+ExeDescription=FuturixImager File Associations
 [Directories]
 OutputDir=..\..\..\bin
 UnitOutputDir=..\..\output
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=.\;..\..\shared;$(FXSHARED)\Includes;$(FXSHARED)\ImageEn;
+SearchPath=.\;..\..\shared;$(FXSHARED)\Includes;
 Packages=fxcore
 Conditionals=
 DebugSourceDirs=
 UsePackages=1
 [Parameters]
 RunParams=
-HostApplication=D:\Software\FxImager\bin\fximager.exe
+HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -111,22 +111,22 @@ AutoIncBuild=1
 MajorVer=5
 MinorVer=8
 Release=6
-Build=78
+Build=41
 Debug=0
 PreRelease=0
 Special=0
 Private=0
-DLL=1
+DLL=0
 Locale=2057
 CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
-FileDescription=FuturixImager Main Plug-in
-FileVersion=5.8.6.78
-InternalName=main
+FileDescription=FuturixImager File Associations
+FileVersion=5.8.6.41
+InternalName=fileass
 LegalCopyright=© 1999-2007 Alexander Tereshchenko
 LegalTrademarks=
-OriginalFilename=fxmain.dll
+OriginalFilename=fxformats.exe
 ProductName=FuturixImager
 ProductVersion=5.8.6
 Comments=http://www.fxfp.com/
@@ -134,9 +134,8 @@ Comments=http://www.fxfp.com/
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=2
-Item0=.\;..\..\shared;$(FXSHARED)\Includes;$(FXSHARED)\ImageEn;
-Item1=.\;..\..\shared;$(FXSHARED)\Includes;
+Count=1
+Item0=.\;..\..\shared;$(FXSHARED)\Includes;
 [HistoryLists\hlUnitOutputDirectory]
 Count=1
 Item0=..\..\output

@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=8
-Release=5
-Build=28
+Release=6
+Build=33
 Debug=0
 PreRelease=0
 Special=0
@@ -122,14 +122,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Filters Plug-in
-FileVersion=5.8.5.28
+FileVersion=5.8.6.33
 InternalName=effects
-LegalCopyright=© 1999-2006 Alexander Tereshchenko
+LegalCopyright=© 1999-2007 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxeffects.dll
 ProductName=FuturixImager
-ProductVersion=5.8.5
-Comments=http://www.futurix.co.uk/
+ProductVersion=5.8.6
+Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;

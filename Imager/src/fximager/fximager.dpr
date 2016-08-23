@@ -29,7 +29,6 @@ uses
   w_resize in 'w_resize.pas' {frmResize},
   w_rotate in 'w_rotate.pas' {frmRotate},
   w_optgeneral in 'w_optgeneral.pas' {frmOptions},
-  w_optformats in 'w_optformats.pas' {frmOptFormats},
   f_toolbar in 'f_toolbar.pas',
   w_custtb in 'w_custtb.pas' {frmCustTB},
   f_instance in 'f_instance.pas',
@@ -39,33 +38,25 @@ uses
 {$R *.RES}
 
 begin
-	if ((ParamStr(1) = '/uninstall') or (ParamStr(1) = '-uninstall') or (ParamStr(1) = '--uninstall')) then
-    	begin
-        Uninstall();
-        UpdateAssociations();
+	Graphics.DefFontData.Name := 'MS Shell Dlg 2';
+
+    hPrevious := 0;
+    aAtom := 0;
+    sParams := '';
+        
+    CheckPreviousInstance();
+    sParams := Trim(sParams);
+
+    if (hPrevious <> 0) then
+        begin
+        PassParamsToPreviousInstance();
+        Exit;
         end
     else
     	begin
-        Graphics.DefFontData.Name := 'MS Shell Dlg 2';
-
-        hPrevious := 0;
-  		aAtom := 0;
-        sParams := '';
-        
-        CheckPreviousInstance();
-        sParams := Trim(sParams);
-
-        if (hPrevious <> 0) then
-        	begin
-            PassParamsToPreviousInstance();
-            Exit;
-            end
-        else
-        	begin
-  			Application.Initialize();
-  			Application.Title := 'FuturixImager';
-  			Application.CreateForm(TfrmMain, frmMain);
+        Application.Initialize();
+        Application.Title := 'FuturixImager';
+        Application.CreateForm(TfrmMain, frmMain);
   Application.Run();
-        	end;
-  		end;
+        end;
 end.

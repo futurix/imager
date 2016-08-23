@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.5
+!define FXVERSION 5.8.6
 
 Name "FuturixImager Extras"
 OutFile "futuriximager_extras.exe"
@@ -50,17 +50,17 @@ Section "-Core"
   # deleting legacy files
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll
+  Delete $INSTDIR\fxmagick.dll
+  Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxmng.dll
   Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxmoreinfo.dll
+  Delete $INSTDIR\fxthemexp.dll
   
   # deleting old files
   Delete $INSTDIR\fxjbig.dll
-  Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
-  Delete $INSTDIR\fxmail.dll
-  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
   
@@ -82,19 +82,9 @@ Section "Playback of animated GIFs"
   File "..\bin\fxgdiplus.dll"
 SectionEnd
 
-Section "Support for SVG, TTF, DICOM, etc..."
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxmagick.dll"
-SectionEnd
-
 Section "Support for PhotoCD, EPS thumbnails..."
   SetOutPath "$INSTDIR"
   File "..\bin\fxgraphicex.dll"
-SectionEnd
-
-Section "Support for e-mailing images"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxmail.dll"
 SectionEnd
 
 Section "Support for writing wireless bitmaps (WBMP)"
@@ -102,20 +92,12 @@ Section "Support for writing wireless bitmaps (WBMP)"
   File "..\bin\fxwireless.dll"
 SectionEnd
 
-Section "XP-style toobar theme"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxthemexp.dll"
-SectionEnd
-
 
 Section Uninstall
   # deleting files
   Delete $INSTDIR\fxjbig.dll
-  Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
-  Delete $INSTDIR\fxmail.dll
-  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
 SectionEnd

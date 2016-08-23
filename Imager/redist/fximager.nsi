@@ -1,11 +1,12 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.5
+!define FXVERSION 5.8.6
 
 Name "FuturixImager"
 OutFile "futuriximager.exe"
 CRCCheck on
 SetCompressor lzma
+RequestExecutionLevel highest
 
 BrandingText "FuturixImager ${FXVERSION}"
 
@@ -52,6 +53,8 @@ Section "FuturixImager"
   # installing main files
   SetOutPath "$INSTDIR"
   File "..\bin\fxcore.dll"
+  File "..\bin\fxfimg.dll"
+  File "..\bin\fxformats.exe"
   File "..\bin\fximager.exe"
   File "..\bin\fxmain.dll"
   
@@ -60,7 +63,7 @@ Section "FuturixImager"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayVersion" "${FXVERSION}"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
-  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.futurix.co.uk/"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.fxfp.com/"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoModify" 1
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoRepair" 1
    
@@ -88,11 +91,6 @@ Section "Lossless JPEG transformations"
   File "..\bin\fxjpeglossless.dll"
 SectionEnd
 
-Section "FreeImage plug-in"
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxfimg.dll"
-SectionEnd
-
 Section "Screen capture"
   SetOutPath "$INSTDIR"
   File "..\bin\fxcapture.dll"
@@ -111,14 +109,13 @@ SectionEnd
 
 Section Uninstall
   # registry clean-up
-  ExecWait '"$INSTDIR\fximager.exe" /uninstall'
+  ExecWait '"$INSTDIR\fxformats.exe" /uninstall'
 
   # removing extra plug-ins via uninstaller (if possible)
   ExecWait '"$INSTDIR\uninstallx.exe" /S'
 
   # deleting files
   Delete $SMPROGRAMS\FuturixImager.lnk
-  Delete $INSTDIR\fx*.chm
   Delete $INSTDIR\fx*.dll
   Delete $INSTDIR\fx*.exe
   Delete $INSTDIR\uninstallfx.exe

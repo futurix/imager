@@ -10,16 +10,16 @@ const
 
   sAppName 				= 'FuturixImager';
   sAppNameEx			= sAppName;
-  sVersion				= '5.8.5';
-  sVersionEx			= '5.8.5.0';
+  sVersion				= '5.8.6';
+  sVersionEx			= '5.8.6.0';
   sAuthor				= 'Alexander Tereshchenko';
-  sRights 				= '© 1999-2006 Alexander Tereshchenko';
+  sRights 				= '© 1999-2007 Alexander Tereshchenko';
   sRegAssociation		= sAppName;
   sRegAssociationOld	= sAppName + '.old';
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 8;
-  FXVER_REVISION		= 5;
+  FXVER_REVISION		= 6;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';
@@ -29,7 +29,7 @@ const
   sInternalFormat		= 'fx_internal';
 
   // URLs
-  sURL					= 'http://www.futurix.co.uk/';
+  sURL					= 'http://www.fxfp.com/';
 
   // signatures
   sLocaleID 			= 'FxImgLocaleR2';
@@ -43,9 +43,9 @@ const
 
   // application filenames
   FN_APP				= 'fximager.exe';
+  FN_FORMATS			= 'fxformats.exe';
   FN_ADDRAW				= 'fxraw.dll';
   FN_ADDJBIG			= 'fxjbig.dll';
-  FN_ADDMAGICK			= 'fxmagick.dll';
 
   // registry access
   RA_FULL				= KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or

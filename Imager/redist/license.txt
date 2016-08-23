@@ -38,8 +38,8 @@ Conditions:
    requires written permission from the author.
 
 
-Copyright © 1999-2006 Alexander Tereshchenko
+Copyright © 1999-2007 Alexander Tereshchenko
 All rights reserved
 
-E-mail: info@futurix.co.uk
-Web: http://www.futurix.co.uk/
+E-mail: info@fxfp.com
+Web: http://www.fxfp.com/

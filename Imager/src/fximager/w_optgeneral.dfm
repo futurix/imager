@@ -21,6 +21,15 @@ object frmOptions: TfrmOptions
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
+  object lblFormats: TLabel
+    Left = 10
+    Top = 404
+    Width = 129
+    Height = 13
+    Caption = 'Set file format associations'
+    Transparent = True
+    OnClick = lblFormatsClick
+  end
   object btnOK: TButton
     Left = 306
     Top = 400
@@ -77,55 +86,6 @@ object frmOptions: TfrmOptions
         ShowColumnHeaders = False
         TabOrder = 0
         ViewStyle = vsReport
-      end
-    end
-    object shtFormats: TTabSheet
-      Caption = 'File Formats'
-      ImageIndex = 7
-      object lblAddParams: TLabel
-        Left = 10
-        Top = 330
-        Width = 100
-        Height = 13
-        Caption = 'Additional settings...'
-        Transparent = True
-        OnClick = lblAddParamsClick
-      end
-      object lvwExt: TListView
-        Left = 10
-        Top = 10
-        Width = 420
-        Height = 295
-        Checkboxes = True
-        Columns = <
-          item
-            Caption = 'Extension'
-            Width = -1
-            WidthType = (
-              -1)
-          end
-          item
-            Caption = 'Description'
-            Width = -1
-            WidthType = (
-              -1)
-          end>
-        ColumnClick = False
-        ReadOnly = True
-        RowSelect = True
-        PopupMenu = popFormats
-        SortType = stText
-        TabOrder = 0
-        ViewStyle = vsReport
-      end
-      object cbxShowRare: TCheckBox
-        Left = 10
-        Top = 310
-        Width = 420
-        Height = 17
-        Caption = 'Show rare or incompletely supported formats'
-        TabOrder = 1
-        OnClick = cbxShowRareClick
       end
     end
     object shtBeh: TTabSheet
@@ -460,7 +420,7 @@ object frmOptions: TfrmOptions
         Height = 21
         AutoComplete = False
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = cbxLanguagesChange
       end
@@ -468,6 +428,7 @@ object frmOptions: TfrmOptions
     object shtThemes: TTabSheet
       Caption = 'Themes'
       ImageIndex = 5
+      TabVisible = False
       object lblTheme: TLabel
         Left = 10
         Top = 10
@@ -492,7 +453,7 @@ object frmOptions: TfrmOptions
         Height = 21
         AutoComplete = False
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         TabOrder = 0
         OnChange = cbxThemesChange
       end
@@ -970,17 +931,5 @@ object frmOptions: TfrmOptions
   object imlPreview: TImageList
     Left = 406
     Top = 208
-  end
-  object popFormats: TPopupMenu
-    Left = 376
-    Top = 208
-    object piSelectAll: TMenuItem
-      Caption = 'Select All'
-      OnClick = piSelectAllClick
-    end
-    object piSelectNone: TMenuItem
-      Caption = 'Select None'
-      OnClick = piSelectNoneClick
-    end
   end
 end

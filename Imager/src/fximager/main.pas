@@ -363,7 +363,6 @@ var
     init_jbig: boolean = false;
 	files: TStringList;
   	path_app: string = '';
-    bStrongUser: boolean = false;
 
 	infImage: record
 		path: string;
@@ -466,7 +465,6 @@ begin
     infRoles.email := false;
     infRoles.hex := false;
     infRoles.jpegll := false;
-    bStrongUser := IsStrongUser();
 
 	// initializing randomizer
 	Randomize();
