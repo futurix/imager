@@ -47,7 +47,7 @@ begin
     			bmp.Assign(frmMain.img.IEBitmap.VclBitmap);
     			bmp.PixelFormat := pf24bit;
 
-    			DoPrint(Application.Handle, bmp.ReleaseHandle, PChar(infImage.path), fast);
+    			DoPrint(Application.Handle, bmp.ReleaseHandle(), PChar(infImage.path), fast);
 
     			FreeAndNil(bmp);
     			end;

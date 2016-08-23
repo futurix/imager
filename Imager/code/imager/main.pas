@@ -427,7 +427,7 @@ begin
     		@FIPISexport := GetProcAddress(lib, 'FIPISexport');
 
     		if not (@FIPISexport = nil) then
-      			FIPISexport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle, img.Handle);
+      			FIPISexport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle, img.ReleaseHandle());
 
     		FreeLibrary(lib);
     		FreeAndNil(img);

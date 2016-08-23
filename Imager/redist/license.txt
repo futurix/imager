@@ -22,10 +22,22 @@ Conditions:
 4. This software is protected by copyright laws and international copyright
    treaties, as well as other intellectual property laws and treaties.
 
-5. The author grants you the royalty-free right to reproduce and distribute the
-   software, as long as no fee is charged specifically for this software.
+5. The author grants you the right to make this software available on an
+   Internet or Intranet site for the purpose of downloading, as long as no fee
+   is charged for said download.
 
-6. Any usage of this software and components of it (including without
+6. The author grants you the royalty-free right to reproduce and distribute the
+   software as part of a CD or DVD media to be enclosed with the print issue of
+   any magazine, book or printed publication, as long as said media and printed
+   publication contain material that would have been distributed regardless of
+   the inclusion of this software, and no extra fee is charged for inclusion of
+   this software.
+
+7. Redistribution of this software with any kind of hardware (including without
+   limitation flat-bed scanners, digital cameras and personal computer systems)
+   requires written permission from the author.
+
+8. Any usage of this software and components of it (including without
    limitation plug-ins, locales and themes) in third-party software products
    requires written permission from the author.
 

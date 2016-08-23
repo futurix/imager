@@ -291,7 +291,7 @@ begin
       			image.Assign(frmMain.img.IEBitmap.VclBitmap);
       			image.PixelFormat := pf24bit;
 
-      			func_result := FIPISfilter(PChar(name), false, Application.Handle, frmMain.Handle, image.Handle);
+      			func_result := FIPISfilter(PChar(name), false, Application.Handle, frmMain.Handle, image.ReleaseHandle());
 
       			if (func_result <> 0) then
         			begin
@@ -345,7 +345,7 @@ begin
       			image.Assign(frmMain.img.IEBitmap.VclBitmap);
       			image.PixelFormat := pf24bit;
 
-      			Result := FIPISfilter(PChar(name), true, Application.Handle, frmMain.Handle, image.Handle);
+      			Result := FIPISfilter(PChar(name), true, Application.Handle, frmMain.Handle, image.ReleaseHandle());
 
       			FreeAndNil(image);
       			end;

@@ -217,7 +217,7 @@ begin
                 bim.Assign(frmMain.img.IEBitmap.VclBitmap);
                 bim.PixelFormat := pf24bit;
 
-      			res := FIPISsave(PChar(path), PChar(ext), Application.Handle, frmMain.Handle, bim.Handle);
+      			res := FIPISsave(PChar(path), PChar(ext), Application.Handle, frmMain.Handle, bim.ReleaseHandle());
 
                 FreeAndNil(bim);
 
