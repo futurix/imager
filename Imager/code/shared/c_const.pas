@@ -47,12 +47,15 @@ type
   TFIPISanimGetFrame = function(var img: hBitmap; var delay: integer):integer; stdcall;
   TFIPISanimDeInit = function():integer; stdcall;
 
-  //multi-page
+  // multi-page
   TFIPISmultiInit = function(filename, ext: PChar; app: THandle):integer; stdcall;
   TFIPISmultiGetPages = function():integer; stdcall;
   TFIPISmultiGetPage = function(index: integer):hBitmap; stdcall;
   TFIPISmultiDeInit = function():integer; stdcall;
+  
+  // helper functions
+  TFIPIShelpPrint = function(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; stdcall;
+
 
 implementation
 end.
-

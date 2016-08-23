@@ -52,31 +52,46 @@ function FIPIStool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; s
 
 var
   frmWallpaper: TfrmWallpaper;
+  image: TBitmap;
+
 
 implementation
+
+uses swall;
 
 {$R *.DFM}
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
-func(PT_FTOOL,'View as Wallpaper...',' ');
-Result:=true;
+	func(PT_FTOOL, 'View as Wallpaper...', ' ');
+	func(PT_FTOOL, 'Set as Wallpaper...', ' ');
+	Result := true;
 end;
 
-function FIPIStool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap;
-var
-  image: TBitmap;
+function FIPIStool(info, path: PChar; app, wnd: THandle; img: hBitmap):hBitmap;
 begin
-Application.Handle:=app;
-image:=TBitmap.Create();
-image.Handle:=img;
-frmWallpaper:=TfrmWallpaper.Create(Application);
-frmWallpaper.tilWall.Picture.Assign(image);
-frmWallpaper.ShowModal();
-image.ReleaseHandle();
-image.Free();
-frmWallpaper.Free();
-Result:=0;
+	Application.Handle := app;
+	image := TBitmap.Create();
+	image.Handle := img;
+
+    if (info = 'View as Wallpaper...') then
+    	begin
+		frmWallpaper := TfrmWallpaper.Create(Application);
+		frmWallpaper.tilWall.Picture.Assign(image);
+		frmWallpaper.ShowModal();
+    	FreeAndNil(frmWallpaper);
+    	end
+    else
+    	begin
+		frmWallpaperS := TfrmWallpaperS.Create(Application);
+		frmWallpaperS.ShowModal();
+		FreeAndNil(frmWallpaperS);
+        end;
+
+	image.ReleaseHandle();
+	FreeAndNil(image);
+
+	Result := 0;
 end;
 
 procedure TfrmWallpaper.btnOKClick(Sender: TObject);
@@ -164,9 +179,6 @@ tilWall.Width:=tmp_w;
 tilWall.Height:=tmp_h;
 end;
 
-exports
-  FIPISquery, FIPIStool;
-
 procedure TfrmWallpaper.btn1920x1200Click(Sender: TObject);
 begin
 tilWall.Width:=1920;
@@ -190,5 +202,8 @@ tilWall.Height:=1024;
 edtCustWidth.Text:='2560';
 edtCustHeight.Text:='1024';
 end;
+
+exports
+  FIPISquery, FIPIStool;
 
 end.

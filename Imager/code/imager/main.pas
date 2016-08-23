@@ -19,7 +19,6 @@ type
     mView: TMenuItem;
     mGo: TMenuItem;
     mTools: TMenuItem;
-    mSettings: TMenuItem;
     mHelp: TMenuItem;
     miOpen: TMenuItem;
     miSaveAs: TMenuItem;
@@ -53,11 +52,8 @@ type
     miGoForward: TMenuItem;
     N12: TMenuItem;
     N14: TMenuItem;
-    miRevert: TMenuItem;
-    miApplyChanges: TMenuItem;
     miInfo: TMenuItem;
     miSettings: TMenuItem;
-    miFileFormats: TMenuItem;
     miHelpContents: TMenuItem;
     miAbout: TMenuItem;
     imlMain: TImageList;
@@ -96,11 +92,8 @@ type
     mRecent: TMenuItem;
     NRecent: TMenuItem;
     MRU: TMRUFiles;
-    miClearClipboard: TMenuItem;
-    N5: TMenuItem;
     dlgOpen: TFuturisOpenDialog;
     N2: TMenuItem;
-    miScan: TMenuItem;
     mToolbars: TMenuItem;
     N11: TMenuItem;
     Sep_7: TToolButton;
@@ -140,7 +133,6 @@ type
     miFRename: TMenuItem;
     miFMove: TMenuItem;
     N34: TMenuItem;
-    N3: TMenuItem;
     N13: TMenuItem;
     Sep_12: TToolButton;
     N20: TMenuItem;
@@ -156,8 +148,6 @@ type
     tbnZoomIn: TToolButton;
     tbnZoomOut: TToolButton;
     tbnGoRandom: TToolButton;
-    miClearMRU: TMenuItem;
-    N19: TMenuItem;
     miUndo: TMenuItem;
     tbnUndo: TToolButton;
     img: TImageEnView;
@@ -199,8 +189,17 @@ type
     miAnimStop: TMenuItem;
     dlgSave: TSaveDialog;
     Sep_14: TToolButton;
-    popMRU: TPopupMenu;
+	popMRU: TPopupMenu;
     piMRU: TMenuItem;
+    MRUpop: TMRUFiles;
+    N3: TMenuItem;
+    Sep_16: TToolButton;
+    Sep_17: TToolButton;
+    tbnRotate: TToolButton;
+    miRotateView: TMenuItem;
+    miRotateViewCCW: TMenuItem;
+    popNoMRU: TPopupMenu;
+    piMyOpen: TMenuItem;
 
     procedure Initialize();
     procedure ShutDown();
@@ -237,16 +236,12 @@ type
     procedure miZMCustomClick(Sender: TObject);
     procedure MRUClick(Sender: TObject; FileName: String);
     procedure miSettingsClick(Sender: TObject);
-    procedure miFileFormatsClick(Sender: TObject);
-    procedure miRevertClick(Sender: TObject);
     procedure miToolbarClick(Sender: TObject);
     procedure miStatusBarClick(Sender: TObject);
-    procedure miClearClipboardClick(Sender: TObject);
     procedure dlgOpenPreview(Sender: TFuturisOpenDialog; Ext: String);
     procedure dlgOpenFolderChange(Sender: TObject);
     procedure piMinimizeClick(Sender: TObject);
     procedure miInfoClick(Sender: TObject);
-    procedure miScanClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure appHint(Sender: TObject);
     procedure appIdle(Sender: TObject; var Done: Boolean);
@@ -275,7 +270,6 @@ type
     procedure miGoFirstClick(Sender: TObject);
     procedure miGoLastClick(Sender: TObject);
     procedure miGoRandomClick(Sender: TObject);
-    procedure miClearMRUClick(Sender: TObject);
     procedure miUndoClick(Sender: TObject);
     procedure miZmFitClick(Sender: TObject);
     procedure miZmWidthClick(Sender: TObject);
@@ -286,6 +280,11 @@ type
     procedure miDSScrollbarsClick(Sender: TObject);
     procedure tbnDispClick(Sender: TObject);
     procedure miHelpContentsClick(Sender: TObject);
+    procedure popMRUPopup(Sender: TObject);
+    procedure MRUpopClick(Sender: TObject; const FileName: String);
+    procedure tbnRotateClick(Sender: TObject);
+    procedure miRotateViewClick(Sender: TObject);
+    procedure miRotateViewCCWClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -293,10 +292,10 @@ type
   end;
 
 resourcestring
-	rsSuppExtStatusYes = 'Supported: yes';
-	rsSuppExtStatusNo = 'Supported: no';
-	rsFileTypeUnknown = 'Unknown file type';
-	rsNoSizeAvailable = 'No size available';
+	rsSuppExtStatusYes = 'Supported';
+	rsSuppExtStatusNo = 'Not supported';
+	rsFileTypeUnknown = 'Unknown image type';
+	rsNoSizeAvailable = 'No size information available';
 
 var
 	frmMain: TfrmMain;
@@ -304,7 +303,7 @@ var
 
 implementation
 
-uses w_about, w_custzoom, w_setup, w_formats, w_info,
+uses w_about, w_custzoom, w_setup, w_info,
      globals, f_global, f_ui, f_clipboard, f_nav, f_images, f_plugins, f_tools,
      f_graphics, f_filectrl, f_frmman, f_anim, f_multi, w_show, f_reg;
 
@@ -593,11 +592,15 @@ begin
             189:
             	ZoomOut();
 
-    		// directory navigation
-    		VK_PRIOR:
-            	if (ssShift in Shift) then GoFirst() else GoPrev();
-    		VK_NEXT:
-            	if (ssShift in Shift) then GoLast() else GoNext();
+			// directory navigation
+			VK_INSERT:
+				if (ssShift in Shift) then GoFirst() else GoPrev();
+    		VK_HOME:
+				if (ssShift in Shift) then GoLast() else GoNext();
+			VK_PRIOR:
+				if (ssShift in Shift) then GoFirst() else GoPrev();
+			VK_NEXT:
+				if (ssShift in Shift) then GoLast() else GoNext();
     		VK_SPACE:
             	if (ssShift in Shift) then GoLast() else GoNext();
     		VK_BACK:
@@ -713,16 +716,6 @@ begin
 	ShowSettings();
 end;
 
-procedure TfrmMain.miFileFormatsClick(Sender: TObject);
-begin
-	ShowFormats();
-end;
-
-procedure TfrmMain.miRevertClick(Sender: TObject);
-begin
-	frmMain.img.Proc.Undo();
-end;
-
 procedure TfrmMain.miToolbarClick(Sender: TObject);
 begin
 	ToggleMainToolbar();
@@ -731,11 +724,6 @@ end;
 procedure TfrmMain.miStatusBarClick(Sender: TObject);
 begin
 	ToggleStatusBar();
-end;
-
-procedure TfrmMain.miClearClipboardClick(Sender: TObject);
-begin
-	CBClear();
 end;
 
 procedure TfrmMain.dlgOpenPreview(Sender: TFuturisOpenDialog; Ext: String);
@@ -826,13 +814,6 @@ end;
 procedure TfrmMain.miInfoClick(Sender: TObject);
 begin
 	ShowInfo();
-end;
-
-procedure TfrmMain.miScanClick(Sender: TObject);
-begin
-	PlugScan();
-	UpdatePlugIns();
-	Application.MessageBox('Plug-in search complete!', sAppName, MB_OK + MB_ICONINFORMATION);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -952,7 +933,7 @@ end;
 
 procedure TfrmMain.miFuturisWebSiteClick(Sender: TObject);
 begin
-	ExecInFolder('imager.html');
+	ExecInFolder('manual\website.html');
 end;
 
 procedure TfrmMain.miFCopyClick(Sender: TObject);
@@ -988,11 +969,6 @@ end;
 procedure TfrmMain.miGoRandomClick(Sender: TObject);
 begin
 	GoRandom();
-end;
-
-procedure TfrmMain.miClearMRUClick(Sender: TObject);
-begin
-	MRU.Files.Clear();
 end;
 
 procedure TfrmMain.miUndoClick(Sender: TObject);
@@ -1049,7 +1025,40 @@ end;
 
 procedure TfrmMain.miHelpContentsClick(Sender: TObject);
 begin
-    ExecInFolder('imager.chm');
+    ExecInFolder('manual\index.html');
+end;
+
+procedure TfrmMain.popMRUPopup(Sender: TObject);
+begin
+	// gettings MRU list
+	MRUpop.Files.Clear();
+	MRUpop.Files.AddStrings(MRU.Files);
+end;
+
+procedure TfrmMain.MRUpopClick(Sender: TObject; const FileName: String);
+begin
+	if FileExists(FileName) then
+    	Load(FileName);
+end;
+
+procedure TfrmMain.tbnRotateClick(Sender: TObject);
+begin
+	if (HiWord(GetKeyState(VK_SHIFT)) <> 0) then
+		img.Proc.Rotate(90, false)
+    else
+		img.Proc.Rotate(270, false);
+end;
+
+procedure TfrmMain.miRotateViewClick(Sender: TObject);
+begin
+	if tbnRotate.Enabled then
+		img.Proc.Rotate(270, false);
+end;
+
+procedure TfrmMain.miRotateViewCCWClick(Sender: TObject);
+begin
+	if tbnRotate.Enabled then
+		img.Proc.Rotate(90, false);
 end;
 
 end.

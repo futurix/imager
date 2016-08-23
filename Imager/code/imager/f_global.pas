@@ -52,7 +52,7 @@ begin
 
 	reg.OpenKey(sReg + '\UI', true);
 
-    if (Screen.Width > 1024) then
+    if (Screen.Width > 1300) then
     	begin
 		if reg.RIntC('TBStyle', 1) = 1 then ApplyToolbarSkin(true)
   			else ApplyToolbarSkin(false);

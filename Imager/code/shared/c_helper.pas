@@ -20,12 +20,13 @@ function FIPIShelpSelectColor(color: TColor; app, wnd: THandle):TColor; stdcall;
 function FIPIShelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; stdcall;
 function FIPIShelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; stdcall;
 
+
 implementation
 
-function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP; external 'helper.dll';
-function FIPIShelpBrowseForBitmap(app, wnd: THandle):HBITMAP; external 'helper.dll';
-function FIPIShelpSelectColor(color: TColor; app, wnd: THandle):TColor; external 'helper.dll';
-function FIPIShelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; external 'helper.dll';
-function FIPIShelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; external 'helper.dll';
+function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP; external 'img_helper.dll';
+function FIPIShelpBrowseForBitmap(app, wnd: THandle):HBITMAP; external 'img_helper.dll';
+function FIPIShelpSelectColor(color: TColor; app, wnd: THandle):TColor; external 'img_helper.dll';
+function FIPIShelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; external 'img_helper.dll';
+function FIPIShelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; external 'img_helper.dll';
 
 end.

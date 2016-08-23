@@ -1,6 +1,6 @@
 
                               Futuris Imager SDK
-                                 version 4.5a
+                                 version 5.1a
 
 -------------------------------------------------------------------------------
 
@@ -33,17 +33,6 @@ filter.dpr
  - sample filter
  - filters transform current image somehow, and return it back to Imager
  - available in "Filters" dialog
-
-futuris.dpk
- - Futuris Imager package
- - this is a custom version of VCL70.bpl, used by Futuris Imager and all
-   plug-ins. You can compile and use it for your own Delphi plugins, but
-   note - I do not quarantee that this package will remain binary compatible
-   in the future (it can change to newer version of VCL, or I can add more
-   units, etc)
- - when you'll compile this package, Delphi will ask you if you want to add
-   rtp??.bpl and vcl??.bpl to the project - answer "No"!!!
- - do NOT redistribute this file!
 
 import.dpr
  - sample importer
@@ -80,13 +69,13 @@ tool.dpr
 
 Notes:
 
-1. Futuris Imager internally works only with 24-bit image, so all images that
-   you pass to it (and get from it) should always be 24-bit!
+1. Futuris Imager internally works only with 24-bit images, so all images that
+   you pass to it (and get from it) should/will always be 24-bit!
 2. All plug-ins should export FIPISquery function and pass required information
    to Imager there. DLLs without FIPISquery export are not considered plug-ins
    by Futuris Imager.
 
 -------------------------------------------------------------------------------
 
-Copyright © 1999-2004 Alexander Tereshchenko
+Copyright © 1999-2005 Alexander Tereshchenko
 All rights reserved

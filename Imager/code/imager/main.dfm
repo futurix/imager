@@ -22,9 +22,9 @@ object frmMain: TfrmMain
   TextHeight = 13
   object sbxMain: TScrollBox
     Left = 0
-    Top = 26
+    Top = 30
     Width = 742
-    Height = 459
+    Height = 455
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -38,7 +38,7 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 455
+      Height = 451
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -71,7 +71,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 742
-    Height = 26
+    Height = 30
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -80,7 +80,7 @@ object frmMain: TfrmMain
         Control = itbMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 24
+        MinHeight = 28
         Width = 742
       end>
     EdgeBorders = [ebTop]
@@ -90,8 +90,9 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 24
+      Height = 28
       AutoSize = True
+      BorderWidth = 1
       ButtonHeight = 24
       Caption = 'Main'
       DisabledImages = imlDisabled
@@ -109,13 +110,15 @@ object frmMain: TfrmMain
         Hint = 'Open|Open new image'
         AutoSize = True
         Caption = 'Open'
+        DropdownMenu = popMRU
         ImageIndex = 0
         ParentShowHint = False
         ShowHint = True
+        Style = tbsDropDown
         OnClick = miOpenClick
       end
       object tbnLast: TToolButton
-        Left = 23
+        Left = 36
         Top = 0
         Hint = 'Last Image|Load last image'
         AutoSize = True
@@ -126,7 +129,7 @@ object frmMain: TfrmMain
         OnClick = tbnLastClick
       end
       object tbnSave: TToolButton
-        Left = 46
+        Left = 59
         Top = 0
         Hint = 'Save as...|Save image in variety of formats'
         AutoSize = True
@@ -137,7 +140,7 @@ object frmMain: TfrmMain
         OnClick = miSaveAsClick
       end
       object tbnClose: TToolButton
-        Left = 69
+        Left = 82
         Top = 0
         Hint = 'Close|Close image'
         AutoSize = True
@@ -148,7 +151,7 @@ object frmMain: TfrmMain
         OnClick = miCloseClick
       end
       object Sep_1: TToolButton
-        Left = 92
+        Left = 105
         Top = 0
         Width = 8
         Caption = 'Sep_1'
@@ -156,7 +159,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnPrint: TToolButton
-        Left = 100
+        Left = 113
         Top = 0
         Hint = 'Print|Print image (hold SHIFT to skip preview)'
         AutoSize = True
@@ -167,7 +170,7 @@ object frmMain: TfrmMain
         OnClick = tbnPrintClick
       end
       object Sep_2: TToolButton
-        Left = 123
+        Left = 136
         Top = 0
         Width = 8
         Caption = 'Sep_2'
@@ -175,7 +178,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnCopy: TToolButton
-        Left = 131
+        Left = 144
         Top = 0
         Hint = 'Copy|Copy image to clipboard'
         AutoSize = True
@@ -186,7 +189,7 @@ object frmMain: TfrmMain
         OnClick = miCopyClick
       end
       object tbnPaste: TToolButton
-        Left = 154
+        Left = 167
         Top = 0
         Hint = 'Paste|Paste from clipboard'
         AutoSize = True
@@ -198,7 +201,7 @@ object frmMain: TfrmMain
         OnClick = miPasteClick
       end
       object Sep_12: TToolButton
-        Left = 177
+        Left = 190
         Top = 0
         Width = 8
         Caption = 'Sep_12'
@@ -206,7 +209,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnFilters: TToolButton
-        Left = 185
+        Left = 198
         Top = 0
         Hint = 'Filters|Transform image using filters'
         Caption = 'Filters'
@@ -216,7 +219,7 @@ object frmMain: TfrmMain
         OnClick = miFiltersDialogClick
       end
       object tbnUndo: TToolButton
-        Left = 208
+        Left = 221
         Top = 0
         Hint = 'Undo|Restores previous image state'
         AutoSize = True
@@ -228,7 +231,7 @@ object frmMain: TfrmMain
         OnClick = miUndoClick
       end
       object Sep_3: TToolButton
-        Left = 231
+        Left = 244
         Top = 0
         Width = 8
         Caption = 'Sep_3'
@@ -236,7 +239,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnZoomIn: TToolButton
-        Left = 239
+        Left = 252
         Top = 0
         Hint = 'Zoom In|Zoom in by 50%'
         AutoSize = True
@@ -247,7 +250,7 @@ object frmMain: TfrmMain
         OnClick = miZoomInClick
       end
       object tbnZoomOut: TToolButton
-        Left = 262
+        Left = 275
         Top = 0
         Hint = 'Zoom Out|Zoom out by 50%'
         AutoSize = True
@@ -258,7 +261,7 @@ object frmMain: TfrmMain
         OnClick = miZoomOutClick
       end
       object tbnZoomMisc: TToolButton
-        Left = 285
+        Left = 298
         Top = 0
         Hint = 'Zoom|Set image zoom'
         AutoSize = True
@@ -269,8 +272,33 @@ object frmMain: TfrmMain
         ShowHint = True
         Style = tbsDropDown
       end
+      object Sep_16: TToolButton
+        Left = 334
+        Top = 0
+        Width = 8
+        ImageIndex = 16
+        Style = tbsSeparator
+      end
+      object tbnRotate: TToolButton
+        Left = 342
+        Top = 0
+        Hint = 'Rotate|Rotate image 90 degrees clockwise'
+        AutoSize = True
+        Caption = 'Rotate'
+        ImageIndex = 20
+        ParentShowHint = False
+        ShowHint = True
+        OnClick = tbnRotateClick
+      end
+      object Sep_17: TToolButton
+        Left = 365
+        Top = 0
+        Width = 8
+        ImageIndex = 16
+        Style = tbsSeparator
+      end
       object tbnDisp: TToolButton
-        Left = 321
+        Left = 373
         Top = 0
         Hint = 
           'Display Options|Toggles between display modes (click arrow to ge' +
@@ -285,7 +313,7 @@ object frmMain: TfrmMain
         OnClick = tbnDispClick
       end
       object tbnFullScreen: TToolButton
-        Left = 357
+        Left = 409
         Top = 0
         Hint = 'Full Screen|Switch to full screen mode'
         AutoSize = True
@@ -296,7 +324,7 @@ object frmMain: TfrmMain
         OnClick = miFullScreenClick
       end
       object Sep_7: TToolButton
-        Left = 380
+        Left = 432
         Top = 0
         Width = 8
         Caption = 'Sep_7'
@@ -304,7 +332,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnMultiPrev: TToolButton
-        Left = 388
+        Left = 440
         Top = 0
         Hint = 'Previous Page|Go to previous page'
         AutoSize = True
@@ -316,7 +344,7 @@ object frmMain: TfrmMain
         OnClick = tbnMultiPrevClick
       end
       object tbnMultiNext: TToolButton
-        Left = 411
+        Left = 463
         Top = 0
         Hint = 'Next Page|Go to next page'
         AutoSize = True
@@ -328,7 +356,7 @@ object frmMain: TfrmMain
         OnClick = tbnMultiNextClick
       end
       object Sep_8: TToolButton
-        Left = 434
+        Left = 486
         Top = 0
         Width = 8
         Caption = 'Sep_8'
@@ -336,7 +364,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnInfo: TToolButton
-        Left = 442
+        Left = 494
         Top = 0
         Hint = 'File Info|View file information'
         AutoSize = True
@@ -347,7 +375,7 @@ object frmMain: TfrmMain
         OnClick = miInfoClick
       end
       object Sep_9: TToolButton
-        Left = 465
+        Left = 517
         Top = 0
         Width = 8
         Caption = 'Sep_9'
@@ -355,7 +383,7 @@ object frmMain: TfrmMain
         Style = tbsSeparator
       end
       object tbnGoRandom: TToolButton
-        Left = 473
+        Left = 525
         Top = 0
         Hint = 'Random File|Go to random image in current folder'
         AutoSize = True
@@ -366,14 +394,14 @@ object frmMain: TfrmMain
         OnClick = miGoRandomClick
       end
       object Sep_14: TToolButton
-        Left = 496
+        Left = 548
         Top = 0
         Width = 8
         ImageIndex = 16
         Style = tbsSeparator
       end
       object tbnGoBack: TToolButton
-        Left = 504
+        Left = 556
         Top = 0
         Hint = 
           'Back|Go to previous image in current folder (hold SHIFT to jump ' +
@@ -386,7 +414,7 @@ object frmMain: TfrmMain
         OnClick = miGoBackClick
       end
       object tbnGoForward: TToolButton
-        Left = 527
+        Left = 579
         Top = 0
         Hint = 
           'Forward|Go to next image in current folder (hold SHIFT to jump t' +
@@ -469,6 +497,15 @@ object frmMain: TfrmMain
         ShortCut = 16464
         OnClick = miPrintPreviewClick
       end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object miInfo: TMenuItem
+        Caption = 'File Information'
+        Hint = 'Show file information panel'
+        ShortCut = 16457
+        OnClick = miInfoClick
+      end
       object N20: TMenuItem
         Caption = '-'
       end
@@ -506,30 +543,11 @@ object frmMain: TfrmMain
       object N6: TMenuItem
         Caption = '-'
       end
-      object miClearClipboard: TMenuItem
-        Caption = 'Clear Clipboard'
-        Hint = 'Clear Windows Clipboard contents'
-        OnClick = miClearClipboardClick
-      end
-      object N3: TMenuItem
-        Caption = '-'
-      end
       object miFiltersDialog: TMenuItem
         Caption = 'Filters...'
         Hint = 'Full list of filters'
         ShortCut = 16454
         OnClick = miFiltersDialogClick
-      end
-      object miRevert: TMenuItem
-        Caption = 'Revert to Original'
-        Hint = 'Restore original image'
-        Visible = False
-        OnClick = miRevertClick
-      end
-      object miApplyChanges: TMenuItem
-        Caption = 'Apply Changes'
-        Hint = 'Apply image changes'
-        Visible = False
       end
     end
     object mView: TMenuItem
@@ -647,6 +665,18 @@ object frmMain: TfrmMain
         end
         object N8: TMenuItem
           Caption = '-'
+        end
+        object miRotateView: TMenuItem
+          Caption = 'Rotate View CW'
+          ShortCut = 16466
+          Visible = False
+          OnClick = miRotateViewClick
+        end
+        object miRotateViewCCW: TMenuItem
+          Caption = 'Rotate View CCW'
+          ShortCut = 24658
+          Visible = False
+          OnClick = miRotateViewCCWClick
         end
         object miZMCustom: TMenuItem
           Caption = 'Custom...'
@@ -787,40 +817,11 @@ object frmMain: TfrmMain
     end
     object mTools: TMenuItem
       Caption = 'Tools'
-      object miInfo: TMenuItem
-        Caption = 'File Information'
-        Hint = 'Show file information panel'
-        ShortCut = 16457
-        OnClick = miInfoClick
-      end
-    end
-    object mSettings: TMenuItem
-      Caption = 'Options'
       object miSettings: TMenuItem
+        Tag = 7
         Caption = 'Preferences...'
         Hint = 'Configure Futuris Imager the way you like'
         OnClick = miSettingsClick
-      end
-      object miFileFormats: TMenuItem
-        Caption = 'File Formats...'
-        Hint = 'File formats registration'
-        OnClick = miFileFormatsClick
-      end
-      object N5: TMenuItem
-        Caption = '-'
-      end
-      object miClearMRU: TMenuItem
-        Caption = 'Clear Recent Files List'
-        Hint = 'Clears recently opened files list'
-        OnClick = miClearMRUClick
-      end
-      object N19: TMenuItem
-        Caption = '-'
-      end
-      object miScan: TMenuItem
-        Caption = 'Search for New Plug-ins'
-        Hint = 'Searches for new plug-ins and recreates list of existing ones'
-        OnClick = miScanClick
       end
     end
     object mHelp: TMenuItem
@@ -1012,7 +1013,7 @@ object frmMain: TfrmMain
   end
   object MRU: TMRUFiles
     MenuItem = NRecent
-    MaxEntries = 8
+    MaxEntries = 16
     Numbered = False
     OnClick = MRUClick
     Left = 444
@@ -1071,11 +1072,28 @@ object frmMain: TfrmMain
     Top = 190
   end
   object popMRU: TPopupMenu
+    OnPopup = popMRUPopup
     Left = 601
     Top = 159
     object piMRU: TMenuItem
       Caption = 'MRU'
       Visible = False
+    end
+  end
+  object MRUpop: TMRUFiles
+    MenuItem = piMRU
+    MaxEntries = 16
+    Numbered = False
+    OnClick = MRUpopClick
+    Left = 475
+    Top = 252
+  end
+  object popNoMRU: TPopupMenu
+    Left = 633
+    Top = 159
+    object piMyOpen: TMenuItem
+      Caption = 'Open...'
+      OnClick = miOpenClick
     end
   end
 end

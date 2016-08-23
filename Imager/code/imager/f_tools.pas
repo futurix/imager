@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  c_utils;
+  c_const, c_utils;
 
 procedure PrintImage(fast: boolean = false);
 procedure CommandLine();
@@ -20,12 +20,12 @@ function  GetAppFolder(with_slash: boolean = true):string;
 implementation
 
 uses globals, main, w_show, f_graphics, f_ui, f_nav,
-     f_filectrl, f_reg, w_formats, f_scan;
+     f_filectrl, f_reg, f_scan, w_setup;
 
 // print with preview
 procedure PrintImage(fast: boolean = false);
 var
-	DoPrint: TDoPrint;
+	DoPrint: TFIPIShelpPrint;
 	lib: THandle;
 	bmp: TBitmap;
 begin
@@ -33,13 +33,13 @@ begin
 	lib := 0;
 
 	try
-		lib := LoadLibrary('print.dll');
+		lib := LoadLibrary('img_helper.dll');
 
 		if (lib = 0) then
-  			Application.MessageBox('Cannot load print DLL!', 'Error!', MB_OK + MB_ICONERROR)
+  			Application.MessageBox('Cannot load Futuris Imager Helper DLL!', 'Error!', MB_OK + MB_ICONERROR)
 		else
   			begin
-  			@DoPrint := GetProcAddress(lib, 'DoPrint');
+  			@DoPrint := GetProcAddress(lib, 'FIPIShelpPrint');
 
   			if not (@DoPrint = nil) then
     			begin
@@ -84,10 +84,10 @@ begin
           			ToggleFS();
             if ((ParamStr(i) = '/unreg') or (ParamStr(i) = '-unreg')) then
                	begin
-        		Application.CreateForm(TfrmFormats, frmFormats);
-				frmFormats.btnSelectNone.Click();
-        		frmFormats.Uninstall();
-        		FreeAndNil(frmFormats);
+				Application.CreateForm(TfrmSetup, frmSetup);
+				frmSetup.btnSelectNone.Click();
+				frmSetup.Uninstall();
+        		FreeAndNil(frmSetup);
 
             	UpdateAssociations();
         		Application.ShowMainForm:=false;
@@ -129,7 +129,7 @@ end;
 // checks for libraries existance (and warns about missing ones)
 procedure CheckLibrariesDependancies();
 begin
-	if not FileExists(GetAppFolder() + 'print.dll') then
+	if not FileExists(GetAppFolder() + 'img_helper.dll') then
   		begin
   		frmMain.tbnPrint.Visible := false;
   		frmMain.miPrint.Visible := false;

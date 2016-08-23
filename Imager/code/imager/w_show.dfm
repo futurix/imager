@@ -97,7 +97,7 @@ object frmShow: TfrmShow
     Width = 40
     Height = 21
     TabOrder = 4
-    Text = '10'
+    Text = '5'
   end
   object stxHint: TStaticText
     Left = 0

@@ -12,11 +12,13 @@ type
     lblProgram: TLabel;
     lblCopy: TLabel;
     imgAbout: TImage;
+    lblWeb: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure lblWebClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -70,15 +72,25 @@ begin
 
 	// displaying version info
     if release = 0 then
-  		lblProgram.Caption := 'Futuris Imager ' + IntToStr(major) + '.' + IntToStr(minor) + ' (' + 'build' + ' ' + IntToStr(build) + ')'
+  		lblProgram.Caption := 'Futuris Imager ' + IntToStr(major) + '.' + IntToStr(minor)
 	else
-  		lblProgram.Caption := 'Futuris Imager ' + IntToStr(major) + '.' + IntToStr(minor) + '.' + IntToStr(release) + ' (' + 'build' + ' ' + IntToStr(build) + ')';
+  		lblProgram.Caption := 'Futuris Imager ' + IntToStr(major) + '.' + IntToStr(minor) + '.' + IntToStr(release);
+
+    if is_beta then
+    	lblProgram.Caption := lblProgram.Caption + ' BETA';
+
+    lblProgram.Caption := lblProgram.Caption + ' (' + 'build' + ' ' + IntToStr(build) + ')';
 end;
 
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
+end;
+
+procedure TfrmAbout.lblWebClick(Sender: TObject);
+begin
+	frmMain.miFuturisWebSiteClick(Self);
 end;
 
 end.

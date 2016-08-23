@@ -10,7 +10,6 @@ uses
   w_about in 'w_about.pas' {frmAbout},
   w_custzoom in 'w_custzoom.pas' {frmCustZoom},
   w_setup in 'w_setup.pas' {frmSetup},
-  w_formats in 'w_formats.pas' {frmFormats},
   w_info in 'w_info.pas' {frmInfo},
   f_global in 'f_global.pas',
   f_filectrl in 'f_filectrl.pas',

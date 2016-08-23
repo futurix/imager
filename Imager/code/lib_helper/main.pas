@@ -9,6 +9,7 @@ uses
 function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP; stdcall;
 function FIPIShelpBrowseForBitmap(app, wnd: THandle):HBITMAP; stdcall;
 
+
 implementation
 
 function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP;

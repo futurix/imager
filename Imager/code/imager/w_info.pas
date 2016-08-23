@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, StdCtrls, c_const, c_utils, ImageEnIO, histogrambox, ieview,
-  imageenview;
+  imageenview, c_pos, ExtCtrls;
 
 type
   TfrmInfo = class(TForm)
@@ -23,6 +23,7 @@ type
     imgThumb: TImageEnView;
     shtEXIFinfo: TTabSheet;
     lvwEXIF: TListView;
+    pnlPlaceholder: TPanel;
 
     procedure AddCommonInfo();
     procedure AddToList(name, value: string);
@@ -143,6 +144,8 @@ end;
 
 procedure TfrmInfo.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+	SaveWindowSize(Self, reg, sReg + '\Position\Info');
+
 	Action := caFree;
 end;
 
@@ -164,6 +167,11 @@ var
     temps: string;
     io: TImageEnIO;
 begin
+	RestoreWindowSize(Self, reg, sReg + '\Position\Info', Self.Width, Self.Height);
+	Self.Realign();
+	pclInfo.Realign();
+	btnOK.Realign();
+
 	if IsInformed(ExtractExt(infImage.path)) then
   		begin
   		reg.OpenKey(sModules + '\Info', true);

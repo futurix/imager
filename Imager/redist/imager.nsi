@@ -5,9 +5,11 @@ OutFile "imager.exe"
 CRCCheck on
 SetCompressor lzma
 
-BrandingText "Futuris Imager 5.01"
+BrandingText "Futuris Imager 5.1"
 
 InstallDir "$PROGRAMFILES\Futuris Imager"
+
+!define MUI_WELCOMEPAGE_TITLE "Welcome to the Futuris Imager 5.1 Setup Wizard"
 
 !define MUI_ABORTWARNING
 
@@ -27,53 +29,28 @@ InstallDir "$PROGRAMFILES\Futuris Imager"
 
 Section ""
   SetOutPath "$INSTDIR"
+  RMDir /r $INSTDIR
   
-  Delete "$INSTDIR\*.dll"
-  Delete "$INSTDIR\*.bpl"
-  Delete "$INSTDIR\*.exe"
-  Delete "$INSTDIR\*.txt"
-  Delete "$INSTDIR\*.htm"
-  Delete "$INSTDIR\*.html"
-  Delete "$INSTDIR\*.chm"
+  SetOutPath "$INSTDIR\manual"
+  File /r "..\release\manual\*.*"
   
-  File "..\release\f_brightness.dll"
+  SetOutPath "$INSTDIR"
   File "..\release\f_capture.dll"
-  File "..\release\f_color.dll"
   File "..\release\f_core.dll"
-  File "..\release\f_crop.dll"
   File "..\release\f_cur.dll"
   File "..\release\f_effects.dll"
   File "..\release\f_fimg.dll"
-  File "..\release\f_gif.dll"
   File "..\release\f_graphicex.dll"
-  File "..\release\f_hex.dll"
-  File "..\release\f_infoplug.dll"
-  File "..\release\f_mapi.dll"
-  File "..\release\f_mng.dll"
-  File "..\release\f_resize.dll"
-  File "..\release\f_rotate.dll"
-  File "..\release\f_setwallpaper.dll"
-  File "..\release\f_shtml.dll"
   File "..\release\f_wallpaper.dll"
   File "..\release\f_wbitmap.dll"
   File "..\release\freeimage.dll"
-  File "..\release\freeimage.txt"
-  File "..\release\helper.dll"
-  File "..\release\imager.chm"
   File "..\release\imager.exe"
-  File "..\release\imager.html"
-  File "..\release\img_core.bpl"
-  File "..\release\libmng.dll"
-  File "..\release\print.dll"
-
-  CreateShortCut "$DESKTOP\Futuris Imager.lnk" "$INSTDIR\imager.exe"
-  CreateShortCut "$SMPROGRAMS\Futuris Imager.lnk" "$INSTDIR\imager.exe"
+  File "..\release\img_core.dll"
+  File "..\release\img_helper.dll"
   
-  SetOutPath "$INSTDIR"
-  
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayName" "Futuris Imager 5.01"
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayName" "Futuris Imager 5.1"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayIcon" "$INSTDIR\imager.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayVersion" "5.01"
+  WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "DisplayVersion" "5.1"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "HelpLink" "http://www.ukfog.com/"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "Publisher" "Alexander Tereshchenko"
   WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager" "URLInfoAbout" "http://www.ukfog.com/"
@@ -83,7 +60,9 @@ Section ""
     
   WriteUninstaller "uninstf.exe"
   
-  DeleteRegKey HKEY_CURRENT_USER "Software\alex_t\Futuris Imager"
+  DeleteRegKey HKEY_CURRENT_USER "Software\alex_t\Futuris Imager\Plug-ins"
+
+  CreateShortCut "$SMPROGRAMS\Futuris Imager.lnk" "$INSTDIR\imager.exe"
 SectionEnd
 
 Section Uninstall
@@ -93,8 +72,7 @@ Section Uninstall
   DeleteRegKey HKEY_CLASSES_ROOT "FuturisImager"  
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FuturisImager"
 
-  Delete "$DESKTOP\Futuris Imager.lnk"
   Delete "$SMPROGRAMS\Futuris Imager.lnk"
   
-  RMDir /r "$INSTDIR"
+  RMDir /r /REBOOTOK $INSTDIR
 SectionEnd

@@ -66,7 +66,7 @@ end;
 // starts saving process
 procedure Save();
 var
-	tmp: string;
+	tmp, last_ext: string;
 	res: integer;
 begin
 	SetSaveDialog();
@@ -80,6 +80,14 @@ begin
     		if (res = 1) then
       			begin
       			tmp := frmMain.dlgSave.FileName;
+
+                last_ext := ExtractExt(frmMain.dlgSave.FileName);
+                if (Trim(last_ext) <> '') then
+                	begin
+                    reg.OpenKey(sReg + '\Main', true);
+                    reg.WString('LastSaveExt', last_ext);
+                    reg.CloseKey();
+                    end;
 
       			CloseImage();
       			Load(tmp);

@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, UxTheme,
-  c_const;
+  ShellAPI, c_const;
   
 procedure ApplyToolbarSkin(large: boolean = false);
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
@@ -147,7 +147,8 @@ begin
     frmMain.miZoomOut.Enabled := action;
     frmMain.tbnZoomIn.Enabled := action;
     frmMain.tbnZoomOut.Enabled := action;
-    frmMain.tbnZoomMisc.Enabled := action;
+	frmMain.tbnZoomMisc.Enabled := action;
+	frmMain.tbnRotate.Enabled := action;
 
 	frmMain.miFiltersDialog.Enabled := action;
 	for i := 0 to (frmMain.mTools.Count - 1) do
@@ -157,14 +158,14 @@ begin
         else
         	frmMain.mTools.Items[i].Enabled := true;
   		end;
+    frmMain.miInfo.Enabled := action;
+
 	frmMain.tbnFilters.Enabled := action;
 	frmMain.miGoBack.Enabled := action;
 	frmMain.miGoForward.Enabled := action;
 	frmMain.miGoFirst.Enabled := action;
 	frmMain.miGoLast.Enabled := action;
 	frmMain.miGoRandom.Enabled := action;
-	frmMain.miRevert.Enabled := action;
-	frmMain.miApplyChanges.Enabled := action;
 	frmMain.tbnSave.Enabled := action;
 	frmMain.tbnClose.Enabled := action;
 	frmMain.tbnPrint.Enabled := action;
@@ -208,7 +209,8 @@ begin
     frmMain.miZoomOut.Enabled := read_anim;
     frmMain.tbnZoomIn.Enabled := read_anim;
     frmMain.tbnZoomOut.Enabled := read_anim;
-    frmMain.tbnZoomMisc.Enabled := read_anim;
+	frmMain.tbnZoomMisc.Enabled := read_anim;
+	frmMain.tbnRotate.Enabled := read_anim;
 
     frmMain.miFiltersDialog.Enabled := action;
 	for i := 0 to (frmMain.mTools.Count - 1) do
@@ -218,9 +220,8 @@ begin
     	else
         	frmMain.mTools.Items[i].Enabled := true;
   		end;
+    frmMain.miInfo.Enabled := read_anim;
 	frmMain.tbnFilters.Enabled := action;
-	frmMain.miRevert.Enabled := action;
-	frmMain.miApplyChanges.Enabled := action;
 	frmMain.tbnSave.Enabled := action;
 	frmMain.tbnPrint.Enabled := read_only;
 	frmMain.tbnCopy.Enabled := read_only;
@@ -373,6 +374,9 @@ begin
 
   		frmMain.Show();
   		end;
+
+	// restore drag-n-drop support
+    DragAcceptFiles(frmMain.Handle, true);
 end;
 
 // hint-to-statusbar

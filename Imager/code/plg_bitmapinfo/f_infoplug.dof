@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=0
+MinorVer=1
 Release=0
-Build=93
+Build=95
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Aqab Bin Talal
 FileDescription=Information Plug-in for Futuris Imager
-FileVersion=5.0.0.93
+FileVersion=5.1.0.95
 InternalName=plg_bitmapinfo
 LegalCopyright=© 2001-2005 Aqab Bin Talal
 LegalTrademarks=
 OriginalFilename=f_infoplug.dll
 ProductName=Futuris Imager
-ProductVersion=5.0
+ProductVersion=5.1
 Comments=http://www.ukfog.com/
 [HistoryLists\hlUnitAliases]
 Count=1

@@ -44,6 +44,22 @@ object frmAbout: TfrmAbout
     Width = 48
     Height = 48
   end
+  object lblWeb: TLabel
+    Left = 15
+    Top = 70
+    Width = 127
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Visit Futuris Imager website'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -11
+    Font.Name = 'MS Shell Dlg'
+    Font.Style = [fsUnderline]
+    ParentFont = False
+    Transparent = True
+    OnClick = lblWebClick
+  end
   object btnOK: TButton
     Left = 277
     Top = 77

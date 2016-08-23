@@ -91,6 +91,8 @@ begin
 	func(PT_FFILTER, 'Flip Vertical', ' ');
 	func(PT_FFILTER, 'Invert', ' ');
 
+    func(PT_FTOOL, 'Create HTML for Image...', ' ');
+
 	Result := true;
 end;
 
@@ -382,14 +384,14 @@ begin
     delay := mio.Params.GIF_DelayTime*10;
 
     if (delay < 50) then
-    	delay := 50;
+		delay := 50;
         
     // increasing
-    gframe := gframe + 1;
+	gframe := gframe + 1;
 
     // round up
-    if (gframe = (gframes - 1)) then
-    	gframe := 0;
+    if (gframe = gframes) then
+		gframe := 0;
 end;
 
 function FIPISanimDeInit():integer; stdcall;
@@ -516,10 +518,66 @@ begin
     	end;
 end;
 
+function FIPIStool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
+var
+	tmp, new: string;
+	html: TStringList;
+	bmp: TBitmap;
+	wdth, hght: integer; // image dimensions
+begin
+	tmp := String(path);
+	Result := 0;
+
+	if (tmp <> '') then
+  		begin
+  		if (MessageBox(wnd, 'Would you like to create HTML file for current image ?', 'Futuris Imager', MB_YESNO + MB_ICONQUESTION) = ID_YES) then
+    		begin
+    		// creating html
+    		bmp := TBitmap.Create();
+    		bmp.Handle := img;
+    		wdth := bmp.Width;
+    		hght := bmp.Height;
+    		FreeAndNil(bmp);
+
+    		new := ChangeFileExt(tmp, '.html');
+
+    		html := TStringList.Create();
+    		html.Add('<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">');
+    		html.Add('<html>');
+    		html.Add('<head>');
+    		html.Add('<title>' + ExtractFileName(tmp) + '</title>');
+    		html.Add('<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">');
+    		html.Add('</head>');
+    		html.Add('');
+    		html.Add('<body bgcolor="#FFFFFF" text="#000000">');
+    		html.Add('<img src="' + ExtractFileName(tmp) + '" alt="" width="' + IntToStr(wdth) + '" height="' + IntToStr(hght) + '">');
+    		html.Add('</body>');
+    		html.Add('</html>');
+
+    		try
+      			html.SaveToFile(new);
+            except
+      			MessageBox(wnd, 'Error while saving resulting HTML file!', 'Error!', MB_OK + MB_ICONERROR);
+      			FreeAndNil(html);
+      			Exit;
+      		end;
+
+    		FreeAndNil(html);
+    		MessageBox(wnd, PChar('HTML file created at: "' + new + '"'), 'Futuris Imager', MB_OK + MB_ICONINFORMATION);
+        	end;
+    	end
+	else
+  		begin
+  		// unsaved files
+  		MessageBox(wnd, 'This tool can work only with saved images.', 'Warning!', MB_OK + MB_ICONWARNING);
+  		end;
+end;
+
 exports
 	FIPISquery, FIPISopen, FIPISsave, FIPISfilter, FIPISimport,
 	FIPISanimInit, FIPISanimConfirm, FIPISanimRestart, FIPISanimGetFrame, FIPISanimDeInit,
-    FIPISmultiInit, FIPISmultiGetPages, FIPISmultiGetPage, FIPISmultiDeInit;
+    FIPISmultiInit, FIPISmultiGetPages, FIPISmultiGetPage, FIPISmultiDeInit,
+    FIPIStool;
 
 begin
 end.

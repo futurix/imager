@@ -5,9 +5,10 @@ uses
   freeimage, c_const;
 
 var
-  mp: PFIMULTIBITMAP;
-  
+	mp_filename: string = '';
+
 {$R *.RES}
+
 
 function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
@@ -73,47 +74,69 @@ if t<>FIF_UNKNOWN then
 end;
 
 function FIPISmultiInit(filename, ext: PChar; app: THandle):integer; stdcall;
+var
+	mp: PFIMULTIBITMAP;
 begin
-Result:=0;
+	Result := 0;
+    mp_filename := filename;
 
-mp:=FreeImage_OpenMultiBitmap(FIF_ICO,filename,false,true,false);
-if mp<>NIL then
-  begin
-  Result:=FreeImage_GetPageCount(mp);
-  end;
+	mp := FreeImage_OpenMultiBitmap(FIF_ICO, PChar(mp_filename), false, true, false);
+
+	if (mp <> nil) then
+  		begin
+  		Result := FreeImage_GetPageCount(mp);
+        FreeImage_CloseMultiBitmap(mp, 0);
+  		end;
 end;
 
 function FIPISmultiGetPages():integer; stdcall;
+var
+	mp: PFIMULTIBITMAP;
 begin
-Result:=FreeImage_GetPageCount(mp);
+	Result := 0;
+
+    mp := FreeImage_OpenMultiBitmap(FIF_ICO, PChar(mp_filename), false, true, false);
+
+	if (mp <> nil) then
+  		begin
+		Result:=FreeImage_GetPageCount(mp);
+        FreeImage_CloseMultiBitmap(mp, 0);
+        end;
 end;
 
 function FIPISmultiGetPage(index: integer):hBitmap; stdcall;
 var
-  dib: PFIBITMAP;
-  bmp: HBITMAP;
-  bitm: TBitmap;
+	mp: PFIMULTIBITMAP;
+  	dib: PFIBITMAP;
+  	bmp: HBITMAP;
+  	bitm: TBitmap;
 begin
-Result:=0;
+	Result := 0;
 
-dib:=FreeImage_LockPage(mp,index);
+    mp := FreeImage_OpenMultiBitmap(FIF_ICO, PChar(mp_filename), false, true, false);
 
-if dib<>nil then
-  begin
-  bitm:=TBitmap.Create();
-  bmp:=CreateDIBitmap(GetDC(0),FreeImage_GetInfoHeader(dib)^, CBM_INIT, PAnsiChar(FreeImage_GetBits(dib)), FreeImage_GetInfo(dib^)^, DIB_RGB_COLORS);
-  bitm.Handle:=bmp;
-  bitm.PixelFormat:=pf24bit;
-  Result:=bitm.ReleaseHandle();
-  FreeAndNil(bitm);
-  FreeImage_UnlockPage(mp,dib,false);
-  end;
+	if (mp <> nil) then
+  		begin
+		dib := FreeImage_LockPage(mp, index);
+
+		if (dib <> nil) then
+  			begin
+  			bitm := TBitmap.Create();
+ 			bmp := CreateDIBitmap(GetDC(0), FreeImage_GetInfoHeader(dib)^, CBM_INIT, PAnsiChar(FreeImage_GetBits(dib)), FreeImage_GetInfo(dib^)^, DIB_RGB_COLORS);
+  			bitm.Handle := bmp;
+  			bitm.PixelFormat := pf24bit;
+  			Result := bitm.ReleaseHandle();
+  			FreeAndNil(bitm);
+  			FreeImage_UnlockPage(mp, dib, false);
+  			end;
+
+        FreeImage_CloseMultiBitmap(mp, 0);
+        end;
 end;
 
 function FIPISmultiDeInit():integer; stdcall;
 begin
-FreeImage_CloseMultiBitmap(mp,0);
-Result:=1;
+	Result := 1;
 end;
 
 exports

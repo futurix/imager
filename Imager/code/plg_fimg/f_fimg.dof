@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=0
+MinorVer=1
 Release=0
-Build=48
+Build=50
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager FreeImage Library
-FileVersion=5.0.0.48
+FileVersion=5.1.0.50
 InternalName=plg_fimg
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=f_fimg.dll
 ProductName=Futuris Imager
-ProductVersion=5.0
+ProductVersion=5.1
 Comments=http://www.ukfog.com/
 [HistoryLists\hlUnitAliases]
 Count=1

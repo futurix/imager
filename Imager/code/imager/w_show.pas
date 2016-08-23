@@ -76,7 +76,7 @@ begin
 
 	// loading settings
 	reg.OpenKey(sReg + '\SlideShow', true);
-	Timer.Interval := reg.RInt('Timer', 10000);
+	Timer.Interval := reg.RInt('Timer', 5000);
 	try
   		edtTimer.Text := FloatToStr(Timer.Interval / 1000);
   	except
@@ -95,6 +95,8 @@ end;
 
 procedure TfrmShow.TimerTimer(Sender: TObject);
 begin
+	Self.Caption := 'Slide Show (started, ' + IntToStr(Round(Timer.Interval / 1000)) + ' sec.)';
+
 	if rbnNormal.Checked then frmMain.miGoForwardClick(frmShow)
   		else if rbnReverse.Checked then frmMain.miGoBackClick(frmShow)
   			else if rbnRandom.Checked then frmMain.miGoRandomClick(frmShow)
@@ -103,11 +105,15 @@ end;
 
 procedure TfrmShow.btnStartClick(Sender: TObject);
 begin
+	Self.Caption := 'Slide Show (started, ' + IntToStr(Round(Timer.Interval / 1000)) + ' sec.)';
+
 	Timer.Enabled := true;
 end;
 
 procedure TfrmShow.btnStopClick(Sender: TObject);
 begin
+    Self.Caption := 'Slide Show';
+
 	Timer.Enabled := false;
 end;
 
@@ -115,17 +121,22 @@ procedure TfrmShow.btnSetClick(Sender: TObject);
 var
 	tmp: integer;
 begin
-	tmp := 10;
+	tmp := 5;
 
 	try
   		tmp := StrToInt(edtTimer.Text);
   	except
     	Report('Invalid numeric!');
-    	edtTimer.Text := '10';
-    	Abort();
-  	end;
+		edtTimer.Text := '5';
+		Abort();
+	end;
 
 	Timer.Interval := tmp * 1000;
+
+	if Timer.Enabled then
+		Self.Caption := 'Slide Show (started, ' + IntToStr(Round(Timer.Interval / 1000)) + ' sec.)'
+	else
+		Self.Caption := 'Slide Show';
 end;
 
 procedure TfrmShow.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

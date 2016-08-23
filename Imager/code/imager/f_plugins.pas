@@ -5,7 +5,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Dialogs, Forms, Menus,
-  c_const, c_utils;
+  ComCtrls, c_const, c_utils;
 
 procedure InstallPlugIns();
 procedure UpdatePlugIns();
@@ -252,14 +252,17 @@ begin
         frmMain.miReopen.Visible := false;
         frmMain.tbnLast.Visible := false;
         frmMain.MRU.Files.Clear();
-        end
+		frmMain.tbnOpen.DropdownMenu := frmMain.popNoMRU;
+		end
     else
     	begin
         // enabling
         frmMain.mRecent.Visible := true;
         frmMain.miReopen.Visible := true;
-        frmMain.tbnLast.Visible := true;
-        end;
+		frmMain.tbnLast.Visible := true;
+		frmMain.tbnOpen.Style := tbsDropDown;
+		frmMain.tbnOpen.DropdownMenu := frmMain.popMRU;
+		end;
 end;
 
 // handles filters
@@ -358,7 +361,7 @@ end;
 // sets default filename and extension for saving images
 procedure SetSaveDialog();
 var
-	tmp, ext: string;
+	tmp, ext, last_ext: string;
 	s: TStringList;
 begin
 	if (infImage.file_type <> ftUnsaved) then
@@ -371,17 +374,22 @@ begin
 	else
   		frmMain.dlgSave.FileName := 'Untitled';
 
-	if (ExtractFileExt(frmMain.dlgSave.FileName) = '') then
-  		begin
-  		s := TStringList.Create();
-  		reg.OpenKey(sModules + '\Save', true);
-  		reg.GetValueNames(s);
-  		reg.CloseKey();
+    // selecting extension
+    s := TStringList.Create();
+    reg.OpenKey(sModules + '\Save', true);
+    reg.GetValueNames(s);
+    reg.CloseKey();
 
-  		frmMain.dlgSave.DefaultExt := s.Strings[(frmMain.dlgSave.FilterIndex - 1)];
+    reg.OpenKey(sReg + '\Main', true);
+    last_ext := Trim(reg.RStr('LastSaveExt', ''));
+    reg.CloseKey();
 
-  		FreeAndNil(s);
-  		end;
+    if ((last_ext <> '') and (s.IndexOf(last_ext) <> -1)) then
+    	frmMain.dlgSave.DefaultExt := last_ext
+    else
+    	frmMain.dlgSave.DefaultExt := s.Strings[(frmMain.dlgSave.FilterIndex - 1)];
+
+    FreeAndNil(s);
 end;
 
 end.

@@ -20,6 +20,9 @@ var
 	files: TStringList;
 	reg: TFuturisRegistry;
 
+const
+    is_beta: boolean = false; // do not forget to set this to false for release versions
+
 var infImage: record
 	path: string;
 	file_type: TFileTypes;

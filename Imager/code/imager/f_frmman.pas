@@ -9,7 +9,6 @@ uses
 
 procedure ShowAbout();
 procedure ShowSettings();
-procedure ShowFormats();
 procedure ShowShow();
 procedure ShowFilters();
 procedure ShowInfo();
@@ -19,7 +18,7 @@ procedure ShowNew();
 implementation
 
 uses
-  w_about, w_custzoom, w_setup, w_formats, w_info, w_show, w_new,
+  w_about, w_custzoom, w_setup, w_info, w_show, w_new,
   f_filectrl, main, globals, w_fltpreview;
 
 procedure ShowAbout();
@@ -27,7 +26,7 @@ begin
 	if not Assigned(frmAbout) then
   		begin
   		Application.CreateForm(TfrmAbout, frmAbout);
-  		frmAbout.ShowModal();
+		frmAbout.ShowModal();
   		end;
 end;
 
@@ -37,15 +36,6 @@ begin
   		begin
   		Application.CreateForm(TfrmSetup, frmSetup);
   		frmSetup.ShowModal();
-  		end;
-end;
-
-procedure ShowFormats();
-begin
-	if not Assigned(frmFormats) then
-  		begin
-  		Application.CreateForm(TfrmFormats, frmFormats);
-  		frmFormats.ShowModal();
   		end;
 end;
 
