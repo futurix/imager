@@ -1,0 +1,40 @@
+Futuris Imager End User License Agreement
+
+Futuris Imager
+Copyright (c) 1999-2004 Alexander Tereshchenko
+All rights reserved 
+
+Use of Futuris Imager (hereinafter 'software') is contingent on your agreement
+to the following terms:
+
+License
+The author grants you a limited non-exclusive license to use the software free
+of charge for any purpose.
+
+Disclaimer of warranty
+The software is provided as is without warranty of any kind. To the maximum
+extent permitted by applicable law, the author further disclaims all
+warranties, including without limitation any implied warranties of
+merchantability, fitness for a particular purpose, and noninfringement. The
+entire risk arising out of the use or performance of the product and
+documentation remains with recipient. To the maximum extent permitted by
+applicable law, in no event shall the author be liable for any consequential,
+incidental, direct,indirect, special, punitive, or other damages whatsoever
+(including, without limitation, damages for loss of business profits, business
+interruption, loss of business information, or other pecuniary loss) arising
+out of this agreement or the use of or inability to use the product, even if
+the author has been advised of the possibility of such damages.
+
+Scope of grant
+You may not reverse engineer, decompile or disassemble the software. The author
+shall retain title and all ownership rights to the software.
+
+Copyright
+This software is protected by copyright laws and international copyright
+treaties, as well as other intellectual property laws and treaties.
+
+Distribution
+The software may be freely distributed provided that it is not modified and the
+original archive remains intact with all accompanying files, and provided that
+no fee is charged (except for any reasonable fees necessary to cover costs of
+distribution media).

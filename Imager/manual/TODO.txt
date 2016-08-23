@@ -1,0 +1,128 @@
+----------------------------------------- 3.0 (feb 04) ------------------------------------------
+
+Features:
+ - update end-user documentation
+ - update web-site
+
+Bugs:
+ - ONHOLD: sometimes program asks twice to save (huge page from mp, then rotate, then save) 
+ - ONHOLD: GDI+ color instead of transparency in always blue :-/
+ - REPLACE: "Rotate" filter chokes on huge images
+ - what's with "Apply changes"? (may be disable it by default? (with some hints in program))
+ 
+----------------------------------------- 3.5 (mar 04) ------------------------------------------
+
+Features:
+ - plug-in information dialog
+ - bug fixes for 3.0
+ - update developer documentation
+ - make settings storage support in helper.dll (with GUIDs)
+ - move and add plug-in settings to new functions
+ - hide warning for erroneus PNG files
+ - update HTML template in writer
+ - optimize preview for filters (use Futuris 256x256 prebuilt bitmap)
+ - custom installation options
+ - add ZLib-compressed bitmap
+ 
+Filter:
+ - all filters from Envision library (replacing some exising filters) 
+ ? Color Replace
+ ? Crop
+ 
+----------------------------------------- 4.0 (jun 04) ------------------------------------------
+ 
+Features:
+ - support several plug-in locations (A&S, folder)
+ - use .fm extension for plug-ins
+ - add plug-in locations to process search path
+ - add black box support
+ - remove animation support (should be replaced by black box)
+ - Imager API - for example retrieve multi-page image for saving/export
+ - add support for clip-board importers
+ - add support for thumbnailers
+ - add support for templates
+ - add support for clipboard importers
+ - add support for side-bar snap-ins
+ - add support for child-window plug-in configuration
+ - add plug-in roles support (print, acquire, e-mail)
+ - move printing to export plug-in and role
+ - toolbar customization
+ - "zoom-in" and "zoom-out" buttons
+ - new file browser functions (random, first, etc)
+ - toolbar skins
+ - better printing with several printers (not sure if it is needed, may be just save selection)
+ - WIA support (if possible)
+ - remake favourites
+ - rewrite documentation
+ - support zooming and editing for page from multi-page image
+ - support for color-reduction when saving/exporting
+ - support exclusion for registration of file formats
+
+Open:
+ - HIPS
+ - SLD
+ - SFF (?)
+ - ANI (?) (for thumbnails)
+ - metafiles+ (with GDI+)
+
+BlackBox:
+ - ANI
+ - GIF (not GDI+, but TGifImage)
+ - MNG
+
+New:
+ - Create multi-page TIFF
+ - Create multi-page DCX
+ 
+Thumbs:
+ - 
+ 
+CBimp:
+ - 
+ 
+SideBar:
+ - 
+
+Config:
+ - 
+ 
+Save:
+ - ICO
+ - CUR
+ - JNG
+
+Import:
+ - frame from MPEG2 movie
+ - icon from file with many icons
+ 
+Export:
+ - JPEG with preview
+ - PNG with preview
+ - JPEG2000 with preview
+ 
+Filter:
+ - most from JanFX (that haven't available in 3.5)
+ 
+Info:
+ - EXIF (GDI+)
+  
+Tools:
+ - JPEG lossless transformations (GDI+)
+ 
+----------------------------------------- 4.1 (jul 04) ------------------------------------------
+
+Features:
+ - bugfixes for 4.0
+ - update developer documentation
+ 
+----------------------------------------- 4.5 (sep 04) ------------------------------------------
+
+Features:
+ - screen capture (?)
+ 
+----------------------------------------- 5.0 (oct 04) ------------------------------------------
+
+Features:
+ - localization
+
+----------------------------------------- 5.1 (dec 04) ------------------------------------------

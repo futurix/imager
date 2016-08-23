@@ -1,0 +1,10 @@
+Alexander Tereshchenko
+Futuris Imager Bla-bla-bla
+3.0.0.0
+f_bla
+© 1999-2004 Alexander Tereshchenko
+Futuris is a trademark of Alexander Tereshchenko
+f_bla.dll
+Futuris Imager
+3.0
+http://www.knives-out.org/
