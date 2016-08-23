@@ -23,3 +23,7 @@ Imager/manual/developer/components/*
 Imager/misc/futuris_imager_5.4_early/*
 Imager/code/shared/*.dcp
 Imager/misc/*
+Imager/bin/*
+Imager/doc/developer/components/*
+Imager/src/shared/*.dcp
+Imager/redist/*.exe
