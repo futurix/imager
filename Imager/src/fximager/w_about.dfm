@@ -48,14 +48,7 @@ object frmAbout: TfrmAbout
     Top = 70
     Width = 39
     Height = 13
-    Cursor = crHandPoint
     Caption = 'Website'
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clHotLight
-    Font.Height = -11
-    Font.Name = 'MS Shell Dlg 2'
-    Font.Style = [fsUnderline]
-    ParentFont = False
     Transparent = True
     OnClick = lblWebClick
   end

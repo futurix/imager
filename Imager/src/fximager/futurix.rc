@@ -1,6 +1,7 @@
 
 TBSA RT_BITMAP "res\tb_small_active.bmp"
 TBSD RT_BITMAP "res\tb_small_disabled.bmp"
+IFXD RT_BITMAP "res\iml_fixed.bmp"
 
 1 ICON "res\icon_1.ico"
 2 ICON "res\icon_2.ico"

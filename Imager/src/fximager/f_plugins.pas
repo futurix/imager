@@ -179,7 +179,9 @@ begin
       			t_d := reg.RStr(h.Strings[i], '');
 
       			if t_d = '' then
-        			t_d := ('*.' + h.Strings[i]);
+        			t_d := ('*.' + h.Strings[i])
+                else
+                	t_d := (t_d + ' (*.' + h.Strings[i] + ')');
 
       			s := s + t_d + '|' + '*.' + h.Strings[i];
 
@@ -199,7 +201,9 @@ begin
       			t_d := reg.RStr(h.Strings[i], '');
 
       			if t_d = '' then
-        			t_d := ('*.' + h.Strings[i]);
+        			t_d := ('*.' + h.Strings[i])
+                else
+                	t_d := (t_d + ' (*.' + h.Strings[i] + ')');
 
       			s := s + t_d + '|' + '*.' + h.Strings[i];
 
@@ -236,7 +240,9 @@ begin
    			t_d := reg.RStr(frmMain.SaveExtensions.Strings[i], '');
 
     		if t_d = '' then
-      			t_d := ('*.' + frmMain.SaveExtensions.Strings[i]);
+      			t_d := ('*.' + frmMain.SaveExtensions.Strings[i])
+            else
+            	t_d := (t_d + ' (*.' + frmMain.SaveExtensions.Strings[i] + ')');
 
     		s:= s + t_d + '|' + '*.' + frmMain.SaveExtensions.Strings[i];
 

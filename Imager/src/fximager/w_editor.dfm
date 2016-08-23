@@ -26,9 +26,9 @@ object frmEditor: TfrmEditor
   TextHeight = 13
   object imgPreview: TImageEnView
     Left = 0
-    Top = 22
+    Top = 26
     Width = 542
-    Height = 490
+    Height = 486
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
@@ -36,7 +36,7 @@ object frmEditor: TfrmEditor
     ScrollBars = ssNone
     EnableAlphaChannel = True
     AutoShrink = True
-    ImageEnVersion = '2.2.2'
+    ImageEnVersion = '2.2.3'
     Align = alClient
     Visible = False
     TabOrder = 4
@@ -45,7 +45,7 @@ object frmEditor: TfrmEditor
     Left = 0
     Top = 0
     Width = 767
-    Height = 22
+    Height = 26
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -54,7 +54,7 @@ object frmEditor: TfrmEditor
         Control = tbrEditor
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 22
+        MinHeight = 26
         Width = 767
       end>
     EdgeBorders = []
@@ -64,8 +64,9 @@ object frmEditor: TfrmEditor
       Left = 0
       Top = 0
       Width = 763
-      Height = 22
+      Height = 26
       AutoSize = True
+      BorderWidth = 1
       Caption = 'Editor Toolbar'
       DisabledImages = frmMain.imlDis
       EdgeBorders = []
@@ -385,9 +386,9 @@ object frmEditor: TfrmEditor
   end
   object sbxSide: TScrollBox
     Left = 542
-    Top = 22
+    Top = 26
     Width = 225
-    Height = 490
+    Height = 486
     Align = alRight
     AutoScroll = False
     BevelEdges = [beLeft, beRight]
@@ -479,7 +480,7 @@ object frmEditor: TfrmEditor
       Left = 0
       Top = 189
       Width = 221
-      Height = 301
+      Height = 297
       Align = alClient
       BorderStyle = bsNone
       Columns = <
@@ -494,7 +495,7 @@ object frmEditor: TfrmEditor
       RowSelect = True
       ParentColor = True
       ShowColumnHeaders = False
-      SmallImages = frmMain.imlStd
+      SmallImages = frmMain.imlFixed
       TabOrder = 2
       ViewStyle = vsReport
       OnDblClick = lvwFiltersDblClick
@@ -503,9 +504,9 @@ object frmEditor: TfrmEditor
   end
   object img: TImageEnView
     Left = 0
-    Top = 22
+    Top = 26
     Width = 542
-    Height = 490
+    Height = 486
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
@@ -513,7 +514,7 @@ object frmEditor: TfrmEditor
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
     EnableAlphaChannel = True
-    ImageEnVersion = '2.2.2'
+    ImageEnVersion = '2.2.3'
     Align = alClient
     TabOrder = 2
     TabStop = True

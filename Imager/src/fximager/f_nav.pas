@@ -68,12 +68,12 @@ begin
   		if (num = 0) then
     		begin
     		if infImage.path <> files.Strings[(files.Count - 1)] then
-      			Load(files.Strings[(files.Count - 1)], true, true);
+      			Load(files.Strings[(files.Count - 1)], true);
     		end
   		else
     		begin
     		if infImage.path <> files.Strings[num - 1] then
-      			Load(files.Strings[num - 1], true, true);
+      			Load(files.Strings[num - 1], true);
     		end;
   		end;
 end;
@@ -100,12 +100,12 @@ begin
   		if (num = (files.Count - 1)) then
     		begin
             if infImage.path <> files.Strings[0] then
-      			Load(files.Strings[0], true, true);
+      			Load(files.Strings[0], true);
     		end
   		else
     		begin
     		if infImage.path <> files.Strings[num + 1] then
-      			Load(files.Strings[num + 1], true, true);
+      			Load(files.Strings[num + 1], true);
     		end;
   		end;
 end;
@@ -114,21 +114,21 @@ end;
 procedure GoLast();
 begin
 	if ((files.Count > 1) and (infImage.path <> files.Strings[files.Count - 1])) then
-  		Load(files.Strings[files.Count - 1], true, true);
+  		Load(files.Strings[files.Count - 1], true);
 end;
 
 // go to first file in folder
 procedure GoFirst();
 begin
 	if ((files.Count > 1) and (infImage.path <> files.Strings[0])) then
-  		Load(files.Strings[0], true, true);
+  		Load(files.Strings[0], true);
 end;
 
 // go to random file in folder
 procedure GoRandom();
 begin
 	if (files.Count > 1) then
-  		Load(files.Strings[Random(files.Count)], true, true);
+  		Load(files.Strings[Random(files.Count)], true);
 end;
 
 // find and set file number in current dir

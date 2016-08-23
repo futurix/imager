@@ -4,8 +4,8 @@ object frmOptFormats: TfrmOptFormats
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'File Formats'
-  ClientHeight = 385
-  ClientWidth = 432
+  ClientHeight = 222
+  ClientWidth = 283
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,16 +21,9 @@ object frmOptFormats: TfrmOptFormats
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object lblExtensions: TLabel
-    Left = 10
-    Top = 10
-    Width = 56
-    Height = 13
-    Caption = 'Extensions:'
-  end
   object lblChangeDescr: TLabel
     Left = 10
-    Top = 300
+    Top = 125
     Width = 149
     Height = 13
     Cursor = crHandPoint
@@ -46,7 +39,7 @@ object frmOptFormats: TfrmOptFormats
   end
   object lblRestoreIcon: TLabel
     Left = 10
-    Top = 320
+    Top = 145
     Width = 178
     Height = 13
     Cursor = crHandPoint
@@ -63,8 +56,8 @@ object frmOptFormats: TfrmOptFormats
     OnClick = lblRestoreIconClick
   end
   object btnOK: TButton
-    Left = 265
-    Top = 349
+    Left = 115
+    Top = 185
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -73,8 +66,8 @@ object frmOptFormats: TfrmOptFormats
     OnClick = btnOKClick
   end
   object btnCancel: TButton
-    Left = 345
-    Top = 349
+    Left = 195
+    Top = 185
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -82,55 +75,20 @@ object frmOptFormats: TfrmOptFormats
     OnClick = btnCancelClick
   end
   object cbxFS: TCheckBox
-    Left = 245
-    Top = 99
+    Left = 10
+    Top = 100
     Width = 175
     Height = 17
     Caption = 'Start in full screen mode'
     TabOrder = 2
   end
-  object clbExt: TCheckListBox
-    Left = 10
-    Top = 25
-    Width = 121
-    Height = 268
-    ItemHeight = 13
-    TabOrder = 3
-  end
-  object btnSelectNone: TButton
-    Left = 135
-    Top = 55
-    Width = 75
-    Height = 25
-    Caption = 'Select None'
-    TabOrder = 4
-    OnClick = btnSelectNoneClick
-  end
-  object btnSelectAll: TButton
-    Left = 135
-    Top = 25
-    Width = 75
-    Height = 25
-    Caption = 'Select All'
-    TabOrder = 5
-    OnClick = btnSelectAllClick
-  end
-  object btnRefresh: TButton
-    Left = 135
-    Top = 268
-    Width = 75
-    Height = 25
-    Caption = 'Refresh'
-    TabOrder = 6
-    OnClick = btnRefreshClick
-  end
   object gbxIcon: TGroupBox
-    Left = 245
+    Left = 10
     Top = 10
-    Width = 175
+    Width = 260
     Height = 85
     Caption = ' Select icon '
-    TabOrder = 7
+    TabOrder = 3
     object imgIcon1: TImage
       Left = 12
       Top = 35
@@ -139,21 +97,21 @@ object frmOptFormats: TfrmOptFormats
       OnClick = imgIcon1Click
     end
     object imgIcon2: TImage
-      Left = 52
+      Left = 76
       Top = 35
       Width = 32
       Height = 32
       OnClick = imgIcon2Click
     end
     object imgIcon3: TImage
-      Left = 92
+      Left = 144
       Top = 35
       Width = 32
       Height = 32
       OnClick = imgIcon3Click
     end
     object imgIcon4: TImage
-      Left = 132
+      Left = 212
       Top = 35
       Width = 32
       Height = 32
@@ -170,7 +128,7 @@ object frmOptFormats: TfrmOptFormats
       OnClick = rbnIcon1Click
     end
     object rbnIcon2: TRadioButton
-      Left = 51
+      Left = 75
       Top = 18
       Width = 18
       Height = 17
@@ -178,7 +136,7 @@ object frmOptFormats: TfrmOptFormats
       OnClick = rbnIcon2Click
     end
     object rbnIcon3: TRadioButton
-      Left = 91
+      Left = 143
       Top = 18
       Width = 16
       Height = 17
@@ -186,7 +144,7 @@ object frmOptFormats: TfrmOptFormats
       OnClick = rbnIcon3Click
     end
     object rbnIcon4: TRadioButton
-      Left = 131
+      Left = 211
       Top = 18
       Width = 17
       Height = 17

@@ -1,15 +1,17 @@
 !include "MUI.nsh"
 
+!define FXVERSION 5.7
+
 Name "FuturixImager Extras"
 OutFile "futuriximager_extras.exe"
 CRCCheck on
 SetCompressor lzma
 
-BrandingText "FuturixImager 5.6 Extras"
+BrandingText "FuturixImager ${FXVERSION} Extras"
 
 InstallDir "$PROGRAMFILES\FuturixImager"
 
-!define MUI_WELCOMEPAGE_TITLE "FuturixImager 5.6 Extras"
+!define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION} Extras"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager Extras.\r\n\r\n$_CLICK"
 
 !define MUI_COMPONENTSPAGE_NODESC
@@ -88,9 +90,9 @@ Section "Advanced GIF exporter"
   File "..\bin\fxgif.dll"
 SectionEnd
 
-Section "Playback support for animated GIFs"
+Section "Playback of animated GIFs"
   SetOutPath "$INSTDIR"
-  File "..\bin\fxplaygif.dll"
+  File "..\bin\fxgdiplus.dll"
 SectionEnd
 
 Section "Additional information display for bitmaps"

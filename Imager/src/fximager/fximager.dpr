@@ -29,10 +29,8 @@ uses
   w_editor in 'w_editor.pas' {frmEditor},
   w_resize in 'w_resize.pas' {frmResize},
   w_rotate in 'w_rotate.pas' {frmRotate},
-  w_optgeneral in 'w_optgeneral.pas' {frmOptGeneral},
+  w_optgeneral in 'w_optgeneral.pas' {frmOptions},
   w_optformats in 'w_optformats.pas' {frmOptFormats},
-  w_optlang in 'w_optlang.pas' {frmOptLang},
-  w_optplugins in 'w_optplugins.pas' {frmOptPlugins},
   f_toolbar in 'f_toolbar.pas',
   w_custtb in 'w_custtb.pas' {frmCustTB},
   f_instance in 'f_instance.pas',
@@ -66,9 +64,8 @@ begin
         	begin
   			Application.Initialize();
   			Application.Title := 'FuturixImager';
-  			Application.HelpFile := '';
   			Application.CreateForm(TfrmMain, frmMain);
-  Application.Run();
+  			Application.Run();
         	end;
   		end;
 end.

@@ -1,4 +1,3 @@
-// multi-page functions
 unit f_multi;
 
 interface
@@ -8,7 +7,7 @@ uses
   c_const, c_utils, c_locales;
 
 function  IsMulti(ext: string):boolean;
-procedure OpenMulti(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenMulti(path: string; add_to_mru: boolean = true);
 procedure MGoToPage(index: integer);
 procedure MPage();
 procedure MGoFirst();
@@ -37,7 +36,7 @@ begin
 end;
 
 // opens multi-page image
-procedure OpenMulti(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenMulti(path: string; add_to_mru: boolean = true);
 var
 	tmp_res: TFxImgResult;
 begin
@@ -73,7 +72,7 @@ begin
     		if (infMulti.pages <= 1) then
       			begin
       			CloseMulti();
-      			OpenLocal(path, add_to_mru, same_folder);
+      			OpenLocal(path, add_to_mru);
       			Abort();
       			end;
 
@@ -84,10 +83,7 @@ begin
     		if add_to_mru then
       			frmMain.MRU.Add(path);
 
-    		if same_folder = false then
-      			ScanFolder(path)
-    		else
-      			FindFileNumber();
+    		ScanFolder(path);
 
             frmMain.mMulti.Visible := true;
             frmMain.tbnMultiPrev.Enabled := true;

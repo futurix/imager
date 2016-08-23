@@ -1,11 +1,12 @@
 STRINGTABLE
 BEGIN
-    1		"FxImgLocaleR1"                                 // do not change this!
-    2		"English - English"                             // name of the locale language (in English and translated)
+    1		"FxImgLocaleR2"                                 // do not change this!
+    2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
-    4		"Alexander Tereshchenko - alex@fxfp.com"        // locale author (you!) - e-mail is optional
-    5		"5.6"                      						// last version of Futuris Imager this locale was updated for
-
+    4		"Alexander Tereshchenko"        				// locale author
+    5		"5.7"                      						// last version of Futuris Imager this locale was updated for
+	6		""												// localized name of the locale language (leave empty if you want English name only)
+	
     50		"OK"
     51		"Cancel"
     52		"Yes"
@@ -179,8 +180,8 @@ BEGIN
     363		"Visit %s website"
     364		"About..."
     365		"About %s"
-    366		"Online Documentation"
-    367		"Read latest documentation online"
+    366		"Help Contents"
+    367		"Learn more about this program"
 
     370		"Minimize"
     371		""
@@ -297,6 +298,7 @@ BEGIN
     604     "Plug-in search complete."
     605     "Cannot load helper library."
     606     "Resize impossible - no editor window open."
+    607		"Cannot load plug-in!"
 
     610     "Do you really want to delete current file?"
     611     "Select destination folder ..."
@@ -384,13 +386,13 @@ BEGIN
 
     840     "Options"
     841     "General"
-    842     "Behavior"
+    842     "Misc"
     843     "File Formats"
     844     "Languages"
     845     "Tasks"
     846     "Show full image path in window title"
     847     "Open resulting image after save"
-    848     "Show all files in Open dialog by default"
+    848     "Show all files in ""Open"" dialog by default"
     849     "Disable recent file list"
     850     "Start in full screen mode"
     851     "Clear recent files list"
@@ -418,6 +420,10 @@ BEGIN
     873		"Delay display filter on image scrolling"
     874		"Allow multiple program instances"
     875		"Reverse direction"
+    876		"Plug-in"
+    877		"Description"
+    878		"Extension"
+    879		"Additional settings..."
 
     880     "%s - Editor"
     881     "Editor Toolbar"
@@ -497,7 +503,7 @@ BEGIN
     1027	"X11 Bitmap Format"
     1028	"X11 Pixmap Format"
     1029	"Windows Icon"
-    1030	"HDR / High Dynamic Range"
+    1030	"HDR / High Dynamic Range Image"
     1031	"PDF / Portable Document Format"
     1032	"PostScript"
     1033	"Windows Cursor"
@@ -874,5 +880,25 @@ BEGIN
     3507	"< Remove"
     3508	"Reset"
     
+    3550	"Themes"
+    3551	"Available themes:"
+    3552	"Get more themes..."
+    3553	"Theme:"
+    3554	"Author:"
+    3555	"Last updated for:"
+    3556	"Description:"
+    3557	"Show rare or incompletely supported formats"
+    3558	"Additional"
+    3559	"Plug-in configuration:"
+    
     3600	"Send by E-mail..."
+    
+    3700	"WIA/TWAIN scanning options"
+    3701	"Scanning Options"
+    3702	" Imaging subsystem "
+    3703	"System default"
+    3704	"WIA (Windows Image Acquisition)"
+    3705	"TWAIN"
+    3706	"Note: WIA is not available for Windows2000"
+    3707	"No scanners or digital cameras found - cannot continue."
 END

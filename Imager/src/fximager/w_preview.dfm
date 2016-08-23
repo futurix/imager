@@ -38,9 +38,9 @@ object frmPrint: TfrmPrint
   TextHeight = 13
   object prwPrint: TPrintPreview
     Left = 0
-    Top = 22
+    Top = 26
     Width = 742
-    Height = 464
+    Height = 460
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -61,7 +61,7 @@ object frmPrint: TfrmPrint
     Left = 0
     Top = 0
     Width = 742
-    Height = 22
+    Height = 26
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -70,7 +70,7 @@ object frmPrint: TfrmPrint
         Control = itbPrintMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 22
+        MinHeight = 26
         Width = 742
       end>
     EdgeBorders = []
@@ -80,8 +80,9 @@ object frmPrint: TfrmPrint
       Left = 0
       Top = 0
       Width = 738
-      Height = 22
+      Height = 26
       AutoSize = True
+      BorderWidth = 1
       ButtonWidth = 55
       Caption = 'Print'
       EdgeBorders = []

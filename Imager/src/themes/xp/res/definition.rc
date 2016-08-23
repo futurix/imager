@@ -1,0 +1,17 @@
+STRINGTABLE
+BEGIN
+    // required value for themes (it will change if new incompatible theme system will be introduced in the future)
+    1		"FxImgThemeR1"
+    
+    // name of the theme (in English)
+    2		"XP"
+    
+    // theme description (leave empty if not needed)
+    3		"WindowsXP style"
+
+    // author of the theme (you can include your e-mail or url)
+    4		"Alexander Tereshchenko"
+    
+    // last version of FuturixImager this theme was tested with (future versions may add more buttons)
+    5		"5.7"
+END

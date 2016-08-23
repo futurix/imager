@@ -1,4 +1,3 @@
-// image transformations
 unit f_images;
 
 interface
@@ -83,14 +82,50 @@ end;
 // zoom in by 50%
 procedure ZoomIn();
 begin
-    if (Round(frmMain.img.Zoom * 2) <= 250000) then
+    if ((frmMain.img.Zoom  < 25) and (frmMain.img.Zoom >= 10)) then
+    	Zoom(25, true)
+    else if ((frmMain.img.Zoom  < 50) and (frmMain.img.Zoom >= 25)) then
+    	Zoom(50, true)
+    else if ((frmMain.img.Zoom  < 75) and (frmMain.img.Zoom >= 50)) then
+    	Zoom(75, true)
+    else if ((frmMain.img.Zoom  < 100) and (frmMain.img.Zoom >= 75)) then
+    	Zoom(100, true)
+    else if ((frmMain.img.Zoom  < 125) and (frmMain.img.Zoom >= 100)) then
+    	Zoom(125, true)
+    else if ((frmMain.img.Zoom  < 150) and (frmMain.img.Zoom >= 125)) then
+    	Zoom(150, true)
+    else if ((frmMain.img.Zoom  < 200) and (frmMain.img.Zoom >= 150)) then
+    	Zoom(200, true)
+    else if ((frmMain.img.Zoom  < 300) and (frmMain.img.Zoom >= 200)) then
+    	Zoom(300, true)
+    else if ((frmMain.img.Zoom  < 400) and (frmMain.img.Zoom >= 300)) then
+    	Zoom(400, true)
+    else if (Round(frmMain.img.Zoom * 2) <= 250000) then
 		Zoom(Round(frmMain.img.Zoom * 2), true);
 end;
 
 // zoom out by 50%
 procedure ZoomOut();
 begin
-	if (Round(frmMain.img.Zoom / 2) >= 1) then
+    if ((frmMain.img.Zoom <= 600) and (frmMain.img.Zoom > 400)) then
+    	Zoom(400, true)
+    else if ((frmMain.img.Zoom <= 400) and (frmMain.img.Zoom > 300)) then
+    	Zoom(300, true)
+    else if ((frmMain.img.Zoom <= 300) and (frmMain.img.Zoom > 200)) then
+    	Zoom(200, true)
+    else if ((frmMain.img.Zoom <= 200) and (frmMain.img.Zoom > 150)) then
+    	Zoom(150, true)
+    else if ((frmMain.img.Zoom <= 150) and (frmMain.img.Zoom > 125)) then
+    	Zoom(125, true)
+    else if ((frmMain.img.Zoom <= 125) and (frmMain.img.Zoom > 100)) then
+    	Zoom(100, true)
+    else if ((frmMain.img.Zoom <= 100) and (frmMain.img.Zoom > 75)) then
+    	Zoom(75, true)
+    else if ((frmMain.img.Zoom <= 75) and (frmMain.img.Zoom > 50)) then
+    	Zoom(50, true)
+    else if ((frmMain.img.Zoom <= 50) and (frmMain.img.Zoom > 25)) then
+    	Zoom(25, true)
+    else if (Round(frmMain.img.Zoom / 2) >= 1) then
 		Zoom(Round(frmMain.img.Zoom / 2), true);
 end;
 

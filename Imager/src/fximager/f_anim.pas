@@ -1,4 +1,3 @@
-// animation
 unit f_anim;
 
 interface
@@ -8,7 +7,7 @@ uses
   IniFiles, athread, c_const, c_utils;
 
 function  IsAnimation(ext: string):boolean;
-procedure OpenAnim(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenAnim(path: string; add_to_mru: boolean = true);
 procedure APlay();
 procedure APause();
 procedure AStop();
@@ -37,7 +36,7 @@ begin
 end;
 
 // opens animated image
-procedure OpenAnim(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenAnim(path: string; add_to_mru: boolean = true);
 var
 	tmp_res: TFxImgResult;
 begin
@@ -69,7 +68,7 @@ begin
     		if ((tmp_res.result_type <> RT_BOOL) or ((tmp_res.result_type = RT_BOOL) and (tmp_res.result_value = FX_FALSE))) then
       			begin
       			CloseAnim();
-      			OpenLocal(path, add_to_mru, same_folder);
+      			OpenLocal(path, add_to_mru);
       			Exit;
       			end;
 
@@ -80,12 +79,7 @@ begin
     		if add_to_mru then
       			frmMain.MRU.Add(path);
 
-    		if same_folder = false then
-       		 	ScanFolder(path)
-        	else
-        		FindFileNumber();
-
-    		frmMain.sbxMain.ControlStyle := frmMain.sbxMain.ControlStyle + [csOpaque];
+    		ScanFolder(path);
 
     		// starting animation
     		Able();

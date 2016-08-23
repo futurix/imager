@@ -1,0 +1,28 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=fximager.chm
+Contents file=fximager.hhc
+Default Window=FXIMAGER
+Default topic=index.html
+Display compile notes=No
+Display compile progress=No
+Flat=Yes
+Full-text search=Yes
+Language=0x809 English (United Kingdom)
+Title=FuturixImager
+
+[WINDOWS]
+FXIMAGER="FuturixImager","fximager.hhc",,"index.html",,"faq.html","FAQ",,,0x42520,225,0x4100c,[5,5,780,580],,,,,,,0
+
+
+[FILES]
+controls.html
+faq.html
+formats.html
+index.html
+requirements.html
+license.html
+new.html
+
+[INFOTYPES]
+

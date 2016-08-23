@@ -1,0 +1,47 @@
+- C++ GDI+ plug-in (EMF+)
+- rewrite some plug-ins in C++ (FreeImage, e-mail)
+- option to fit on image open (but not auto-fit)
+- speed optimization: replace registry searches with string lists
+- speed optimization: string pool with commonly loaded strings (updatable
+  on locale switch)
+- better help for FuturixImager (FAQ, HOWTOs, options, menu walk, URLs)
+- rework SDK (C++ samples, make sample plug-ins)
+- mixed mode support for arrow keys: scroll when not fitting, files otherwise
+
+- slideshow button should do up/down on toggle
+- file browser should be implemented as floating palette (from external DLL)
+- info dialog should be reimplemented as floating palette
+- navigator window (as floating palette)
+
+- IsInteractive flag for FImgOpen (enabled for GUI opens, disabled for 
+  thumbnails or [SHIFT])
+- new multi-page .ico loader in separate plug-in with WinXP icons support
+? multi-page .ico importer
+- new color fix filter
+- info cannot read multi-page or animated files (they should be closed)
+- XBUTTONs support
+
+- advanced raw importer
+- new print with preview in plug-in and role
+- multi-page printing
+- better JPEG lossless tranformations (with thumbnails)
+- JPEG lossless crop
+- custom icons for formats
+- round selection (using BeginImageProcessing)
+- reimplement filters using imageen
+- scanning in separate plug-in 
+- new scanning GUI with preview and multi-page scanning
+- painting features (eraser, brushes)
+- add more stuff to pop-up menu
+- color picker tool
+- better zoom in editor
+- add text tool
+- make editor more understandable
+- FuturixImager FAQ
+- picture number and index in status bar
+- file browser with thumbnails in DLL
+- selective file browser shortcuts filtering
+- file browser configuration
+
+
+

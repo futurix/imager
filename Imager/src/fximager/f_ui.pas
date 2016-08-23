@@ -4,9 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, UxTheme,
-  ShellAPI, c_const, c_locales;
+  ShellAPI, c_const, c_themes, c_locales;
 
-procedure ApplyToolbarSkin();
+procedure ApplyTheme();
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
 procedure ToggleStatusbar(strict: boolean = false; visible: boolean = true);
 procedure Able();
@@ -21,36 +21,54 @@ implementation
 uses main, f_nav, f_graphics, f_tools, w_show, f_images, w_editor,
   w_preview;
 
-procedure ApplyToolbarSkin();
+procedure ApplyTheme();
 var
-	res: TResourceStream;
     bmp: TBitmap;
 begin
-	res := TResourceStream.Create(HInstance, 'TBSA', 'RT_BITMAP');
+    bmp := LoadBitmapFromTheme('TBSA');
 
-    bmp := TBitmap.Create();
-    bmp.LoadFromStream(res);
+    if (bmp <> nil) then
+    	begin
+    	frmMain.imlStd.Height := bmp.Height;
+    	frmMain.imlStd.Width := bmp.Height;
+    	frmMain.imlStd.Clear();
+    	frmMain.imlStd.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
 
-    frmMain.imlStd.Height := bmp.Height;
-    frmMain.imlStd.Width := bmp.Height;
-    frmMain.imlStd.Clear();
-    frmMain.imlStd.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+    	FreeAndNil(bmp);
+        end
+    else
+    	frmMain.imlStd.Clear();
 
-    FreeAndNil(bmp);
-    FreeAndNil(res);
+    bmp := LoadBitmapFromTheme('TBSD');
 
-	res := TResourceStream.Create(HInstance, 'TBSD', 'RT_BITMAP');
+    if (bmp <> nil) then
+    	begin
+    	frmMain.imlDis.Height := bmp.Height;
+    	frmMain.imlDis.Width := bmp.Height;
+    	frmMain.imlDis.Clear();
+    	frmMain.imlDis.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
 
-    bmp := TBitmap.Create();
-    bmp.LoadFromStream(res);
+    	FreeAndNil(bmp);
+        end
+    else
+    	frmMain.imlDis.Clear();
 
-    frmMain.imlDis.Height := bmp.Height;
-    frmMain.imlDis.Width := bmp.Height;
-    frmMain.imlDis.Clear();
-    frmMain.imlDis.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+    bmp := LoadBitmapFromTheme('IFXD');
 
-    FreeAndNil(bmp);
-    FreeAndNil(res);
+    if (bmp <> nil) then
+    	begin
+    	frmMain.imlFixed.Height := bmp.Height;
+    	frmMain.imlFixed.Width := bmp.Height;
+    	frmMain.imlFixed.Clear();
+    	frmMain.imlFixed.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+
+    	FreeAndNil(bmp);
+        end
+    else
+    	frmMain.imlFixed.Clear();
+
+    frmMain.itbMain.ButtonHeight := frmMain.imlStd.Height + 6;
+    frmMain.itbMain.ButtonWidth := frmMain.imlStd.Height + 7;
 end;
 
 // toggles main toolbar
@@ -277,31 +295,31 @@ begin
   		if frmMain.bFullPathInTitle then
     		begin
     		// full path
-    		Application.Title := (infImage.path + ' - ' + sAppName);
-    		frmMain.Caption := (infImage.path + ' - ' + sAppName);
+    		Application.Title := (infImage.path + ' - ' + sAppNameEx);
+    		frmMain.Caption := (infImage.path + ' - ' + sAppNameEx);
     		end
   		else
     		begin
-    		Application.Title := (ExtractFileName(infImage.path) + ' - ' + sAppName);
-    		frmMain.Caption := (ExtractFileName(infImage.path) + ' - ' + sAppName);
+    		Application.Title := (ExtractFileName(infImage.path) + ' - ' + sAppNameEx);
+    		frmMain.Caption := (ExtractFileName(infImage.path) + ' - ' + sAppNameEx);
     		end;
   		end
 	else
   		begin
         if Assigned(frmEditor) then
         	begin
-  			Application.Title := sAppName + ' - ' + LoadLStr(534);
-  			frmMain.Caption := sAppName + ' - ' + LoadLStr(534);
+  			Application.Title := sAppNameEx + ' - ' + LoadLStr(534);
+  			frmMain.Caption := sAppNameEx + ' - ' + LoadLStr(534);
             end
         else if Assigned(frmPrint) then
         	begin
-  			Application.Title := sAppName + ' - ' + LoadLStr(3250);
-  			frmMain.Caption := sAppName + ' - ' + LoadLStr(3250);
+  			Application.Title := sAppNameEx + ' - ' + LoadLStr(3250);
+  			frmMain.Caption := sAppNameEx + ' - ' + LoadLStr(3250);
             end
         else
         	begin
-  			Application.Title := sAppName;
-  			frmMain.Caption := sAppName;
+  			Application.Title := sAppNameEx;
+  			frmMain.Caption := sAppNameEx;
             end;
   		end;
 end;

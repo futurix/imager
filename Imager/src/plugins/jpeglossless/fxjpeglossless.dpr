@@ -30,7 +30,7 @@ begin
             end;
         end;
 
-    info_call(PT_FNAME, 'JPEG Lossless Tools Plug-in', '');
+    info_call(PT_FNAME, 'JPEG lossless transformations', '');
     info_call(PT_FROLE, PR_JPEGLL, '');
 
 	info_call(PT_FTOOL, PChar(LoadLStr(3401)), ' ');

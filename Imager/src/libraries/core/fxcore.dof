@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=6
+MinorVer=7
 Release=0
-Build=20
+Build=23
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager Core Library
-FileVersion=5.6.0.20
+FileVersion=5.7.0.23
 InternalName=core
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fxcore.dll
 ProductName=FuturixImager
-ProductVersion=5.6
+ProductVersion=5.7
 Comments=http://www.fxfp.com/
 [Excluded Packages]
 c:\program files\borland\delphi7\Projects\Bpl\Misc.bpl=Misc Components

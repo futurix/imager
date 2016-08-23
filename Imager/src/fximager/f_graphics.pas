@@ -11,11 +11,11 @@ procedure OpenImage();
 procedure Reopen();
 procedure Save();
 procedure CloseImage(turn_off_ui: boolean = true);
-procedure Load(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure Load(path: string; add_to_mru: boolean = true);
 function  DoImageLoad(path: string): HBITMAP;
 function  DoPreviewLoad(path: string): HBITMAP;
 function  Write(path: string): BOOL;
-procedure OpenLocal(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenLocal(path: string; add_to_mru: boolean = true);
 procedure OpenUntitled(bmp: TBitmap; img: hBitmap = 0);
 function  SupportedExt(ext: string):boolean;
 function  FileType(path: string):integer;
@@ -115,24 +115,24 @@ begin
 end;
 
 // loads file from given path
-procedure Load(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure Load(path: string; add_to_mru: boolean = true);
 begin
 	// start
 	case FileType(path) of
   		1:
         	begin
     		CloseImage(false);
-    		OpenLocal(path, add_to_mru, same_folder);
+    		OpenLocal(path, add_to_mru);
     		end;
   		3:
         	begin
     		CloseImage(false);
-    		OpenAnim(path, add_to_mru, same_folder);
+    		OpenAnim(path, add_to_mru);
    			end;
   		4:
         	begin
     		CloseImage(false);
-    		OpenMulti(path, add_to_mru, same_folder);
+    		OpenMulti(path, add_to_mru);
     		end;
   		5:
         	begin
@@ -357,7 +357,7 @@ begin
 end;
 
 // opens local file
-procedure OpenLocal(path: string; add_to_mru: boolean = true; same_folder: boolean = false);
+procedure OpenLocal(path: string; add_to_mru: boolean = true);
 var
 	bmp: HBITMAP;
     ext: string;
@@ -375,10 +375,7 @@ begin
   		if add_to_mru then
         	frmMain.MRU.Add(path);
 
-        if not same_folder then
-      		ScanFolder(path)
-        else
-      		FindFileNumber();
+        ScanFolder(path);
 
         FinalizeImage();
         Able();
@@ -442,10 +439,7 @@ begin
   			if add_to_mru then
         		frmMain.MRU.Add(path);
 
-        	if not same_folder then
-      			ScanFolder(path)
-        	else
-      			FindFileNumber();
+        	ScanFolder(path);
 
             FinalizeImage();
             Able();

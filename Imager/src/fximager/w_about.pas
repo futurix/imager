@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, c_const, c_locales;
+  StdCtrls, ExtCtrls, c_const, c_utils, c_locales;
 
 type
   TfrmAbout = class(TForm)
@@ -55,10 +55,16 @@ procedure TfrmAbout.FormCreate(Sender: TObject);
 begin
     Localize();
 
-	imgAbout.Picture.Icon.Handle := LoadImage(HInstance, 'MAINICON', IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
+    SetStyleAsLink(lblWeb);
+
+	imgAbout.Picture.Icon.Handle := LoadImageW(HInstance, 'MAINICON', IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
 
     lblCopy.Caption := sRights;
-    lblProgram.Caption := sAppName + ' ' + sVersion;
+
+    if (sAppName <> sAppNameEx) then
+    	lblProgram.Caption := sAppNameEx
+	else
+    	lblProgram.Caption := sAppName + ' ' + sVersion;
 end;
 
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -86,7 +92,7 @@ end;
 
 procedure TfrmAbout.Localize();
 begin
-    Self.Caption 		:= Format(LoadLStr(700), [sAppName]);
+    Self.Caption 		:= Format(LoadLStr(700), [sAppNameEx]);
     lblWeb.Caption 		:= Format(LoadLStr(701), [sAppName]);
 	btnOK.Caption		:= LoadLStr(50);
 end;

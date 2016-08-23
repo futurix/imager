@@ -7,15 +7,19 @@ uses
   c_reg, c_utils, c_const, c_locales;
 
 var
-	mod_folder: string = '';
 	current_dll: string = '';
 
 procedure DoPluginScan();
+procedure DoLocaleScan();
+procedure DoThemesScan();
 procedure ProcessLib(filename: string);
-function  SortData(module_type: integer; value1, value2: PChar):BOOL; cdecl;
+procedure ProcessLocale(filename: string);
+procedure ProcessTheme(filename: string);
+function  SortData(module_type: longword; value1, value2: PChar):BOOL; cdecl;
 procedure WriteData(key, value1: string);
 procedure WriteInternal(key, value: string);
 procedure WriteDescr(ext, name: string);
+procedure WriteNotRec(ext: string);
 procedure WriteLocale(name: string);
 procedure WriteTheme(name: string);
 
@@ -29,7 +33,9 @@ begin
 	// recreating registry keys
     reg.OpenKey(sModules, true);
     reg.DeleteKey(PS_FNAME);
+    reg.DeleteKey(PS_FCONFIG);
     reg.DeleteKey(PS_FROLE);
+    reg.DeleteKey(PS_FNOTREC);
     reg.DeleteKey(PS_FOPEN);
     reg.DeleteKey(PS_FOPENMULTI);
     reg.DeleteKey(PS_FOPENANIM);
@@ -40,14 +46,13 @@ begin
     reg.DeleteKey(PS_FINFO);
     reg.DeleteKey(PS_FTOOL);
     reg.DeleteKey(PS_FDESCR);
-    reg.DeleteKey(PS_FLOCALE);
-    reg.DeleteKey(PS_FTHEME);
     reg.CloseKey();
 
     // adding internal formats
 	WriteInternal(PS_FOPEN, 'jpg');
 	WriteInternal(PS_FOPEN, 'jpeg');
 	WriteInternal(PS_FOPEN, 'jfif');
+    WriteInternal(PS_FOPEN, 'jpe');
 	WriteInternal(PS_FOPEN, 'jp2');
 	WriteInternal(PS_FOPEN, 'jpc');
 	WriteInternal(PS_FOPEN, 'j2k');
@@ -57,6 +62,7 @@ begin
 	WriteInternal(PS_FOPEN, 'pgm');
 	WriteInternal(PS_FOPEN, 'ppm');
 	WriteInternal(PS_FOPEN, 'bmp');
+	WriteInternal(PS_FOPEN, 'dib');
 	WriteInternal(PS_FOPEN, 'emf');
 	WriteInternal(PS_FOPEN, 'wmf');
 	WriteInternal(PS_FOPEN, 'pcx');
@@ -68,33 +74,39 @@ begin
     WriteInternal(PS_FOPEN, 'wbmp');
     WriteInternal(PS_FOPEN, 'wbm');
 
-	WriteDescr('jpg', LoadLStr(1000) + ' (*.jpg)');
-	WriteDescr('jpeg', LoadLStr(1000) + ' (*.jpeg)');
-	WriteDescr('jfif', LoadLStr(1000) + ' (*.jfif)');
-	WriteDescr('jp2', LoadLStr(1001) + ' (*.jp2)');
-	WriteDescr('jpc', LoadLStr(1001) + ' (*.jpc)');
-	WriteDescr('j2k', LoadLStr(1001) + ' (*.j2k)');
-    WriteDescr('j2c', LoadLStr(1001) + ' (*.j2c)');
-    WriteDescr('gif', LoadLStr(1002) + ' (*.gif)');
-	WriteDescr('pbm', LoadLStr(1003) + ' (*.pbm)');
-	WriteDescr('pgm', LoadLStr(1004) + ' (*.pgm)');
-	WriteDescr('ppm', LoadLStr(1005) + ' (*.ppm)');
-	WriteDescr('bmp', LoadLStr(1006) + ' (*.bmp)');
-	WriteDescr('emf', LoadLStr(1007) + ' (*.emf)');
-	WriteDescr('wmf', LoadLStr(1008) + ' (*.wmf)');
-	WriteDescr('pcx', LoadLStr(1009) + ' (*.pcx)');
-	WriteDescr('dcx', LoadLStr(1010) + ' (*.dcx)');
-	WriteDescr('png', LoadLStr(1011) + ' (*.png)');
-	WriteDescr('tga', LoadLStr(1012) + ' (*.tga)');
-	WriteDescr('tif', LoadLStr(1013) + ' (*.tif)');
-	WriteDescr('tiff', LoadLStr(1013) + ' (*.tiff)');
-    WriteDescr('wbmp', LoadLStr(1014) + ' (*.wbmp)');
-    WriteDescr('wbm', LoadLStr(1014) + ' (*.wbm)');
+    WriteNotRec('dcx');
+    WriteNotRec('jpe');
+    WriteNotRec('jfif');
+
+	WriteDescr('jpg', LoadLStr(1000));
+	WriteDescr('jpeg', LoadLStr(1000));
+	WriteDescr('jfif', LoadLStr(1000));
+    WriteDescr('jpe', LoadLStr(1000));
+	WriteDescr('jp2', LoadLStr(1001));
+	WriteDescr('jpc', LoadLStr(1001));
+	WriteDescr('j2k', LoadLStr(1001));
+    WriteDescr('j2c', LoadLStr(1001));
+    WriteDescr('gif', LoadLStr(1002));
+	WriteDescr('pbm', LoadLStr(1003));
+	WriteDescr('pgm', LoadLStr(1004));
+	WriteDescr('ppm', LoadLStr(1005));
+	WriteDescr('bmp', LoadLStr(1006));
+	WriteDescr('dib', LoadLStr(1006));
+	WriteDescr('emf', LoadLStr(1007));
+	WriteDescr('wmf', LoadLStr(1008));
+	WriteDescr('pcx', LoadLStr(1009));
+	WriteDescr('dcx', LoadLStr(1010));
+	WriteDescr('png', LoadLStr(1011));
+	WriteDescr('tga', LoadLStr(1012));
+	WriteDescr('tif', LoadLStr(1013));
+	WriteDescr('tiff', LoadLStr(1013));
+    WriteDescr('wbmp', LoadLStr(1014));
+    WriteDescr('wbm', LoadLStr(1014));
 
     if FileExists(path_app + FN_ADDRAW) then
     	begin
         current_dll := path_app + FN_ADDRAW;
-        WriteData(PS_FNAME, 'Raw Camera Formats Add-on');
+        WriteData(PS_FNAME, 'Raw camera formats support');
         current_dll := '';
 
         WriteInternal(PS_FOPEN, 'crw');
@@ -111,40 +123,50 @@ begin
         WriteInternal(PS_FOPEN, 'bay');
         WriteInternal(PS_FOPEN, 'pef');
 
-        WriteDescr('crw', LoadLStr(1035) + ' (*.crw)');
-        WriteDescr('cr2', LoadLStr(1035) + ' (*.cr2)');
-        WriteDescr('dng', LoadLStr(1036) + ' (*.dng)');
-        WriteDescr('nef', LoadLStr(1037) + ' (*.nef)');
-        WriteDescr('raw', LoadLStr(1038) + ' (*.raw)');
-        WriteDescr('raf', LoadLStr(1039) + ' (*.raf)');
-        WriteDescr('x3f', LoadLStr(1038) + ' (*.x3f)');
-        WriteDescr('orf', LoadLStr(1038) + ' (*.orf)');
-        WriteDescr('srf', LoadLStr(1038) + ' (*.srf)');
-        WriteDescr('mrw', LoadLStr(1038) + ' (*.mrw)');
-        WriteDescr('dcr', LoadLStr(1038) + ' (*.dcr)');
-        WriteDescr('bay', LoadLStr(1038) + ' (*.bay)');
-        WriteDescr('pef', LoadLStr(1038) + ' (*.pef)');
+        WriteNotRec('x3f');
+        WriteNotRec('orf');
+        WriteNotRec('srf');
+        WriteNotRec('mrw');
+        WriteNotRec('dcr');
+        WriteNotRec('bay');
+        WriteNotRec('pef');
+
+        WriteDescr('crw', LoadLStr(1035));
+        WriteDescr('cr2', LoadLStr(1035));
+        WriteDescr('dng', LoadLStr(1036));
+        WriteDescr('nef', LoadLStr(1037));
+        WriteDescr('raw', LoadLStr(1038));
+        WriteDescr('raf', LoadLStr(1039));
+        WriteDescr('x3f', LoadLStr(1038));
+        WriteDescr('orf', LoadLStr(1038));
+        WriteDescr('srf', LoadLStr(1038));
+        WriteDescr('mrw', LoadLStr(1038));
+        WriteDescr('dcr', LoadLStr(1038));
+        WriteDescr('bay', LoadLStr(1038));
+        WriteDescr('pef', LoadLStr(1038));
         end;
 
     if FileExists(path_app + FN_ADDJBIG) then
     	begin
         current_dll := path_app + FN_ADDJBIG;
-        WriteData(PS_FNAME, 'JBIG Add-on');
+        WriteData(PS_FNAME, 'JBIG support');
         current_dll := '';
 
         WriteInternal(PS_FOPEN, 'jbg');
         WriteInternal(PS_FOPEN, 'jbig');
         WriteInternal(PS_FOPEN, 'bie');
 
-        WriteDescr('jbg', LoadLStr(1040) + ' (*.jbg)');
-        WriteDescr('jbig', LoadLStr(1040) + ' (*.jbig)');
-        WriteDescr('bie', LoadLStr(1040) + ' (*.bie)');
+        WriteNotRec('bie');
+
+        WriteDescr('jbg', LoadLStr(1040));
+        WriteDescr('jbig', LoadLStr(1040));
+        WriteDescr('bie', LoadLStr(1040));
         end;
 
     if FileExists(path_app + FN_ADDMAGICK) then
     	begin
         current_dll := path_app + FN_ADDMAGICK;
-        WriteData(PS_FNAME, 'ImageMagick Add-on');
+        WriteData(PS_FNAME, 'ImageMagick integration');
         current_dll := '';
 
         WriteInternal(PS_FOPEN, 'dcm');
@@ -172,45 +194,100 @@ begin
         WriteInternal(PS_FOPEN, 'viff');
         WriteInternal(PS_FOPEN, 'xcf');
 
-        WriteDescr('dcm',   LoadLStr(1041) + ' (*.dcm)');
-        WriteDescr('dicom', LoadLStr(1041) + ' (*.dicom)');
-        WriteDescr('cut',   LoadLStr(1042) + ' (*.cut)');
-        WriteDescr('avs',   LoadLStr(1043) + ' (*.avs)');
-        WriteDescr('cin',   LoadLStr(1044) + ' (*.cin)');
-        WriteDescr('dot',   LoadLStr(1045) + ' (*.dot)');
-        WriteDescr('dpx',   LoadLStr(1046) + ' (*.dpx)');
-        WriteDescr('fits',  LoadLStr(1047) + ' (*.fits)');
-        WriteDescr('fpx',   LoadLStr(1048) + ' (*.fpx)');
-        WriteDescr('mat',   LoadLStr(1049) + ' (*.mat)');
-        WriteDescr('miff',  LoadLStr(1050) + ' (*.miff)');
-        WriteDescr('mtv',   LoadLStr(1051) + ' (*.mtv)');
-        WriteDescr('palm',  LoadLStr(1052) + ' (*.palm)');
-        WriteDescr('pict',  LoadLStr(1053) + ' (*.pict)');
-        WriteDescr('pix',   LoadLStr(1054) + ' (*.pix)');
-        WriteDescr('pwp',   LoadLStr(1055) + ' (*.pwp)');
-        WriteDescr('rla',   LoadLStr(1056) + ' (*.rla)');
-        WriteDescr('sgi',   LoadLStr(1057) + ' (*.sgi)');
-        WriteDescr('sun',   LoadLStr(1058) + ' (*.sun)');
-        WriteDescr('svg',   LoadLStr(1059) + ' (*.svg)');
-        WriteDescr('ttf',   LoadLStr(1060) + ' (*.ttf)');
-        WriteDescr('vicar', LoadLStr(1061) + ' (*.vicar)');
-        WriteDescr('viff',  LoadLStr(1062) + ' (*.viff)');
-        WriteDescr('xcf',   LoadLStr(1063) + ' (*.xcf)');
+        WriteNotRec('avs');
+        WriteNotRec('cin');
+        WriteNotRec('cut');
+        WriteNotRec('dot');
+        WriteNotRec('dpx');
+        WriteNotRec('fits');
+        WriteNotRec('mat');
+        WriteNotRec('miff');
+        WriteNotRec('mtv');
+        WriteNotRec('palm');
+        WriteNotRec('pix');
+        WriteNotRec('pwp');
+        WriteNotRec('sun');
+        WriteNotRec('svg');
+        WriteNotRec('ttf');
+        WriteNotRec('vicar');
+        WriteNotRec('viff');
+
+        WriteDescr('dcm',   LoadLStr(1041));
+        WriteDescr('dicom', LoadLStr(1041));
+        WriteDescr('cut',   LoadLStr(1042));
+        WriteDescr('avs',   LoadLStr(1043));
+        WriteDescr('cin',   LoadLStr(1044));
+        WriteDescr('dot',   LoadLStr(1045));
+        WriteDescr('dpx',   LoadLStr(1046));
+        WriteDescr('fits',  LoadLStr(1047));
+        WriteDescr('fpx',   LoadLStr(1048));
+        WriteDescr('mat',   LoadLStr(1049));
+        WriteDescr('miff',  LoadLStr(1050));
+        WriteDescr('mtv',   LoadLStr(1051));
+        WriteDescr('palm',  LoadLStr(1052));
+        WriteDescr('pict',  LoadLStr(1053));
+        WriteDescr('pix',   LoadLStr(1054));
+        WriteDescr('pwp',   LoadLStr(1055));
+        WriteDescr('rla',   LoadLStr(1056));
+        WriteDescr('sgi',   LoadLStr(1057));
+        WriteDescr('sun',   LoadLStr(1058));
+        WriteDescr('svg',   LoadLStr(1059));
+        WriteDescr('ttf',   LoadLStr(1060));
+        WriteDescr('vicar', LoadLStr(1061));
+        WriteDescr('viff',  LoadLStr(1062));
+        WriteDescr('xcf',   LoadLStr(1063));
         end;
 
-	// going through locations
-	mod_folder := NoSlash(path_app);
   	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLib);
-  	mod_folder := '';
+end;
+
+procedure DoLocaleScan();
+begin
+    reg.OpenKey(sModules, true);
+    reg.DeleteKey(PS_FLOCALE);
+    reg.CloseKey();
+
+	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLocale);
+end;
+
+procedure DoThemesScan();
+begin
+    reg.OpenKey(sModules, true);
+    reg.DeleteKey(PS_FTHEME);
+    reg.CloseKey();
+
+	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessTheme);
 end;
 
 procedure ProcessLib(filename: string);
 var
 	lib: THandle;
 	supp: TFxImgQuery;
-    tmp: string;
 begin
 	lib := LoadLibrary(PChar(filename));
+
+    if (lib <> 0) then
+  		begin
+        current_dll := filename;
+
+        if ((LoadResString(lib, 1) <> sLocaleID) and (LoadResString(lib, 1) <> sThemeID) and (GetProcAddress(lib, EX_QUERY) <> nil)) then
+    		begin
+            // library is compatible plug-in
+    		@supp := GetProcAddress(lib, EX_QUERY);
+    		supp(PChar(current_dll), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    		end;
+
+        current_dll := '';
+  		FreeLibrary(lib);
+  		end;
+end;
+
+procedure ProcessLocale(filename: string);
+var
+	lib: THandle;
+    tmp: string;
+begin
+	lib := LoadLibraryEx(PChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
 
     if (lib <> 0) then
   		begin
@@ -223,35 +300,48 @@ begin
 
             if (Trim(tmp) <> '') then
                 WriteLocale(tmp);
-            end
-        else if (LoadResString(lib, 3) = sThemeID) then
-        	begin
-            // library is compatible theme
-            tmp := LoadResString(lib, 4);
-
-            if (Trim(tmp) <> '') then
-                WriteTheme(tmp);
-            end
-        else if (GetProcAddress(lib, EX_QUERY) <> nil) then
-    		begin
-            // library is compatible plug-in
-    		@supp := GetProcAddress(lib, EX_QUERY);
-    		supp(PChar(current_dll), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-    		end;
+            end;
 
         current_dll := '';
   		FreeLibrary(lib);
   		end;
 end;
 
-function SortData(module_type: integer; value1, value2: PChar):BOOL;
+procedure ProcessTheme(filename: string);
+var
+	lib: THandle;
+    tmp: string;
+begin
+	lib := LoadLibraryEx(PChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
+
+    if (lib <> 0) then
+  		begin
+        current_dll := filename;
+
+        if (LoadResString(lib, 1) = sThemeID) then
+        	begin
+            // library is compatible theme
+            tmp := LoadResString(lib, 2);
+
+            if (Trim(tmp) <> '') then
+                WriteTheme(tmp);
+            end;
+
+        current_dll := '';
+  		FreeLibrary(lib);
+  		end;
+end;
+
+function SortData(module_type: longword; value1, value2: PChar):BOOL;
 begin
 	Result := true;
 
     // working
 	case module_type of
         PT_FNAME: 		WriteData(PS_FNAME, 	 	String(value1));
+        PT_FCONFIG: 	WriteData(PS_FCONFIG, 	 	String(value1));
         PT_FROLE: 		WriteData(PS_FROLE, 	 	String(value1));
+        PT_FNOTREC:     WriteNotRec(String(value1));
   		PT_FOPEN: 		WriteData(PS_FOPEN, 	 	String(value1));
   		PT_FOPENMULTI: 	WriteData(PS_FOPENMULTI,	String(value1));
   		PT_FOPENANIM: 	WriteData(PS_FOPENANIM, 	String(value1));
@@ -285,6 +375,13 @@ procedure WriteDescr(ext, name: string);
 begin
 	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
     reg.WString(ext, name);
+    reg.CloseKey();
+end;
+
+procedure WriteNotRec(ext: string);
+begin
+	reg.OpenKey(sModules + '\' + PS_FNOTREC, true);
+    reg.WString(ext, '');
     reg.CloseKey();
 end;
 

@@ -10,7 +10,7 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = fxmoreinfo.dll fxcapture.dll fxwireless.dll fxwallpaper.dll \
-  fxplaygif.dll fxmnghandler.dll fxmain.dll fxjpeglossless.dll fxhex.dll \
+  fxmnghandler.dll fxmain.dll fxjpeglossless.dll fxhex.dll \
   fxgraphicex.dll fxgif.dll fxfimghandler.dll fxmail.dll fxeffects.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
@@ -26,9 +26,6 @@ fxwireless.dll: wireless\fxwireless.dpr
   $(DCC)
 
 fxwallpaper.dll: wallpaper\fxwallpaper.dpr
-  $(DCC)
-
-fxplaygif.dll: playgif\fxplaygif.dpr
   $(DCC)
 
 fxmnghandler.dll: mng\fxmnghandler.dpr

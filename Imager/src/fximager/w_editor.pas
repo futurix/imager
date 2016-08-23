@@ -6,8 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, ieview, imageenview, ComCtrls, ToolWin, StdCtrls,
   imageenproc, AppEvnts, c_const, ToolbarEx, c_wndpos, c_utils, Clipbrd, Menus,
-  hyieutils, hyiedefs, ImageEnpaintengine, imageenpeutils, c_locales,
-  hsvbox;
+  hyieutils, hyiedefs, c_locales, hsvbox;
 
 const
   FM_RECTSELECT 				= 0;
@@ -131,8 +130,6 @@ type
 
 var
 	frmEditor: TfrmEditor;
- 	pe: TimageenPaintEngine;
-  	PaintingStopped: boolean = true;
 
 function ProcessPreview(preview: HBITMAP): BOOL; cdecl;
 
@@ -207,7 +204,7 @@ begin
     for i := 0 to (filters.Count - 1) do
         begin
         lvwFilters.AddItem(filters[i], nil);
-        lvwFilters.Items[i].ImageIndex := 30;
+        lvwFilters.Items[i].ImageIndex := 5;
         end;
 
     FreeAndNil(filters);

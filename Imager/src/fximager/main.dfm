@@ -22,9 +22,9 @@ object frmMain: TfrmMain
   TextHeight = 13
   object sbxMain: TScrollBox
     Left = 0
-    Top = 24
+    Top = 28
     Width = 742
-    Height = 461
+    Height = 457
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -38,7 +38,7 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 457
+      Height = 453
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -48,7 +48,7 @@ object frmMain: TfrmMain
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
       OnProgress = imgProgress
-      ImageEnVersion = '2.2.2'
+      ImageEnVersion = '2.2.3'
       OnMouseWheel = imgMouseWheel
       Align = alClient
       PopupMenu = popMain
@@ -88,7 +88,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 0
     Width = 742
-    Height = 24
+    Height = 28
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -97,7 +97,7 @@ object frmMain: TfrmMain
         Control = itbMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 22
+        MinHeight = 26
         Width = 742
       end>
     EdgeBorders = [ebTop]
@@ -107,8 +107,9 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 22
+      Height = 26
       AutoSize = True
+      BorderWidth = 1
       Caption = 'Main Toolbar'
       DisabledImages = imlDis
       EdgeBorders = []
@@ -979,7 +980,7 @@ object frmMain: TfrmMain
     object mHelp: TMenuItem
       Caption = 'Help'
       object miHelpContents: TMenuItem
-        Caption = 'Online Documention'
+        Caption = 'Help Contents'
         ShortCut = 112
         OnClick = miHelpContentsClick
       end
@@ -998,17 +999,17 @@ object frmMain: TfrmMain
     end
   end
   object popMain: TPopupMenu
-    Images = imlStd
+    Images = imlFixed
     Left = 475
     Top = 159
     object piBack: TMenuItem
       Caption = 'Back'
-      ImageIndex = 13
+      ImageIndex = 3
       OnClick = miGoBackClick
     end
     object piForward: TMenuItem
       Caption = 'Forward'
-      ImageIndex = 15
+      ImageIndex = 4
       OnClick = miGoForwardClick
     end
     object N22: TMenuItem
@@ -1021,7 +1022,7 @@ object frmMain: TfrmMain
     end
     object piClose: TMenuItem
       Caption = 'Close'
-      ImageIndex = 3
+      ImageIndex = 1
       OnClick = miCloseClick
     end
     object N13: TMenuItem
@@ -1084,7 +1085,7 @@ object frmMain: TfrmMain
     end
     object piFullScreen: TMenuItem
       Caption = 'Full Screen'
-      ImageIndex = 11
+      ImageIndex = 2
       OnClick = miFullScreenClick
     end
   end
@@ -1273,7 +1274,7 @@ object frmMain: TfrmMain
     Left = 444
     Top = 128
   end
-  object imlHot: TImageList
+  object imlFixed: TImageList
     Left = 506
     Top = 221
   end

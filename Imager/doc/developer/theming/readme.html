@@ -1,0 +1,363 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FuturixImager SDK</title>
+<style type="text/css">
+<!--
+body,td,th {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000000;
+}
+body {
+	background-color: #FFFFFF;
+	margin: 10px;
+	padding: 0px;
+}
+a:link, a:visited, a:active {
+	color: #006699;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+	color: #006699;
+}
+.header {
+	font-size: 14pt
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td><span class="header">Theming FuturixImager</span></td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>A theme is a set of graphics for toolbars and context menus of FuturixImager.</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<p>Simple step-by-step instructions to create a new theme for FuturixImager:</p>
+			<ol>
+				<li>Copy sample theme (<em>xp</em>) to a new folder.</li>
+				<li>Replace provided graphics (<em>active.bmp</em>, <em>disabled.bmp</em>, <em>fixed.bmp</em>)  with your own (see requirements in a table below).</li>
+				<li>Edit <em>definition.rc</em> file with Notepad to provide information about your theme and yourself.</li>
+				<li>Open <em>Theme.sln</em> project in Microsoft Visual C++ 2005 (either free Express edition or full edition included as part of  Visual Studio 2005) and build it.</li>
+				<li>Copy resulting DLL into FuturixImager folder and test it.</li>
+			</ol>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#E9E9E9">
+	<tr>
+		<td>
+			<table width="100%" border="0" cellpadding="1" cellspacing="1">
+				<tr bgcolor="#E9E9E9">
+					<td width="21%" align="left" valign="top">File</td>
+					<td width="79%" align="left" valign="top">Description and requirements</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>active.bmp</em></td>
+					<td align="left" valign="top">Provides graphics for toolbars in active state (when buttons are not disabled). </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">The colour of the first pixel (top: 1, left: 1) is used as transparent for the whole bitmap. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">All buttons should be of the same size: typically 16x16, 24x24, 32x32 or 48x48 pixels - but  it can be any size between 8 and 128 pixels.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">All buttons should be square - button width should be equal to  button height and also equal to entire bitmap height. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Bit depth: 8-bit or 24-bit only.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>disabled.bmp</em></td>
+					<td align="left" valign="top">Provides graphics for toolbars in inactive  state (when buttons are  disabled).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Requirements are almost the same as for <em>active.bmp</em> file, except for the size and bit depth which should be exactly the same  as in <em>active.bmp</em> - this is important!</td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>fixed.bmp</em></td>
+					<td align="left" valign="top">Provides graphics for context menu items and a couple of other controls. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Requirements are almost the same as for <em>active.bmp</em> file, except that the size is fixed to 16x16 pixels. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">This bitmap is for active state of context menu items, no disabled state bitmap needed. </td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>definition.rc</em></td>
+					<td align="left" valign="top">Contains text information about theme.</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<p>Description of buttons  in <em>active.bmp</em> and <em>disabled.bmp</em> files (from left to right):</p>
+			<ol>
+				<li>Open file </li>
+				<li>Load last</li>
+				<li>Save as</li>
+				<li>Close file    </li>
+				<li>Print</li>
+				<li>Copy to clipboard</li>
+				<li>Paste from clipboard</li>
+				<li>Editor</li>
+				<li>Zoom in</li>
+				<li>Zoom out</li>
+				<li>Misc. zoom</li>
+				<li>Full screen</li>
+				<li>Information about file</li>
+				<li>Go to previous file</li>
+				<li>Go to random file</li>
+				<li>Go to next file</li>
+				<li>Next page</li>
+				<li>Previous page           </li>
+				<li>Undo</li>
+				<li>Display modes</li>
+				<li>Rotate 90&deg; CW  </li>
+				<li>Cut to clipboard</li>
+				<li>Redo</li>
+				<li>Crop</li>
+				<li>Zooming mode (in editor)</li>
+				<li>Fit mode (in editor)</li>
+				<li>Paste from clipboard (stretched to current rectangle)</li>
+				<li>Resize</li>
+				<li>Selection</li>
+				<li>Erase contents of selection</li>
+				<li>Filter*</li>
+				<li>Rectangle selection</li>
+				<li>Hand drag tool</li>
+				<li>Pencil    </li>
+				<li>Setup (for printer) </li>
+				<li>Flood fill</li>
+				<li>Draw*</li>
+				<li>Create new image</li>
+				<li>Delete file</li>
+				<li>Copy file</li>
+				<li>Move file</li>
+				<li>Rename file</li>
+				<li>Fit image</li>
+				<li>Fit image to width</li>
+				<li>Fit image to height</li>
+				<li>Rotate          90&deg; CCW</li>
+				<li>Go to first file</li>
+				<li>Go to last file</li>
+				<li>Slide show</li>
+				<li>Options (for FuturixImager) </li>
+				<li>Help</li>
+				<li>FuturixImager website</li>
+				<li>About FuturixImager</li>
+				<li>Scan</li>
+				<li>Send by e-mail</li>
+				<li>Screen capture</li>
+				<li>Lossless JPEG transformations</li>
+				<li>HEX viewer</li>
+				<li>Open new window    </li>
+				<li>Go to page</li>
+				<li>Navigator*</li>
+				<li>Steganography/security*</li>
+				<li>File browser with thumbnails* </li>
+			</ol>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<p>Description of buttons  in <em>fixed.bmp</em> file (from left to right):</p>
+			<ol>
+				<li>Open file</li>
+				<li>Close file</li>
+				<li>Full screen</li>
+				<li>Go to previous file</li>
+				<li>Go to next file</li>
+				<li>Filters (in &quot;Editor&quot; window)</li>
+				<li>Up one level*</li>
+				<li>Plug-in options </li>
+			</ol>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Buttons marked with * are not used at the moment (but will be in the future). </td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<p>There are two options for distribution of your theme:</p>
+			<ol>
+				<li>Via FuturixImager website:<br />
+				Send me <em>active.bmp</em>, <em>disabled.bmp</em>, <em>fixed.bmp</em>, and <em>definition.rc</em> files + information about yourself (at least name, but URL or e-mail for users would be nice too). I will compile DLL myself (this is requirement for distribution of themes on my website) and publish it on FuturixImager download page (with your info included). </li>
+				<li>Via your own website:<br />
+					Setup your website with theme download, and <a href="mailto:futurix@fxfp.com">send me</a> URL (to the website, not to the download itself). </li>
+			</ol>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Note: new versions of FuturixImager sometimes add new buttons, so your theme may need update in the future (usually new buttons added every 2-3 months). </td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&copy; 1999-2006 <a href="http://www.fxfp.com/" target="_blank">Alexander Tereshchenko</a></td>
+	</tr>
+</table>
+</body>
+</html>

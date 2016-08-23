@@ -7,7 +7,17 @@ uses
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, Registry, UxTheme,
   MRUfiles, futuris_dlgopen, c_const, c_wndpos, c_reg, AgOpenDialog, c_utils,
   ieview, imageenview, hyieutils, ToolbarEx, ShlObj, ImageEnIO, AppEvnts,
-  ClipBrd, Printers, c_locales, hyiedefs, f_instance;
+  ClipBrd, Printers, c_locales, c_themes, hyiedefs, f_instance;
+
+const
+  // extended keyboard keys
+  VK_BROWSER_BACK 		= 166;
+  VK_BROWSER_FORWARD 	= 167;
+  VK_BROWSER_REFRESH 	= 168;
+  VK_BROWSER_STOP 		= 169;
+
+  // SHFileOperation constants
+  FOF_WANTNUKEWARNING	= $4000;
 
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
@@ -191,7 +201,6 @@ type
     piMyOpen: TMenuItem;
     appEvents: TApplicationEvents;
     mFileMan: TMenuItem;
-    imlHot: TImageList;
     N6: TMenuItem;
     N19: TMenuItem;
     N27: TMenuItem;
@@ -232,6 +241,7 @@ type
     tbnOnline: TToolButton;
     tbnAbout: TToolButton;
     miNewWindow: TMenuItem;
+    imlFixed: TImageList;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -468,8 +478,9 @@ begin
 	// initializing randomizer
 	Randomize();
 
-    // localization
+    // localization and themes
     InitLocalization(HInstance);
+    LoadTheme(HInstance);
 
     // setting folder variables
     path_app := Slash(ExtractFilePath(Application.ExeName));
@@ -484,6 +495,9 @@ begin
 	img.Proc.ClearAllUndo();
     img.MouseWheelParams.Action := iemwNone;
     prev_progress := 0;
+
+    // localization
+    Localize();
 
 	// XP GUI updates
 	UpdateThemes();
@@ -521,7 +535,7 @@ begin
 
     nArrows := reg.RInt('ArrowKeys', 0);
     nEnter := reg.RInt('EnterKey', 0);
-    nMouseWheel := reg.RInt('MouseWheel', 0);
+    nMouseWheel := reg.RInt('MouseWheel', 1);
     nMouseDrag := reg.RInt('MouseDrag', 0);
     nNewBitmap := reg.RInt('OnNewBitmap', 0);
     bProgressiveLoad := reg.RBool('ProgressiveImageLoad', false);
@@ -530,11 +544,6 @@ begin
     bReverseWheel := reg.RBool('ReverseMouseWheel', false);
 
     iegEnableCMS := reg.RBool('UseCMS', false);
-
-    if reg.RBool('PreferRAM', false) then
-    	IEDefMinFileSize := 268435456
-    else
-    	IEDefMinFileSize := -1;
 
     miDSFitAll.Visible := reg.RBool('EnableFitAll', false);
     piDSFitAll.Visible := miDSFitAll.Visible;
@@ -565,11 +574,10 @@ begin
     reg.CloseKey();
 
     ApplyCustomToolbar();
-    ApplyToolbarSkin();
+    ApplyTheme();
 
     // installing plug-ins
 	InstallPlugIns();
-    Localize();
 
 	// final
 	Able();
@@ -1318,10 +1326,10 @@ end;
 
 procedure TfrmMain.miOptionsClick(Sender: TObject);
 begin
-	if not Assigned(frmOptGeneral) then
+	if not Assigned(frmOptions) then
   		begin
-  		Application.CreateForm(TfrmOptGeneral, frmOptGeneral);
-  		frmOptGeneral.ShowModal();
+  		Application.CreateForm(TfrmOptions, frmOptions);
+  		frmOptions.ShowModal();
   		end;
 end;
 
@@ -1349,13 +1357,81 @@ begin
     nonthumb_height := 0;
 
     // trying to get faster previews for JPEGs
-    if ((Ext = 'jpg') or (Ext = 'jpeg') or (Ext = 'jfif')) then
+    if ((Ext = 'jpg') or (Ext = 'jpeg') or (Ext = 'jfif') or (Ext = 'jpe')) then
     	begin
     	fast_io := TImageEnIO.Create(nil);
 		fast_io.Params.Width := 100;
 		fast_io.Params.Height := 100;
         fast_io.Params.JPEG_Scale := ioJPEG_AUTOCALC;
         fast_io.LoadFromFileJpeg(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+          	thumb := TBitmap.Create();
+            thumb.Assign(fast_io.IEBitmap.VclBitmap);
+
+            bmp := thumb.ReleaseHandle();
+
+            FreeAndNil(thumb);
+
+            use_thumb := true;
+            end;
+
+        FreeAndNil(fast_io);
+
+        // getting real size of the image
+        fast_io := TImageEnIO.Create(nil);
+        fast_io.ParamsFromFile(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+            nonthumb_width := fast_io.Params.Width;
+            nonthumb_height := fast_io.Params.Height;
+            end;
+
+        FreeAndNil(fast_io);
+        end;
+
+    // trying to get fast preview for Canon raw files
+    if (Ext = 'crw') then
+    	begin
+    	fast_io := TImageEnIO.Create(nil);
+        fast_io.LoadJpegFromFileCRW(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+          	thumb := TBitmap.Create();
+            thumb.Assign(fast_io.IEBitmap.VclBitmap);
+
+            bmp := thumb.ReleaseHandle();
+
+            FreeAndNil(thumb);
+
+            use_thumb := true;
+            end;
+
+        FreeAndNil(fast_io);
+
+        // getting real size of the image
+        fast_io := TImageEnIO.Create(nil);
+        fast_io.ParamsFromFile(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+            nonthumb_width := fast_io.Params.Width;
+            nonthumb_height := fast_io.Params.Height;
+            end;
+
+        FreeAndNil(fast_io);
+        end;
+
+    // trying to get fast preview for other raw files
+    if ((Ext = 'nef') or (Ext = 'cr2') or (Ext = 'dng') or (Ext = 'raw') or (Ext = 'raf') or (Ext = 'x3f') or
+    	(Ext = 'orf') or (Ext = 'srf') or (Ext = 'mrw') or (Ext = 'dcr') or (Ext = 'bay') or (Ext = 'pef')) then
+    	begin
+    	fast_io := TImageEnIO.Create(nil);
+        fast_io.Params.RAW_GetExifThumbnail := true;
+        fast_io.LoadFromFileRAW(Sender.FileName);
 
         if not fast_io.Aborting then
         	begin
@@ -1666,7 +1742,7 @@ end;
 
 procedure TfrmMain.miHelpContentsClick(Sender: TObject);
 begin
-	OpenURL(sURLdocs);
+    OpenHelp('index.html');
 end;
 
 procedure TfrmMain.popMRUPopup(Sender: TObject);
@@ -1917,6 +1993,8 @@ begin
     else if (nMouseWheel = 1) then
     	begin
         // zooming
+        SetDisplayStyle(dsNormal, true);
+
         if up then
         	begin
             if (Round(img.Zoom / 1.25) >= 1) then
@@ -2013,7 +2091,7 @@ procedure TfrmMain.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
 begin
     if (Assigned(frmEditor) or Assigned(frmPrint)) then
     	Exit;
-
+    
     case Msg.CharCode of
     	VK_RETURN:
             begin
@@ -2041,7 +2119,7 @@ begin
             Handled := true;
             end;
 
-        VK_PRIOR, VK_BACK, VK_BROWSER_BACK, VK_XBUTTON1:
+        VK_PRIOR, VK_BACK, VK_BROWSER_BACK:
             begin
             if tbnGoBack.Enabled then
             	begin
@@ -2054,7 +2132,7 @@ begin
             Handled := true;
             end;
 
-        VK_NEXT, VK_SPACE, VK_BROWSER_FORWARD, VK_XBUTTON2:
+        VK_NEXT, VK_SPACE, VK_BROWSER_FORWARD:
             begin
             if tbnGoForward.Enabled then
             	begin
@@ -2228,11 +2306,74 @@ begin
                 Handled := true;
                 end;
 
+        Word('3'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(300, true);
+
+                Handled := true;
+                end;
+
+        Word('4'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(400, true);
+
+                Handled := true;
+                end;
+
         Word('5'):
             if IsCtrl() then
             	begin
                 if tbnZoomMisc.Enabled then
                 	miZM50Click(Self);
+
+                Handled := true;
+                end;
+
+        Word('6'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(25, true);
+
+                Handled := true;
+                end;
+
+        Word('7'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(75, true);
+
+                Handled := true;
+                end;
+
+        Word('8'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(125, true);
+
+                Handled := true;
+                end;
+
+        Word('9'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    Zoom(150, true);
+
+                Handled := true;
+                end;
+
+        Word('0'):
+            if IsCtrl() then
+            	begin
+                if tbnZoomMisc.Enabled then
+                    miZmFitClick(Self);
 
                 Handled := true;
                 end;

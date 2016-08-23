@@ -1,24 +1,16 @@
-// tool routines
 unit f_tools;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  ShlObj, Printers, c_const, c_utils, c_reg, c_locales;
-
-const
-    VK_XBUTTON1			= 5;
-    VK_XBUTTON2			= 6;
-	VK_BROWSER_BACK 	= 166;
-	VK_BROWSER_FORWARD 	= 167;
-	VK_BROWSER_REFRESH 	= 168;
-	VK_BROWSER_STOP 	= 169;
+  ShlObj, Printers, JwaHtmlHelp, c_const, c_utils, c_reg, c_locales;
 
 procedure CommandLine();
 procedure Uninstall();
 procedure FileNotFound(path: string);
-procedure OpenURL(url: string);
+procedure OpenHelp(page: WideString);
+procedure OpenURL(url: WideString);
 procedure UpdateAssociations();
 procedure WriteHandler();
 procedure PutRegDock();
@@ -86,9 +78,11 @@ begin
 
     exts := TStringList.Create();
 
-	lreg.OpenKey(sModules + '\' + PS_FOPEN, true);
-	lreg.GetValueNames(exts);
-	lreg.CloseKey();
+	if lreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
+    	begin
+		lreg.GetValueNames(exts);
+		lreg.CloseKey();
+        end;
 
     exts.Sort();
 
@@ -96,49 +90,25 @@ begin
     	begin
         lreg.RootKey := HKEY_CLASSES_ROOT;
 
-		lreg.OpenKey('\.' + exts[i], true);
-
-  		if lreg.RStr('', '') = sRegAssociation then
-    		begin
-			if lreg.ValueExists(sRegAssociationOld) then
-      			begin
-      			tmp := lreg.RStr(sRegAssociationOld, '');
-      			lreg.WriteString('', tmp);
-      			lreg.DeleteValue(sRegAssociationOld);
-      			end
-    		else
-                lreg.DeleteValue('');
-    		end
-  		else
-    		if lreg.ValueExists(sRegAssociationOld) then
-      			lreg.DeleteValue(sRegAssociationOld);
-
-		lreg.CloseKey();
-
-        // XP/2003 support
-		if IsXP() then
-  			begin
-  			lreg.RootKey := HKEY_CURRENT_USER;
-
-  			lreg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.' + exts[i], true);
-
-  			if lreg.RStr('ProgID', '') = sRegAssociation then
+		if lreg.OpenKey('\.' + exts[i], false) then
+        	begin
+  			if lreg.RStr('', '') = sRegAssociation then
     			begin
-    			if lreg.ValueExists(sRegAssociationOld) then
+				if lreg.ValueExists(sRegAssociationOld) then
       				begin
       				tmp := lreg.RStr(sRegAssociationOld, '');
-      				lreg.WString('ProgID', tmp);
+      				lreg.WriteString('', tmp);
       				lreg.DeleteValue(sRegAssociationOld);
       				end
     			else
-      				lreg.DeleteValue('ProgID');
+                	lreg.DeleteValue('');
     			end
   			else
     			if lreg.ValueExists(sRegAssociationOld) then
       				lreg.DeleteValue(sRegAssociationOld);
 
-  			lreg.CloseKey();
-  			end;
+			lreg.CloseKey();
+        	end;
 
   		lreg.RootKey:=HKEY_CURRENT_USER;
         end;
@@ -169,9 +139,14 @@ begin
   		end;
 end;
 
-procedure OpenURL(url: string);
+procedure OpenHelp(page: WideString);
 begin
-	ShellExecute(Application.Handle, 'open', PChar(url), nil, nil, SW_SHOWNORMAL);
+    HtmlHelpW(GetDesktopWindow(), PWideChar(WideString(FN_HELP + '::/') + page), HH_DISPLAY_TOPIC, 0);
+end;
+
+procedure OpenURL(url: WideString);
+begin
+    ShellExecuteW(Application.Handle, 'open', PWideChar(url), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure UpdateAssociations();

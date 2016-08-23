@@ -13,10 +13,12 @@ uses
   c_const,
   c_utils,
   c_locales,
+  c_reg,
   hyiedefs,
   JPEG2Ksave in 'JPEG2Ksave.pas' {frmJPsave},
   TIFFsave in 'TIFFsave.pas' {frmTIFFsave},
-  JPEGsave in 'JPEGsave.pas' {frmJPEGsave};
+  JPEGsave in 'JPEGsave.pas' {frmJPEGsave},
+  ScanOptions in 'ScanOptions.pas' {frmScanOpt};
 
 var
     gframe: cardinal = 0;
@@ -50,8 +52,9 @@ begin
             end;
         end;
 
-    info_call(PT_FNAME, 'Core Functions Plug-in', '');
+    info_call(PT_FNAME, 'Core functions', '');
     info_call(PT_FROLE, PR_SCAN, '');
+    info_call(PT_FCONFIG, PChar(LoadLStr(3700)), '');
 
     info_call(PT_FOPEN, 'cur', '');
 
@@ -79,10 +82,10 @@ begin
 
     info_call(PT_FTOOL, PChar(LoadLStr(3081)), ' ');
 
-    info_call(PT_FDESCR, 'pdf', PChar(LoadLStr(1031) + ' (*.pdf)'));
-    info_call(PT_FDESCR, 'ps', PChar(LoadLStr(1032) + ' (*.ps)'));
-    info_call(PT_FDESCR, 'cur', PChar(LoadLStr(1033) + ' (*.cur)'));
-    info_call(PT_FDESCR, 'txt', PChar(LoadLStr(1034) + ' (*.txt)'));
+    info_call(PT_FDESCR, 'pdf', PChar(LoadLStr(1031)));
+    info_call(PT_FDESCR, 'ps', PChar(LoadLStr(1032)));
+    info_call(PT_FDESCR, 'cur', PChar(LoadLStr(1033)));
+    info_call(PT_FDESCR, 'txt', PChar(LoadLStr(1034)));
 end;
 
 function FxImgOpen(document_path, info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
@@ -526,9 +529,11 @@ end;
 
 function FxImgImport(info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
+	preg: TFRegistry;
 	temp_res: TFxImgResult;
 	bmp: TBitmap;
     io: TImageEnIO;
+    api: TIEAcquireApi;
 begin
     Result.result_type := RT_HBITMAP;
     Result.result_value := 0;
@@ -548,12 +553,39 @@ begin
 
     if ((String(info) = LoadLStr(3080)) or (String(info) = PR_SCAN)) then
     	begin
+    	preg := TFRegistry.Create(RA_READONLY);
+    	preg.RootKey := HKEY_CURRENT_USER;
+
+    	if preg.OpenKey(sSettings, false) then
+        	begin
+            api := ieaTWain;
+            
+            case preg.RInt('Scan_Subsystem', 0) of
+            	0, 1:
+                    if IsXP() then
+                    	api := ieaWIA;
+                end;
+
+        	preg.CloseKey();
+        	end
+    	else
+            begin
+            if IsXP() then
+            	api := ieaWIA
+            else
+            	api := ieaTWain;
+            end;
+
+    	FreeAndNil(preg);
+
         // working
 		io := TImageEnIO.Create(nil);
     	bmp := TBitmap.Create();
 
-        // TWAIN
-        if (io.SelectAcquireSource(ieaTwain) and io.Acquire(ieaTwain)) then
+        if ((api = ieaWIA) and (io.WIAParams.DevicesInfoCount = 0)) then
+        	MessageBox(wnd, PChar(LoadLStr(3707)), PChar(sAppName), MB_OK or MB_ICONERROR);
+
+        if (io.SelectAcquireSource(api) and io.Acquire(api)) then
 			begin
             bmp.Assign(io.IEBitmap.VclBitmap);
             Result.result_value := bmp.ReleaseHandle();
@@ -637,9 +669,34 @@ begin
     	end;
 end;
 
+function FxImgCfg(info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+var
+	temp_res: TFxImgResult;
+begin
+    Result.result_type := RT_BOOL;
+    Result.result_value := FX_TRUE;
+
+    Application.Handle := app;
+
+    if (@app_query <> nil) then
+        begin
+    	temp_res := app_query(CQ_GETLANGLIBS, 0, 0);
+
+        if (temp_res.result_type = RT_HANDLE) then
+        	begin
+            locale_lib := temp_res.result_value;
+            backup_lib := temp_res.result_xtra;
+            end;
+        end;
+
+    frmScanOpt := TfrmScanOpt.Create(Application);
+	frmScanOpt.ShowModal();
+ 	FreeAndNil(frmScanOpt);
+end;
+
 exports
 	FxImgQuery, FxImgOpen, FxImgSave, FxImgImport,
-    FxImgMultiStart, FxImgMultiGetPage, FxImgMultiStop, FxImgTool;
+    FxImgMultiStart, FxImgMultiGetPage, FxImgMultiStop, FxImgTool, FxImgCfg;
 
 begin
 end.
