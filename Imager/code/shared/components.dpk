@@ -1,0 +1,48 @@
+package components;
+
+{$R *.res}
+{$R 'TileImage.dcr'}
+{$R 'ColorPickerButton.dcr'}
+{$R 'futuris_dlgopen.dcr'}
+{$R 'RotImg.dcr'}
+{$ALIGN 8}
+{$ASSERTIONS OFF}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DESCRIPTION 'Futuris Imager Components Package'}
+{$DESIGNONLY}
+{$IMPLICITBUILD OFF}
+
+requires
+  rtl,
+  designide,
+  vcl;
+
+contains
+  TileImage in 'TileImage.pas',
+  AgOpenDialog in 'AgOpenDialog.pas',
+  ColorPickerButton in 'ColorPickerButton.pas',
+  futuris_dlgopen in 'futuris_dlgopen.pas',
+  futuris_resample in 'futuris_resample.pas',
+  MRUfiles in 'MRUfiles.pas',
+  RotImg in 'RotImg.pas',
+  RotImgReg in 'RotImgReg.pas';
+
+end.

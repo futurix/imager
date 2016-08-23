@@ -1,0 +1,29 @@
+[OPTIONS]
+Binary Index=No
+Compatibility=1.1 or later
+Compiled file=imager.chm
+Default Window=default
+Default topic=files\index.html
+Display compile notes=No
+Display compile progress=No
+Flat=Yes
+Language=0x809 English (United Kingdom)
+Title=Futuris Imager Manual
+
+[WINDOWS]
+default="Futuris Imager Manual",,,"files\index.html","files\index.html","files\faq.html","FAQ","files\new.html","What's New?",0x42120,,0xc304c,[5,5,635,455],0x100f0000,,,,,,0
+
+
+[FILES]
+files\author.html
+files\changes.html
+files\credits.html
+files\faq.html
+files\index.html
+files\intro.html
+files\kb.html
+files\license.html
+files\new.html
+
+[INFOTYPES]
+
