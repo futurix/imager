@@ -87,12 +87,9 @@ end;
 // closes file
 procedure CloseImage(turn_off_ui: boolean = true);
 begin
-// saving unsaved images
-if ((infImage.modified and ((infImage.file_type=ftLocal)) or
-    (infImage.file_type=ftUnsaved)) and (infImage.image_type=itNormal)) then
-  if Application.MessageBox('Current image is not saved. Would you like to save it?','Warning!',
-                            MB_YESNOCANCEL+MB_ICONWARNING)=ID_OK then
-    Save();
+// cleaning undo
+if (infImage.undo_bitmap <> nil) then
+    FreeAndNil(infImage.undo_bitmap);
 
 // specific things
 case infImage.image_type of

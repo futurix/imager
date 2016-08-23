@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=4
-MinorVer=6
+MinorVer=7
 Release=0
-Build=113
+Build=114
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Module Scanner Library
-FileVersion=4.6.0.113
+FileVersion=4.7.0.114
 InternalName=plugscan
 LegalCopyright=© 1999-2004 Alexander Tereshchenko
 LegalTrademarks=Futurix is a trademark of Alexander Tereshchenko
 OriginalFilename=plugscan.dll
 ProductName=Futuris Imager
-ProductVersion=4.6
+ProductVersion=4.7
 Comments=http://www.knives-out.org/
 [HistoryLists\hlUnitAliases]
 Count=1

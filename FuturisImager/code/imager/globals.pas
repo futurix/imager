@@ -24,7 +24,7 @@ var
   reg: TFuturisRegistry;
 
 var infImage: record
-  original, null_bitmap: TBitmap;
+  original, null_bitmap, undo_bitmap: TBitmap;
   zoom_factor: Real;
   path: string;
   modified: boolean;

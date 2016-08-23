@@ -182,6 +182,10 @@ type
     piZoomFit: TMenuItem;
     N18: TMenuItem;
     dlgSave: TFuturisSaveDialog;
+    miClearMRU: TMenuItem;
+    N19: TMenuItem;
+    miUndo: TMenuItem;
+    tbnUndo: TToolButton;
 
 {>} procedure Initialize();
     procedure ShutDown();
@@ -275,6 +279,8 @@ type
     procedure miGoFirstClick(Sender: TObject);
     procedure miGoLastClick(Sender: TObject);
     procedure miGoRandomClick(Sender: TObject);
+    procedure miClearMRUClick(Sender: TObject);
+    procedure miUndoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -314,6 +320,9 @@ if (IsXP() and UseThemes()) then
   frmMain.tbrMain.EdgeBorders:=[];
   end;
 
+// initializing undo
+infImage.undo_bitmap := nil;
+
 // setting app events
 Application.OnHint:=appHint;
 Application.OnIdle:=appIdleFirst;
@@ -350,7 +359,8 @@ c_pos.SaveWindowState(frmMain,reg,sReg + '\Position\Main');
 SaveSettings();
 
 // shutting down registry
-reg.Free();
+FreeAndNil(reg);
+FreeAndNil(infImage.undo_bitmap);
 end;
 
 {*********** FIPIS handlers ***********************************}
@@ -1055,6 +1065,23 @@ end;
 procedure TfrmMain.miGoRandomClick(Sender: TObject);
 begin
 GoRandom();
+end;
+
+procedure TfrmMain.miClearMRUClick(Sender: TObject);
+begin
+MRU.Files.Clear();
+end;
+
+procedure TfrmMain.miUndoClick(Sender: TObject);
+begin
+if (infImage.undo_bitmap <> nil) then
+	begin
+    frmMain.imgMain.Picture.Assign(infImage.undo_bitmap);
+    FreeAndNil(infImage.undo_bitmap);
+	infImage.zoom_factor := 1;
+	if infSettings.full_screen then
+  		Center();
+    end;
 end;
 
 end.

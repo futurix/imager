@@ -22,6 +22,7 @@ type
     cbxFSCenter: TCheckBox;
     gbxGeneralSettings: TGroupBox;
     gbxColors: TGroupBox;
+    cbxUseLargeToolbarButtons: TCheckBox;
 
     procedure LoadSettings();
     procedure SaveSettings();
@@ -60,6 +61,7 @@ if reg.RInt('FSCenter',1)=1 then cbxFSCenter.Checked:=true else cbxFSCenter.Chec
 if reg.RInt('OpenDef',1)=1 then cbxAllFiles.Checked:=true else cbxAllFiles.Checked:=false;
 reg.CloseKey();
 reg.OpenKey(sReg + '\UI',true);
+if reg.RInt('TBStyle',0)=1 then cbxUseLargeToolbarButtons.Checked:=true else cbxUseLargeToolbarButtons.Checked:=false;
 if reg.RInt('Handy',1)=1 then cbxHand.Checked:=true else cbxHand.Checked:=false;
 if reg.RInt('FullPathInTitle',0)=1 then cbxFullPath.Checked:=true else cbxFullPath.Checked:=false;
 reg.CloseKey();
@@ -76,6 +78,7 @@ if cbxFSCenter.Checked then reg.WriteInteger('FSCenter',1) else reg.WriteInteger
 if cbxAllFiles.Checked then reg.WriteInteger('OpenDef',1) else reg.WriteInteger('OpenDef',0);
 reg.CloseKey();
 reg.OpenKey(sReg + '\UI',true);
+if cbxUseLargeToolbarButtons.Checked then reg.WriteInteger('TBStyle',1) else reg.WriteInteger('TBStyle',0);
 if cbxFullPath.Checked then reg.WriteInteger('FullPathInTitle',1) else reg.WriteInteger('FullPathInTitle',0);
 if cbxHand.Checked then reg.WriteInteger('Handy',1) else reg.WriteInteger('Handy',0);
 reg.CloseKey();
@@ -108,6 +111,7 @@ else
   frmMain.imgMain.Cursor:=0;
   end;
 SetDialogs();
+if cbxUseLargeToolbarButtons.Checked then ApplyToolbarSkin(true) else ApplyToolbarSkin(false);
 if cbxFullPath.Checked then Include(infSettings.options,opFullPathInTitle) else Exclude(infSettings.options,opFullPathInTitle);
 Header();
 end;

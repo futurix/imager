@@ -229,20 +229,26 @@ try
     @FIPISfilter:=GetProcAddress(lib,'FIPISfilter');
     if not (@FIPISfilter=nil) then
       begin
-      image:=TBitmap.Create();
+      image := TBitmap.Create();
       image.Assign(frmMain.imgMain.Picture.Bitmap);
-      image.PixelFormat:=pf24bit;
-      func_result:=FIPISfilter(PChar(name),false,Application.Handle,frmMain.Handle,image.Handle);
+      image.PixelFormat := pf24bit;
+      func_result := FIPISfilter(PChar(name),false,Application.Handle,frmMain.Handle,image.Handle);
+
       if func_result<>0 then
         begin
         // start working with result
-        Result:=true;
-        frmMain.imgMain.Picture.Bitmap.Handle:=func_result;
-        infImage.modified:=true;
+        Result := true;
+
+        // filling undo
+        if (infImage.undo_bitmap = nil) then
+        	infImage.undo_bitmap := TBitmap.Create();
+        infImage.undo_bitmap.Assign(frmMain.imgMain.Picture.Bitmap);
+
+        frmMain.imgMain.Picture.Bitmap.Handle := func_result;
         frmMain.imgMain.Invalidate();
-        ApplyChanges();
         end;
-      image.Free();
+
+      FreeAndNil(image);
       end;
     end;
 finally

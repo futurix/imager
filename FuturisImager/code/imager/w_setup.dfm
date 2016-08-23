@@ -4,7 +4,7 @@ object frmSetup: TfrmSetup
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'Imager Settings'
-  ClientHeight = 264
+  ClientHeight = 285
   ClientWidth = 300
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object frmSetup: TfrmSetup
   TextHeight = 13
   object btnOK: TButton
     Left = 138
-    Top = 230
+    Top = 253
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -33,7 +33,7 @@ object frmSetup: TfrmSetup
   end
   object btnCancel: TButton
     Left = 217
-    Top = 230
+    Top = 253
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -44,7 +44,7 @@ object frmSetup: TfrmSetup
     Left = 7
     Top = 7
     Width = 285
-    Height = 129
+    Height = 151
     Caption = ' General '
     TabOrder = 2
     object cbxOpenAfterSave: TCheckBox
@@ -97,10 +97,18 @@ object frmSetup: TfrmSetup
       State = cbChecked
       TabOrder = 4
     end
+    object cbxUseLargeToolbarButtons: TCheckBox
+      Left = 11
+      Top = 120
+      Width = 260
+      Height = 17
+      Caption = 'Use large toolbar buttons'
+      TabOrder = 5
+    end
   end
   object gbxColors: TGroupBox
     Left = 7
-    Top = 140
+    Top = 163
     Width = 285
     Height = 84
     Caption = ' Colors '

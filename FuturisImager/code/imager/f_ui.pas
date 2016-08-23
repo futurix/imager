@@ -6,7 +6,8 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   c_const;
-
+  
+procedure ApplyToolbarSkin(large: boolean = false);
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
 procedure ToggleStatusbar(strict: boolean = false; visible: boolean = true);
 procedure Able(action: boolean);
@@ -22,9 +23,55 @@ procedure ResetImageScroll();
 procedure MirrorHint();
 procedure IdleUI();
 
+
 implementation
 
 uses main, globals, f_clipboard, f_reg, f_nav, f_graphics, f_tools, w_show;
+
+procedure ApplyToolbarSkin(large: boolean = false);
+var
+	res: TResourceStream;
+    bmp: TBitmap;
+begin
+	if large then
+		res := TResourceStream.Create(HInstance, 'TBLA', 'RT_BITMAP')
+    else
+    	res := TResourceStream.Create(HInstance, 'TBSA', 'RT_BITMAP');
+
+    bmp := TBitmap.Create();
+    bmp.LoadFromStream(res);
+
+    frmMain.imlMain.Height := bmp.Height;
+    frmMain.imlMain.Width := bmp.Height;
+    frmMain.imlMain.Clear();
+    frmMain.imlMain.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+
+    FreeAndNil(bmp);
+    FreeAndNil(res);
+
+	if large then
+		res := TResourceStream.Create(HInstance, 'TBLD', 'RT_BITMAP')
+    else
+    	res := TResourceStream.Create(HInstance, 'TBSD', 'RT_BITMAP');
+
+    bmp := TBitmap.Create();
+    bmp.LoadFromStream(res);
+
+    frmMain.imlDisabled.Height := bmp.Height;
+    frmMain.imlDisabled.Width := bmp.Height;
+    frmMain.imlDisabled.Clear();
+    frmMain.imlDisabled.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+
+    FreeAndNil(bmp);
+    FreeAndNil(res);
+
+    frmMain.itbMain.ButtonHeight := frmMain.imlMain.Height + 6;
+    frmMain.itbMain.ButtonWidth := frmMain.imlMain.Height + 8;
+    frmMain.itbMulti.ButtonHeight := frmMain.imlMain.Height + 6;
+    frmMain.itbMulti.ButtonWidth := frmMain.imlMain.Height + 8;
+    frmMain.itbAnim.ButtonHeight := frmMain.imlMain.Height + 6;
+    frmMain.itbAnim.ButtonWidth := frmMain.imlMain.Height + 8;
+end;
 
 // toggles main toolbar
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
@@ -365,6 +412,18 @@ procedure IdleUI();
 begin
 // setting header
 Header();
+
+// setting undo
+if (infImage.undo_bitmap <> nil) then
+	begin
+    frmMain.miUndo.Enabled := true;
+    frmMain.tbnUndo.Enabled := true;
+    end
+else
+	begin
+    frmMain.miUndo.Enabled := false;
+    frmMain.tbnUndo.Enabled := false;
+    end;
 
 // "Paste" button routine
 if IsBitmapInCB() then

@@ -57,6 +57,8 @@ if reg.RIntC('OpenDef',1)=1 then Include(infSettings.options,opOpenDef)
 reg.CloseKey();
 
 reg.OpenKey(sReg + '\UI',true);
+if reg.RIntC('TBStyle',0)=1 then ApplyToolbarSkin(true)
+  else ApplyToolbarSkin(false);
 if reg.RIntC('TBMain',1)=1 then ToggleMainToolbar(true,true)
   else ToggleMainToolbar(true,false);
 if reg.RIntC('TBStatus',1)=1 then ToggleStatusbar(true,true)
