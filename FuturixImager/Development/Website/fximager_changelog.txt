@@ -1,4 +1,11 @@
-﻿FuturixImager <strong>6.0.1</strong> (04 June 2011)
+﻿FuturixImager <strong>6.0.2</strong> (19 June 2011)
+<ul>
+<li>Bug-fixes in colour management, file navigation, and UI.</li>
+</ul>
+
+<p>&nbsp;</p>
+
+FuturixImager <strong>6.0.1</strong> (04 June 2011)
 <ul>
 <li>Support for raw formats from more than 30 new digital cameras</li>
 <li>Speed improvements for raw camera formats plug-in</li>

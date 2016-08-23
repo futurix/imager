@@ -13,7 +13,7 @@ const
     'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rcapt,' +
     'rjpeg,gopage';
   sDefaultToolbar: string =
-    'open,loadlast,save,close,sep,print,sep,copy,paste,sep,editor,undo,' +
+    'open,loadlast,save,close,sep,print,rscan,sep,copy,paste,sep,editor,undo,' +
     'sep,zoomin,zoomout,sep,zoom,dispopt,fs,sep,info,sep,random,sep,back,forward';
 
 procedure ApplyCustomToolbar(again: boolean = false);

@@ -92,6 +92,7 @@ begin
     frmMain.bNoMRU := cbxDisableMRU.Checked;
     frmMain.bFullPathInTitle := cbxFullPathInTitle.Checked;
 
+    frmMain.SetupColour();
     Header();
     end
   else

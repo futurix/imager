@@ -4,6 +4,7 @@ interface
 
 uses
   Windows, Classes, SysUtils,
+  hyieutils,
   c_const;
 
 var
@@ -18,6 +19,7 @@ var
   ver_codename: string = '';
 
   bAutoRotateEXIF: boolean = false;
+  colourProfile: TIEICC;
 
 const
   // limit for the list of most recently used files

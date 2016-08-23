@@ -315,6 +315,7 @@ type
 
     property SelectedDisplayState: TDisplayStyles read dispStyle;
 
+    procedure SetupColour();
     procedure UpdateThemes();
     procedure NoticeThemeChange(var msg: TMessage); message WM_THEMECHANGED;
     procedure SetDisplayStyleEx(style: TDisplayStyles; careful: boolean = false);
@@ -350,6 +351,9 @@ function IsUnsaved(): boolean;
 function IsMultipage(): boolean;
 procedure FillImage(path: string; pages: integer = 0; page: integer = 0);
 procedure FillBitmap(bmp: TBitmap; img: HBITMAP = 0);
+
+var
+  SetupColour: boolean;
 
 
 implementation
@@ -577,6 +581,8 @@ begin
     bFullPathInTitle := false;
     end;
 
+  SetupColour();
+
   ApplyBackground();
   ApplyCustomToolbar();
   ApplyTheme();
@@ -626,6 +632,9 @@ begin
 
   if Assigned(frmShow) then
     frmShow.Close();
+
+  if Assigned(colourProfile) then
+    FreeAndNil(colourProfile);
 
   FreeAndNil(wreg);
   FreeAndNil(fx);
@@ -1535,6 +1544,30 @@ begin
 
   if (str <> '') then
     OpenLocal(str);
+end;
+
+procedure TfrmMain.SetupColour();
+var
+  dc: HDC;
+  buffer: array[0..MAX_PATH] of char;
+  bufferSize: cardinal;
+begin
+  if iegEnableCMS then
+    begin
+    dc := GetDC(0);
+
+    try
+      bufferSize := SizeOf(buffer);
+
+      if GetICMProfile(dc, bufferSize, buffer) and FileExists(buffer) then
+        begin
+        colourProfile := TIEICC.Create(false);
+        colourProfile.LoadFromFile(buffer);
+        end;
+
+      finally
+      end;
+    end;
 end;
 
 procedure TfrmMain.UMAppIDCheck(var Message: TMessage);
