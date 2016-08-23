@@ -31,3 +31,4 @@ Imager/doc/developer/plugins/source/plugins/fimg/library/*
 Imager/src/plugins/fimg/library/*
 *.user
 *.suo
+Imager/redist/international/*/*.dll

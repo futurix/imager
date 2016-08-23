@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=7
-Release=1
-Build=987
+Release=2
+Build=988
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager
-FileVersion=5.7.1.987
+FileVersion=5.7.2.988
 InternalName=fximager
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fximager.exe
 ProductName=FuturixImager
-ProductVersion=5.7.1
+ProductVersion=5.7.2
 Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1

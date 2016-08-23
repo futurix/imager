@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7.1
+!define FXVERSION 5.7.2
 
 Name "FuturixImager"
 OutFile "futuriximager.exe"
@@ -87,6 +87,11 @@ SectionEnd
 Section "Lossless JPEG transformations"
   SetOutPath "$INSTDIR"
   File "..\bin\fxjpeglossless.dll"
+SectionEnd
+
+Section "FreeImage plug-in"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxfimg.dll"
 SectionEnd
 
 Section "Screen capture"

@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7.1
+!define FXVERSION 5.7.2
 
 Name "FuturixImager Extras"
 OutFile "futuriximager_extras.exe"
@@ -48,19 +48,19 @@ Section "-Core"
   SectionIn RO
   
   # deleting old files
-  Delete $INSTDIR\fxfimg.dll
   Delete $INSTDIR\fxjbig.dll
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll
+  Delete $INSTDIR\fxmagick.dll
+  Delete $INSTDIR\fxmng.dll
+  Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxmoreinfo.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxmail.dll
+  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
-
-  # deleting legacy files
-  Delete $INSTDIR\fxfimghandler.dll
   
   # creating uninstaller
   SetOutPath "$INSTDIR"
@@ -68,12 +68,6 @@ Section "-Core"
   
   # plug-in system clean-up
   DeleteRegKey HKEY_CURRENT_USER "Software\alex_t\FuturixImager\Plug-ins"
-SectionEnd
-
-
-Section "Support for Windows icons, HDR images..."
-  SetOutPath "$INSTDIR"
-  File "..\bin\fxfimg.dll"
 SectionEnd
 
 Section "Support for JBIG images"
@@ -96,6 +90,17 @@ Section "Playback of animated GIFs"
   File "..\bin\fxgdiplus.dll"
 SectionEnd
 
+Section "Support for SVG, TTF, DICOM, etc..."
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxmagick.dll"
+SectionEnd
+
+Section "MNG/JNG support"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxmng.dll"
+  File "..\bin\fxmnghandler.dll"
+SectionEnd
+
 Section "Additional information display for bitmaps"
   SetOutPath "$INSTDIR"
   File "..\bin\fxmoreinfo.dll"
@@ -116,17 +121,25 @@ Section "Support for writing wireless bitmaps (WBMP)"
   File "..\bin\fxwireless.dll"
 SectionEnd
 
+Section "XP-style toobar theme"
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxthemexp.dll"
+SectionEnd
+
 
 Section Uninstall
-  # deleting old files
-  Delete $INSTDIR\fxfimg.dll
+  # deleting files
   Delete $INSTDIR\fxjbig.dll
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll
+  Delete $INSTDIR\fxmagick.dll
+  Delete $INSTDIR\fxmng.dll
+  Delete $INSTDIR\fxmnghandler.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxmoreinfo.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxmail.dll
+  Delete $INSTDIR\fxthemexp.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
 SectionEnd

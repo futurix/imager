@@ -1,13 +1,21 @@
 >>>> 5.8
 - multi-page image retrieval interface
 - additional interfaces (get current image, get Imager version)
+- SDK: document callback interfaces
+- SDK: make new table with roles documented
 - new print with preview in separate plug-in and role (and modal dialog)
 - multi-page printing
 - get rid of embedded editor (replace with minimizable modal dialog) and
   return shortcuts to the old way
 - scanning in separate plug-in 
 - new scanning GUI with preview and multi-page scanning (in sep. plug-in)
-- add menu items for roles
+- add menu items for all roles
+- change way "Tools" menu populated to something more intelligent (use
+  IDs) and add some roles on top of it (lossless JPEG, HEX)
+/ auto-rotation on load, based on EXIF rotation info (optional)
+/ round selections (using BeginImageProcessing)
+/ "Sharpen" filter
+/ reimplement filters using imageen
 
 >>>> 5.8.1
 - FreeImage plug-in in the main installer
@@ -18,12 +26,11 @@
 - FIX: info cannot read multi-page or animated files (they should be closed)
 
 >>>> 5.8.2
-- add OnImageLoad, OnImageLoadUI, OnImageUpdate handlers
+- add OnImageLoad, OnImageLoadUI, OnImageUnload, OnImageUpdate handlers
 - optimize actions on image open (and add option to zoom-to-fit on image open)
 - speed optimization: replace registry searches with string lists
 - speed optimization: string pool with commonly loaded strings (updatable
   on locale switch)
-- picture number and index in status bar
 
 >>>> 5.8.3
 - direct memory loading interface
@@ -36,8 +43,6 @@
 - add more stuff to pop-up menu
 
 >>>> 5.9
-- round selection (using BeginImageProcessing)
-- reimplement filters using imageen
 - new color fix filter
 - painting features (eraser, brushes)
 - color picker tool
@@ -60,6 +65,8 @@
 
 -------------------------------------------------------------------------------
 
+- status bar configuration + new optional panels (file size, file index out of
+  total, image format)
 - SDK improvements (empty \templates\, make simple sample plug-ins)
 - switch SDK to sample only, C++ only
 - multi-page composer
