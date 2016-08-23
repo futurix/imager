@@ -1,0 +1,26 @@
+>>>>>>>>> VERSION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Alexander Tereshchenko
+Futuris Imager Bla-bla-bla
+4.2.0.1
+f_blablabla
+© 1999-2004 Alexander Tereshchenko
+Futurix is a trademark of Alexander Tereshchenko
+f_blablabla.dll
+Futuris Imager
+4.2
+http://www.knives-out.org/
+
+
+>>>>>>>>> PATHS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+..\..\release
+..\output
+..\shared
+..\shared
+
+
+>>>>>>>>> PACKAGES <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+futuris
+
