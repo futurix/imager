@@ -6,3 +6,4 @@ ImagerC/release/*.bpl
 ImagerC/release/*.dcp
 ImagerC/release/*.dll
 ImagerC/vcomps/*
+ImagerC/distrib/*.exe

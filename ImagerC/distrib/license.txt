@@ -1,7 +1,7 @@
 Futuris Imager End User License Agreement
 
-Futuris Imager 2.6
-Copyright (c) 1999-2002 Alexander Tereschenko
+Futuris Imager 2.6c
+Copyright (c) 1999-2004 Alexander Tereshchenko
 All rights reserved 
 
 Use of Futuris Imager (hereinafter 'software') is contingent on your agreement
