@@ -1,0 +1,45 @@
+FuturixImager End-User License Agreement
+
+This is a legal agreement between you (either personal or corporate) and
+Alexander Tereshchenko for the software product "FuturixImager".
+By copying or using the software in any kind, you agree to be bound by all of
+the terms and conditions of this agreement.
+
+
+Conditions:
+
+1. The author grants you a limited non-exclusive license to use the software
+   free of charge for any purpose (either private or commercial).
+
+2. The software is provided "as is" without warranty of any kind. To the
+   maximum extent permitted by applicable law, the author further disclaims all
+   warranties, including without limitation any implied warranties of
+   merchantability, fitness for a particular purpose, and noninfringement.
+
+3. You may not reverse engineer, decompile or disassemble the software. The
+   author shall retain title and all ownership rights to the software.
+
+4. This software is protected by copyright laws and international copyright
+   treaties, as well as other intellectual property laws and treaties.
+
+5. The author grants you the right to make this software available on an
+   Internet or Intranet site for the purpose of downloading, as long as no fee
+   is charged for said download.
+
+6. The author grants you the royalty-free right to reproduce and distribute the
+   software as part of a CD or DVD media to be enclosed with the print issue of
+   any magazine, book or printed publication, as long as said media and printed
+   publication contain material that would have been distributed regardless of
+   the inclusion of this software, and no extra fee is charged for inclusion of
+   this software.
+
+7. Any usage of this software and components of it (including without
+   limitation plug-ins, icon sets and themes) in third-party software products
+   requires written permission from the author.
+
+
+Copyright © 1999-2010 Alex Tereshchenko
+All rights reserved
+
+E-mail: info@fximage.com
+Web: http://fximage.com/

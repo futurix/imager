@@ -1,0 +1,5 @@
+
+IMGMAIN 	RT_BITMAP 		"main.bmp"
+IMGMAIND 	RT_BITMAP 		"main_disabled.bmp"
+IMGFIXED 	RT_BITMAP 		"fixed.bmp"
+IMGFIXEDL 	RT_BITMAP 		"fixed_large.bmp"

@@ -1,0 +1,15 @@
+%DEFAULT%=%SYS%\shimgvw.dll,3
+bmp=%SYS%\shimgvw.dll,1
+cur=%1
+dib=%SYS%\shimgvw.dll,1
+emf=%SYS%\shimgvw.dll,2
+gif=%SYS%\shimgvw.dll,2
+ico=%1
+jfif=%SYS%\shimgvw.dll,3
+jpeg=%SYS%\shimgvw.dll,3
+jpe=%SYS%\shimgvw.dll,3
+jpg=%SYS%\shimgvw.dll,3
+png=%SYS%\shimgvw.dll,2
+tif=%SYS%\shimgvw.dll,4
+tiff=%SYS%\shimgvw.dll,4
+wmf=%SYS%\shimgvw.dll,2

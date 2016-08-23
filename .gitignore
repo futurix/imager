@@ -1,0 +1,16 @@
+FuturixImager/Bin/*
+*.dproj.local
+*.identcache
+*.dsk
+FuturixImager/Installer/Output/*.exe
+FuturixImager/Development/Scraps/nonmigratedplugins/FreeImage/Library/Source/*
+FuturixImager/Development/Scraps/nonmigratedplugins/FreeImage/Library/Dist/*
+FuturixImager/Development/Scraps/oldSDK/plugins/source/plugins/fimg/library/Source/*
+FuturixImager/Development/Scraps/oldSDK/plugins/source/plugins/fimg/library/Dist/*
+FuturixImager/Development/Scraps/oldSDK/plugins/thirdparty/delphi/*
+FuturixImager/Development/Scraps/SharedOld/*
+FuturixImager/Development/Scraps/Localization/Tools/FuturixLocalizer/obj/*
+FuturixImager/Development/Scraps/Localization/Tools/FuturixLocalizer/bin/*
+*.suo
+FuturixImager/Development/Scraps/Localization/Tools/*.exe
+FuturixImager/Development/Scraps/Localization/SDK/Translations/Editor/*.exe

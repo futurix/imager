@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<FuturixImagerLocalization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ver="4">
+  <Data>
+    <LocalizedString id="1" pid="SERVICE_SIGNATURE" data="FxImgLocaleR6" />
+    <LocalizedString id="2" pid="SERVICE_LANGUAGE" data="English" />
+    <LocalizedString id="3" pid="SERVICE_ISO_CODE" data="eng" />
+    <LocalizedString id="4" pid="SERVICE_AUTHOR" data="Alex Tereshchenko" />
+    <LocalizedString id="5" pid="SERVICE_VERSION" data="6.0 RC" />
+    <LocalizedString id="6" pid="SERVICE_LANGUAGE_LOCALIZED" data="" />
+    <LocalizedString id="10" pid="OK" data="OK" />
+    <LocalizedString id="11" pid="CANCEL" data="Cancel" />
+    <LocalizedString id="12" pid="YES" data="Yes" />
+    <LocalizedString id="13" pid="NO" data="No" />
+    <LocalizedString id="14" pid="CLOSE" data="Close" />
+    <LocalizedString id="15" pid="APPLY" data="Apply" />
+    <LocalizedString id="16" pid="OPEN" data="Open" />
+    <LocalizedString id="17" pid="SAVE" data="Save" />
+    <LocalizedString id="18" pid="START" data="Start" />
+    <LocalizedString id="19" pid="STOP" data="Stop" />
+    <LocalizedString id="50" pid="UNKNOWN" data="Unknown" />
+    <LocalizedString id="51" pid="OTHER" data="Other" />
+    <LocalizedString id="52" pid="UNAVAILABLE" data="Unavailable" />
+    <LocalizedString id="53" pid="NOT_APPLICABLE" data="Not applicable" />
+    <LocalizedString id="54" pid="NA" data="N/A" />
+    <LocalizedString id="55" pid="NA_LC" data="n/a" />
+    <LocalizedString id="56" pid="T_PERCENT" data="%s%%" />
+    <LocalizedString id="990" pid="REG_FF_DESCRIPTION" data="%s Document" />
+    <LocalizedString id="991" pid="REG_FF_ACTION_OPEN" data="&amp;Open" />
+    <LocalizedString id="992" pid="REG_FF_OVERVIEW" data="%s is a compact and customizable image viewer / editor." />
+    <LocalizedString id="1000" pid="MM_FILE" data="File" />
+    <LocalizedString id="1001" pid="MM_EDIT" data="Edit" />
+    <LocalizedString id="1002" pid="MM_VIEW" data="View" />
+    <LocalizedString id="1003" pid="MM_TOOLS" data="Tools" />
+    <LocalizedString id="1004" pid="MM_HELP" data="Help" />
+    <LocalizedString id="1100" pid="MI_OPEN" data="Open..." />
+    <LocalizedString id="1101" pid="MI_OPEN_RECENT" data="Open Recent" />
+    <LocalizedString id="1102" pid="MI_LOAD_PREVIOUS" data="Load Previous" />
+    <LocalizedString id="1103" pid="MI_NEW_IMAGE" data="New Image..." />
+    <LocalizedString id="1104" pid="MI_SAVE_AS" data="Save As..." />
+    <LocalizedString id="1105" pid="MI_CLOSE" data="Close" />
+    <LocalizedString id="1106" pid="MI_IMPORT" data="Import" />
+    <LocalizedString id="1107" pid="MI_EXPORT" data="Export" />
+    <LocalizedString id="1108" pid="MI_FILE_INFO" data="File Information" />
+    <LocalizedString id="1109" pid="MI_FILE_MANAGEMENT" data="File Management" />
+    <LocalizedString id="1110" pid="MI_FILE_DELETE" data="Delete File" />
+    <LocalizedString id="1111" pid="MI_FILE_COPY" data="Copy File" />
+    <LocalizedString id="1112" pid="MI_FILE_MOVE" data="Move File" />
+    <LocalizedString id="1113" pid="MI_FILE_RENAME" data="Rename File" />
+    <LocalizedString id="1114" pid="MI_PRINT" data="Print" />
+    <LocalizedString id="1115" pid="MI_PRINT_PREVIEW" data="Print Preview..." />
+    <LocalizedString id="1116" pid="MI_EXIT" data="Exit" />
+    <LocalizedString id="1130" pid="MI_UNDO" data="Undo" />
+    <LocalizedString id="1131" pid="MI_COPY" data="Copy" />
+    <LocalizedString id="1132" pid="MI_PASTE" data="Paste" />
+    <LocalizedString id="1133" pid="MI_EDIT" data="Edit Image..." />
+    <LocalizedString id="1140" pid="MI_TOOLBARS" data="Toolbars" />
+    <LocalizedString id="1141" pid="MI_TOOLBAR_MAIN" data="Main Toolbar" />
+    <LocalizedString id="1142" pid="MI_TOOLBAR_STATUS" data="Status Bar" />
+    <LocalizedString id="1150" pid="MI_DISPLAY_OPTIONS" data="Display Options" />
+    <LocalizedString id="1151" pid="MI_DISPLAY_NORMAL" data="Normal Display" />
+    <LocalizedString id="1152" pid="MI_DISPLAY_FIT" data="Fit Large Images" />
+    <LocalizedString id="1160" pid="MI_CENTER_IMAGE" data="Center Image" />
+    <LocalizedString id="1161" pid="MI_SHOW_SCROLLBARS" data="Show Scrollbars" />
+    <LocalizedString id="1170" pid="MI_ZOOM" data="Zoom" />
+    <LocalizedString id="1171" pid="MI_ZOOM_IN" data="Zoom In" />
+    <LocalizedString id="1172" pid="MI_ZOOM_OUT" data="Zoom Out" />
+    <LocalizedString id="1173" pid="MI_ZOOM_FIT" data="Zoom to Fit" />
+    <LocalizedString id="1174" pid="MI_ZOOM_WIDTH" data="Zoom to Width" />
+    <LocalizedString id="1175" pid="MI_ZOOM_HEIGHT" data="Zoom to Height" />
+    <LocalizedString id="1176" pid="MI_ROTATE_CW" data="Rotate View CW" />
+    <LocalizedString id="1177" pid="MI_ROTATE_CCW" data="Rotate View CCW" />
+    <LocalizedString id="1178" pid="MI_ZOOM_CUSTOM" data="Custom..." />
+    <LocalizedString id="1200" pid="MI_PAGES" data="Pages" />
+    <LocalizedString id="1201" pid="MI_PAGE_FIRST" data="First Page" />
+    <LocalizedString id="1202" pid="MI_PAGE_PREVIOUS" data="Previous Page" />
+    <LocalizedString id="1203" pid="MI_PAGE_NEXT" data="Next Page" />
+    <LocalizedString id="1204" pid="MI_PAGE_LAST" data="Last Page" />
+    <LocalizedString id="1205" pid="MI_PAGE_GOTO" data="Go To Page" />
+    <LocalizedString id="1206" pid="MI_PAGE_EXTRACT" data="Extract Page" />
+    <LocalizedString id="1210" pid="MI_GOTO" data="Go To" />
+    <LocalizedString id="1211" pid="MI_GO_BACK" data="Back" />
+    <LocalizedString id="1212" pid="MI_GO_FORWARD" data="Forward" />
+    <LocalizedString id="1213" pid="MI_GO_FIRST" data="First" />
+    <LocalizedString id="1214" pid="MI_GO_LAST" data="Last" />
+    <LocalizedString id="1215" pid="MI_GO_RANDOM" data="Random" />
+    <LocalizedString id="1220" pid="MI_SLIDESHOW" data="Slide Show" />
+    <LocalizedString id="1221" pid="MI_SLIDESHOW_LAUNCH" data="Start Slide Show" />
+    <LocalizedString id="1222" pid="MI_FULL_SCREEN" data="Full Screen" />
+    <LocalizedString id="1230" pid="MI_OPTIONS" data="Options..." />
+    <LocalizedString id="1250" pid="MI_HELP" data="Help Contents" />
+    <LocalizedString id="1251" pid="MI_WEBSITE" data="%s Website" />
+    <LocalizedString id="1252" pid="MI_ABOUT" data="About..." />
+    <LocalizedString id="2000" pid="TB_OPEN" data="Open" />
+    <LocalizedString id="2001" pid="TB_OPEN_HINT" data="Open" />
+    <LocalizedString id="2002" pid="TB_LAST" data="Previous" />
+    <LocalizedString id="2003" pid="TB_LAST_HINT" data="Load Previous" />
+    <LocalizedString id="2004" pid="TB_SAVE" data="Save As" />
+    <LocalizedString id="2005" pid="TB_SAVE_HINT" data="Save As" />
+    <LocalizedString id="2006" pid="TB_CLOSE" data="Close" />
+    <LocalizedString id="2007" pid="TB_CLOSE_HINT" data="Close" />
+    <LocalizedString id="2008" pid="TB_PRINT" data="Print" />
+    <LocalizedString id="2009" pid="TB_PRINT_HINT" data="Print" />
+    <LocalizedString id="2010" pid="TB_PRINTPREVIEW" data="Print Preview" />
+    <LocalizedString id="2011" pid="TB_PRINTPREVIEW_HINT" data="Print Preview" />
+    <LocalizedString id="2012" pid="TB_COPY" data="Copy" />
+    <LocalizedString id="2013" pid="TB_COPY_HINT" data="Copy" />
+    <LocalizedString id="2014" pid="TB_PASTE" data="Paste" />
+    <LocalizedString id="2015" pid="TB_PASTE_HINT" data="Paste" />
+    <LocalizedString id="2016" pid="TB_PAGE_PREV" data="Previous Page" />
+    <LocalizedString id="2017" pid="TB_PAGE_PREV_HINT" data="Previous Page" />
+    <LocalizedString id="2018" pid="TB_PAGE_NEXT" data="Next Page" />
+    <LocalizedString id="2019" pid="TB_PAGE_NEXT_HINT" data="Next Page" />
+    <LocalizedString id="2020" pid="TB_INFO" data="Info" />
+    <LocalizedString id="2021" pid="TB_INFO_HINT" data="Image Information" />
+    <LocalizedString id="2022" pid="TB_ZOOM_IN" data="Zoom In" />
+    <LocalizedString id="2023" pid="TB_ZOOM_IN_HINT" data="Zoom In" />
+    <LocalizedString id="2024" pid="TB_ZOOM_OUT" data="Zoom Out" />
+    <LocalizedString id="2025" pid="TB_ZOOM_OUT_HINT" data="Zoom Out" />
+    <LocalizedString id="2026" pid="TB_ROTATE_CW" data="Rotate" />
+    <LocalizedString id="2027" pid="TB_ROTATE_CW_HINT" data="Rotate" />
+    <LocalizedString id="2028" pid="TB_ZOOM" data="Zoom" />
+    <LocalizedString id="2029" pid="TB_ZOOM_HINT" data="Zoom" />
+    <LocalizedString id="2030" pid="TB_DISPLAY" data="Display Options" />
+    <LocalizedString id="2031" pid="TB_DISPLAY_HINT" data="Display Options" />
+    <LocalizedString id="2032" pid="TB_FULLSCREEN" data="Full Screen" />
+    <LocalizedString id="2033" pid="TB_FULLSCREEN_HINT" data="Full Screen" />
+    <LocalizedString id="2034" pid="TB_EDIT" data="Edit" />
+    <LocalizedString id="2035" pid="TB_EDIT_HINT" data="Open Editor" />
+    <LocalizedString id="2036" pid="TB_GO_BACK" data="Back" />
+    <LocalizedString id="2037" pid="TB_GO_BACK_HINT" data="Go Back" />
+    <LocalizedString id="2038" pid="TB_GO_FORWARD" data="Forward" />
+    <LocalizedString id="2039" pid="TB_GO_FORWARD_HINT" data="Go Forward" />
+    <LocalizedString id="2040" pid="TB_UNDO" data="Undo" />
+    <LocalizedString id="2041" pid="TB_UNDO_HINT" data="Undo" />
+    <LocalizedString id="2042" pid="TB_GO_RANDOM" data="Random" />
+    <LocalizedString id="2043" pid="TB_GO_RANDOM_HINT" data="Go To Random" />
+    <LocalizedString id="2044" pid="TB_ZOOM_FIT" data="Fit" />
+    <LocalizedString id="2045" pid="TB_ZOOM_FIT_HINT" data="Zoom To Fit" />
+    <LocalizedString id="2046" pid="TB_NEW" data="New" />
+    <LocalizedString id="2047" pid="TB_NEW_HINT" data="New Image" />
+    <LocalizedString id="2048" pid="TB_FILE_DELETE" data="Delete" />
+    <LocalizedString id="2049" pid="TB_FILE_DELETE_HINT" data="Delete File" />
+    <LocalizedString id="2050" pid="TB_FILE_COPY" data="Copy" />
+    <LocalizedString id="2051" pid="TB_FILE_COPY_HINT" data="Copy File" />
+    <LocalizedString id="2052" pid="TB_FILE_MOVE" data="Move" />
+    <LocalizedString id="2053" pid="TB_FILE_MOVE_HINT" data="Move File" />
+    <LocalizedString id="2054" pid="TB_FILE_RENAME" data="Rename" />
+    <LocalizedString id="2055" pid="TB_FILE_RENAME_HINT" data="Rename File" />
+    <LocalizedString id="2056" pid="TB_ZOOM_100" data="100%" />
+    <LocalizedString id="2057" pid="TB_ZOOM_100_HINT" data="Zoom To 100%" />
+    <LocalizedString id="2058" pid="TB_ZOOM_WIDTH" data="Fit Width" />
+    <LocalizedString id="2059" pid="TB_ZOOM_WIDTH_HINT" data="Zoom To Fit Width" />
+    <LocalizedString id="2060" pid="TB_ZOOM_HEIGHT" data="Fit Height" />
+    <LocalizedString id="2061" pid="TB_ZOOM_HEIGHT_HINT" data="Zoom To Fit Height" />
+    <LocalizedString id="2062" pid="TB_ROTATE_CCW" data="Rotate CCW" />
+    <LocalizedString id="2063" pid="TB_ROTATE_CCW_HINT" data="Rotate CCW" />
+    <LocalizedString id="2064" pid="TB_GO_FIRST" data="First" />
+    <LocalizedString id="2065" pid="TB_GO_FIRST_HINT" data="Go To First" />
+    <LocalizedString id="2066" pid="TB_GO_LAST" data="Last" />
+    <LocalizedString id="2067" pid="TB_GO_LAST_HINT" data="Go To Last" />
+    <LocalizedString id="2068" pid="TB_SLIDESHOW" data="Slide Show" />
+    <LocalizedString id="2069" pid="TB_SLIDESHOW_HINT" data="Start Slide Show" />
+    <LocalizedString id="2070" pid="TB_OPTIONS" data="Options" />
+    <LocalizedString id="2071" pid="TB_OPTIONS_HINT" data="%s Options" />
+    <LocalizedString id="2072" pid="TB_HELP" data="Help" />
+    <LocalizedString id="2073" pid="TB_HELP_HINT" data="%s Help" />
+    <LocalizedString id="2074" pid="TB_WEB" data="Website" />
+    <LocalizedString id="2075" pid="TB_WEB_HINT" data="%s Website" />
+    <LocalizedString id="2076" pid="TB_ABOUT" data="About" />
+    <LocalizedString id="2077" pid="TB_ABOUT_HINT" data="About %s" />
+    <LocalizedString id="2078" pid="TB_SCAN" data="Scan" />
+    <LocalizedString id="2079" pid="TB_SCAN_HINT" data="Scan" />
+    <LocalizedString id="2080" pid="TB_CAPTURE" data="Capture" />
+    <LocalizedString id="2081" pid="TB_CAPTURE_HINT" data="Screen Capture" />
+    <LocalizedString id="2082" pid="TB_JPEGLOSSLESS" data="JPEG Lossless" />
+    <LocalizedString id="2083" pid="TB_JPEGLOSSLESS_HINT" data="JPEG Lossless Transformations" />
+    <LocalizedString id="2084" pid="TB_PAGING" data="Go To Page" />
+    <LocalizedString id="2085" pid="TB_PAGING_HINT" data="Go To Page" />
+    <LocalizedString id="2086" pid="TB_BROWSE" data="Files" />
+    <LocalizedString id="2087" pid="TB_BROWSE_HINT" data="File Browser" />
+    <LocalizedString id="7000" pid="FORMAT_JPEG" data="JPEG" />
+    <LocalizedString id="7001" pid="FORMAT_GIF" data="GIF" />
+    <LocalizedString id="7002" pid="FORMAT_PNG" data="PNG" />
+    <LocalizedString id="7003" pid="FORMAT_TIFF" data="TIFF" />
+    <LocalizedString id="7004" pid="FORMAT_JPEG_2000" data="JPEG 2000" />
+    <LocalizedString id="7005" pid="FORMAT_DNG" data="Digital Negative" />
+    <LocalizedString id="7006" pid="FORMAT_CAMERA_RAW" data="RAW Camera Photo" />
+    <LocalizedString id="7007" pid="FORMAT_BMP" data="Windows Bitmap" />
+    <LocalizedString id="7008" pid="FORMAT_ICO" data="Windows Icon" />
+    <LocalizedString id="7009" pid="FORMAT_JPEG_XR" data="JPEG XR / HD Photo" />
+    <LocalizedString id="7010" pid="FORMAT_HDR" data="HDR" />
+    <LocalizedString id="7011" pid="FORMAT_PSD" data="Photoshop" />
+    <LocalizedString id="7012" pid="FORMAT_PDF" data="PDF" />
+    <LocalizedString id="7013" pid="FORMAT_EPS" data="EPS" />
+    <LocalizedString id="7014" pid="FORMAT_PS" data="PostScript" />
+    <LocalizedString id="7015" pid="FORMAT_SVG" data="SVG" />
+    <LocalizedString id="7016" pid="FORMAT_TTF" data="TrueType Font" />
+    <LocalizedString id="7017" pid="FORMAT_OTF" data="OpenType Font" />
+    <LocalizedString id="7018" pid="FORMAT_OPENEXR" data="OpenEXR" />
+    <LocalizedString id="7250" pid="FORMAT_CUR" data="Windows Cursor" />
+    <LocalizedString id="7251" pid="FORMAT_WMF" data="Windows Metafile" />
+    <LocalizedString id="7252" pid="FORMAT_EMF" data="Enhanced Metafile" />
+    <LocalizedString id="7253" pid="FORMAT_PBM" data="Portable Bitmap" />
+    <LocalizedString id="7254" pid="FORMAT_PGM" data="Portable Graymap" />
+    <LocalizedString id="7255" pid="FORMAT_PPM" data="Portable Pixelmap" />
+    <LocalizedString id="7256" pid="FORMAT_JBIG" data="JBIG" />
+    <LocalizedString id="7257" pid="FORMAT_DICOM" data="DICOM" />
+    <LocalizedString id="7258" pid="FORMAT_MNG" data="MNG" />
+    <LocalizedString id="7259" pid="FORMAT_JNG" data="JNG" />
+    <LocalizedString id="7260" pid="FORMAT_FLASHPIX" data="FlashPix" />
+    <LocalizedString id="7261" pid="FORMAT_ASCII" data="ASCII Text Art" />
+    <LocalizedString id="7262" pid="FORMAT_WBMP" data="Wireless Bitmap" />
+    <LocalizedString id="7263" pid="FORMAT_PCD" data="Photo CD" />
+    <LocalizedString id="7264" pid="FORMAT_TGA" data="Targa" />
+    <LocalizedString id="7265" pid="FORMAT_PCX" data="ZSoft Paintbrush" />
+    <LocalizedString id="7266" pid="FORMAT_DCX" data="Multi-page ZSoft Paintbrush" />
+    <LocalizedString id="7267" pid="FORMAT_CAMERA_CANON" data="Canon RAW Camera Photo" />
+    <LocalizedString id="7268" pid="FORMAT_CAMERA_NIKON" data="Nikon RAW Camera Photo" />
+    <LocalizedString id="7269" pid="FORMAT_CAMERA_FUJI" data="Fuji RAW Camera Photo" />
+    <LocalizedString id="7500" pid="FORMAT_PSP" data="PaintShop Pro" />
+    <LocalizedString id="7501" pid="FORMAT_PICT" data="Apple PICT" />
+    <LocalizedString id="7502" pid="FORMAT_RARE_AUTODESK_IMG" data="Autodesk Image" />
+    <LocalizedString id="7503" pid="FORMAT_RARE_PHOTODELUXE" data="PhotoDeluxe" />
+    <LocalizedString id="7504" pid="FORMAT_RARE_KOALA" data="Commodore 64 Koala format" />
+    <LocalizedString id="7505" pid="FORMAT_IFF" data="Amiga IFF" />
+    <LocalizedString id="7506" pid="FORMAT_DDS" data="DirectDraw Surface" />
+    <LocalizedString id="7507" pid="FORMAT_RARE_SUN" data="Sun Rasterfile" />
+    <LocalizedString id="7508" pid="FORMAT_X11B" data="X11 Bitmap" />
+    <LocalizedString id="7509" pid="FORMAT_X11P" data="X11 Pixmap" />
+    <LocalizedString id="7510" pid="FORMAT_RARE_DRHALO" data="Dr. Halo" />
+    <LocalizedString id="7511" pid="FORMAT_RARE_AVS" data="AVS X Image" />
+    <LocalizedString id="7512" pid="FORMAT_RARE_CINEON" data="Cineon" />
+    <LocalizedString id="7513" pid="FORMAT_RARE_GRAPHVIS" data="Graph Visualization" />
+    <LocalizedString id="7514" pid="FORMAT_RARE_SMPTE" data="SMPTE DMPE" />
+    <LocalizedString id="7515" pid="FORMAT_RARE_FITS" data="FITS" />
+    <LocalizedString id="7516" pid="FORMAT_MATLAB" data="MATLAB" />
+    <LocalizedString id="7517" pid="FORMAT_MAGICK" data="ImageMagick" />
+    <LocalizedString id="7518" pid="FORMAT_RARE_MTV" data="MTV Raytracing" />
+    <LocalizedString id="7519" pid="FORMAT_RARE_PALM" data="Palm Pixmap" />
+    <LocalizedString id="7520" pid="FORMAT_RARE_ALIAS_RLE" data="Alias/Wavefront RLE Image" />
+    <LocalizedString id="7521" pid="FORMAT_RARE_SFW" data="Seattle File Works" />
+    <LocalizedString id="7522" pid="FORMAT_RARE_ALIAS" data="Alias/Wavefront Image" />
+    <LocalizedString id="7523" pid="FORMAT_RARE_IRIX" data="Irix RGB Image" />
+    <LocalizedString id="7524" pid="FORMAT_RARE_VICAR" data="VICAR Rasterfile" />
+    <LocalizedString id="7525" pid="FORMAT_RARE_VIFF" data="Khoros VIFF" />
+    <LocalizedString id="7526" pid="FORMAT_GIMP" data="GIMP Image" />
+  </Data>
+</FuturixImagerLocalization>

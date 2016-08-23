@@ -1,0 +1,3 @@
+%DEFAULT%=%APP%\fximager.exe,1
+jpg=%APP%\fximager.exe,2
+gif=%PF%\FuturixImager\fximager.exe,2

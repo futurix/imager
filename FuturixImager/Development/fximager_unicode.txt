@@ -1,0 +1,5 @@
+> add GraphicEx to compatibility DLL (possibly with TntUnicode) and make Unicode wrapper plug-in
+> add Apprehend to compatibility DLL and make Unicode wrapper plug-in
+> write replacement raw formats plug-in
+> replace TProEffectImage with ImageEn where possible
+> add remains of TProEffectImage to compatibility DLL and make Unicode wrapper plug-in

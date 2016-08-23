@@ -1,0 +1,234 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{6381727f-3362-4cfd-9c68-ba27ee8f2355}</ProjectGuid>
+			<MainSource>fximager.dpr</MainSource>
+			<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+			<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<DCC_DependencyCheckOutputName>..\..\Bin\fximager.exe</DCC_DependencyCheckOutputName>
+			<ProjectVersion>12.0</ProjectVersion>
+			<Config Condition="'$(Config)'==''">Release</Config>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<BRCC_CompilerToUse>rc</BRCC_CompilerToUse>
+			<DCC_ExeOutput>$(FXIMAGER)\Bin</DCC_ExeOutput>
+			<DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
+			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\Patches;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_HppOutput>$(FXIMAGER)\Source\Trash</DCC_HppOutput>
+			<DCC_DcuOutput>$(FXIMAGER)\Source\Trash</DCC_DcuOutput>
+			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
+			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
+			<DCC_DependencyCheckOutputName>..\..\Bin\fximager.exe</DCC_DependencyCheckOutputName>
+			<DCC_UsePackage>fxcore</DCC_UsePackage>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<Version>7.0</Version>
+			<DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+			<DCC_DebugInformation>False</DCC_DebugInformation>
+			<DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+			<DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
+			<DCC_HppOutput>$(FXIMAGER)\Source\Trash</DCC_HppOutput>
+			<DCC_ResourcePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_ResourcePath)</DCC_ResourcePath>
+			<DCC_ObjPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_ObjPath)</DCC_ObjPath>
+			<DCC_IncludePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_IncludePath)</DCC_IncludePath>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<Version>7.0</Version>
+			<DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+			<DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+			<DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+			<DCC_ResourcePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(DCC_ResourcePath)</DCC_ResourcePath>
+			<DCC_ObjPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(DCC_ObjPath)</DCC_ObjPath>
+			<DCC_IncludePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(DCC_IncludePath)</DCC_IncludePath>
+		</PropertyGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">True</VersionInfo>
+						<VersionInfo Name="MajorVer">6</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">2390</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1033</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.2390</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename">fximager.exe</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">6.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments">http://fximage.com/</VersionInfoKeys>
+					</VersionInfoKeys>
+					<Source>
+						<Source Name="MainSource">fximager.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+		<ItemGroup>
+			<DelphiCompile Include="fximager.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<RcCompile Include="futurix.rc">
+				<Form>futurix.res</Form>
+			</RcCompile>
+			<DCCReference Include="w_main.pas">
+				<Form>frmMain</Form>
+			</DCCReference>
+			<DCCReference Include="w_about.pas">
+				<Form>frmAbout</Form>
+			</DCCReference>
+			<DCCReference Include="w_custzoom.pas">
+				<Form>frmCustZoom</Form>
+			</DCCReference>
+			<DCCReference Include="w_info.pas">
+				<Form>frmInfo</Form>
+			</DCCReference>
+			<DCCReference Include="f_graphics.pas"/>
+			<DCCReference Include="f_images.pas"/>
+			<DCCReference Include="f_nav.pas"/>
+			<DCCReference Include="f_plugins.pas"/>
+			<DCCReference Include="f_tools.pas"/>
+			<DCCReference Include="f_ui.pas"/>
+			<DCCReference Include="w_show.pas">
+				<Form>frmShow</Form>
+			</DCCReference>
+			<DCCReference Include="w_editor.pas">
+				<Form>frmEditor</Form>
+			</DCCReference>
+			<DCCReference Include="w_resize.pas">
+				<Form>frmResize</Form>
+			</DCCReference>
+			<DCCReference Include="w_rotate.pas">
+				<Form>frmRotate</Form>
+			</DCCReference>
+			<DCCReference Include="f_toolbar.pas"/>
+			<DCCReference Include="w_custtb.pas">
+				<Form>frmCustTB</Form>
+			</DCCReference>
+			<DCCReference Include="f_instance.pas"/>
+			<DCCReference Include="w_preview.pas">
+				<Form>frmPrintPreview</Form>
+			</DCCReference>
+			<DCCReference Include="w_sharpen.pas">
+				<Form>frmSharpen</Form>
+			</DCCReference>
+			<DCCReference Include="fx_core.pas"/>
+			<DCCReference Include="fx_defs.pas"/>
+			<DCCReference Include="fx_mru.pas"/>
+			<DCCReference Include="w_options.pas">
+				<Form>frmOptions</Form>
+			</DCCReference>
+			<DCCReference Include="fx_pluginscanner.pas"/>
+			<DCCReference Include="fx_pluginmanager.pas"/>
+			<DCCReference Include="fx_internalp.pas"/>
+			<DCCReference Include="o_display.pas">
+				<Form>fraOptDisplay</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_plugins.pas">
+				<Form>fraOptPlugins</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="fx_cmdline.pas"/>
+			<DCCReference Include="o_formats.pas">
+				<Form>fraOptFormats</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_formatsxp.pas">
+				<Form>fraOptFormatsXP</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="w_save_JPEG.pas">
+				<Form>frmJPEGsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_JPEG2K.pas">
+				<Form>frmJPsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_TIFF.pas">
+				<Form>frmTIFFsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_XR.pas">
+				<Form>frmXRsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_lsJPEG_cut.pas">
+				<Form>frmCut</Form>
+			</DCCReference>
+			<DCCReference Include="w_lsJPEG_rotate.pas">
+				<Form>frmJPEG</Form>
+			</DCCReference>
+			<DCCReference Include="w_setwall.pas">
+				<Form>frmWallpaperS</Form>
+			</DCCReference>
+			<DCCReference Include="w_viewwall.pas">
+				<Form>frmWallpaper</Form>
+			</DCCReference>
+			<DCCReference Include="fx_formats_legacy.pas"/>
+			<DCCReference Include="o_themes.pas">
+				<Form>fraOptThemes</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_iconlib.pas">
+				<Form>fraOptIconLib</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_general.pas">
+				<Form>fraOptGeneral</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_advanced.pas">
+				<Form>fraOptAdvanced</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+	</Project>

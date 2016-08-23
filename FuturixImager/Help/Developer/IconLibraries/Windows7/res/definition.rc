@@ -1,0 +1,17 @@
+STRINGTABLE
+BEGIN
+    // required value (for compatibility check)
+    1		"FxImgIconLibR6"
+    
+    // name (in English)
+    2		"Windows 7"
+    
+    // description (leave empty if not needed)
+    3		"Allows use of Windows 7 system file format icons"
+
+    // author
+    4		"Alex Tereshchenko"
+    
+    // last version of FuturixImager tested with this
+    5		"6.0"
+END

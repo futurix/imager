@@ -1,0 +1,5 @@
+%DEFAULT%=%THIS%,0
+jfif=%THIS%,1
+jpeg=%THIS%,1
+jpe=%THIS%,1
+jpg=%THIS%,1

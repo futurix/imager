@@ -1,0 +1,12 @@
+
+// set language
+LANGUAGE 0x09, 0x01
+
+// common defines
+#include "..\..\Shared\fximager_version.h"
+
+// application manifest
+1 24 "res\futurix.manifest"
+
+// version info
+#include "res\version.rc"
