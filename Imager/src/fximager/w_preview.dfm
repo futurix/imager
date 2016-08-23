@@ -1,13 +1,11 @@
 object frmPrint: TfrmPrint
   Left = 190
   Top = 79
+  Width = 750
+  Height = 550
   ActiveControl = btnClose
-  Align = alClient
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsNone
   Caption = 'Print Preview'
-  ClientHeight = 523
-  ClientWidth = 742
   Color = clBtnFace
   Constraints.MinHeight = 400
   Constraints.MinWidth = 400
@@ -28,8 +26,7 @@ object frmPrint: TfrmPrint
     0000000C00000008000000010000000300000003000000030000000300000003
     000000070000000F0000000F0000000F0000001F0000003F0000007F0000}
   OldCreateOrder = False
-  Position = poDefault
-  WindowState = wsMaximized
+  Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy

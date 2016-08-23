@@ -11,7 +11,7 @@ const
     						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,nav,fs,info,random,' +
                             'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rmail,rcapt,' +
                             'rjpeg,rhex,gopage';
-    sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,rscan,rcapt,sep,copy,paste,sep,editor,undo,' +
+    sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,sep,copy,paste,sep,editor,undo,' +
     							'sep,zoomin,zoomout,sep,zoom,dispopt,nav,fs,sep,info,sep,random,sep,back,forward';
 
 procedure ApplyCustomToolbar(again: boolean = false);

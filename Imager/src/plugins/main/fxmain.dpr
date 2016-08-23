@@ -436,6 +436,8 @@ begin
                 end
             else if frmTIFFsave.rbnCZlib.Checked then
                 io.Params.TIFF_Compression := ioTIFF_CCITT1D
+            else if frmTIFFsave.rbnZIP.Checked then
+                io.Params.TIFF_Compression := ioTIFF_ZIP
             else
                 io.Params.TIFF_Compression := IoTIFF_LZW;
 
@@ -552,7 +554,7 @@ begin
     	begin
         api := ieaTWain;
             
-        case FxRegRInt('Scan_Subsystem', 0) of
+        case FxRegRInt('Scan_Subsystem', 7) of
         	0, 1:
             	if IsXP() then
                 	api := ieaWIA;

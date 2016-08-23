@@ -1,13 +1,11 @@
 object frmEditor: TfrmEditor
   Left = 190
   Top = 79
+  Width = 633
+  Height = 447
   ActiveControl = img
-  Align = alClient
-  BorderIcons = []
-  BorderStyle = bsNone
+  BorderIcons = [biSystemMenu]
   Caption = 'Edit Image'
-  ClientHeight = 548
-  ClientWidth = 767
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,8 +14,7 @@ object frmEditor: TfrmEditor
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
-  Position = poDefault
-  WindowState = wsMaximized
+  Position = poOwnerFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -27,8 +24,8 @@ object frmEditor: TfrmEditor
   object imgPreview: TImageEnView
     Left = 0
     Top = 26
-    Width = 542
-    Height = 486
+    Width = 400
+    Height = 358
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
@@ -36,7 +33,7 @@ object frmEditor: TfrmEditor
     ScrollBars = ssNone
     EnableAlphaChannel = True
     AutoShrink = True
-    ImageEnVersion = '2.2.4'
+    ImageEnVersion = '2.2.5'
     Align = alClient
     Visible = False
     TabOrder = 4
@@ -44,7 +41,7 @@ object frmEditor: TfrmEditor
   object cbrEditor: TCoolBar
     Left = 0
     Top = 0
-    Width = 767
+    Width = 625
     Height = 26
     AutoSize = True
     BandBorderStyle = bsNone
@@ -55,7 +52,7 @@ object frmEditor: TfrmEditor
         HorizontalOnly = True
         ImageIndex = -1
         MinHeight = 26
-        Width = 767
+        Width = 625
       end>
     EdgeBorders = []
     FixedOrder = True
@@ -63,7 +60,7 @@ object frmEditor: TfrmEditor
     object tbrEditor: TToolBar
       Left = 0
       Top = 0
-      Width = 763
+      Width = 621
       Height = 26
       AutoSize = True
       BorderWidth = 1
@@ -300,18 +297,18 @@ object frmEditor: TfrmEditor
   end
   object sbxBottom: TScrollBox
     Left = 0
-    Top = 512
-    Width = 767
+    Top = 384
+    Width = 625
     Height = 36
     Align = alBottom
     AutoScroll = False
     BorderStyle = bsNone
     TabOrder = 0
     DesignSize = (
-      767
+      625
       36)
     object btnApply: TButton
-      Left = 604
+      Left = 462
       Top = 6
       Width = 75
       Height = 25
@@ -321,7 +318,7 @@ object frmEditor: TfrmEditor
       OnClick = btnApplyClick
     end
     object btnCancel: TButton
-      Left = 685
+      Left = 543
       Top = 6
       Width = 75
       Height = 25
@@ -385,10 +382,10 @@ object frmEditor: TfrmEditor
     end
   end
   object sbxSide: TScrollBox
-    Left = 542
+    Left = 400
     Top = 26
     Width = 225
-    Height = 486
+    Height = 358
     Align = alRight
     AutoScroll = False
     BevelEdges = [beLeft, beRight]
@@ -480,14 +477,16 @@ object frmEditor: TfrmEditor
       Left = 0
       Top = 189
       Width = 221
-      Height = 297
+      Height = 169
       Align = alClient
       BorderStyle = bsNone
       Columns = <
         item
-          AutoSize = True
           Caption = 'Filters'
           MinWidth = 100
+          Width = -1
+          WidthType = (
+            -1)
         end>
       ColumnClick = False
       HotTrackStyles = [htHandPoint, htUnderlineHot]
@@ -505,8 +504,8 @@ object frmEditor: TfrmEditor
   object img: TImageEnView
     Left = 0
     Top = 26
-    Width = 542
-    Height = 486
+    Width = 400
+    Height = 358
     Cursor = crDefault
     Background = clAppWorkSpace
     ParentCtl3D = False
@@ -514,7 +513,7 @@ object frmEditor: TfrmEditor
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
     EnableAlphaChannel = True
-    ImageEnVersion = '2.2.4'
+    ImageEnVersion = '2.2.5'
     Align = alClient
     TabOrder = 2
     TabStop = True

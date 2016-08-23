@@ -22,6 +22,7 @@ type
     btnSave: TButton;
     tbrQuality: TTrackBar;
     lblQualityValue: TLabel;
+    rbnZIP: TRadioButton;
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure tbrQualityChange(Sender: TObject);
@@ -79,6 +80,7 @@ begin
     rbnCG31.Caption				:= LoadLStr(3100);
     rbnCG32.Caption				:= LoadLStr(3101);
     rbnCG4.Caption				:= LoadLStr(3102);
+    rbnZIP.Caption				:= LoadLStr(3104);
 
     gbxJPEG.Caption				:= LoadLStr(3103);
 

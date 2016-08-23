@@ -19,7 +19,6 @@ const
     SETTING_PROGRESSIVELOAD				= 7;
     SETTING_HQDISPLAYFILTER				= 8;
     SETTING_DELAYDISPLAYFILTER			= 9;
-    SETTING_ENABLECMS					= 10;
 
 type
   TfrmOptions = class(TForm)
@@ -546,7 +545,6 @@ begin
     AddSetting(SETTING_PROGRESSIVELOAD, LoadLStr(868));
     AddSetting(SETTING_HQDISPLAYFILTER, LoadLStr(869));
     AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
-    AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
 
     SetStyleAsLink(lblClearMRU);
     SetStyleAsLink(lblPlugScan);
@@ -585,7 +583,6 @@ begin
     	SetSetting(SETTING_PROGRESSIVELOAD, wreg.RBool('ProgressiveImageLoad', false));
     	SetSetting(SETTING_HQDISPLAYFILTER, wreg.RBool('HighQualityDisplay', true));
     	SetSetting(SETTING_DELAYDISPLAYFILTER, wreg.RBool('DelayZoomFilter', false));
-    	SetSetting(SETTING_ENABLECMS, wreg.RBool('UseCMS', false));
     	
     	wreg.CloseKey();
    		end
@@ -612,7 +609,6 @@ begin
     	SetSetting(SETTING_PROGRESSIVELOAD, false);
     	SetSetting(SETTING_HQDISPLAYFILTER, true);
     	SetSetting(SETTING_DELAYDISPLAYFILTER, false);
-    	SetSetting(SETTING_ENABLECMS, false);
         end;
 
     FreeAndNil(wreg);
@@ -665,7 +661,6 @@ begin
         wreg.WInteger('Resampler', cbxResample.ItemIndex);
     	wreg.WBool('HighQualityDisplay', GetSetting(SETTING_HQDISPLAYFILTER));
     	wreg.WBool('DelayZoomFilter', GetSetting(SETTING_DELAYDISPLAYFILTER));
-    	wreg.WBool('UseCMS', GetSetting(SETTING_ENABLECMS));
     	wreg.WBool('OneInstanceOnly', not GetSetting(SETTING_ALLOWMULTIPLEINST));
     	wreg.WBool('ReverseMouseWheel', cbxReverseWheel.Checked);
 
@@ -822,8 +817,6 @@ begin
         end
     else
     	frmMain.img.ZoomFilter := rfNone;
-
-    iegEnableCMS := GetSetting(SETTING_ENABLECMS);
 
     frmMain.img.DelayZoomFilter := GetSetting(SETTING_DELAYDISPLAYFILTER);
 

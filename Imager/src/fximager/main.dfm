@@ -48,7 +48,7 @@ object frmMain: TfrmMain
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
       OnProgress = imgProgress
-      ImageEnVersion = '2.2.4'
+      ImageEnVersion = '2.2.5'
       OnMouseWheel = imgMouseWheel
       Align = alClient
       PopupMenu = popMain
@@ -801,6 +801,7 @@ object frmMain: TfrmMain
         end
         object miZmFit: TMenuItem
           Caption = 'Zoom to Fit'
+          ShortCut = 16432
           OnClick = miZmFitClick
         end
         object miZmWidth: TMenuItem

@@ -58,6 +58,7 @@ type
   private
     { Private declarations }
   public
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -226,14 +227,6 @@ begin
 	wreg := TFRegistry.Create(RA_READONLY);
 	wreg.RootKey := HKEY_CURRENT_USER;
 
-    if Assigned(frmShow) then
-  		frmShow.Close();
-
-	frmMain.Menu := nil;
-    FSSavePos(true);
-    frmMain.tbrMain.Hide();
-    frmmain.sbrMain.Hide();
-
     // tweaks
     tbnZoom.WholeDropDown := true;
 
@@ -271,6 +264,8 @@ begin
 
     FreeAndNil(wreg);
 
+    RestoreWindowSize(@Self, sSettings + '\Wnd', 750, 550, 'PrintPreview_');
+
     // localization
 	Localize();
 end;
@@ -282,9 +277,6 @@ begin
 	wreg := TFRegistry.Create(RA_FULL);
 	wreg.RootKey := HKEY_CURRENT_USER;
     
-    frmMain.Menu := frmMain.mnuMain;
-    FSRestorePos(true);
-
     // saving settings
     if wreg.OpenKey(sSettings, true) then
     	begin
@@ -314,6 +306,8 @@ begin
     	end;
 
     FreeAndNil(wreg);
+    
+    SaveWindowSize(@Self, sSettings + '\Wnd', 'PrintPreview_');
 
     // to be freed
     Action := caFree;
@@ -328,6 +322,18 @@ procedure TfrmPrint.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftSta
 begin
 	if Key = VK_ESCAPE then
   		Self.Close();
+end;
+
+procedure TfrmPrint.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+    else if Assigned(Screen.ActiveForm) then
+    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

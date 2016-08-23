@@ -1,6 +1,0 @@
->>>>>>>>> 5.8
-- improved Photoshop format support
-- improved support for rare variations of TIFF format, including images created in Windows Imaging
-- added "Sharpen" filter
-- added basic multi-page printing
-- removed several rarely used menu shortcuts and plug-ins

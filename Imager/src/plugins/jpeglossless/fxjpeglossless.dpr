@@ -76,7 +76,7 @@ begin
             else
             	markers := jcCopyAll;
 
-            JpegLosslessTransform(document_path, ChangeFileExt(String(document_path), LoadLStr(3403) + '.jpg'), transf, false, markers, Rect(0, 0, 0, 0));
+            JpegLosslessTransform(document_path, ChangeFileExt(String(document_path), LoadLStr(3403) + '.jpg'), transf, false, markers, Rect(0, 0, 0, 0), frmJPEG.cbxEXIF.Checked);
 
     		Result.result_type := RT_INT;
     		Result.result_value := 1;

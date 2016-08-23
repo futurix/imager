@@ -4,7 +4,7 @@ object frmTIFFsave: TfrmTIFFsave
   ActiveControl = btnSave
   BorderStyle = bsDialog
   Caption = 'Save As TIFF'
-  ClientHeight = 217
+  ClientHeight = 238
   ClientWidth = 274
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,7 +23,7 @@ object frmTIFFsave: TfrmTIFFsave
     Left = 7
     Top = 7
     Width = 259
-    Height = 105
+    Height = 123
     Caption = ' Compression '
     TabOrder = 0
     object rbnCNone: TRadioButton
@@ -92,10 +92,18 @@ object frmTIFFsave: TfrmTIFFsave
       Caption = 'CCITT G4, 2D'
       TabOrder = 7
     end
+    object rbnZIP: TRadioButton
+      Left = 10
+      Top = 97
+      Width = 120
+      Height = 17
+      Caption = 'ZIP'
+      TabOrder = 8
+    end
   end
   object gbxJPEG: TGroupBox
     Left = 7
-    Top = 119
+    Top = 140
     Width = 259
     Height = 57
     Caption = ' Compression Level (only for JPEG) '
@@ -124,7 +132,7 @@ object frmTIFFsave: TfrmTIFFsave
   end
   object btnCancel: TButton
     Left = 191
-    Top = 183
+    Top = 204
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -133,7 +141,7 @@ object frmTIFFsave: TfrmTIFFsave
   end
   object btnSave: TButton
     Left = 112
-    Top = 183
+    Top = 204
     Width = 75
     Height = 25
     Caption = 'Save'

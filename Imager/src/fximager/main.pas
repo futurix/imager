@@ -16,9 +16,6 @@ const
   VK_BROWSER_REFRESH 	= 168;
   VK_BROWSER_STOP 		= 169;
 
-  // SHFileOperation constants
-  FOF_WANTNUKEWARNING	= $4000;
-
 type
   TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
   TDisplayStyles = (dsNormal, dsFitBig, dsFitAll);
@@ -322,12 +319,12 @@ type
     procedure imgMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
     procedure miCustTBClick(Sender: TObject);
     procedure miLoadLastClick(Sender: TObject);
-    procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure tbnRCaptureClick(Sender: TObject);
     procedure tbnRHEXClick(Sender: TObject);
     procedure tbnRJPEGClick(Sender: TObject);
     procedure tbnRMailClick(Sender: TObject);
     procedure tbnRScanClick(Sender: TObject);
+    procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
   private
     prev_progress: integer;
 
@@ -1569,12 +1566,8 @@ procedure TfrmMain.miEditorClick(Sender: TObject);
 begin
 	if not Assigned(frmEditor) then
   		begin
-        Application.CreateForm(TfrmEditor, frmEditor);
-
-        Header();
-
-        frmEditor.Parent := frmMain;
-        frmEditor.Show();
+  		Application.CreateForm(TfrmEditor, frmEditor);
+  		frmEditor.ShowModal();
   		end;
 end;
 
@@ -1627,26 +1620,7 @@ end;
 
 procedure TfrmMain.miPrintPreviewClick(Sender: TObject);
 begin
-	if (Printer.Printers.Count > 0) then
-		begin
-        if not Assigned(frmPrint) then
-  			begin
-  			Application.CreateForm(TfrmPrint, frmPrint);
-
-        	if FileExists(infImage.path) then
-        		frmPrint.prwPrint.PrintJobTitle := ExtractFileName(infImage.path)
-        	else
-        		frmPrint.prwPrint.PrintJobTitle := sAppName;
-
-            Header();
-
-            frmPrint.Parent := frmMain;
-            frmPrint.DrawView();
-        	frmPrint.Show();
-  			end;
-        end
-	else
-  		ShowMessage(LoadLStr(3261));
+	PrintImage();
 end;
 
 procedure TfrmMain.miShowClick(Sender: TObject);
@@ -2109,11 +2083,33 @@ begin
     	end;
 end;
 
+procedure TfrmMain.tbnRCaptureClick(Sender: TObject);
+begin
+	ExecuteRole(PR_CAPTURE);
+end;
+
+procedure TfrmMain.tbnRHEXClick(Sender: TObject);
+begin
+	ExecuteRole(PR_HEX);
+end;
+
+procedure TfrmMain.tbnRJPEGClick(Sender: TObject);
+begin
+	ExecuteRole(PR_JPEGLL);
+end;
+
+procedure TfrmMain.tbnRMailClick(Sender: TObject);
+begin
+	ExecuteRole(PR_EMAIL);
+end;
+
+procedure TfrmMain.tbnRScanClick(Sender: TObject);
+begin
+	ExecuteRole(PR_SCAN);
+end;
+
 procedure TfrmMain.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
 begin
-    if (Assigned(frmEditor) or Assigned(frmPrint)) then
-    	Exit;
-    
     case Msg.CharCode of
     	VK_RETURN:
             begin
@@ -2390,7 +2386,7 @@ begin
                 Handled := true;
                 end;
 
-        Word('`'):
+        Word('`'), $DF:
             if IsCtrl() then
             	begin
                 if tbnZoomMisc.Enabled then
@@ -2545,31 +2541,6 @@ begin
             Handled := true;
             end;
     end;
-end;
-
-procedure TfrmMain.tbnRCaptureClick(Sender: TObject);
-begin
-	ExecuteRole(PR_CAPTURE);
-end;
-
-procedure TfrmMain.tbnRHEXClick(Sender: TObject);
-begin
-	ExecuteRole(PR_HEX);
-end;
-
-procedure TfrmMain.tbnRJPEGClick(Sender: TObject);
-begin
-	ExecuteRole(PR_JPEGLL);
-end;
-
-procedure TfrmMain.tbnRMailClick(Sender: TObject);
-begin
-	ExecuteRole(PR_EMAIL);
-end;
-
-procedure TfrmMain.tbnRScanClick(Sender: TObject);
-begin
-	ExecuteRole(PR_SCAN);
 end;
 
 end.

@@ -271,7 +271,7 @@ end;
 // sets Imager's window header
 procedure Header();
 begin
-	if ((infImage.path <> '') and (not Assigned(frmEditor)) and (not Assigned(frmPrint))) then
+	if (infImage.path <> '') then
   		begin
   		if frmMain.bFullPathInTitle then
     		begin
@@ -287,21 +287,8 @@ begin
   		end
 	else
   		begin
-        if Assigned(frmEditor) then
-        	begin
-  			Application.Title := sAppNameEx + ' - ' + LoadLStr(534);
-  			frmMain.Caption := sAppNameEx + ' - ' + LoadLStr(534);
-            end
-        else if Assigned(frmPrint) then
-        	begin
-  			Application.Title := sAppNameEx + ' - ' + LoadLStr(3250);
-  			frmMain.Caption := sAppNameEx + ' - ' + LoadLStr(3250);
-            end
-        else
-        	begin
-  			Application.Title := sAppNameEx;
-  			frmMain.Caption := sAppNameEx;
-            end;
+        Application.Title := sAppNameEx;
+        frmMain.Caption := sAppNameEx;
   		end;
 end;
 

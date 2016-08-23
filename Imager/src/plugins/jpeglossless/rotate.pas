@@ -19,6 +19,7 @@ type
     sbnTransverse: TSpeedButton;
     sbnCut: TSpeedButton;
     sbnNone: TSpeedButton;
+    cbxEXIF: TCheckBox;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -58,6 +59,8 @@ end;
 
 procedure TfrmJPEG.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+    FxRegWBool('LosslessJPEG_UpdateExif', cbxEXIF.Checked);
+
 	Action := caFree;
 end;
 
@@ -79,8 +82,11 @@ begin
     sbnTransverse.Caption	:= LoadLStr(3410);
     sbnCut.Caption			:= LoadLStr(3411);
     sbnNone.Caption			:= LoadLStr(3412);
+    cbxEXIF.Caption			:= LoadLStr(3414);
 
     btnCancel.Caption		:= LoadLStr(51);
+
+    cbxEXIF.Checked			:= FxRegRBool('LosslessJPEG_UpdateExif', true);
 end;
 
 procedure TfrmJPEG.CreateParams(var Params: TCreateParams);

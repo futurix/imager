@@ -1,4 +1,28 @@
->>>> 5.8.1
+>>>> 5.8.5
++ support for ZIP compression in TIFF format
++ support for 16-bit greyscale PNG
++ several bug-fixes in TIFF support
++ JPEG lossless transformations will update embedded EXIF data (optionally)
++ reworked "Delete" function to delete safely and to recycle bin only
++ printing and editing moved to modal dialogs
++ to solve confusion TWAIN is now default scanning subsystem for XP
++ raw camera formats update
++ fixed misbehaving keyboard input in several rare situations
++ restored basic compatibility with WindowsNT 4.0 (with latest updates applied)
++ basic compatibility with WindowsVista
++ Italian translation now available, many other translations updated
+
+>>>> 5.8.6
+- restored and somewhat updated help file
+
+>>>> 5.9
+- direct memory loading for plug-ins
+- new FreeImage (3.9.2) plug-in as base for file format support
+- no more fxcore.dll
+- merge most plug-ins into main executable or in add-on plug-ins
+- editor in external DLL
+
+>>>> 5.x
 - multi-page image retrieval interface
 - additional interfaces (get current image, get Imager version)
 - SDK: document callback interfaces
@@ -15,22 +39,16 @@
 / auto-rotation on load, based on EXIF rotation info (optional)
 / round selections (using BeginImageProcessing)
 / reimplement filters using imageen
-
->>>> 5.8.2
 - move JPEG lossless tranformations to the FreeImage plug-in
 - improve JPEG lossless tranformations: (add icons, replacing current file or
   optionally transforming into another file)
-- JPEG lossless crop (not in FreeImage plug-in)
+- JPEG lossless crop (in FreeImage plug-in)
 - FIX: info cannot read multi-page or animated files (they should be closed)
-
->>>> 5.8.3
 - add OnImageLoad, OnImageLoadUI, OnImageUnload, OnImageUpdate handlers
 - optimize actions on image open (and add option to zoom-to-fit on image open)
 - speed optimization: replace registry searches with string lists
 - speed optimization: string pool with commonly loaded strings (updatable
   on locale switch)
-
->>>> 5.8.4
 - direct memory loading interface
 - replace parts of ImageEn with FreeImage (with direct memory loading)
 - grouping for the "Open" dialog
@@ -39,24 +57,16 @@
 - new MRU of my own
 - "Open in FS" context menu command
 - add more stuff to pop-up menu
-
->>>> 5.9
 - new color fix filter
 - painting features (eraser, brushes)
 - color picker tool
 - better zoom in editor
 - add text tool
 - make editor more understandable
-
->>>> 5.9.1
 - multiple FuturixImager entries in HKCR (one for each extension)
 - individual descriptions for formats (and also custom ones possible)
 - individual icons for formats (and also custom ones possible)
-
->>>> 5.9.2
 - multi-page saver for TIFF and DCX
-
->>>> 6.0
 - file browser in external DLL (floating palette) with documented interface
 - file browser configuration
 - advanced raw importer

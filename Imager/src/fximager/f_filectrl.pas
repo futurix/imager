@@ -29,26 +29,16 @@ begin
         tmp := infImage.path;
         CloseImage();
 
-        if HiWord(GetKeyState(VK_SHIFT)) <> 0 then
-        	begin
-            // permanent
-            if ((Application.MessageBox(PChar(LoadLStr(610)), sAppName, MB_YESNO + MB_ICONQUESTION) = ID_YES) and DeleteFile(tmp)) then
-            	res := 0
-            else
-            	res := 1;
-            end
-        else
-        	begin
-            // recycle bin
-            op.Wnd := frmMain.Handle;
-            op.wFunc := FO_DELETE;
-            op.pFrom := PChar(tmp);
-      		op.pTo := nil;
-            op.fFlags := (FOF_ALLOWUNDO or FOF_WANTNUKEWARNING);
-            op.lpszProgressTitle := sAppName;
+        // recycle bin
+        op.Wnd := frmMain.Handle;
+        op.wFunc := FO_DELETE;
+        op.pFrom := PChar(tmp);
+      	op.pTo := nil;
+        op.fFlags := (FOF_ALLOWUNDO or FOF_FILESONLY);
+        op.hNameMappings := nil;
+        op.lpszProgressTitle := sAppName;
 
-            res := SHFileOperation(op);
-            end;
+        res := SHFileOperation(op);
 
         if ((res = 0) and (not op.fAnyOperationsAborted)) then
         	GoNext()

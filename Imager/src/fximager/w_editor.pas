@@ -125,6 +125,7 @@ type
     procedure SetCurrentMode(mode: integer);
   public
     nCurrentMode, nPreviousMode: integer;
+    procedure CreateParams(var Params: TCreateParams); override;
     procedure Localize();
   end;
 
@@ -148,14 +149,6 @@ var
 begin
 	wreg := TFRegistry.Create(RA_READONLY);
 	wreg.RootKey := HKEY_CURRENT_USER;
-
-    if Assigned(frmShow) then
-  		frmShow.Close();
-
-	frmMain.Menu := nil;
-    FSSavePos(true);
-    frmMain.tbrMain.Hide();
-    frmmain.sbrMain.Hide();
 
     img.Blank();
     img.EnableShiftKey := false;
@@ -197,6 +190,9 @@ begin
 
     boxColorSelector.SetColor(sbxColor.Color);
 
+    // getting window size
+    RestoreWindowSize(@Self, sSettings + '\Wnd', 775, 575, 'Editor_');
+
 	// getting main image
     img.Background := frmMain.sbxMain.Color;
     img.IEBitmap.AssignImage(frmMain.img.IEBitmap);
@@ -235,9 +231,6 @@ end;
 
 procedure TfrmEditor.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-    frmMain.Menu := frmMain.mnuMain;
-    FSRestorePos(true);
-
 	Action := caFree;
 end;
 
@@ -254,6 +247,9 @@ end;
 
 procedure TfrmEditor.btnApplyClick(Sender: TObject);
 begin
+    // saving window position
+    SaveWindowSize(@Self, sSettings + '\Wnd', 'Editor_');
+
     // saving settings
     FxRegWBool('Editor_ZoomToFit', img.AutoShrink);
     FxRegWStr('Editor_Color', ColorToString(boxColorSelector.Color));
@@ -1000,6 +996,18 @@ begin
         proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
         img.Update();
         end;
+end;
+
+procedure TfrmEditor.CreateParams(var Params: TCreateParams);
+begin
+	Params.Style := (Params.Style or WS_POPUP);
+
+	inherited;
+
+	if (Owner is TForm) then
+		Params.WndParent := (Owner as TWinControl).Handle
+    else if Assigned(Screen.ActiveForm) then
+    	Params.WndParent := Screen.ActiveForm.Handle;
 end;
 
 end.

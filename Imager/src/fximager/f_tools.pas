@@ -4,8 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  ShlObj, Printers, h_nt, c_const, c_utils, c_reg, c_locales;
+  ShlObj, Printers, c_const, c_utils, c_reg, c_locales;
 
+procedure PrintImage();
 procedure CommandLine();
 procedure Uninstall();
 procedure FileNotFound(path: string);
@@ -22,6 +23,28 @@ function  IsStrongUser(): boolean;
 implementation
 
 uses main, w_show, f_graphics, f_ui, f_nav, f_filectrl, w_preview;
+
+// print with preview
+procedure PrintImage();
+begin
+	if (Printer.Printers.Count > 0) then
+		begin
+        if not Assigned(frmPrint) then
+  			begin
+  			Application.CreateForm(TfrmPrint, frmPrint);
+
+        	if FileExists(infImage.path) then
+        		frmPrint.prwPrint.PrintJobTitle := ExtractFileName(infImage.path)
+        	else
+        		frmPrint.prwPrint.PrintJobTitle := sAppName;
+
+        	frmPrint.DrawView();
+            frmPrint.ShowModal();
+  			end;
+        end
+	else
+  		ShowMessage(LoadLStr(3261));
+end;
 
 // reads command line
 procedure CommandLine();
@@ -222,32 +245,83 @@ end;
 function IsMemberOfGroup(const DomainAliasRid: DWORD): boolean;
 const
 	SECURITY_NT_AUTHORITY: TSIDIdentifierAuthority =
-    	(Value: (0, 0, 0, 0, 0, 5));
+		(Value: (0, 0, 0, 0, 0, 5));
 	SECURITY_BUILTIN_DOMAIN_RID = $00000020;
+	SE_GROUP_ENABLED = $00000004;
+	SE_GROUP_USE_FOR_DENY_ONLY = $00000010;
 var
-	sid: PSID;
+	Sid: PSID;
+	CheckTokenMembership: function(TokenHandle: THandle; SidToCheck: PSID; var IsMember: BOOL): BOOL; stdcall;
 	IsMember: BOOL;
+	Token: THandle;
+	GroupInfoSize: DWORD;
+	GroupInfo: PTokenGroups;
+	i: integer;
 begin
-	if Win32Platform <> VER_PLATFORM_WIN32_NT then
+	if (Win32Platform <> VER_PLATFORM_WIN32_NT) then
     	begin
-    	Result := true;
-    	Exit;
-  		end;
+		Result := True;
+		Exit;
+		end;
 
 	Result := false;
 
 	if not AllocateAndInitializeSid(SECURITY_NT_AUTHORITY, 2,
-    	SECURITY_BUILTIN_DOMAIN_RID, DomainAliasRid,
-    	0, 0, 0, 0, 0, 0, sid) then
-    	Exit;
+		SECURITY_BUILTIN_DOMAIN_RID, DomainAliasRid, 0, 0, 0, 0, 0, 0, Sid) then
+		Exit;
 
 	try
-		if CheckTokenMembership(0, sid, IsMember) then
-			Result := IsMember;
+		CheckTokenMembership := nil;
 
-  		finally
-    		FreeSid(sid);
-  		end;
+		if (Lo(GetVersion) >= 5) then
+      		CheckTokenMembership := GetProcAddress(GetModuleHandle(advapi32), 'CheckTokenMembership');
+		if Assigned(CheckTokenMembership) then
+        	begin
+			if CheckTokenMembership(0, Sid, IsMember) then
+			Result := IsMember;
+			end
+		else
+        	begin
+			GroupInfo := nil;
+			if not OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, Token) then
+            	begin
+				if (GetLastError <> ERROR_NO_TOKEN) then
+					Exit;
+
+				if not OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, Token) then
+					Exit;
+				end;
+
+			try
+				GroupInfoSize := 0;
+
+				if not GetTokenInformation(Token, TokenGroups, nil, 0, GroupInfoSize) and
+					(GetLastError <> ERROR_INSUFFICIENT_BUFFER) then
+					Exit;
+
+				GetMem(GroupInfo, GroupInfoSize);
+				if not GetTokenInformation(Token, TokenGroups, GroupInfo, GroupInfoSize, GroupInfoSize) then
+					Exit;
+
+				for i := 0 to (GroupInfo.GroupCount - 1) do
+                	begin
+					if EqualSid(Sid, GroupInfo.Groups[i].Sid) and (GroupInfo.Groups[i].Attributes and (SE_GROUP_ENABLED or
+						SE_GROUP_USE_FOR_DENY_ONLY) = SE_GROUP_ENABLED) then
+                        begin
+						Result := true;
+						Break;
+						end;
+					end;
+
+            finally
+				FreeMem(GroupInfo);
+				CloseHandle(Token);
+			end;
+		end;
+
+	finally
+		FreeSid(Sid);
+	end;
 end;
 
 function IsStrongUser(): boolean;

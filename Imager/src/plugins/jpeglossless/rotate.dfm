@@ -123,4 +123,14 @@ object frmJPEG: TfrmJPEG
     TabOrder = 0
     OnClick = btnCancelClick
   end
+  object cbxEXIF: TCheckBox
+    Left = 10
+    Top = 288
+    Width = 239
+    Height = 17
+    Caption = 'Update EXIF data'
+    Checked = True
+    State = cbChecked
+    TabOrder = 1
+  end
 end
