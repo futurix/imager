@@ -174,7 +174,7 @@ var
 	bmp: hBitmap;
 	lib: THandle;
 	ext, lib_path: string;
-    is_raw, is_jbig: boolean;
+    is_raw, is_jbig, is_magick: boolean;
     tmp_res: TFxImgResult;
 begin
     Result := 0;
@@ -221,6 +221,13 @@ begin
 
     	is_jbig := ((ext = 'jbg') or (ext = 'jbig') or (ext = 'bie'));
 
+    	is_magick := ((ext = 'dcm') or (ext = 'dicom') or (ext = 'cut') or (ext = 'avs') or
+        			(ext = 'cin') or (ext = 'dot') or (ext = 'dpx') or (ext = 'fits') or
+                    (ext = 'fpx') or (ext = 'mat') or (ext = 'miff') or (ext = 'mtv') or
+                    (ext = 'palm') or (ext = 'pict') or (ext = 'pix') or (ext = 'pwp') or
+                    (ext = 'rla') or (ext = 'sgi') or (ext = 'sun') or (ext = 'svg') or
+                    (ext = 'ttf') or (ext = 'vicar') or (ext = 'viff') or (ext = 'xcf'));
+
     	if ((not init_raw) and is_raw and (FileExists(path_app + FN_ADDRAW))) then
             begin
             IEFileFormatRemove(ioRAW);
@@ -234,6 +241,13 @@ begin
     		IEAddExtIOPlugIn(path_app + FN_ADDJBIG);
 
             init_jbig := true;
+            end;
+
+    	if ((not init_magick) and is_magick and (FileExists(path_app + FN_ADDMAGICK))) then
+        	begin
+    		IEAddExtIOPlugIn(path_app + FN_ADDMAGICK);
+
+            init_magick := true;
             end;
         end;
 
@@ -317,7 +331,7 @@ procedure OpenLocal(path: string; add_to_mru: boolean = true);
 var
 	bmp: HBITMAP;
     ext: string;
-    is_raw, is_jbig: boolean;
+    is_raw, is_jbig, is_magick: boolean;
 begin
     ext := LowerCase(ExtractExt(path));
 	bmp := DoImageLoad(path);
@@ -343,6 +357,12 @@ begin
         			(ext = 'raw') or (ext = 'raf') or (ext = 'x3f') or (ext = 'orf') or
                     (ext = 'srf') or (ext = 'mrw') or (ext = 'dcr') or (ext = 'bay') or (ext = 'pef'));
     	is_jbig := ((ext = 'jbg') or (ext = 'jbig') or (ext = 'bie'));
+    	is_magick := ((ext = 'dcm') or (ext = 'dicom') or (ext = 'cut') or (ext = 'avs') or
+        			(ext = 'cin') or (ext = 'dot') or (ext = 'dpx') or (ext = 'fits') or
+                    (ext = 'fpx') or (ext = 'mat') or (ext = 'miff') or (ext = 'mtv') or
+                    (ext = 'palm') or (ext = 'pict') or (ext = 'pix') or (ext = 'pwp') or
+                    (ext = 'rla') or (ext = 'sgi') or (ext = 'sun') or (ext = 'svg') or
+                    (ext = 'ttf') or (ext = 'vicar') or (ext = 'viff') or (ext = 'xcf'));
 
     	if ((not init_raw) and is_raw and (FileExists(path_app + FN_ADDRAW))) then
             begin
@@ -357,6 +377,13 @@ begin
     		IEAddExtIOPlugIn(path_app + FN_ADDJBIG);
 
             init_jbig := true;
+            end;
+
+    	if ((not init_magick) and is_magick and (FileExists(path_app + FN_ADDMAGICK))) then
+        	begin
+    		IEAddExtIOPlugIn(path_app + FN_ADDMAGICK);
+
+            init_magick := true;
             end;
 
         frmMain.img.IO.Params.JPEG_DCTMethod := ioJPEG_IFAST;

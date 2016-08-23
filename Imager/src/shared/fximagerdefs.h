@@ -11,8 +11,8 @@
 // application strings (ANSI only)
 #define SAPPNAME 			"FuturixImager"
 #define SAPPNAMEEX			SAPPNAME
-#define SVERSION			"5.8.6"
-#define SVERSIONEX			"5.8.6.0"
+#define SVERSION			"5.8.7"
+#define SVERSIONEX			"5.8.7.0"
 #define SAUTHOR 			"Alexander Tereshchenko"
 #define SRIGHTS 			"© 1999-2007 Alexander Tereshchenko"
 #define SREGASSOCIATION		SAPPNAME
@@ -21,7 +21,7 @@
 // version info
 #define FXVER_MAJOR			5
 #define FXVER_MINOR			8
-#define FXVER_REVISION		6
+#define FXVER_REVISION		7
 #define FXVER_BUILD			0
 
 // registry paths
@@ -33,7 +33,7 @@
 #define SINTERNALFORMAT		"fx_internal"
 
 // URLs
-#define SURL				"http://www.fxfp.com/"
+#define SURL				"http://www.fximage.com/"
 
 // plug-in signatures
 #define SLOCALEID 			"FxImgLocaleR2"
@@ -50,6 +50,7 @@
 #define FN_FORMATS			"fxformats.exe"
 #define FN_ADDRAW			"fxraw.dll"
 #define FN_ADDJBIG			"fxjbig.dll"
+#define FN_ADDMAGICK		"fxmagick.dll"
 
 // registry access constants
 #define RA_FULL				(KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS | \

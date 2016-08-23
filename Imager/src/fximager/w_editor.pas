@@ -120,6 +120,7 @@ type
     procedure imgMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure imgMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
+    procedure FormShow(Sender: TObject);
   private
     procedure HandleFilter(name: string);
     procedure SetCurrentMode(mode: integer);
@@ -996,6 +997,12 @@ begin
         proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
         img.Update();
         end;
+end;
+
+procedure TfrmEditor.FormShow(Sender: TObject);
+begin
+    btnApply.Realign();
+    btnCancel.Realign();
 end;
 
 procedure TfrmEditor.CreateParams(var Params: TCreateParams);

@@ -1,11 +1,14 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.6
+!define FXVERSION 5.8.7
 
 Name "FuturixImager Extras"
-OutFile "futuriximager_extras.exe"
+OutFile "output\futuriximager_extras.exe"
 CRCCheck on
-SetCompressor lzma
+SetCompressor /SOLID lzma
+RequestExecutionLevel highest
+ShowInstDetails nevershow
+ShowUninstDetails nevershow
 
 BrandingText "FuturixImager ${FXVERSION} Extras"
 
@@ -16,6 +19,14 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 
 !define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_RIGHT
+!define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-uninstall-r.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_COMPONENTS
@@ -46,11 +57,11 @@ FunctionEnd
 
 Section "-Core"
   SectionIn RO
-
+  SetDetailsPrint none
+  
   # deleting legacy files
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll
-  Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxmng.dll
   Delete $INSTDIR\fxmnghandler.dll
@@ -59,6 +70,7 @@ Section "-Core"
   
   # deleting old files
   Delete $INSTDIR\fxjbig.dll
+  Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxwireless.dll
@@ -82,6 +94,11 @@ Section "Playback of animated GIFs"
   File "..\bin\fxgdiplus.dll"
 SectionEnd
 
+Section "Support for SVG, TTF, DICOM, etc..."
+  SetOutPath "$INSTDIR"
+  File "..\bin\fxmagick.dll"
+SectionEnd
+
 Section "Support for PhotoCD, EPS thumbnails..."
   SetOutPath "$INSTDIR"
   File "..\bin\fxgraphicex.dll"
@@ -94,8 +111,11 @@ SectionEnd
 
 
 Section Uninstall
+  SetDetailsPrint none
+  
   # deleting files
   Delete $INSTDIR\fxjbig.dll
+  Delete $INSTDIR\fxmagick.dll
   Delete $INSTDIR\fxplaygif.dll
   Delete $INSTDIR\fxgraphicex.dll
   Delete $INSTDIR\fxwireless.dll

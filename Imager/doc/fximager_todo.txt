@@ -1,7 +1,2 @@
->>>> 5.8.6
-- update for raw camera formats
-- better support for rare variants of TIFF and malformed PNGs
-- better Windows Vista support
-- multiple bugfixes: transparency of 32 bit icons, weird colour management issues, slow load of certain metafiles, etc
-- removed features: e-mail plugin, rare formats plugin, custom toolbar themes
-- deprecated feature (to be removed in the next release): localization
+>>>> 5.8.7
+

@@ -1,22 +1,33 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.8.6
+!define FXVERSION 5.8.7
 
 Name "FuturixImager"
-OutFile "futuriximager.exe"
+OutFile "output\futuriximager.exe"
 CRCCheck on
-SetCompressor lzma
+SetCompressor /SOLID lzma
 RequestExecutionLevel highest
+ShowInstDetails nevershow
+ShowUninstDetails nevershow
 
 BrandingText "FuturixImager ${FXVERSION}"
 
 InstallDir "$PROGRAMFILES\FuturixImager"
+InstallDirRegKey HKCU "Software\alex_t\FuturixImager" "InstallationPath"
 
 !define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION}"
 !define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the installation of FuturixImager.\r\n\r\n$_CLICK"
 
 !define MUI_COMPONENTSPAGE_NODESC
 !define MUI_ABORTWARNING
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+!define MUI_HEADERIMAGE
+!define MUI_HEADERIMAGE_RIGHT
+!define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-r.bmp"
+!define MUI_HEADERIMAGE_UNBITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-uninstall-r.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\orange-uninstall.bmp"
 
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE "license.txt"
@@ -34,7 +45,8 @@ InstallDir "$PROGRAMFILES\FuturixImager"
 
 Section "FuturixImager"
   SectionIn RO
-
+  SetDetailsPrint none
+  
   # removing xtra plug-ins via uninstaller (if possible)
   ExecWait '"$INSTDIR\uninstallx.exe" /S'
   
@@ -63,7 +75,7 @@ Section "FuturixImager"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayVersion" "${FXVERSION}"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "DisplayIcon" "$INSTDIR\fximager.exe"
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "UninstallString" "$INSTDIR\uninstallfx.exe"
-  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.fxfp.com/"
+  WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "URLUpdateInfo" "http://www.fximage.com/"
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoModify" 1
   WriteRegDWORD HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager" "NoRepair" 1
    
@@ -77,7 +89,7 @@ Section "FuturixImager"
   CreateShortCut "$SMPROGRAMS\FuturixImager.lnk" "$INSTDIR\fximager.exe"
   
   # writing installtion location to the registry
-  WriteRegStr HKEY_CURRENT_USER "Software\alex_t\FuturixImager" "InstallationPath" "$INSTDIR"
+  WriteRegStr HKCU "Software\alex_t\FuturixImager" "InstallationPath" $INSTDIR
 SectionEnd
 
 
@@ -108,6 +120,8 @@ SectionEnd
 
 
 Section Uninstall
+  SetDetailsPrint none
+  
   # registry clean-up
   ExecWait '"$INSTDIR\fxformats.exe" /uninstall'
 

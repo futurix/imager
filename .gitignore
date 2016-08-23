@@ -32,3 +32,4 @@ Imager/src/plugins/fimg/library/*
 *.user
 *.suo
 Imager/redist/international/*/*.dll
+Imager/redist/output/*

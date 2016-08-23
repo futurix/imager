@@ -41,5 +41,5 @@ Conditions:
 Copyright © 1999-2007 Alexander Tereshchenko
 All rights reserved
 
-E-mail: info@fxfp.com
-Web: http://www.fxfp.com/
+E-mail: info@fximage.com
+Web: http://www.fximage.com/

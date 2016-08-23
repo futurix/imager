@@ -470,7 +470,7 @@ begin
 	Randomize();
 
     // localization and themes
-    InitLocalization(HInstance);
+    c_locales.backup_lib := HInstance;
     LoadTheme(HInstance);
 
     // setting folder variables

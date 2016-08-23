@@ -81,6 +81,7 @@ contains
   ieXtraTransitions,
   iepresetim,
   ieraw,
-  iepsd;
+  iepsd,
+  iedicom;
 
 end.

@@ -75,6 +75,8 @@ begin
     	end;
 
 	s.Sort();
+
+    lvwExt.Items.BeginUpdate();
     lvwExt.Items.Clear();
 
     bDescr := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
@@ -97,6 +99,8 @@ begin
 
     if bDescr then
     	wreg.CloseKey();
+
+    lvwExt.Items.EndUpdate();
 
 	FreeAndNil(s);
     FreeAndNil(notrec);

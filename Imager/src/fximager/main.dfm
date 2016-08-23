@@ -48,7 +48,7 @@ object frmMain: TfrmMain
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
       OnProgress = imgProgress
-      ImageEnVersion = '2.3.0'
+      ImageEnVersion = '2.3.2'
       OnMouseWheel = imgMouseWheel
       Align = alClient
       PopupMenu = popMain

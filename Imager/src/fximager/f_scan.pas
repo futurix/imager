@@ -175,6 +175,81 @@ begin
         WriteDescr('bie', LoadLStr(1040));
         end;
 
+    if FileExists(path_app + FN_ADDMAGICK) then
+    	begin
+        current_dll := path_app + FN_ADDMAGICK;
+        WriteData(PS_FNAME, 'ImageMagick integration');
+        current_dll := '';
+
+        WriteInternal(PS_FOPEN, 'dcm');
+        WriteInternal(PS_FOPEN, 'dicom');
+        WriteInternal(PS_FOPEN, 'cut');
+        WriteInternal(PS_FOPEN, 'avs');
+        WriteInternal(PS_FOPEN, 'cin');
+        WriteInternal(PS_FOPEN, 'dot');
+        WriteInternal(PS_FOPEN, 'dpx');
+        WriteInternal(PS_FOPEN, 'fits');
+        WriteInternal(PS_FOPEN, 'fpx');
+        WriteInternal(PS_FOPEN, 'mat');
+        WriteInternal(PS_FOPEN, 'miff');
+        WriteInternal(PS_FOPEN, 'mtv');
+        WriteInternal(PS_FOPEN, 'palm');
+        WriteInternal(PS_FOPEN, 'pict');
+        WriteInternal(PS_FOPEN, 'pix');
+        WriteInternal(PS_FOPEN, 'pwp');
+        WriteInternal(PS_FOPEN, 'rla');
+        WriteInternal(PS_FOPEN, 'sgi');
+        WriteInternal(PS_FOPEN, 'sun');
+        WriteInternal(PS_FOPEN, 'svg');
+        WriteInternal(PS_FOPEN, 'ttf');
+        WriteInternal(PS_FOPEN, 'vicar');
+        WriteInternal(PS_FOPEN, 'viff');
+        WriteInternal(PS_FOPEN, 'xcf');
+
+        WriteNotRec('avs');
+        WriteNotRec('cin');
+        WriteNotRec('cut');
+        WriteNotRec('dot');
+        WriteNotRec('dpx');
+        WriteNotRec('fits');
+        WriteNotRec('mat');
+        WriteNotRec('miff');
+        WriteNotRec('mtv');
+        WriteNotRec('palm');
+        WriteNotRec('pix');
+        WriteNotRec('pwp');
+        WriteNotRec('sun');
+        WriteNotRec('svg');
+        WriteNotRec('ttf');
+        WriteNotRec('vicar');
+        WriteNotRec('viff');
+
+        WriteDescr('dcm',   LoadLStr(1041));
+        WriteDescr('dicom', LoadLStr(1041));
+        WriteDescr('cut',   LoadLStr(1042));
+        WriteDescr('avs',   LoadLStr(1043));
+        WriteDescr('cin',   LoadLStr(1044));
+        WriteDescr('dot',   LoadLStr(1045));
+        WriteDescr('dpx',   LoadLStr(1046));
+        WriteDescr('fits',  LoadLStr(1047));
+        WriteDescr('fpx',   LoadLStr(1048));
+        WriteDescr('mat',   LoadLStr(1049));
+        WriteDescr('miff',  LoadLStr(1050));
+        WriteDescr('mtv',   LoadLStr(1051));
+        WriteDescr('palm',  LoadLStr(1052));
+        WriteDescr('pict',  LoadLStr(1053));
+        WriteDescr('pix',   LoadLStr(1054));
+        WriteDescr('pwp',   LoadLStr(1055));
+        WriteDescr('rla',   LoadLStr(1056));
+        WriteDescr('sgi',   LoadLStr(1057));
+        WriteDescr('sun',   LoadLStr(1058));
+        WriteDescr('svg',   LoadLStr(1059));
+        WriteDescr('ttf',   LoadLStr(1060));
+        WriteDescr('vicar', LoadLStr(1061));
+        WriteDescr('viff',  LoadLStr(1062));
+        WriteDescr('xcf',   LoadLStr(1063));
+        end;
+
   	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLib);
 end;
 

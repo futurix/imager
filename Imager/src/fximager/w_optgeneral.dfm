@@ -396,6 +396,7 @@ object frmOptions: TfrmOptions
     object shtLang: TTabSheet
       Caption = 'Languages'
       ImageIndex = 4
+      TabVisible = False
       object lblLocale: TLabel
         Left = 10
         Top = 10
@@ -453,7 +454,7 @@ object frmOptions: TfrmOptions
         Height = 21
         AutoComplete = False
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
         OnChange = cbxThemesChange
       end
