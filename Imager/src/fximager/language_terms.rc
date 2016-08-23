@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.7"                      						// last version of Futuris Imager this locale was updated for
+    5		"5.7.1"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -854,7 +854,23 @@ BEGIN
     3321	"Set display state to ""Fit All"""
     3322	"Set display state to ""Normal"" and reset zoom to 100%"
     3323	"Set display state to ""Normal"" and keep previous zoom"
-    
+    3324	"Failed to save settings - possible registry permissions issue! Error code: ""%s""."
+    3325	"You are running this application as a user with limited permissions, so file format associations will be unavailable."
+    3326	"Filter for high quality display:"
+    3327	"Fast linear"
+    3328	"Linear"
+    3329	"Triangle"
+    3330	"Bicubic"
+    3331	"Bilinear"
+    3332	"Nearest neighbour"
+    3333	"B-spline"
+    3334	"Mitchell"
+    3335	"Bell"
+    3336	"Hermite"
+    3337	"Lanczos 3"
+    3338	"White on black drawing"
+    3339	"Black on white drawing"
+
     3400	"JPEG Lossless Transformations"
     3401	"JPEG Lossless Transformations..."
     3402	"This function works only with saved JPEG files."

@@ -375,8 +375,8 @@ var
     init_magick: boolean = false;
     init_jbig: boolean = false;
 	files: TStringList;
-	reg: TFRegistry;
   	path_app: string = '';
+    bStrongUser: boolean = false;
 
 	infImage: record
 		path: string;
@@ -465,7 +465,12 @@ begin
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
 	// setting common variables
 	files := TStringList.Create();
     SaveExtensions := TStringList.Create();
@@ -474,6 +479,7 @@ begin
     infRoles.email := false;
     infRoles.hex := false;
     infRoles.jpegll := false;
+    bStrongUser := IsStrongUser();
 
 	// initializing randomizer
 	Randomize();
@@ -484,10 +490,6 @@ begin
 
     // setting folder variables
     path_app := Slash(ExtractFilePath(Application.ExeName));
-
-	// setting registry
-	reg := TFRegistry.Create();
-	reg.RootKey := HKEY_CURRENT_USER;
 
 	// setting image view
 	img.Blank();
@@ -505,7 +507,7 @@ begin
 	DragAcceptFiles(frmMain.Handle, true);
 
 	// plug-ins check
-	if not reg.KeyExists(sModules) then
+	if not wreg.KeyExists(sModules) then
   		DoPluginScan();
 
 	// writing paths
@@ -517,62 +519,116 @@ begin
     // setting image view
     img.VScrollBarParams.LineStep := 10;
     img.HScrollBarParams.LineStep := 10;
-    
-	RestoreWindowState(@frmMain, sSettings + '\Wnd', 25, 750, 25, 550, 2, 3, 'Main_');
 
+	RestoreWindowState(@frmMain, sSettings + '\Wnd', 25, 750, 25, 550, WPF_RESTORETOMAXIMIZED, SW_MAXIMIZE, 'Main_');
+    
 	// history
 	frmMain.MRU.LoadFromRegistry(sSettings + '\MRU');
 
 	// reading settings
-    reg.OpenKey(sSettings, true);
+    if wreg.OpenKey(sSettings, false) then
+    	begin
+		frmMain.sbxMain.Color := StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
+    	frmMain.img.Background := frmMain.sbxMain.Color;
 
-	frmMain.sbxMain.Color := StringToColor(reg.RStr('Color', 'clAppWorkSpace'));
-    frmMain.img.Background := frmMain.sbxMain.Color;
+    	frmMain.bOpenAfterSave := (wreg.RInt('OpenAfterSave', 1) = 1);
+    	frmMain.bOpenDef := (wreg.RInt('OpenDef', 1) = 1);
+    	frmMain.bNoMRU := wreg.RBool('NoMRU', false);
 
-    frmMain.bOpenAfterSave := (reg.RInt('OpenAfterSave', 1) = 1);
-    frmMain.bOpenDef := (reg.RInt('OpenDef', 1) = 1);
-    frmMain.bNoMRU := reg.RBool('NoMRU', false);
+    	nArrows := wreg.RInt('ArrowKeys', 0);
+    	nEnter := wreg.RInt('EnterKey', 0);
+    	nMouseWheel := wreg.RInt('MouseWheel', 1);
+    	nMouseDrag := wreg.RInt('MouseDrag', 0);
+    	nNewBitmap := wreg.RInt('OnNewBitmap', 0);
+    	bProgressiveLoad := wreg.RBool('ProgressiveImageLoad', false);
+    	bFSonDblClick := wreg.RBool('FSonDblClick', true);
+    	img.DelayZoomFilter := wreg.RBool('DelayZoomFilter', false);
+    	bReverseWheel := wreg.RBool('ReverseMouseWheel', false);
 
-    nArrows := reg.RInt('ArrowKeys', 0);
-    nEnter := reg.RInt('EnterKey', 0);
-    nMouseWheel := reg.RInt('MouseWheel', 1);
-    nMouseDrag := reg.RInt('MouseDrag', 0);
-    nNewBitmap := reg.RInt('OnNewBitmap', 0);
-    bProgressiveLoad := reg.RBool('ProgressiveImageLoad', false);
-    bFSonDblClick := reg.RBool('FSonDblClick', true);
-    img.DelayZoomFilter := reg.RBool('DelayZoomFilter', true);
-    bReverseWheel := reg.RBool('ReverseMouseWheel', false);
+    	iegEnableCMS := wreg.RBool('UseCMS', false);
 
-    iegEnableCMS := reg.RBool('UseCMS', false);
+    	miDSFitAll.Visible := wreg.RBool('EnableFitAll', false);
+    	piDSFitAll.Visible := miDSFitAll.Visible;
 
-    miDSFitAll.Visible := reg.RBool('EnableFitAll', false);
-    piDSFitAll.Visible := miDSFitAll.Visible;
+    	if wreg.RBool('HighQualityDisplay', true) then
+            begin
+            case wreg.RInt('Resampler', 0) of
+            	0:	img.ZoomFilter := rfFastLinear;
+                1:	img.ZoomFilter := rfLinear;
+                2:	img.ZoomFilter := rfTriangle;
+                3:	img.ZoomFilter := rfBicubic;
+                4:	img.ZoomFilter := rfBilinear;
+                5:	img.ZoomFilter := rfNearest;
+                6:	img.ZoomFilter := rfBSpline;
+                7:	img.ZoomFilter := rfMitchell;
+                8:	img.ZoomFilter := rfBell;
+                9:	img.ZoomFilter := rfHermite;
+                10:	img.ZoomFilter := rfLanczos3;
+                11:	img.ZoomFilter := rfProjectWB;
+                12:	img.ZoomFilter := rfProjectBW;
+                else
+                	img.ZoomFilter := rfFastLinear;
+                end;
+            end
+    	else
+    		img.ZoomFilter := rfNone;
 
-    if reg.RBool('HighQualityDisplay', true) then
-        img.ZoomFilter := rfFastLinear
+		if wreg.RInt('TBMain', 1) = 1 then ToggleMainToolbar(true, true)
+  			else ToggleMainToolbar(true, false);
+		if wreg.RInt('TBStatus', 1) = 1 then ToggleStatusbar(true, true)
+  			else ToggleStatusbar(true, false);
+
+    	case wreg.RInt('DispStyle', 1) of
+    		0: SetDisplayStyle(dsNormal);
+        	1: SetDisplayStyle(dsFitBig);
+        	2: SetDisplayStyle(dsFitAll);
+			else
+        		SetDisplayStyle(dsNormal);
+    		end;
+
+    	SetCenter(wreg.RBool('DispCenter', true));
+    	SetScrollbars(wreg.RBool('Scrollbars', true));
+
+    	frmMain.bFullPathInTitle := (wreg.RInt('FullPathInTitle', 0) = 1);
+
+    	wreg.CloseKey();
+    	end
     else
-    	img.ZoomFilter := rfNone;
+    	begin
+		frmMain.sbxMain.Color := clAppWorkSpace;
+    	frmMain.img.Background := frmMain.sbxMain.Color;
 
-	if reg.RInt('TBMain', 1) = 1 then ToggleMainToolbar(true, true)
-  		else ToggleMainToolbar(true, false);
-	if reg.RInt('TBStatus', 1) = 1 then ToggleStatusbar(true, true)
-  		else ToggleStatusbar(true, false);
+    	frmMain.bOpenAfterSave := true;
+    	frmMain.bOpenDef := true;
+    	frmMain.bNoMRU := false;
 
-    case reg.RInt('DispStyle', 1) of
-    	0: SetDisplayStyle(dsNormal);
-        1: SetDisplayStyle(dsFitBig);
-        2: SetDisplayStyle(dsFitAll);
-		else
-        	SetDisplayStyle(dsNormal);
-    end;
+    	nArrows := 0;
+    	nEnter := 0;
+    	nMouseWheel := 1;
+    	nMouseDrag := 0;
+    	nNewBitmap := 0;
+    	bProgressiveLoad := false;
+    	bFSonDblClick := true;
+    	img.DelayZoomFilter := false;
+    	bReverseWheel := false;
 
-    SetCenter(reg.RBool('DispCenter', true));
-    SetScrollbars(reg.RBool('Scrollbars', true));
+    	iegEnableCMS := false;
 
-    frmMain.bFullPathInTitle := (reg.RInt('FullPathInTitle', 0) = 1);
+    	miDSFitAll.Visible := false;
+    	piDSFitAll.Visible := miDSFitAll.Visible;
 
-    reg.CloseKey();
+    	img.ZoomFilter := rfFastLinear;
 
+		ToggleMainToolbar(true, true);
+		ToggleStatusbar(true, true);
+
+    	SetDisplayStyle(dsFitBig);
+    	SetCenter(true);
+    	SetScrollbars(true);
+
+    	frmMain.bFullPathInTitle := false;
+        end;
+        
     ApplyCustomToolbar();
     ApplyTheme();
 
@@ -582,44 +638,57 @@ begin
 	// final
 	Able();
 	CommandLine();
+
+    FreeAndNil(wreg);
+
     starting := false;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+    
 	// working
 	SaveWindowState(@frmMain, sSettings + '\Wnd', 'Main_');
 
 	// saving settings
-    reg.OpenKey(sSettings, true);
-
-	if ((not frmMain.full_screen) and (not Assigned(frmEditor)) and (not Assigned(frmPrint))) then
-  		begin
-  		if frmMain.tbrMain.Visible then reg.WriteInteger('TBMain', 1)
-    		else reg.WriteInteger('TBMain', 0);
-  		if frmMain.sbrMain.Visible then reg.WriteInteger('TBStatus', 1)
-    		else reg.WriteInteger('TBStatus', 0);
-  		end;
+    if wreg.OpenKey(sSettings, true) then
+    	begin
+		if ((not frmMain.full_screen) and (not Assigned(frmEditor)) and (not Assigned(frmPrint))) then
+  			begin
+  			if frmMain.tbrMain.Visible then wreg.WInteger('TBMain', 1)
+    			else wreg.WInteger('TBMain', 0);
+  			if frmMain.sbrMain.Visible then wreg.WInteger('TBStatus', 1)
+    			else wreg.WInteger('TBStatus', 0);
+  			end;
   		
-    case GetDisplayStyle() of
-    	dsNormal: reg.WInteger('DispStyle', 0);
-        dsFitBig: reg.WInteger('DispStyle', 1);
-        dsFitAll: reg.WInteger('DispStyle', 2);
-    end;
+    	case GetDisplayStyle() of
+    		dsNormal: wreg.WInteger('DispStyle', 0);
+        	dsFitBig: wreg.WInteger('DispStyle', 1);
+        	dsFitAll: wreg.WInteger('DispStyle', 2);
+   			end;
 
-    reg.WBool('DispCenter', GetCenter());
-    reg.WBool('Scrollbars', GetScrollbars());
-  		
-  	reg.CloseKey();
+    	wreg.WBool('DispCenter', GetCenter());
+    	wreg.WBool('Scrollbars', GetScrollbars());
+
+  		wreg.CloseKey();
+    	end;
 
     if not frmMain.bNoMRU then
     	frmMain.MRU.SaveToRegistry(sSettings + '\MRU');
+
+    if Assigned(frmShow) then
+    	frmShow.Close();
+
+    FreeAndNil(wreg);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
     CleanLocalization();
-	FreeAndNil(reg);
 	FreeAndNil(files);
     FreeAndNil(SaveExtensions);
 end;
@@ -628,9 +697,7 @@ procedure TfrmMain.HandleFImport(Sender: TObject);
 var
     lib_path, name: string;
 begin
-	reg.OpenKey(sModules + '\' + PS_FIMPORT, true);
-    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
-    reg.CloseKey();
+    lib_path := FxRegRStr(StripHotKey(TMenuItem(Sender).Caption), '', sModules + '\' + PS_FIMPORT);
 
     name := StripHotKey(TMenuItem(Sender).Caption);
 
@@ -676,9 +743,7 @@ procedure TfrmMain.HandleFExport(Sender: TObject);
 var
     lib_path, name: string;
 begin
-	reg.OpenKey(sModules + '\' + PS_FEXPORT, true);
-    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
-    reg.CloseKey();
+    lib_path := FxRegRStr(StripHotKey(TMenuItem(Sender).Caption), '', sModules + '\' + PS_FEXPORT);
 
     name := StripHotKey(TMenuItem(Sender).Caption);
 
@@ -719,9 +784,7 @@ procedure TfrmMain.HandleFTool(Sender: TObject);
 var
     lib_path, name: string;
 begin
-	reg.OpenKey(sModules + '\' + PS_FTOOL, true);
-    lib_path := reg.RStr(StripHotKey(TMenuItem(Sender).Caption), '');
-    reg.CloseKey();
+    lib_path := FxRegRStr(StripHotKey(TMenuItem(Sender).Caption), '', sModules + '\' + PS_FTOOL);
 
     name := StripHotKey(TMenuItem(Sender).Caption);
 

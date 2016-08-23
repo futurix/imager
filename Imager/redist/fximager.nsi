@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7
+!define FXVERSION 5.7.1
 
 Name "FuturixImager"
 OutFile "futuriximager.exe"

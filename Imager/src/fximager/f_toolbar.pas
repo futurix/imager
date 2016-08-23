@@ -8,11 +8,11 @@ uses
 
 const
 	sAllButtons: string = 	'open,new,save,back,forward,loadlast,close,print,copy,paste,editor,prevpage,nextpage,' +
-    						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,fs,info,random,' +
+    						'zoomin,zoomout,rotate90,rotateccw,zoom,z100,zwidth,zheight,dispopt,nav,fs,info,random,' +
                             'undo,fit,fdelete,fcopy,fmove,frename,first,last,show,opt,help,www,about,rscan,rmail,rcapt,' +
                             'rjpeg,rhex,newwnd,gopage';
     sDefaultToolbar: string = 	'open,loadlast,save,close,sep,print,rscan,rcapt,sep,copy,paste,sep,editor,undo,' +
-    							'sep,zoomin,zoomout,sep,zoom,dispopt,fs,sep,info,sep,random,sep,back,forward';
+    							'sep,zoomin,zoomout,sep,zoom,dispopt,nav,fs,sep,info,sep,random,sep,back,forward';
 
 procedure ApplyCustomToolbar(again: boolean = false);
 procedure AddButton(code: string);
@@ -51,9 +51,7 @@ begin
    		end;
 
 	// getting current settings
-	reg.OpenKey(sSettings, true);
-    tmp := reg.RStr('MainToolbar', sDefaultToolbar);
-	reg.CloseKey();
+    tmp := FxRegRStr('MainToolbar', sDefaultToolbar);
 
 	// setting total buttons list
 	total := TStringList.Create();

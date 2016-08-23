@@ -94,7 +94,7 @@ OutputDir=..\..\bin
 UnitOutputDir=..\output
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(FXSHARED)\Win32
+SearchPath=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
 Packages=fxcore
 Conditionals=
 DebugSourceDirs=
@@ -110,8 +110,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
 MinorVer=7
-Release=0
-Build=819
+Release=1
+Build=987
 Debug=0
 PreRelease=0
 Special=0
@@ -122,21 +122,21 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=FuturixImager
-FileVersion=5.7.0.819
+FileVersion=5.7.1.987
 InternalName=fximager
 LegalCopyright=© 1999-2006 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=fximager.exe
 ProductName=FuturixImager
-ProductVersion=5.7
+ProductVersion=5.7.1
 Comments=http://www.fxfp.com/
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=4
-Item0=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(FXSHARED)\Win32
-Item1=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
+Item0=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;
+Item1=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(FXSHARED)\Win32
 Item2=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(FXSHARED)\VTree;$(FXSHARED)\VShell;
 Item3=.\;..\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;$(FXSHARED)\PaintEngine;
 [HistoryLists\hlUnitOutputDirectory]

@@ -64,15 +64,9 @@ end;
 
 procedure CheckPreviousInstance();
 var
-	regInst: TFRegistry;
     bDoIt: boolean;
 begin
-    bDoIt := false;
-    
-    regInst := TFRegistry.Create(RA_READONLY);
-    if regInst.OpenKey(sSettings, false) then
-        bDoIt := regInst.RBool('OneInstanceOnly', false);
-    FreeAndNil(regInst);
+    bDoIt := FxRegRBool('OneInstanceOnly', false);
 
     if bDoIt then
     	begin

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Dialogs, Controls, Forms, IniFiles,
-  c_const, c_utils, c_locales;
+  c_reg, c_const, c_utils, c_locales;
 
 function  IsMulti(ext: string):boolean;
 procedure OpenMulti(path: string; add_to_mru: boolean = true);
@@ -25,14 +25,7 @@ uses f_ui, f_tools, f_graphics, f_nav, main, f_images;
 // is multipage
 function IsMulti(ext: string):boolean;
 begin
-	reg.OpenKey(sModules + '\' + PS_FOPENMULTI, true);
-
-	if reg.RStr(ext, '') <> '' then
-  		Result := true
-	else
-  		Result := false;
-
-	reg.CloseKey();
+    Result := (FxRegRStr(ext, '', sModules + '\' + PS_FOPENMULTI) <> '');
 end;
 
 // opens multi-page image
@@ -47,9 +40,7 @@ begin
   		end;
 
 	// loading dll and settings
-	reg.OpenKey(sModules + '\' + PS_FOPENMULTI, true);
-	infMulti.lib := LoadLibrary(PChar(reg.RStr(ExtractExt(path), '')));
-	reg.CloseKey();
+    infMulti.lib := LoadLibrary(PChar(FxRegRStr(ExtractExt(path), '', sModules + '\' + PS_FOPENMULTI)));
 
 	if (infMulti.lib <> 0) then
   		begin
@@ -100,7 +91,7 @@ end;
 // goes to page
 procedure MGoToPage(index: integer);
 var
-	bmp: hBitmap;
+	bmp: HBITMAP;
 	bim: TBitmap;
     tmp_res: TFxImgResult;
 begin
@@ -182,7 +173,7 @@ end;
 // extracts current frame from multi-page to normal
 procedure MExtract();
 var
-	img: hBitmap;
+	img: HBITMAP;
     tmp_res: TFxImgResult;
 begin
     tmp_res := infMulti.FxImgMultiGetPage(infMulti.page, Application.Handle, frmMain.Handle, FxImgGlobalCallback);

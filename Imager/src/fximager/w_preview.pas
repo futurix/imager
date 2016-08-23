@@ -192,68 +192,97 @@ begin
 end;
 
 procedure TfrmPrint.FormCreate(Sender: TObject);
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if Assigned(frmShow) then
+  		frmShow.Close();
+
 	frmMain.Menu := nil;
     FSSavePos(true);
     frmMain.tbrMain.Hide();
     frmmain.sbrMain.Hide();
 
-    if Assigned(frmShow) then
-  		frmShow.Close();
-
     // tweaks
     tbnZoom.WholeDropDown := true;
 
     // reading settings
-	reg.OpenKey(sSettings, true);
+	if wreg.OpenKey(sSettings, false) then
+    	begin
+    	case wreg.RInt('Print_ZoomState', 1) of
+    		0:	begin
+            	prwPrint.ZoomState := zsZoomOther;
+            	prwPrint.Zoom := wreg.RInt('Print_Zoom', 50);
+            	end;
 
-    case reg.RInt('Print_ZoomState', 1) of
-    	0:	begin
-            prwPrint.ZoomState := zsZoomOther;
-            prwPrint.Zoom := reg.RInt('Print_Zoom', 50);
-            end;
-        1: prwPrint.ZoomState := zsZoomToFit;
-    	2: prwPrint.ZoomState := zsZoomToHeight;
-    	3: prwPrint.ZoomState := zsZoomToWidth;
-    end;
+        	1: prwPrint.ZoomState := zsZoomToFit;
 
-    cbxProportional.Checked := reg.RBool('Print_Proportional', true);
-    cbxShrinkOnlyLarge.Checked := reg.RBool('Print_ShrinkOnlyLarge', true);
-    cbxCenter.Checked := reg.RBool('Print_Center', true);
+    		2: prwPrint.ZoomState := zsZoomToHeight;
 
-    reg.CloseKey();
+    		3: prwPrint.ZoomState := zsZoomToWidth;
+    		end;
+
+    	cbxProportional.Checked := wreg.RBool('Print_Proportional', true);
+    	cbxShrinkOnlyLarge.Checked := wreg.RBool('Print_ShrinkOnlyLarge', true);
+    	cbxCenter.Checked := wreg.RBool('Print_Center', true);
+
+    	wreg.CloseKey();
+    	end
+    else
+    	begin
+    	prwPrint.ZoomState := zsZoomToFit;
+    	cbxProportional.Checked := true;
+    	cbxShrinkOnlyLarge.Checked := true;
+    	cbxCenter.Checked := true;
+        end;
+
+    FreeAndNil(wreg);
 
     // localization
 	Localize();
 end;
 
 procedure TfrmPrint.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+    
     frmMain.Menu := frmMain.mnuMain;
     FSRestorePos(true);
 
     // saving settings
-    reg.OpenKey(sSettings, true);
+    if wreg.OpenKey(sSettings, true) then
+    	begin
+    	case prwPrint.ZoomState of
+    		zsZoomOther:
+        		begin
+            	wreg.WInteger('Print_ZoomState', 0);
+            	wreg.WInteger('Print_Zoom', prwPrint.Zoom);
+            	end;
 
-    case prwPrint.ZoomState of
-    	zsZoomOther:
-        	begin
-            reg.WInteger('Print_ZoomState', 0);
-            reg.WInteger('Print_Zoom', prwPrint.Zoom);
+        	zsZoomToFit:
+        		wreg.WInteger('Print_ZoomState', 1);
+
+        	zsZoomToHeight:
+        		wreg.WInteger('Print_ZoomState', 2);
+
+        	zsZoomToWidth:
+        		wreg.WInteger('Print_ZoomState',3);
             end;
-        zsZoomToFit:
-        	reg.WInteger('Print_ZoomState', 1);
-        zsZoomToHeight:
-        	reg.WInteger('Print_ZoomState', 2);
-        zsZoomToWidth:
-        	reg.WInteger('Print_ZoomState',3);
-			end;
 
-    reg.WBool('Print_Proportional', cbxProportional.Checked);
-    reg.WBool('Print_ShrinkOnlyLarge', cbxShrinkOnlyLarge.Checked);
-    reg.WBool('Print_Center', cbxCenter.Checked);
+    	wreg.WBool('Print_Proportional', cbxProportional.Checked);
+    	wreg.WBool('Print_ShrinkOnlyLarge', cbxShrinkOnlyLarge.Checked);
+    	wreg.WBool('Print_Center', cbxCenter.Checked);
 
-    reg.CloseKey();
+    	wreg.CloseKey();
+    	end;
+
+    FreeAndNil(wreg);
 
     // to be freed
     Action := caFree;

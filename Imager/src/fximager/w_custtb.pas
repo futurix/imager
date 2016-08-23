@@ -63,12 +63,7 @@ var
 	i, pos: integer;
 begin
 	if (template = '') then
-   		begin
-   		// reading current layout from Registry
-   		reg.OpenKey(sSettings, true);
-   		tmp := reg.RStr('MainToolbar', sDefaultToolbar);
-   		reg.CloseKey();
-   		end
+   		tmp := FxRegRStr('MainToolbar', sDefaultToolbar)
 	else
     	tmp := template;
         
@@ -131,9 +126,7 @@ begin
    		tmp := tmp + CollapseSynName(lbxBar.Items[lbxBar.Count - 1]);
 
    		// saving
-   		reg.OpenKey(sSettings, true);
-   		reg.WriteString('MainToolbar', tmp);
-   		reg.CloseKey();
+   		FxRegWStr('MainToolbar', tmp);
    		end;
 end;
 

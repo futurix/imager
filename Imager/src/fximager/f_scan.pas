@@ -26,27 +26,37 @@ procedure WriteTheme(name: string);
 
 implementation
 
-uses main, f_tools, ComObj;
+uses main, f_tools;
 
 procedure DoPluginScan();
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+    
 	// recreating registry keys
-    reg.OpenKey(sModules, true);
-    reg.DeleteKey(PS_FNAME);
-    reg.DeleteKey(PS_FCONFIG);
-    reg.DeleteKey(PS_FROLE);
-    reg.DeleteKey(PS_FNOTREC);
-    reg.DeleteKey(PS_FOPEN);
-    reg.DeleteKey(PS_FOPENMULTI);
-    reg.DeleteKey(PS_FOPENANIM);
-    reg.DeleteKey(PS_FSAVE);
-    reg.DeleteKey(PS_FIMPORT);
-    reg.DeleteKey(PS_FEXPORT);
-    reg.DeleteKey(PS_FFILTER);
-    reg.DeleteKey(PS_FINFO);
-    reg.DeleteKey(PS_FTOOL);
-    reg.DeleteKey(PS_FDESCR);
-    reg.CloseKey();
+    if wreg.OpenKey(sModules, false) then
+    	begin
+    	wreg.DeleteKey(PS_FNAME);
+    	wreg.DeleteKey(PS_FCONFIG);
+    	wreg.DeleteKey(PS_FROLE);
+    	wreg.DeleteKey(PS_FNOTREC);
+    	wreg.DeleteKey(PS_FOPEN);
+    	wreg.DeleteKey(PS_FOPENMULTI);
+    	wreg.DeleteKey(PS_FOPENANIM);
+    	wreg.DeleteKey(PS_FSAVE);
+    	wreg.DeleteKey(PS_FIMPORT);
+    	wreg.DeleteKey(PS_FEXPORT);
+    	wreg.DeleteKey(PS_FFILTER);
+    	wreg.DeleteKey(PS_FINFO);
+    	wreg.DeleteKey(PS_FTOOL);
+    	wreg.DeleteKey(PS_FDESCR);
+
+    	wreg.CloseKey();
+    	end;
+
+    FreeAndNil(wreg);
 
     // adding internal formats
 	WriteInternal(PS_FOPEN, 'jpg');
@@ -242,19 +252,39 @@ begin
 end;
 
 procedure DoLocaleScan();
+var
+	wreg: TFRegistry;
 begin
-    reg.OpenKey(sModules, true);
-    reg.DeleteKey(PS_FLOCALE);
-    reg.CloseKey();
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if wreg.OpenKey(sModules, false) then
+    	begin
+    	wreg.DeleteKey(PS_FLOCALE);
+
+    	wreg.CloseKey();
+    	end;
+
+    FreeAndNil(wreg);
 
 	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLocale);
 end;
 
 procedure DoThemesScan();
+var
+	wreg: TFRegistry;
 begin
-    reg.OpenKey(sModules, true);
-    reg.DeleteKey(PS_FTHEME);
-    reg.CloseKey();
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if wreg.OpenKey(sModules, false) then
+    	begin
+    	wreg.DeleteKey(PS_FTHEME);
+
+    	wreg.CloseKey();
+    	end;
+
+    FreeAndNil(wreg);
 
 	ScanFolderF(NoSlash(path_app), '*.dll', @ProcessTheme);
 end;
@@ -359,44 +389,32 @@ end;
 
 procedure WriteData(key, value1: string);
 begin
-	reg.OpenKey(sModules + '\' + key, true);
-    reg.WString(value1, current_dll);
-    reg.CloseKey();
+    FxRegWStr(value1, current_dll, sModules + '\' + key);
 end;
 
 procedure WriteInternal(key, value: string);
 begin
-	reg.OpenKey(sModules + '\' + key, true);
-    reg.WString(value, sInternalFormat);
-    reg.CloseKey();
+    FxRegWStr(value, sInternalFormat, sModules + '\' + key);
 end;
 
 procedure WriteDescr(ext, name: string);
 begin
-	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
-    reg.WString(ext, name);
-    reg.CloseKey();
+    FxRegWStr(ext, name, sModules + '\' + PS_FDESCR);
 end;
 
 procedure WriteNotRec(ext: string);
 begin
-	reg.OpenKey(sModules + '\' + PS_FNOTREC, true);
-    reg.WString(ext, '');
-    reg.CloseKey();
+    FxRegWStr(ext, '', sModules + '\' + PS_FNOTREC);
 end;
 
 procedure WriteLocale(name: string);
 begin
-	reg.OpenKey(sModules + '\' + PS_FLOCALE, true);
-    reg.WString(name, current_dll);
-    reg.CloseKey();
+    FxRegWStr(name, current_dll, sModules + '\' + PS_FLOCALE);
 end;
 
 procedure WriteTheme(name: string);
 begin
-	reg.OpenKey(sModules + '\' + PS_FTHEME, true);
-    reg.WString(name, current_dll);
-    reg.CloseKey();
+    FxRegWStr(name, current_dll, sModules + '\' + PS_FTHEME);
 end;
 
 end.

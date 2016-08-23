@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, UxTheme,
-  ShellAPI, c_const, c_themes, c_locales;
+  ShellAPI, c_const, c_themes, c_locales, c_reg;
 
 procedure ApplyTheme();
 procedure ToggleMainToolbar(strict: boolean = false; visible: boolean = true);
@@ -222,69 +222,52 @@ end;
 
 procedure FSRestorePos(toolbars_only: boolean = false);
 begin
-	reg.OpenKey(sSettings, true);
-
-    if not toolbars_only then
+	if not toolbars_only then
     	begin
-		case reg.RInt('FS_State', 0) of
-  			0: frmMain.WindowState := wsNormal;
-  			1: frmMain.WindowState := wsMaximized;
+        if (FxRegRInt('FS_State', 1) = 0) then
+        	frmMain.WindowState := wsNormal
+        else
+        	frmMain.WindowState := wsMaximized;
         end;
-    	end;
 
-	// common part
-	case reg.RInt('FS_TBMain', 0) of
-  		0: frmMain.tbrMain.Visible := false;
-  		1: frmMain.tbrMain.Visible := true;
-  	end;
-
-    case reg.RInt('FS_TBStatus', 0) of
-  		0: frmMain.sbrMain.Visible := false;
-  		1: frmMain.sbrMain.Visible := true;
-  	end;
+    frmMain.tbrMain.Visible := (FxRegRInt('FS_TBMain', 1) <> 0);
+    frmMain.sbrMain.Visible := (FxRegRInt('FS_TBStatus', 1) <> 0);
 
     if ((not toolbars_only) and (frmMain.WindowState <> wsMaximized)) then
-  		begin
-  		frmMain.Top := reg.RInt('FS_Top', 0);
-  		frmMain.Left := reg.RInt('FS_Left', 0);
-  		frmMain.Width := reg.RInt('FS_Width', 550);
-  		frmMain.Height := reg.RInt('FS_Height', 400);
-  		end;
-        
-	reg.CloseKey();
+    	begin
+        frmMain.Top := FxRegRInt('FS_Top', 5);
+        frmMain.Left := FxRegRInt('FS_Left', 5);
+  		frmMain.Width := FxRegRInt('FS_Width', 775);
+        frmMain.Height := FxRegRInt('FS_Height', 575);
+        end;
 end;
 
 // saves temp window position to ini
 procedure FSSavePos(toolbars_only: boolean = false);
 begin
-	reg.OpenKey(sSettings, true);
-
-    if not toolbars_only then
+	if not toolbars_only then
     	begin
- 		case frmMain.WindowState of
-  			wsMaximized: reg.WriteInteger('FS_State', 1);
-  		else
-    		begin
-   			reg.WriteInteger('FS_State', 0);
-        	reg.WriteInteger('FS_Top', frmMain.Top);
-    		reg.WriteInteger('FS_Left', frmMain.Left);
-    		reg.WriteInteger('FS_Width', frmMain.Width);
-    		reg.WriteInteger('FS_Height', frmMain.Height);
-    		end;
-		end;
+        if (frmMain.WindowState = wsMaximized) then
+        	FxRegWInt('FS_State', 1)
+        else
+        	begin
+            FxRegWInt('FS_State', 0);
+            FxRegWInt('FS_Top', frmMain.Top);
+            FxRegWInt('FS_Left', frmMain.Left);
+            FxRegWInt('FS_Width', frmMain.Width);
+            FxRegWInt('FS_Height', frmMain.Height);
+            end;
         end;
 
-	if frmMain.tbrMain.Visible then
-    	reg.WriteInteger('FS_TBMain', 1)
-  	else
-    	reg.WriteInteger('FS_TBMain', 0);
+    if frmMain.tbrMain.Visible then
+    	FxRegWInt('FS_TBMain', 1)
+    else
+    	FxRegWInt('FS_TBMain', 0);
 
     if frmMain.sbrMain.Visible then
-    	reg.WriteInteger('FS_TBStatus', 1)
-  	else
-    	reg.WriteInteger('FS_TBStatus', 0);
-
-    reg.CloseKey();
+    	FxRegWInt('FS_TBStatus', 1)
+    else
+    	FxRegWInt('FS_TBStatus', 0);
 end;
 
 // sets Imager's window header
@@ -335,10 +318,8 @@ begin
   		// starting FS
   		FSSavePos();
 
-  		reg.OpenKey(sSettings, true);
-  		frmMain.sbxMain.Color := StringToColor(reg.RStr('FSColor', 'clBlack'));
+        frmMain.sbxMain.Color := StringToColor(FxRegRStr('FSColor', 'clBlack'));
         frmMain.img.Background := frmMain.sbxMain.Color;
-  		reg.CloseKey();
 
   		frmMain.miFullScreen.Checked := true;
   		frmMain.tbnFullScreen.Down := true;
@@ -362,10 +343,8 @@ begin
   		frmMain.tbnFullScreen.Down := false;
   		frmMain.piFullScreen.Checked := false;
 
-  		reg.OpenKey(sSettings, true);
-  		frmMain.sbxMain.Color := StringToColor(reg.RStr('Color', 'clAppWorkSpace'));
+        frmMain.sbxMain.Color := StringToColor(FxRegRStr('Color', 'clAppWorkSpace'));
         frmMain.img.Background := frmMain.sbxMain.Color;
-  		reg.CloseKey();
 
   		frmMain.WindowState := wsNormal;
   		frmMain.BorderStyle := bsSizeable;
@@ -373,7 +352,7 @@ begin
   		frmMain.tbrMain.Visible := true;
   		frmMain.sbrMain.Visible := true;
 
-        if (UseThemes() = false) then
+        if not UseThemes() then
   			frmMain.sbxMain.BorderStyle := bsSingle;
 
   		FSRestorePos();

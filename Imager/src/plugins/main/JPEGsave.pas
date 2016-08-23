@@ -38,19 +38,10 @@ implementation
 {$R *.dfm}
 
 procedure TfrmJPEGsave.btnSaveClick(Sender: TObject);
-var
-	reg: TFRegistry;
 begin
-    reg := TFRegistry.Create();
-
-    reg.OpenKey(sSettings, true);
-    reg.WInteger('SaverJPEG_Quality', tbrQuality.Position);
-    reg.WBool('SaverJPEG_Progressive', cbxProgressive.Checked);
-    reg.WBool('SaverJPEG_Optimized', cbxOptimized.Checked);
-    reg.CloseKey();
-
-    FreeAndNil(reg);
-
+    FxRegWInt('SaverJPEG_Quality', tbrQuality.Position);
+    FxRegWBool('SaverJPEG_Progressive', cbxProgressive.Checked);
+    FxRegWBool('SaverJPEG_Optimized', cbxOptimized.Checked);
 
 	jpeg_confirm := true;
 	Self.Close();
@@ -74,19 +65,10 @@ begin
 end;
 
 procedure TfrmJPEGsave.FormCreate(Sender: TObject);
-var
-	reg: TFRegistry;
 begin
-    reg := TFRegistry.Create();
-
-    reg.OpenKey(sSettings, true);
-    tbrQuality.Position := reg.RInt('SaverJPEG_Quality', 85);
-    cbxProgressive.Checked := reg.RBool('SaverJPEG_Progressive', false);
-    cbxOptimized.Checked := reg.RBool('SaverJPEG_Optimized', true);
-    reg.CloseKey();
-
-    FreeAndNil(reg);
-
+    tbrQuality.Position := FxRegRInt('SaverJPEG_Quality', 85);
+    cbxProgressive.Checked := FxRegRBool('SaverJPEG_Progressive', false);
+    cbxOptimized.Checked := FxRegRBool('SaverJPEG_Optimized', true);
 
 	Self.Caption				:= LoadLStr(3086);
 

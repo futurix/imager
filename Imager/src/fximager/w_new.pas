@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, c_const, c_locales;
+  StdCtrls, c_const, c_locales, c_reg;
 
 type
   TfrmNew = class(TForm)
@@ -43,11 +43,9 @@ uses f_graphics, main;
 
 procedure TfrmNew.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-	reg.OpenKey(sSettings, true);
-	reg.WriteString('New_Width', edtWidth.Text);
-	reg.WriteString('New_Height', edtHeight.Text);
-	reg.WriteString('New_Color', ColorToString(sbxColor.Color));
-	reg.CloseKey();
+	FxRegWStr('New_Width', edtWidth.Text);
+	FxRegWStr('New_Height', edtHeight.Text);
+	FxRegWStr('New_Color', ColorToString(sbxColor.Color));
 
 	Action := caFree;
 end;
@@ -95,13 +93,9 @@ procedure TfrmNew.FormCreate(Sender: TObject);
 begin
     Localize();
 
-	reg.OpenKey(sSettings, true);
-
-	edtWidth.Text := reg.RStr('New_Width', '500');
-	edtHeight.Text := reg.RStr('New_Height', '350');
-	sbxColor.Color := StringToColor(reg.RStr('New_Color', 'clWhite'));
-
-	reg.CloseKey();
+	edtWidth.Text := FxRegRStr('New_Width', '500');
+	edtHeight.Text := FxRegRStr('New_Height', '350');
+	sbxColor.Color := StringToColor(FxRegRStr('New_Color', 'clWhite'));
 end;
 
 procedure TfrmNew.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

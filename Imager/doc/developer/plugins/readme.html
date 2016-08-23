@@ -43,7 +43,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>Back in year 2000 Futuris Imager was the first Windows image viewer with plug-in system open to the public - nowadays FuturixImager plug-in system is vastly expanded and more powerful then ever.</td>
+		<td>Back in the year 2000, Futuris Imager was the first Windows image viewer with plug-in system that was open to the public - nowadays FuturixImager plug-in system is vastly expanded and more powerful then ever.</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -65,11 +65,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>
-			<p>FuturixImager plug-in is a Windows DLL (currently 32-bit only) which exports one required function (<em>FxImgQuery</em>) and one or more optional functions (<em>FxImgOpen</em>, <em>FxImgSave</em>, etc).</p>
-			<p>Plug-ins are  located in FuturixImager folder and found by user when he/she scans for new plug-ins in &quot;Options&quot; dialog.</p>
-			<p>Plug-ins can be created in Microsoft Visual C++ or  Borland Delphi (or in any other native language that supports DLL exports and callbacks).</p>
-		</td>
+		<td> FuturixImager plug-in is a Windows DLL (currently 32-bit only) which exports one required function (<em>FxImgQuery</em>) and one or more optional functions (<em>FxImgOpen</em>, <em>FxImgSave</em>, etc). All plug-ins are  located in FuturixImager folder and discovered by the program when  user scans for new plug-ins in the &quot;Options&quot; dialog.</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -94,7 +90,10 @@ a:hover {
 		<td>
 			<p>How to create a new plug-in:</p>
 			<ol>
-				<li>zzz </li>
+				<li>Create  new empty native DLL project in your development environment (currently supported are Microsoft Visual C++ 2005 and  Borland Delphi 7, but other  environments can be used - as long as they support native 32-bit DLLs, DLL exports and callbacks).</li>
+				<li>Write and export <em>FxImgQuery()</em> function - this is the only required function for FuturixImager plug-in system. Inside it you must pass appropriate data to the callback - <em>FxImgQuery()</em> will be called by FuturixImager during plug-in scan.</li>
+				<li>Depending on what functionality you want to have in your plug-in, define required functions  and export them.</li>
+				<li>Test the result. And that's it :-)</li>
 			</ol>
 		</td>
 	</tr>
@@ -109,6 +108,16 @@ a:hover {
 		<td>
 			<hr size="1" noshade="noshade" />
 		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Functions to export:</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -126,23 +135,31 @@ a:hover {
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top"><em>FxImgQuery()</em></td>
+					<td align="left" valign="top">Required function - without it DLL will not be recognized as FuturixImager plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Called by FuturixImager during plug-in scan to get details of plug-in functionality. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">From <em>FxImgQuery()</em> call <em>info_call</em> with parameters describing your plug-in (e.g. loaded extensions, filter names, etc). </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>FxImgCfg()</em></td>
+					<td align="left" valign="top">Used to display plug-in configuration dialog (if needed). </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">In <em>FxImgQuery()</em> your plug-in should tell FuturixImager that it has    configuration dialog (and provide name for it - you can have many dialogs    with different names in the same DLL).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Dialogs will be available to user in FuturixImager &quot;Options&quot; dialog.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
@@ -150,7 +167,19 @@ a:hover {
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top"><em>FxImgOpen()</em></td>
+					<td align="left" valign="top">Used to open plain images (not multi-page or animated). </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Any kind of GUI in this function is forbidden. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Open&quot; dialog and for thumbnail extraction. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">To enable: in <em>FxImgQuery()</em> call <em>info_call</em> with PS_FOPEN and file format extension (aka &quot;bmp&quot;).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
@@ -158,20 +187,78 @@ a:hover {
 				</tr>
 				
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgSave()</em></td>
+					<td align="left" valign="top">Used to save simple images to specific filename (support for saving multi-page images planned for the future).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Simple GUI for saving options is permitted, for more complex GUI use <em>FxImgExport()</em>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Save As &quot; dialog.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">To enable: in <em>FxImgQuery()</em> call <em>info_call</em> with PS_FSAVE and file format extension (aka &quot;bmp&quot;).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgImport()</em></td>
+					<td align="left" valign="top">Used to get some bitmap out of nowhere (scanner, clipboard, etc) and view it in the program. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;File&quot; -&gt; &quot;Import&quot; menu. </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgExport()</em></td>
+					<td align="left" valign="top">Used to save current bitmap to  external devices/sources (print, send by e-mail, etc).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;File&quot; -&gt; &quot;Export&quot; menu.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">FuturixImager does not provide file name to save to, if you need it then use <em>FxImgSave()</em>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgFilter()</em></td>
+					<td align="left" valign="top">Used to transform current image (or current selection) and return it back to the program. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Editor&quot; dialog. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Use <em>preview_call</em> to display preview to user. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgTool()</em></td>
+					<td align="left" valign="top">Used for everything that does not fit into other functions. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Tools&quot; menu. </td>
 				</tr>
 				
 				<tr bgcolor="#FFFFFF">
@@ -179,8 +266,57 @@ a:hover {
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgInfo()</em></td>
+					<td align="left" valign="top">Used to read some information about image and display it to the user as simple set of strings. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Image Information&quot; dialog. </td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgAnimStart()</em></td>
+					<td align="left" valign="top">Used to play animated or streaming images.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgAnimRestart()</em></td>
+					<td align="left" valign="top">This set of functions is deprecated and may be removed in one of the future versions of FuturixImager. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgAnimGetFrame()</em></td>
+					<td align="left" valign="top">You should also export <em>FxImgOpen()</em> and return first frame of the animation there (it will be used as thumbnail). </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgAnimStop()</em></td>
+					<td align="left" valign="top">Used in &quot;Open&quot; dialog. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">All control over duration of animation delegated to plug-in, FuturixImager does not have internal frame counter - it just asks for the next frame to display and for the delay to display this frame for.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgMultiStart()</em></td>
+					<td align="left" valign="top">Used to view multi-page images.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgMultiGetPage()</em></td>
+					<td align="left" valign="top">User controls which page to display. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>FxImgMultiStop()</em></td>
+					<td align="left" valign="top">You should also export <em>FxImgOpen()</em> and return first page there (it will be used as thumbnail). </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Used in &quot;Open&quot; dialog. </td>
 				</tr>
 			</table>
 		</td>
@@ -196,6 +332,16 @@ a:hover {
 		<td>
 			<hr size="1" noshade="noshade" />
 		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Folder structure:</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -212,60 +358,29 @@ a:hover {
 					<td width="79%" align="left" valign="top">Description</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>\bin\</em></td>
+					<td align="left" valign="top">Binaries for some plug-ins (for plug-ins written in C++) will be copied to this folder. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>\source\plugins\</em></td>
+					<td align="left" valign="top">Plug-in sources (binaries are included with current version of FuturixImager).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>\source\shared\</em></td>
+					<td align="left" valign="top">Several source files from FuturixImager  (these files contain useful    functions and constants - you cannot compile provided plug-ins without them). See explanation below. </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>\thirdparty\</em></td>
+					<td align="left" valign="top">Delphi VCL components that are used by provided plug-ins (you will need to    install these components if you want to compile some plug-ins).    Components in this folder are modified and not the     original versions from developers' websites.</td>
 				</tr>
 			</table>
 		</td>
@@ -281,6 +396,16 @@ a:hover {
 		<td>
 			<hr size="1" noshade="noshade" />
 		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Headers explained:</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -297,59 +422,73 @@ a:hover {
 					<td width="79%" align="left" valign="top">Description</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_const.pas</em></td>
+					<td align="left" valign="top">Header  for constants and function definitions used by FuturixImager    plug-ins (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_locales.pas</em></td>
+					<td align="left" valign="top">Localization support functions (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_reg.pas</em></td>
+					<td align="left" valign="top">Extended version of  TRegistry (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_themes.pas</em></td>
+					<td align="left" valign="top">Theming support functions (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_utils.pas</em></td>
+					<td align="left" valign="top">Utility functions (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>c_wndpos.pas</em></td>
+					<td align="left" valign="top">Functions to quickly save/restore window coordinates and/or position to    registry (Delphi).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>fximagerdefs.h</em></td>
+					<td align="left" valign="top">Header  for constants and function definitions used by FuturixImager    plug-ins (C++).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top"><em>h_chm.pas</em></td>
+					<td align="left" valign="top">Headers with some Win32 API definitions converted to Pascal (Delphi).</td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>h_nt.pas</em></td>
+					<td align="left" valign="top">C++ versions are available in Microsoft's Platform SDK. </td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>h_win.pas</em></td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 			</table>
@@ -366,6 +505,16 @@ a:hover {
 		<td>
 			<hr size="1" noshade="noshade" />
 		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Provided sample plug-ins:</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -382,60 +531,300 @@ a:hover {
 					<td width="79%" align="left" valign="top">Description</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>bitmapinfo</em></td>
+					<td align="left" valign="top">Bitmap information plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgInfo()</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Created: by <a href="http://elektron.its.tudelft.nl/%7Ebintalal/" target="_blank">Aqab Bin Talal</a>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>capture</em></td>
+					<td align="left" valign="top">Screen capture plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgImport()</em>, <em>PR_CAPTURE</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: <a href="http://www.hicomponents.com/apprehend/news.htm" target="_blank">Apprehend</a> components (to compile install provided version).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>effects</em></td>
+					<td align="left" valign="top">Plug-in with several filters.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgFilter()</em>.</td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>email</em></td>
+					<td align="left" valign="top">Send by e-mail plug-in. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgTool()</em>, <em>PR_EMAIL</em>. </td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in C++. </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>fimg</em></td>
+					<td align="left" valign="top">FreeImage library plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgOpen()</em>, <em>FxImgMultiStart()</em>, <em>FxImgMultiGetPage()</em>, <em>FxImgMultiStop()</em>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: <a href="http://freeimage.sourceforge.net/" target="_blank">FreeImage</a> library.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in C++. </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>gdiplus</em></td>
+					<td align="left" valign="top">Animated GIF playback plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgAnimStart()</em>, <em>FxImgAnimRestart()</em>, <em>FxImgAnimGetFrame()</em>, <em>FxImgAnimStop()</em>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: GDI+ (gdiplus.dll required on Windows2000). </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in C++. </td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>gif</em></td>
+					<td align="left" valign="top">GIF exporter plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgExport()</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: custom version of <a href="http://finn.mobilixnet.dk/delphi/" target="_blank">TGifImage</a> library (included, do not install it into    Delphi IDE!).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>graphicex</em></td>
+					<td align="left" valign="top"> GraphicEx library plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgOpen()</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: slightly modified <a href="http://www.soft-gems.net/" target="_blank">GraphicEx</a> library (included).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>hex</em></td>
+					<td align="left" valign="top">HEX viewer plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgTool()</em>, <em>PR_HEX</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: <a href="http://www.mirkes.de/en/delphi/vcls/hexedit.php" target="_blank">TMPHexEditor</a> (to compile install provided version).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>mng</em></td>
+					<td align="left" valign="top">MNG playback plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgAnimStart()</em>, <em>FxImgAnimRestart()</em>, <em>FxImgAnimGetFrame()</em>, <em>FxImgAnimStop()</em>.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: <a href="http://www.libmng.com/" target="_blank">LibMNG</a> 1.0.6 (newer versions do not work, download binary from    <a href="http://www.fxfp.com/fxfp.php?imager" target="_blank">FuturixImager homepage</a>).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>wallpaper</em></td>
+					<td align="left" valign="top">Wallpaper tools plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgTool()</em>. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Uses: TTileImage (to compile install provided version).</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top"><em>wireless</em></td>
+					<td align="left" valign="top">WBMP save support plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Implements: <em>FxImgSave()</em>. </td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Written: in  Delphi.</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>
+			<hr size="1" noshade="noshade" />
+		</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>Additional features:</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#E9E9E9">
+	<tr>
+		<td>
+			<table width="100%" border="0" cellpadding="1" cellspacing="1">
+				<tr bgcolor="#E9E9E9">
+					<td width="21%" align="left" valign="top">Feature</td>
+					<td width="79%" align="left" valign="top">Description</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">File format descriptions </td>
+					<td align="left" valign="top">It is possible to set nice description for specific file format, for example check <em>FxImgQuery()</em> function in <em>fimg</em> plug-in.</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">Rare file formats </td>
+					<td align="left" valign="top">If you are implementing some rare file format or support for this format in your plug-in is incomplete - then it is better to hide this format from the list of file formats by default (this applies only to  registration of this file format with FuturixImager - user will still be able to open it and see it in the &quot;Open&quot; dialog). For example on how to do this check <em>FxImgQuery()</em> function in <em>fimg</em> plug-in.</td>
+				</tr>
+				
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">&nbsp;</td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">Plug-in roles </td>
+					<td align="left" valign="top">It is possible for some plug-ins to get button on FuturixImager toolbar. Such plug-ins should export specific function and in <em>FxImgQuery()</em> function they should inform FuturixImager that they support specific role. </td>
+				</tr>
+				<tr bgcolor="#FFFFFF">
+					<td align="left" valign="top">&nbsp;</td>
+					<td align="left" valign="top">Available roles are:<br />
+					PR_SCAN -  scanner functionality in <em>FxImgImport()</em><br />
+					PR_EMAIL -  e-mail functionality in <em>FxImgTool()</em><br />
+					PR_CAPTURE -  screen capture in <em>FxImgImport()</em><br />
+					PR_JPEGLL - JPEG lossless transformations in <em>FxImgTool()</em><br />
+					PR_HEX -  HEX viewer/editor functionality in <em>FxImgTool()</em></td>
 				</tr>
 			</table>
 		</td>
@@ -461,36 +850,22 @@ a:hover {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td>
-			<p>There are two options for distribution of your plug-in:</p>
+			<p>Tips:</p>
 			<ol>
-				<li>Via FuturixImager website:<br />
-				. </li>
-				<li>Via your own website:<br />
-					. </li>
+				<li>FuturixImager internally works only with 24-bit images, so all images that    you pass to it (and get from it) should/will always be 24-bit!<br />
+				&nbsp;</li>
+				<li>All <em>exported FxImgQuery()</em> functions should include valid call with PT_FNAME to    give plug-in name to host application. The plug-in name should be in    English.<br />
+				&nbsp;</li>
+				<li>All functions in FuturixImager plug-in system should use CDECL calling convention without C++ function name mangling. <br />
+				&nbsp;</li>
+				<li>Most functions in FuturixImager plug-in system have several common parameters:<br />
+						<em>app</em> (type HWND) - FuturixImager instance handle (use to load resources from <em>fximager.exe</em> if needed) <br />
+							<em>wnd</em> (type HWND) - handle of main FuturixImager window (use as parent for dialogs and message boxes)<br />
+							<em>app_query</em> (type APPCALLBACK) - internal FuturixImager callback (will be used in the future versions to get additional information from host application) <br />
+				&nbsp;</li>
+				<li>Plug-ins created with this version of SDK will work only with FuturixImager    5.7 (and newer).</li>
 			</ol>
 		</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>
-			<hr size="1" noshade="noshade" />
-		</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>&nbsp;</td>
-	</tr>
-</table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td>Note: new versions of FuturixImager...</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

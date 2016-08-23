@@ -137,6 +137,8 @@ type
     shtPlugCfg: TTabSheet;
     lblPlugCfg: TLabel;
     lvwPlugCfg: TListView;
+    lblResample: TLabel;
+    cbxResample: TComboBox;
 
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -199,23 +201,30 @@ procedure TfrmOptions.InitLocales();
 var
 	langs: TStringList;
     locale_name: string;
+	wreg: TFRegistry;
 begin
     // loading languages
     langs := TStringList.Create();
     cbxLanguages.Items.Clear();
 
-    reg.OpenKey(sModules + '\' + PS_FLOCALE, true);
-    reg.GetValueNames(langs);
-    reg.CloseKey();
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if wreg.OpenKey(sModules + '\' + PS_FLOCALE, false) then
+    	begin
+    	wreg.GetValueNames(langs);
+
+    	wreg.CloseKey();
+        end;
+
+    FreeAndNil(wreg);
 
     langs.Sort();
 
     cbxLanguages.Items.Add(sBuiltInLang);
     cbxLanguages.Items.AddStrings(langs);
 
-    reg.OpenKey(sReg, true);
-    locale_name := reg.RStr(sLocaleName, '');
-    reg.CloseKey();
+    locale_name := FxRegRStr(sLocaleName, '', sReg);
 
     if (cbxLanguages.Items.IndexOf(locale_name) <> -1) then
     	cbxLanguages.ItemIndex := cbxLanguages.Items.IndexOf(locale_name)
@@ -230,23 +239,30 @@ procedure TfrmOptions.InitThemes();
 var
 	themes: TStringList;
     theme_name: string;
+	wreg: TFRegistry;
 begin
     // loading languages
     themes := TStringList.Create();
     cbxThemes.Items.Clear();
 
-    reg.OpenKey(sModules + '\' + PS_FTHEME, true);
-    reg.GetValueNames(themes);
-    reg.CloseKey();
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if wreg.OpenKey(sModules + '\' + PS_FTHEME, false) then
+    	begin
+    	wreg.GetValueNames(themes);
+
+    	wreg.CloseKey();
+        end;
+
+    FreeAndNil(wreg);
 
     themes.Sort();
 
     cbxThemes.Items.Add(sBuiltInTheme);
     cbxThemes.Items.AddStrings(themes);
 
-    reg.OpenKey(sReg, true);
-    theme_name := reg.RStr(sThemeName, '');
-    reg.CloseKey();
+    theme_name := FxRegRStr(sThemeName, '', sReg);
 
     if (cbxThemes.Items.IndexOf(theme_name) <> -1) then
     	cbxThemes.ItemIndex := cbxThemes.Items.IndexOf(theme_name)
@@ -262,22 +278,33 @@ var
 	s, notrec: TStringList;
     i: integer;
     item: TListItem;
+	wreg: TFRegistry;
+    bDescr: boolean;
 begin
     notrec := TStringList.Create();
 	s := TStringList.Create();
 
-	reg.OpenKey(sModules + '\' + PS_FOPEN, true);
-	reg.GetValueNames(s);
-	reg.CloseKey();
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
 
-	reg.OpenKey(sModules + '\' + PS_FNOTREC, true);
-	reg.GetValueNames(notrec);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
+    	begin
+		wreg.GetValueNames(s);
+
+		wreg.CloseKey();
+        end;
+
+	if wreg.OpenKey(sModules + '\' + PS_FNOTREC, false) then
+    	begin
+		wreg.GetValueNames(notrec);
+
+		wreg.CloseKey();
+    	end;
 
 	s.Sort();
     lvwExt.Items.Clear();
 
-    reg.OpenKey(sModules + '\' + PS_FDESCR, true);
+    bDescr := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
 
     for i := 0 to (s.Count - 1) do
     	begin
@@ -285,15 +312,22 @@ begin
         	begin
         	item := lvwExt.Items.Add();
         	item.Caption := s[i];
-        	item.SubItems.Add(reg.RStr(s[i], ''));
+
+            if bDescr then
+        		item.SubItems.Add(wreg.RStr(s[i], ''))
+            else
+            	item.SubItems.Add('');
+
         	item.Checked := GetExt(s[i]);
             end;
         end;
 
-    reg.CloseKey();
+    if bDescr then
+    	wreg.CloseKey();
 
 	FreeAndNil(s);
     FreeAndNil(notrec);
+    FreeAndNil(wreg);
 end;
 
 procedure TfrmOptions.GetInstalledPluginsList();
@@ -302,7 +336,11 @@ var
     i: integer;
     item: TListItem;
     show_cfg: boolean;
+    wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
     show_cfg := false;
 
     lvwPlugins.Items.Clear();
@@ -310,27 +348,27 @@ begin
 
     list := TStringList.Create();
 
-    if reg.OpenKey(sModules + '\' + PS_FNAME, false) then
+    if wreg.OpenKey(sModules + '\' + PS_FNAME, false) then
     	begin
-    	reg.GetValueNames(list);
+    	wreg.GetValueNames(list);
 
         list.Sort();
 
         for i := 0 to (list.Count - 1) do
             begin
             item := lvwPlugins.Items.Add();
-            item.Caption := ExtractFileName(reg.RStr(list[i], '???'));
+            item.Caption := ExtractFileName(wreg.RStr(list[i], '???'));
             item.SubItems.Add(list[i]);
             end;
 
-        reg.CloseKey();
+        wreg.CloseKey();
         end;
 
     list.Clear();
 
-    if reg.OpenKey(sModules + '\' + PS_FCONFIG, false) then
+    if wreg.OpenKey(sModules + '\' + PS_FCONFIG, false) then
     	begin
-    	reg.GetValueNames(list);
+    	wreg.GetValueNames(list);
 
         list.Sort();
 
@@ -344,10 +382,11 @@ begin
             item.ImageIndex := 7;
             end;
 
-        reg.CloseKey();
+        wreg.CloseKey();
         end;
 
     FreeAndNil(list);
+    FreeAndNil(wreg);
 
     shtPlugCfg.TabVisible := show_cfg;
 end;
@@ -492,7 +531,12 @@ begin
 end;
 
 procedure TfrmOptions.FormCreate(Sender: TObject);
+var
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
     bLangChanged := false;
     bThemeChanged := false;
 
@@ -527,101 +571,151 @@ begin
 
     GetInstalledPluginsList();
 
-    reg.OpenKey(sSettings, true);
+    if wreg.OpenKey(sSettings, false) then
+    	begin
+		sbxMainColor.Color 			:= StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
+		sbxFSColor.Color 			:= StringToColor(wreg.RStr('FSColor', 'clBlack'));
 
-	sbxMainColor.Color 		:= StringToColor(reg.RStr('Color', 'clAppWorkSpace'));
-	sbxFSColor.Color 		:= StringToColor(reg.RStr('FSColor', 'clBlack'));
+    	cbxArrows.ItemIndex 		:= wreg.RInt('ArrowKeys', 0);
+    	cbxEnter.ItemIndex 			:= wreg.RInt('EnterKey', 0);
+    	cbxWheel.ItemIndex 			:= wreg.RInt('MouseWheel', 1);
+    	cbxMouseDrag.ItemIndex 		:= wreg.RInt('MouseDrag', 0);
+    	cbxNewImage.ItemIndex 		:= wreg.RInt('OnNewBitmap', 0);
+        cbxResample.ItemIndex		:= wreg.RInt('Resampler', 0);
+    	cbxReverseWheel.Checked 	:= wreg.RBool('ReverseMouseWheel', false);
 
-    cbxArrows.ItemIndex 	:= reg.RInt('ArrowKeys', 0);
-    cbxEnter.ItemIndex 		:= reg.RInt('EnterKey', 0);
-    cbxWheel.ItemIndex 		:= reg.RInt('MouseWheel', 1);
-    cbxMouseDrag.ItemIndex 	:= reg.RInt('MouseDrag', 0);
-    cbxNewImage.ItemIndex 	:= reg.RInt('OnNewBitmap', 0);
-    cbxReverseWheel.Checked := reg.RBool('ReverseMouseWheel', false);
-
-	SetSetting(SETTING_OPENAFTERSAVE, (reg.RInt('OpenAfterSave', 1) = 1));
-    SetSetting(SETTING_SHOWALLFILTERDEFAULT, (reg.RInt('OpenDef', 1) = 1));
-    SetSetting(SETTING_DISABLEMRU, reg.RBool('NoMRU', false));
-    SetSetting(SETTING_ENABLEFITALL, reg.RBool('EnableFitAll', false));
-    SetSetting(SETTING_SHOWFULLPATHINTITLE, (reg.RInt('FullPathInTitle', 0) = 1));
-    SetSetting(SETTING_ALLOWMULTIPLEINST, (not reg.RBool('OneInstanceOnly', false)));
-    SetSetting(SETTING_FSONDOUBLECLICK, reg.RBool('FSonDblClick', true));
-    SetSetting(SETTING_PROGRESSIVELOAD, reg.RBool('ProgressiveImageLoad', false));
-    SetSetting(SETTING_HQDISPLAYFILTER, reg.RBool('HighQualityDisplay', false));
-    SetSetting(SETTING_DELAYDISPLAYFILTER, reg.RBool('DelayZoomFilter', true));
-    SetSetting(SETTING_ENABLECMS, reg.RBool('UseCMS', false));
+		SetSetting(SETTING_OPENAFTERSAVE, (wreg.RInt('OpenAfterSave', 1) = 1));
+    	SetSetting(SETTING_SHOWALLFILTERDEFAULT, (wreg.RInt('OpenDef', 1) = 1));
+    	SetSetting(SETTING_DISABLEMRU, wreg.RBool('NoMRU', false));
+    	SetSetting(SETTING_ENABLEFITALL, wreg.RBool('EnableFitAll', false));
+    	SetSetting(SETTING_SHOWFULLPATHINTITLE, (wreg.RInt('FullPathInTitle', 0) = 1));
+    	SetSetting(SETTING_ALLOWMULTIPLEINST, (not wreg.RBool('OneInstanceOnly', false)));
+    	SetSetting(SETTING_FSONDOUBLECLICK, wreg.RBool('FSonDblClick', true));
+    	SetSetting(SETTING_PROGRESSIVELOAD, wreg.RBool('ProgressiveImageLoad', false));
+    	SetSetting(SETTING_HQDISPLAYFILTER, wreg.RBool('HighQualityDisplay', true));
+    	SetSetting(SETTING_DELAYDISPLAYFILTER, wreg.RBool('DelayZoomFilter', false));
+    	SetSetting(SETTING_ENABLECMS, wreg.RBool('UseCMS', false));
     	
-    reg.CloseKey();
+    	wreg.CloseKey();
+   		end
+    else
+    	begin
+		sbxMainColor.Color 			:= clAppWorkSpace;
+		sbxFSColor.Color 			:= clBlack;
+
+    	cbxArrows.ItemIndex 		:= 0;
+    	cbxEnter.ItemIndex 			:= 0;
+    	cbxWheel.ItemIndex 			:= 1;
+    	cbxMouseDrag.ItemIndex 		:= 0;
+    	cbxNewImage.ItemIndex 		:= 0;
+        cbxResample.ItemIndex		:= 0;
+    	cbxReverseWheel.Checked 	:= false;
+
+		SetSetting(SETTING_OPENAFTERSAVE, true);
+    	SetSetting(SETTING_SHOWALLFILTERDEFAULT, true);
+    	SetSetting(SETTING_DISABLEMRU, false);
+    	SetSetting(SETTING_ENABLEFITALL, false);
+    	SetSetting(SETTING_SHOWFULLPATHINTITLE, false);
+    	SetSetting(SETTING_ALLOWMULTIPLEINST, true);
+    	SetSetting(SETTING_FSONDOUBLECLICK, true);
+    	SetSetting(SETTING_PROGRESSIVELOAD, false);
+    	SetSetting(SETTING_HQDISPLAYFILTER, true);
+    	SetSetting(SETTING_DELAYDISPLAYFILTER, false);
+    	SetSetting(SETTING_ENABLECMS, false);
+        end;
+
+    FreeAndNil(wreg);
+
+    if not bStrongUser then
+        begin
+        shtFormats.TabVisible := false;
+
+        MessageBox(Self.Handle, PChar(LoadLStr(3325)), sAppName, MB_OK or MB_ICONERROR);
+        end;
 end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
 var
 	locale_lib, theme_lib: string;
+    wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
     locale_lib := '';
     theme_lib := '';
 
     // saving settings
-    reg.OpenKey(sSettings, true);
+    if wreg.OpenKey(sSettings, true) then
+    	begin
+		if GetSetting(SETTING_OPENAFTERSAVE) then
+    		wreg.WInteger('OpenAfterSave', 1)
+    	else
+    		wreg.WInteger('OpenAfterSave', 0);
 
-	if GetSetting(SETTING_OPENAFTERSAVE) then
-    	reg.WriteInteger('OpenAfterSave', 1)
-    else
-    	reg.WriteInteger('OpenAfterSave', 0);
+		wreg.WString('Color', ColorToString(sbxMainColor.Color));
+		wreg.WString('FSColor', ColorToString(sbxFSColor.Color));
 
-	reg.WriteString('Color', ColorToString(sbxMainColor.Color));
-	reg.WriteString('FSColor', ColorToString(sbxFSColor.Color));
+		if GetSetting(SETTING_SHOWALLFILTERDEFAULT) then
+    		wreg.WInteger('OpenDef', 1)
+    	else
+    		wreg.WInteger('OpenDef', 0);
 
-	if GetSetting(SETTING_SHOWALLFILTERDEFAULT) then
-    	reg.WriteInteger('OpenDef', 1)
-    else
-    	reg.WriteInteger('OpenDef', 0);
-
-	reg.WriteBool('NoMRU', GetSetting(SETTING_DISABLEMRU));
+		wreg.WBool('NoMRU', GetSetting(SETTING_DISABLEMRU));
     
-    reg.WBool('ProgressiveImageLoad', GetSetting(SETTING_PROGRESSIVELOAD));
-    reg.WInteger('ArrowKeys', cbxArrows.ItemIndex);
-    reg.WInteger('EnterKey', cbxEnter.ItemIndex);
-    reg.WBool('EnableFitAll', GetSetting(SETTING_ENABLEFITALL));
-    reg.WBool('FSonDblClick', GetSetting(SETTING_FSONDOUBLECLICK));
-    reg.WInteger('MouseWheel', cbxWheel.ItemIndex);
-    reg.WInteger('MouseDrag', cbxMouseDrag.ItemIndex);
-    reg.WInteger('OnNewBitmap', cbxNewImage.ItemIndex);
-    reg.WBool('HighQualityDisplay', GetSetting(SETTING_HQDISPLAYFILTER));
-    reg.WBool('DelayZoomFilter', GetSetting(SETTING_DELAYDISPLAYFILTER));
-    reg.WBool('UseCMS', GetSetting(SETTING_ENABLECMS));
-    reg.WBool('OneInstanceOnly', not GetSetting(SETTING_ALLOWMULTIPLEINST));
-    reg.WBool('ReverseMouseWheel', cbxReverseWheel.Checked);
+    	wreg.WBool('ProgressiveImageLoad', GetSetting(SETTING_PROGRESSIVELOAD));
+    	wreg.WInteger('ArrowKeys', cbxArrows.ItemIndex);
+    	wreg.WInteger('EnterKey', cbxEnter.ItemIndex);
+    	wreg.WBool('EnableFitAll', GetSetting(SETTING_ENABLEFITALL));
+    	wreg.WBool('FSonDblClick', GetSetting(SETTING_FSONDOUBLECLICK));
+    	wreg.WInteger('MouseWheel', cbxWheel.ItemIndex);
+    	wreg.WInteger('MouseDrag', cbxMouseDrag.ItemIndex);
+    	wreg.WInteger('OnNewBitmap', cbxNewImage.ItemIndex);
+        wreg.WInteger('Resampler', cbxResample.ItemIndex);
+    	wreg.WBool('HighQualityDisplay', GetSetting(SETTING_HQDISPLAYFILTER));
+    	wreg.WBool('DelayZoomFilter', GetSetting(SETTING_DELAYDISPLAYFILTER));
+    	wreg.WBool('UseCMS', GetSetting(SETTING_ENABLECMS));
+    	wreg.WBool('OneInstanceOnly', not GetSetting(SETTING_ALLOWMULTIPLEINST));
+    	wreg.WBool('ReverseMouseWheel', cbxReverseWheel.Checked);
 
-	if GetSetting(SETTING_SHOWFULLPATHINTITLE) then
-    	reg.WriteInteger('FullPathInTitle', 1)
-    else
-    	reg.WriteInteger('FullPathInTitle', 0);
+		if GetSetting(SETTING_SHOWFULLPATHINTITLE) then
+    		wreg.WInteger('FullPathInTitle', 1)
+    	else
+    		wreg.WInteger('FullPathInTitle', 0);
     	
-    reg.CloseKey();
+    	wreg.CloseKey();
+    	end
+    else
+    	MessageBox(Self.Handle, PChar(Format(LoadLStr(3324), ['core'])), sAppName, MB_OK or MB_ICONERROR);
 
     // themes
     if bThemeChanged then
     	begin
-        if reg.OpenKey(sModules + '\' + PS_FTHEME, false) then
-        	begin
-            theme_lib := reg.RStr(cbxThemes.Items[cbxThemes.ItemIndex], '');
-            reg.CloseKey();
-            end;
+        theme_lib := FxRegRStr(cbxThemes.Items[cbxThemes.ItemIndex], '', sModules + '\' + PS_FTHEME);
 
     	if ((cbxThemes.Items[cbxThemes.ItemIndex] <> sBuiltInTheme) and (theme_lib <> '') and (FileExists(theme_lib))) then
     		begin
-    		reg.OpenKey(sReg, true);
-    		reg.WString(sThemeName, cbxThemes.Items[cbxThemes.ItemIndex]);
-            reg.WString(sThemeLib, theme_lib);
-    		reg.CloseKey();
+    		if wreg.OpenKey(sReg, true) then
+            	begin
+    			wreg.WString(sThemeName, cbxThemes.Items[cbxThemes.ItemIndex]);
+            	wreg.WString(sThemeLib, theme_lib);
+
+    			wreg.CloseKey();
+                end
+            else
+            	MessageBox(Self.Handle, PChar(Format(LoadLStr(3324), ['theming1'])), sAppName, MB_OK or MB_ICONERROR);
         	end
     	else
     		begin
-    		reg.OpenKey(sReg, true);
-        	reg.DeleteValue(sThemeName);
-            reg.DeleteValue(sThemeLib);
-    		reg.CloseKey();
+    		if wreg.OpenKey(sReg, true) then
+            	begin
+        		wreg.DeleteValue(sThemeName);
+           		wreg.DeleteValue(sThemeLib);
+
+    			wreg.CloseKey();
+            	end
+            else
+            	MessageBox(Self.Handle, PChar(Format(LoadLStr(3324), ['theming2'])), sAppName, MB_OK or MB_ICONERROR);
         	end;
 
         UnloadTheme();
@@ -633,25 +727,31 @@ begin
     // localization stuff
     if bLangChanged then
     	begin
-        if reg.OpenKey(sModules + '\' + PS_FLOCALE, false) then
-        	begin
-            locale_lib := reg.RStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '');
-            reg.CloseKey();
-            end;
+        locale_lib := FxRegRStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '', sModules + '\' + PS_FLOCALE);
 
     	if ((cbxLanguages.Items[cbxLanguages.ItemIndex] <> sBuiltInLang) and (locale_lib <> '') and (FileExists(locale_lib))) then
     		begin
-    		reg.OpenKey(sReg, true);
-    		reg.WString(sLocaleName, cbxLanguages.Items[cbxLanguages.ItemIndex]);
-            reg.WString(sLocaleLib, locale_lib);
-    		reg.CloseKey();
+    		if wreg.OpenKey(sReg, true) then
+            	begin
+    			wreg.WString(sLocaleName, cbxLanguages.Items[cbxLanguages.ItemIndex]);
+            	wreg.WString(sLocaleLib, locale_lib);
+
+    			wreg.CloseKey();
+            	end
+            else
+            	MessageBox(Self.Handle, PChar(Format(LoadLStr(3324), ['lang1'])), sAppName, MB_OK or MB_ICONERROR);
         	end
     	else
     		begin
-    		reg.OpenKey(sReg, true);
-        	reg.DeleteValue(sLocaleName);
-            reg.DeleteValue(sLocaleLib);
-    		reg.CloseKey();
+    		if wreg.OpenKey(sReg, true) then
+            	begin
+        		wreg.DeleteValue(sLocaleName);
+            	wreg.DeleteValue(sLocaleLib);
+
+    			wreg.CloseKey();
+            	end
+            else
+            	MessageBox(Self.Handle, PChar(Format(LoadLStr(3324), ['lang2'])), sAppName, MB_OK or MB_ICONERROR);
         	end;
 
 		// updating settings
@@ -667,8 +767,12 @@ begin
         end;
 
     // file formats
-    SaveFormats();
-	WriteHandler();
+    if bStrongUser then
+        begin
+    	SaveFormats();
+		WriteHandler();
+        end;
+
 	UpdateAssociations();
 
 	// updating settings
@@ -706,13 +810,33 @@ begin
 	Header();
 
     if GetSetting(SETTING_HQDISPLAYFILTER) then
-    	frmMain.img.ZoomFilter := rfFastLinear
+        begin
+        case cbxResample.ItemIndex of
+        	0:	frmMain.img.ZoomFilter := rfFastLinear;
+            1:	frmMain.img.ZoomFilter := rfLinear;
+            2:	frmMain.img.ZoomFilter := rfTriangle;
+            3:	frmMain.img.ZoomFilter := rfBicubic;
+            4:	frmMain.img.ZoomFilter := rfBilinear;
+            5:	frmMain.img.ZoomFilter := rfNearest;
+            6:	frmMain.img.ZoomFilter := rfBSpline;
+            7:	frmMain.img.ZoomFilter := rfMitchell;
+            8:	frmMain.img.ZoomFilter := rfBell;
+            9:	frmMain.img.ZoomFilter := rfHermite;
+            10:	frmMain.img.ZoomFilter := rfLanczos3;
+            11:	frmMain.img.ZoomFilter := rfProjectWB;
+            12:	frmMain.img.ZoomFilter := rfProjectBW;
+            else
+            	frmMain.img.ZoomFilter := rfFastLinear;
+            end;
+        end
     else
     	frmMain.img.ZoomFilter := rfNone;
 
     iegEnableCMS := GetSetting(SETTING_ENABLECMS);
 
     frmMain.img.DelayZoomFilter := GetSetting(SETTING_DELAYDISPLAYFILTER);
+
+    FreeAndNil(wreg);
 
 	Self.Close();
 end;
@@ -797,6 +921,21 @@ begin
     cbxNewImage.ItemIndex := temp_itemindex;
     cbxReverseWheel.Caption		:= LoadLStr(875);
 
+    lblResample.Caption			:= LoadLStr(3326);
+    cbxResample.Items[0]		:= LoadLStr(3327);
+    cbxResample.Items[1]		:= LoadLStr(3328);
+    cbxResample.Items[2]		:= LoadLStr(3329);
+    cbxResample.Items[3]		:= LoadLStr(3330);
+    cbxResample.Items[4]		:= LoadLStr(3331);
+    cbxResample.Items[5]		:= LoadLStr(3332);
+    cbxResample.Items[6]		:= LoadLStr(3333);
+    cbxResample.Items[7]		:= LoadLStr(3334);
+    cbxResample.Items[8]		:= LoadLStr(3335);
+    cbxResample.Items[9]		:= LoadLStr(3336);
+    cbxResample.Items[10]		:= LoadLStr(3337);
+    cbxResample.Items[11]		:= LoadLStr(3338);
+    cbxResample.Items[12]		:= LoadLStr(3339);
+
     shtLang.Caption				:= LoadLStr(844);
 
     shtPlugins.Caption			:= LoadLStr(862);
@@ -863,32 +1002,28 @@ begin
     	begin
         if (cbxLanguages.Items[cbxLanguages.ItemIndex] <> '') then
         	begin
-            if reg.OpenKey(sModules + '\' + PS_FLOCALE, false) then
+            locale_str := FxRegRStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '', sModules + '\' + PS_FLOCALE);
+
+            if ((locale_str <> '') and FileExists(locale_str)) then
             	begin
-                locale_str := reg.RStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '');
-                reg.CloseKey();
+                local_lib := LoadLibraryEx(PChar(locale_str), 0, LOAD_LIBRARY_AS_DATAFILE);
 
-                if ((locale_str <> '') and FileExists(locale_str)) then
+                if (local_lib <> 0) then
                 	begin
-                    local_lib := LoadLibraryEx(PChar(locale_str), 0, LOAD_LIBRARY_AS_DATAFILE);
-
-                    if (local_lib <> 0) then
+                    if (LoadResString(local_lib, 1) = sLocaleID) then
                     	begin
-                        if (LoadResString(local_lib, 1) = sLocaleID) then
-                        	begin
-                            load_default := false;
+                        load_default := false;
 
-                            lang_loc := LoadResString(local_lib, 6);
-                            if (lang_loc <> '') then
-                            	lang_loc := (' (' + lang_loc + ')');
+                        lang_loc := LoadResString(local_lib, 6);
+                        if (lang_loc <> '') then
+                        	lang_loc := (' (' + lang_loc + ')');
 
-                            lblLocaleInfo.Caption :=    'Language: ' + LoadResString(local_lib, 2) + lang_loc + #10 + #10 +
-                            							'Translator: ' + LoadResString(local_lib, 4) + #10 +
-                                                        'Last updated for: ' + sAppName + ' ' + LoadResString(local_lib, 5);
-                            end;
-
-                        FreeLibrary(local_lib);
+                        lblLocaleInfo.Caption :=    'Language: ' + LoadResString(local_lib, 2) + lang_loc + #10 + #10 +
+                        							'Translator: ' + LoadResString(local_lib, 4) + #10 +
+                                                    'Last updated for: ' + sAppName + ' ' + LoadResString(local_lib, 5);
                         end;
+
+                    FreeLibrary(local_lib);
                     end;
                 end;
             end;
@@ -936,50 +1071,46 @@ var
 begin
     bThemeChanged := true;
     load_default := true;
-    
+
 	if (cbxThemes.Items[cbxThemes.ItemIndex] <> sBuiltInTheme) then
     	begin
         if (cbxThemes.Items[cbxThemes.ItemIndex] <> '') then
         	begin
-            if reg.OpenKey(sModules + '\' + PS_FTHEME, false) then
+            theme_str := FxRegRStr(cbxThemes.Items[cbxThemes.ItemIndex], '', sModules + '\' + PS_FTHEME);
+
+            if ((theme_str <> '') and FileExists(theme_str)) then
             	begin
-                theme_str := reg.RStr(cbxThemes.Items[cbxThemes.ItemIndex], '');
-                reg.CloseKey();
+                lib := LoadLibraryEx(PChar(theme_str), 0, LOAD_LIBRARY_AS_DATAFILE);
 
-                if ((theme_str <> '') and FileExists(theme_str)) then
-                	begin
-                    lib := LoadLibraryEx(PChar(theme_str), 0, LOAD_LIBRARY_AS_DATAFILE);
-
-                    if (lib <> 0) then
+                if (lib <> 0) then
+                    begin
+                    if (LoadResString(lib, 1) = sThemeID) then
                     	begin
-                        if (LoadResString(lib, 1) = sThemeID) then
+                        load_default := false;
+
+                        theme_descr := LoadResString(lib, 3);
+                        if (theme_descr <> '') then
+                        	theme_descr := (LoadLStr(3556) + ' ' + theme_descr + #10);
+
+                        lblThemeInfo.Caption :=	LoadLStr(3553) + ' ' + LoadResString(lib, 2) + #10 +
+                        						theme_descr + #10 +
+                                                LoadLStr(3554) + ' ' + LoadResString(lib, 4) + #10 +
+                                                LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(lib, 5);
+
+                        bmp := LoadBitmapFromCustomTheme(lib, 'TBSA');
+
+                        if (bmp <> nil) then
                         	begin
-                            load_default := false;
-
-                            theme_descr := LoadResString(lib, 3);
-                            if (theme_descr <> '') then
-                            	theme_descr := (LoadLStr(3556) + ' ' + theme_descr + #10);
-
-                            lblThemeInfo.Caption :=	LoadLStr(3553) + ' ' + LoadResString(lib, 2) + #10 +
-                                                    theme_descr + #10 +
-                            						LoadLStr(3554) + ' ' + LoadResString(lib, 4) + #10 +
-                                                    LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(lib, 5);
-
-                        	bmp := LoadBitmapFromCustomTheme(lib, 'TBSA');
-
-                            if (bmp <> nil) then
-                            	begin
-                            	imlPreview.Height := bmp.Height;
-    							imlPreview.Width := bmp.Height;
-    							imlPreview.Clear();
-    							imlPreview.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
-            					end
-        					else
-        						imlPreview.Clear();
-                            end;
-
-                        FreeLibrary(lib);
+                            imlPreview.Height := bmp.Height;
+                            imlPreview.Width := bmp.Height;
+                            imlPreview.Clear();
+                            imlPreview.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+                            end
+                        else
+                        	imlPreview.Clear();
                         end;
+
+                    FreeLibrary(lib);
                     end;
                 end;
             end;
@@ -1053,9 +1184,7 @@ var
 begin
     if (lvwPlugCfg.Selected <> nil) then
     	begin
-		reg.OpenKey(sModules + '\' + PS_FCONFIG, true);
-    	lib_path := reg.RStr(lvwPlugCfg.Selected.Caption, '');
-    	reg.CloseKey();
+    	lib_path := FxRegRStr(lvwPlugCfg.Selected.Caption, '', sModules + '\' + PS_FCONFIG);
 
   		lib := LoadLibrary(PChar(lib_path));
 

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, StdCtrls, c_const, c_utils, ImageEnIO, histogrambox, ieview,
-  imageenview, ExtCtrls, c_locales, RGBCurvesdiagrammer, ToolWin;
+  imageenview, ExtCtrls, c_locales, RGBCurvesdiagrammer, ToolWin, c_reg;
 
 type
   TfrmInfo = class(TForm)
@@ -74,12 +74,7 @@ end;
 
 function IsInformed(ext: string):boolean;
 begin
-	reg.OpenKey(sModules + '\' + PS_FINFO, true);
-    if reg.RStr(ext, '') <> '' then
-  		Result := true
-	else
-  		Result := false;
-	reg.CloseKey();
+    Result := (FxRegRStr(ext, '', sModules + '\' + PS_FINFO) <> '');
 end;
 
 procedure TfrmInfo.AddCommonInfo();
@@ -156,9 +151,7 @@ begin
 
 	if IsInformed(ExtractExt(infImage.path)) then
   		begin
-  		reg.OpenKey(sModules + '\' + PS_FINFO, true);
-  		lib := LoadLibrary(PChar(reg.RStr(ExtractExt(infImage.path), '')));
-  		reg.CloseKey();
+  		lib := LoadLibrary(PChar(FxRegRStr(ExtractExt(infImage.path), '', sModules + '\' + PS_FINFO)));
 
   		if (lib <> 0) then
     		begin

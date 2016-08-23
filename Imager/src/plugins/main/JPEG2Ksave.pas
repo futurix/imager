@@ -56,17 +56,9 @@ begin
 end;
 
 procedure TfrmJPsave.btnSaveClick(Sender: TObject);
-var
-	reg: TFRegistry;
 begin
-    reg := TFRegistry.Create();
-
-    reg.OpenKey(sSettings, true);
-    reg.WInteger('SaverJPEG2000_Quality', tbrQuality.Position);
-    reg.WBool('SaverJPEG2000_Lossless', cbxLossless.Checked);
-    reg.CloseKey();
-
-    FreeAndNil(reg);
+    FxRegWInt('SaverJPEG2000_Quality', tbrQuality.Position);
+    FxRegWBool('SaverJPEG2000_Lossless', cbxLossless.Checked);
 
 	jp2_confirm := true;
 	Self.Close();
@@ -89,17 +81,9 @@ begin
 end;
 
 procedure TfrmJPsave.FormCreate(Sender: TObject);
-var
-	reg: TFRegistry;
 begin
-    reg := TFRegistry.Create();
-
-    reg.OpenKey(sSettings, true);
-    tbrQuality.Position := reg.RInt('SaverJPEG2000_Quality', 50);
-    cbxLossless.Checked := reg.RBool('SaverJPEG2000_Lossless', true);
-    reg.CloseKey();
-
-    FreeAndNil(reg);
+    tbrQuality.Position := FxRegRInt('SaverJPEG2000_Quality', 50);
+    cbxLossless.Checked := FxRegRBool('SaverJPEG2000_Lossless', true);
 
     cbxLosslessClick(Self);
 

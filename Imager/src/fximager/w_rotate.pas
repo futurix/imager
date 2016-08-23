@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ImageEnProc, c_const, c_locales;
+  Dialogs, StdCtrls, ComCtrls, ImageEnProc, c_const, c_locales, c_reg;
 
 type
   TfrmRotate = class(TForm)
@@ -51,10 +51,8 @@ begin
         ProcessPreview(0);
 
     // loading settings
-	reg.OpenKey(sModules + '\Rotate', true);
-    updAngle.Position := reg.RInt('Angle', 90);
-    cmbQuality.ItemIndex := reg.RInt('Quality', 3);
-	reg.CloseKey();
+    updAngle.Position := FxRegRInt('Angle', 90, sModules + '\Rotate');
+    cmbQuality.ItemIndex := FxRegRInt('Quality', 3, sModules + '\Rotate');
 end;
 
 procedure TfrmRotate.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -79,11 +77,8 @@ var
     tmp_mode: TIEAntialiasMode;
 begin
     // saving settings
-	reg.OpenKey(sModules + '\Rotate', true);
-    reg.WInteger('Angle', updAngle.Position);
-    reg.WInteger('Quality', cmbQuality.ItemIndex);
-	reg.CloseKey();
-
+    FxRegWInt('Angle', updAngle.Position, sModules + '\Rotate');
+    FxRegWInt('Quality', cmbQuality.ItemIndex, sModules + '\Rotate');
 
 	if Assigned(frmEditor) then
         begin

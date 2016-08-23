@@ -65,7 +65,7 @@ begin
   			Application.Initialize();
   			Application.Title := 'FuturixImager';
   			Application.CreateForm(TfrmMain, frmMain);
-  			Application.Run();
+  Application.Run();
         	end;
   		end;
 end.

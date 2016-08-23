@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, ToolWin, StdCtrls, ExtCtrls, ImgList,
-  c_const, c_wndpos, c_locales;
+  c_const, c_wndpos, c_locales, c_reg;
 
 type
   TfrmShow = class(TForm)
@@ -52,16 +52,15 @@ begin
 	SaveWindowPosition(@frmShow, sSettings + '\Wnd', 'Show_');
 
 	// saving settings
-	reg.OpenKey(sSettings, true);
-	if rbnNormal.Checked then reg.WInteger('SlideShow_ShowOrder', 0)
-  		else if rbnReverse.Checked then reg.WInteger('SlideShow_ShowOrder', 1)
-  			else if rbnRandom.Checked then reg.WInteger('SlideShow_ShowOrder', 2)
-      			else reg.WInteger('SlideShow_ShowOrder', 0);
-	reg.WInteger('SlideShow_Timer', Timer.Interval);
-	reg.CloseKey();
+	if rbnNormal.Checked then FxRegWInt('SlideShow_ShowOrder', 0)
+  		else if rbnReverse.Checked then FxRegWInt('SlideShow_ShowOrder', 1)
+  			else if rbnRandom.Checked then FxRegWInt('SlideShow_ShowOrder', 2)
+      			else FxRegWInt('SlideShow_ShowOrder', 0);
+	FxRegWInt('SlideShow_Timer', Timer.Interval);
 
 	// setting UI
 	frmMain.miShow.Checked := false;
+    frmmain.tbnShow.Down := false;
 end;
 
 procedure TfrmShow.FormDestroy(Sender: TObject);
@@ -77,22 +76,21 @@ begin
 	RestoreWindowPosition(@frmShow, sSettings + '\Wnd', 100, 15, 'Show_');
 
 	// loading settings
-	reg.OpenKey(sSettings, true);
-	Timer.Interval := reg.RInt('SlideShow_Timer', 5000);
+	Timer.Interval := FxRegRInt('SlideShow_Timer', 5000);
 	try
   		edtTimer.Text := FloatToStr(Timer.Interval / 1000);
-  	except
-  	end;
+  		except
+  		end;
 
-	case reg.RInt('SlideShow_ShowOrder', 0) of
+	case FxRegRInt('SlideShow_ShowOrder', 0) of
   		0: rbnNormal.Checked := true;
   		1: rbnReverse.Checked := true;
   		2: rbnRandom.Checked := true;
-  	end;
-	reg.CloseKey();
+  		end;
 
 	// setting UI
 	frmMain.miShow.Checked := true;
+    frmmain.tbnShow.Down := true;
 end;
 
 procedure TfrmShow.TimerTimer(Sender: TObject);

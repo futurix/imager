@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, hyiedefs, c_const, c_locales;
+  Dialogs, StdCtrls, ComCtrls, hyiedefs, c_const, c_locales, c_reg;
 
 type
   TfrmResize = class(TForm)
@@ -71,10 +71,8 @@ begin
 
     Localize();
 
-	reg.OpenKey(sModules + '\Resize', true);
-	cmbQuality.ItemIndex := reg.RInt('ResizeMethod', 0);
-    cbxProportions.Checked := reg.RBool('SaveProportions', true);
-	reg.CloseKey();
+	cmbQuality.ItemIndex := FxRegRInt('ResizeMethod', 0, sModules + '\Resize');
+    cbxProportions.Checked := FxRegRBool('SaveProportions', true, sModules + '\Resize');
 
 	if Assigned(frmEditor) then
     	begin
@@ -116,10 +114,8 @@ var
     filter: TResampleFilter;
 begin
     // saving settings
-	reg.OpenKey(sModules + '\Resize', true);
-    reg.WInteger('ResizeMethod', cmbQuality.ItemIndex);
-    reg.WBool('SaveProportions', cbxProportions.Checked);
-	reg.CloseKey();
+    FxRegWInt('ResizeMethod', cmbQuality.ItemIndex, sModules + '\Resize');
+    FxRegWBool('SaveProportions', cbxProportions.Checked, sModules + '\Resize');
 
     // working
     about_signal := true;

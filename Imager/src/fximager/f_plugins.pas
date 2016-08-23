@@ -1,11 +1,10 @@
-// plug-ins manipulation routines
 unit f_plugins;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Dialogs, Forms, Menus,
-  ComCtrls, c_const, c_utils, c_locales;
+  ComCtrls, c_const, c_reg, c_utils, c_locales;
 
 procedure InstallPlugIns();
 procedure UpdatePlugIns();
@@ -23,23 +22,28 @@ var
 	c: integer;
 	i: TMenuItem;
 	s: TStringList;
+	wreg: TFRegistry;
 begin
-	// the beginning
-	s := TStringList.Create();
-
 	// setting sun
 	SetDialogs();
 
-	// setting FImport
-	s.Clear();
+	// the beginning
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+    
+	s := TStringList.Create();
+    s.Clear();
 
-	reg.OpenKey(sModules + '\' + PS_FIMPORT, true);
-	reg.GetValueNames(s);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FIMPORT, false) then
+    	begin
+		wreg.GetValueNames(s);
 
-	s.Sort();
+		wreg.CloseKey();
+    	end;
+	
 	if (s.Count > 0) then
   		begin
+        s.Sort();
   		frmMain.mImport.Clear();
 
   		for c := 0 to (s.Count - 1) do
@@ -57,14 +61,16 @@ begin
 	// setting FExport
 	s.Clear();
 
-	reg.OpenKey(sModules + '\' + PS_FEXPORT, true);
-	reg.GetValueNames(s);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FEXPORT, false) then
+    	begin
+		wreg.GetValueNames(s);
 
-	s.Sort();
+		wreg.CloseKey();
+        end;
 
 	if (s.Count > 0) then
   		begin
+        s.Sort();
   		frmMain.mExport.Clear();
 
   		for c := 0 to (s.Count - 1) do
@@ -82,14 +88,17 @@ begin
 	// setting FTool
 	s.Clear();
 
-	reg.OpenKey(sModules + '\' + PS_FTOOL, true);
-	reg.GetValueNames(s);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FTOOL, false) then
+    	begin
+		wreg.GetValueNames(s);
 
-	s.Sort();
+		wreg.CloseKey();
+    	end;
 
 	if (s.Count > 0) then
   		begin
+        s.Sort();
+
   		for c := (s.Count - 1) downto 0 do
     		begin
     		i := TMenuItem.Create(nil);
@@ -105,14 +114,15 @@ begin
   		begin
   		i := TMenuItem.Create(nil);
   		i.Caption := '-';
+
   		frmMain.mTools.Insert(frmMain.mTools.Count - 1, i);
   		end;
 
-	// freeing
+	// cleaning
 	i := TMenuItem.Create(nil);
-
 	FreeAndNil(s);
 	FreeAndNil(i);
+    FreeAndNil(wreg);
 
     // setting roles
     infRoles.capture := IsSupportedRole(PR_CAPTURE);
@@ -150,33 +160,46 @@ var
 	h, d: TStringList;
 	i: integer;
 	s, t_d: string;
+	wreg: TFRegistry;
+    bDescrAvailable: boolean;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
 	h := TStringList.Create();
 	d := TStringList.Create();
 	s := '';
 
 	// common ( descriptions )
-	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
-	reg.GetValueNames(d);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FDESCR, false) then
+    	begin
+		wreg.GetValueNames(d);
+
+		wreg.CloseKey();
+        end;
 
 	// open dialog
-	reg.OpenKey(sModules + '\' + PS_FOPEN, true);
-	reg.GetValueNames(h);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
+    	begin
+		wreg.GetValueNames(h);
 
-    h.Sort();
+		wreg.CloseKey();
+        end;
 
-	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
+    bDescrAvailable := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
 
 	if (h.Count > 0) then
   		begin
+        h.Sort();
+
   		if frmMain.bOpenDef then
     		begin
     		// default filter is "*.*"
     		for i := 0 to (h.Count - 1) do
       			begin
-      			t_d := reg.RStr(h.Strings[i], '');
+                if bDescrAvailable then
+      				t_d := wreg.RStr(h.Strings[i], '')
+                else
+                	t_d := '';
 
       			if t_d = '' then
         			t_d := ('*.' + h.Strings[i])
@@ -198,7 +221,10 @@ begin
     		// default filter is combined one
     		for i := 0 to (h.Count - 1) do
       			begin
-      			t_d := reg.RStr(h.Strings[i], '');
+                if bDescrAvailable then
+      				t_d := wreg.RStr(h.Strings[i], '')
+                else
+                	t_d := '';
 
       			if t_d = '' then
         			t_d := ('*.' + h.Strings[i])
@@ -217,7 +243,8 @@ begin
     		end;
  		end;
 
-	reg.CloseKey();
+    if bDescrAvailable then
+		wreg.CloseKey();
 
 	// temp clearing
 	frmMain.SaveExtensions.Clear();
@@ -225,19 +252,25 @@ begin
 	t_d := '';
 
 	// save dialog
-	reg.OpenKey(sModules + '\' + PS_FSAVE, true);
-	reg.GetValueNames(frmMain.SaveExtensions);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FSAVE, false) then
+    	begin
+		wreg.GetValueNames(frmMain.SaveExtensions);
 
-    frmMain.SaveExtensions.Sort();
+		wreg.CloseKey();
+        end;
 
-	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
+	bDescrAvailable := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
 
 	if (frmMain.SaveExtensions.Count > 0) then
   		begin
+        frmMain.SaveExtensions.Sort();
+
   		for i := 0 to (frmMain.SaveExtensions.Count - 1) do
     		begin
-   			t_d := reg.RStr(frmMain.SaveExtensions.Strings[i], '');
+            if bDescrAvailable then
+   				t_d := wreg.RStr(frmMain.SaveExtensions.Strings[i], '')
+            else
+            	t_d := '';
 
     		if t_d = '' then
       			t_d := ('*.' + frmMain.SaveExtensions.Strings[i])
@@ -253,12 +286,13 @@ begin
   		frmMain.dlgSave.Filter := s;
   		end;
 
-	reg.CloseKey();
+	if bDescrAvailable then
+		wreg.CloseKey();
 
 	// final
 	FreeAndNil(d);
 	FreeAndNil(h);
-
+    FreeAndNil(wreg);
 
     // setting MRU
     if frmMain.bNoMRU then
@@ -300,12 +334,10 @@ begin
   		frmMain.dlgSave.FileName := LoadLStr(409);
 
     // selecting extension
-    reg.OpenKey(sSettings, true);
-    if (reg.RInt('SaveDialog_FilterSize', 0) = Length(frmMain.dlgSave.Filter)) then
-        frmMain.dlgSave.FilterIndex := reg.RInt('SaveDialog_FilterIndex', 1)
+    if (FxRegRInt('SaveDialog_FilterSize', 0) = Length(frmMain.dlgSave.Filter)) then
+    	frmMain.dlgSave.FilterIndex := FxRegRInt('SaveDialog_FilterIndex', 1)
     else
     	frmMain.dlgSave.FilterIndex := 1;
-    reg.CloseKey();
 
     frmMain.dlgSaveTypeChange(frmMain);
 end;

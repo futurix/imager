@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Forms, Dialogs,
-  ShellAPI, FileCtrl, c_utils, c_const, c_locales;
+  ShellAPI, FileCtrl, c_utils, c_const, c_reg, c_locales;
 
 procedure FDelete();
 procedure FMove();
@@ -62,9 +62,7 @@ var
 	tmp, fl: string;
     res: longbool;
 begin
-    reg.OpenKey(sSettings, true);
-    tmp := reg.RStr('LastMoveFolder', '');
-    reg.CloseKey();
+    tmp := FxRegRStr('LastMoveFolder', '');
 
 	if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
   		begin
@@ -75,9 +73,7 @@ begin
 
             res := MoveFile(PChar(fl), PChar(Slash(tmp) + NoSlash(ExtractFileName(fl))));
 
-            reg.OpenKey(sSettings, true);
-            reg.WString('LastMoveFolder', Slash(tmp));
-            reg.CloseKey();
+            FxRegWStr('LastMoveFolder', Slash(tmp));
 
             if res then
     			Load(Slash(tmp) + ExtractFileName(fl))
@@ -116,9 +112,7 @@ var
 begin
     can_overwrite := false;
 
-    reg.OpenKey(sSettings, true);
-    tmp := reg.RStr('LastCopyFolder', '');
-    reg.CloseKey();
+    tmp := FxRegRStr('LastCopyFolder', '');
 
 	if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
   		begin
@@ -132,9 +126,7 @@ begin
 
             CopyFile(PChar(fl), PChar(Slash(tmp) + NoSlash(ExtractFileName(fl))), not can_overwrite);
 
-            reg.OpenKey(sSettings, true);
-            reg.WString('LastCopyFolder', Slash(tmp));
-            reg.CloseKey();
+            FxRegWStr('LastCopyFolder', Slash(tmp));
     		end;
   		end;
 end;

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, c_const, ComCtrls, Buttons, c_locales;
+  StdCtrls, c_const, ComCtrls, Buttons, c_locales, c_reg;
 
 type
   TfrmCustZoom = class(TForm)
@@ -42,9 +42,7 @@ procedure TfrmCustZoom.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
 	Action := caFree;
 
-	reg.OpenKey(sSettings, true);
-	reg.WInteger('CustZoom', tbrQuality.Position);
-	reg.CloseKey();
+	FxRegWInt('CustZoom', tbrQuality.Position);
 end;
 
 procedure TfrmCustZoom.FormDestroy(Sender: TObject);
@@ -67,9 +65,7 @@ procedure TfrmCustZoom.FormCreate(Sender: TObject);
 begin
     Localize();
 
-	reg.OpenKey(sSettings, true);
-	tbrQuality.Position := reg.RInt('CustZoom', 100);
-	reg.CloseKey();
+	tbrQuality.Position := FxRegRInt('CustZoom', 100);
 end;
 
 procedure TfrmCustZoom.tbrQualityChange(Sender: TObject);

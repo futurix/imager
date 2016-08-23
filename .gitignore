@@ -27,3 +27,7 @@ Imager/bin/*
 Imager/doc/developer/components/*
 Imager/src/shared/*.dcp
 Imager/redist/*.exe
+Imager/doc/developer/plugins/source/plugins/fimg/library/*
+Imager/src/plugins/fimg/library/*
+*.user
+*.suo

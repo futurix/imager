@@ -2,13 +2,13 @@
 
 Alexander Tereshchenko
 FuturixImager ###
-5.7.0.#
+5.7.1.#
 ###
 © 1999-2006 Alexander Tereshchenko
 
 fx###.dll
 FuturixImager
-5.7
+5.7.1
 http://www.fxfp.com/
 
 

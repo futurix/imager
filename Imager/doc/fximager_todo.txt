@@ -1,47 +1,71 @@
-- C++ GDI+ plug-in (EMF+)
-- rewrite some plug-ins in C++ (FreeImage, e-mail)
-- option to fit on image open (but not auto-fit)
+>>>> 5.8
+- multi-page image retrieval interface
+- additional interfaces (get current image, get Imager version)
+- new print with preview in separate plug-in and role (and modal dialog)
+- multi-page printing
+- get rid of embedded editor (replace with minimizable modal dialog) and
+  return shortcuts to the old way
+- scanning in separate plug-in 
+- new scanning GUI with preview and multi-page scanning (in sep. plug-in)
+- add menu items for roles
+
+>>>> 5.8.1
+- FreeImage plug-in in the main installer
+- move JPEG lossless tranformations to the FreeImage plug-in
+- improve JPEG lossless tranformations: (add icons, replacing current file or
+  optionally transforming into another file)
+- JPEG lossless crop (not in FreeImage plug-in)
+- FIX: info cannot read multi-page or animated files (they should be closed)
+
+>>>> 5.8.2
+- add OnImageLoad, OnImageLoadUI, OnImageUpdate handlers
+- optimize actions on image open (and add option to zoom-to-fit on image open)
 - speed optimization: replace registry searches with string lists
 - speed optimization: string pool with commonly loaded strings (updatable
   on locale switch)
-- better help for FuturixImager (FAQ, HOWTOs, options, menu walk, URLs)
-- rework SDK (C++ samples, make sample plug-ins)
-- mixed mode support for arrow keys: scroll when not fitting, files otherwise
+- picture number and index in status bar
 
-- slideshow button should do up/down on toggle
-- file browser should be implemented as floating palette (from external DLL)
-- info dialog should be reimplemented as floating palette
-- navigator window (as floating palette)
-
+>>>> 5.8.3
+- direct memory loading interface
+- replace parts of ImageEn with FreeImage (with direct memory loading)
+- grouping for the "Open" dialog
 - IsInteractive flag for FImgOpen (enabled for GUI opens, disabled for 
-  thumbnails or [SHIFT])
-- new multi-page .ico loader in separate plug-in with WinXP icons support
-? multi-page .ico importer
-- new color fix filter
-- info cannot read multi-page or animated files (they should be closed)
-- XBUTTONs support
+  thumbnails or [SHIFT] or navigation)
+- new MRU of my own
+- "Open in FS" context menu command
+- add more stuff to pop-up menu
 
-- advanced raw importer
-- new print with preview in plug-in and role
-- multi-page printing
-- better JPEG lossless tranformations (with thumbnails)
-- JPEG lossless crop
-- custom icons for formats
+>>>> 5.9
 - round selection (using BeginImageProcessing)
 - reimplement filters using imageen
-- scanning in separate plug-in 
-- new scanning GUI with preview and multi-page scanning
+- new color fix filter
 - painting features (eraser, brushes)
-- add more stuff to pop-up menu
 - color picker tool
 - better zoom in editor
 - add text tool
 - make editor more understandable
-- FuturixImager FAQ
-- picture number and index in status bar
-- file browser with thumbnails in DLL
-- selective file browser shortcuts filtering
+
+>>>> 5.9.1
+- multiple FuturixImager entries in HKCR (one for each extension)
+- individual descriptions for formats (and also custom ones possible)
+- individual icons for formats (and also custom ones possible)
+
+>>>> 5.9.2
+- multi-page saver for TIFF and DCX
+
+>>>> 6.0
+- file browser in external DLL (floating palette) with documented interface
 - file browser configuration
+- advanced raw importer
 
+-------------------------------------------------------------------------------
 
-
+- SDK improvements (empty \templates\, make simple sample plug-ins)
+- switch SDK to sample only, C++ only
+- multi-page composer
+- use DCraw separately from ImageEn
+- better help for FuturixImager (FAQ, HOWTOs, options, menu walk, URL guide)
+- mixed mode support for arrow keys: scroll when not fitting, files otherwise
+- info dialog should be reimplemented as multi-threaded floating palette
+- new multi-page .ico loader in separate plug-in with WinXP icons support
+- XBUTTONs support

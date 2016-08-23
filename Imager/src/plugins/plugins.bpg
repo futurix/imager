@@ -11,7 +11,7 @@ BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = fxmoreinfo.dll fxcapture.dll fxwireless.dll fxwallpaper.dll \
   fxmnghandler.dll fxmain.dll fxjpeglossless.dll fxhex.dll \
-  fxgraphicex.dll fxgif.dll fxfimghandler.dll fxmail.dll fxeffects.dll
+  fxgraphicex.dll fxgif.dll fxeffects.dll
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -44,12 +44,6 @@ fxgraphicex.dll: graphicex\fxgraphicex.dpr
   $(DCC)
 
 fxgif.dll: gif\fxgif.dpr
-  $(DCC)
-
-fxfimghandler.dll: freeimage\fxfimghandler.dpr
-  $(DCC)
-
-fxmail.dll: email\fxmail.dpr
   $(DCC)
 
 fxeffects.dll: effects\fxeffects.dpr

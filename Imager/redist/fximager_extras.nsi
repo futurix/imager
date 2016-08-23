@@ -1,6 +1,6 @@
 !include "MUI.nsh"
 
-!define FXVERSION 5.7
+!define FXVERSION 5.7.1
 
 Name "FuturixImager Extras"
 OutFile "futuriximager_extras.exe"
@@ -49,7 +49,6 @@ Section "-Core"
   
   # deleting old files
   Delete $INSTDIR\fxfimg.dll
-  Delete $INSTDIR\fxfimghandler.dll
   Delete $INSTDIR\fxjbig.dll
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll
@@ -59,6 +58,9 @@ Section "-Core"
   Delete $INSTDIR\fxmail.dll
   Delete $INSTDIR\fxwireless.dll
   Delete $INSTDIR\uninstallx.exe
+
+  # deleting legacy files
+  Delete $INSTDIR\fxfimghandler.dll
   
   # creating uninstaller
   SetOutPath "$INSTDIR"
@@ -72,7 +74,6 @@ SectionEnd
 Section "Support for Windows icons, HDR images..."
   SetOutPath "$INSTDIR"
   File "..\bin\fxfimg.dll"
-  File "..\bin\fxfimghandler.dll"
 SectionEnd
 
 Section "Support for JBIG images"
@@ -119,7 +120,6 @@ SectionEnd
 Section Uninstall
   # deleting old files
   Delete $INSTDIR\fxfimg.dll
-  Delete $INSTDIR\fxfimghandler.dll
   Delete $INSTDIR\fxjbig.dll
   Delete $INSTDIR\fxhex.dll
   Delete $INSTDIR\fxgif.dll

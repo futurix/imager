@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Dialogs, Forms,
-  IniFiles, athread, c_const, c_utils;
+  IniFiles, athread, c_const, c_reg, c_utils;
 
 function  IsAnimation(ext: string):boolean;
 procedure OpenAnim(path: string; add_to_mru: boolean = true);
@@ -25,14 +25,7 @@ uses f_graphics, f_tools, f_ui, f_nav, main;
 // is animated
 function IsAnimation(ext: string):boolean;
 begin
-	reg.OpenKey(sModules + '\' + PS_FOPENANIM, true);
-
-	if reg.RStr(ext, '') <> '' then
-    	Result := true
-  	else
-    	Result := false;
-
-	reg.CloseKey();
+    Result := (FxRegRStr(ext, '', sModules + '\' + PS_FOPENANIM) <> '');
 end;
 
 // opens animated image
@@ -47,9 +40,7 @@ begin
   		end;
 
 	// loading dll and settings
-	reg.OpenKey(sModules + '\' + PS_FOPENANIM, true);
-	infAnim.lib := LoadLibrary(PChar(reg.RStr(ExtractExt(path), '')));
-	reg.CloseKey();
+	infAnim.lib := LoadLibrary(PChar(FxRegRStr(ExtractExt(path), '', sModules + '\' + PS_FOPENANIM)));
 
 	if (infAnim.lib <> 0) then
   		begin

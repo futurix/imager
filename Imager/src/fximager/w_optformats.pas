@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, ShellAPI,
-  c_const, c_utils, c_locales;
+  c_const, c_utils, c_locales, c_reg;
 
 type
   TfrmOptFormats = class(TForm)
@@ -145,9 +145,7 @@ begin
 	imgIcon3.Picture.Icon.Handle := LoadIcon(HInstance, MAKEINTRESOURCE(3));
 	imgIcon4.Picture.Icon.Handle := LoadIcon(HInstance, MAKEINTRESOURCE(4));
 
-	reg.OpenKey(sSettings, true);
-	
-	icon_num := reg.RInt('Formats_Icon', 1);
+	icon_num := FxRegRInt('Formats_Icon', 1);
 	
     case icon_num of
 		1: rbnIcon1.Checked := true;
@@ -156,21 +154,15 @@ begin
   		4: rbnIcon4.Checked := true;
 	end;
 
-	cbxFS.Checked := reg.RBool('Formats_FullScreen', false);
-	description := reg.RStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
-
-	reg.CloseKey();
+	cbxFS.Checked := FxRegRBool('Formats_FullScreen', false);
+	description := FxRegRStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
 end;
 
 procedure TfrmOptFormats.btnOKClick(Sender: TObject);
 begin
-	reg.OpenKey(sSettings, true);
-
-	reg.WriteInteger('Formats_Icon', icon_num);
-	reg.WriteBool('Formats_FullScreen', cbxFS.Checked);
-	reg.WriteString('Formats_Description', description);
-
-	reg.CloseKey();
+	FxRegWInt('Formats_Icon', icon_num);
+	FxRegWBool('Formats_FullScreen', cbxFS.Checked);
+	FxRegWStr('Formats_Description', description);
 
 	Self.Close();
 end;
@@ -182,19 +174,22 @@ begin
 end;
 
 procedure TfrmOptFormats.lblRestoreIconClick(Sender: TObject);
+var
+	wreg: TFRegistry;
 begin
-	reg.RootKey := HKEY_CLASSES_ROOT;
+	wreg := TFRegistry.Create(RA_FULL);
+	wreg.RootKey := HKEY_CLASSES_ROOT;
 
-	if reg.OpenKey('\.ico', false) = true then
+	if wreg.OpenKey('\.ico', false) then
 		begin
-		reg.WriteString('', 'icofile');
-		reg.CloseKey();
+		wreg.WString('', 'icofile');
+		wreg.CloseKey();
 
 		UpdateAssociations();
         Application.MessageBox(PChar(LoadLStr(872)), sAppName, MB_OK + MB_ICONINFORMATION);
 		end;
 
-	reg.RootKey := HKEY_CURRENT_USER;
+	FreeAndNil(wreg);
 end;
 
 procedure TfrmOptFormats.lblChangeDescrClick(Sender: TObject);

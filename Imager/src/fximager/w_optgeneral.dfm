@@ -137,6 +137,7 @@ object frmOptions: TfrmOptions
         Width = 120
         Height = 13
         Caption = 'On mouse click and drag:'
+        FocusControl = cbxMouseDrag
         Transparent = True
       end
       object lblArrows: TLabel
@@ -145,6 +146,7 @@ object frmOptions: TfrmOptions
         Width = 100
         Height = 13
         Caption = 'Arrow keys function:'
+        FocusControl = cbxArrows
         Transparent = True
       end
       object lblEnter: TLabel
@@ -153,6 +155,7 @@ object frmOptions: TfrmOptions
         Width = 101
         Height = 13
         Caption = 'Enter key behaviour:'
+        FocusControl = cbxEnter
         Transparent = True
       end
       object lblWheel: TLabel
@@ -161,6 +164,7 @@ object frmOptions: TfrmOptions
         Width = 145
         Height = 13
         Caption = 'Mouse wheel default function:'
+        FocusControl = cbxWheel
         Transparent = True
       end
       object lblNewImage: TLabel
@@ -169,11 +173,12 @@ object frmOptions: TfrmOptions
         Width = 99
         Height = 13
         Caption = 'On new image open:'
+        FocusControl = cbxNewImage
         Transparent = True
       end
       object lblSFSColor: TLabel
         Left = 10
-        Top = 220
+        Top = 215
         Width = 178
         Height = 13
         Caption = 'Background color in full screen mode:'
@@ -185,6 +190,15 @@ object frmOptions: TfrmOptions
         Width = 150
         Height = 13
         Caption = 'Main window background color:'
+        Transparent = True
+      end
+      object lblResample: TLabel
+        Left = 10
+        Top = 265
+        Width = 139
+        Height = 13
+        Caption = 'Filter for high quality display:'
+        FocusControl = cbxResample
         Transparent = True
       end
       object cbxArrows: TComboBox
@@ -272,7 +286,7 @@ object frmOptions: TfrmOptions
       end
       object sbxFSColor: TScrollBox
         Left = 10
-        Top = 235
+        Top = 230
         Width = 175
         Height = 25
         Cursor = crHandPoint
@@ -301,6 +315,31 @@ object frmOptions: TfrmOptions
         ShowHint = True
         TabOrder = 7
         OnClick = sbxMainColorClick
+      end
+      object cbxResample: TComboBox
+        Left = 10
+        Top = 280
+        Width = 175
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        ItemIndex = 0
+        TabOrder = 8
+        Text = 'Fast linear'
+        Items.Strings = (
+          'Fast linear'
+          'Linear'
+          'Triangle'
+          'Bicubic'
+          'Bilinear'
+          'Nearest neighbour'
+          'B-spline'
+          'Mitchell'
+          'Bell'
+          'Hermite'
+          'Lanczos 3'
+          'White on black drawing'
+          'Black on white drawing')
       end
     end
     object shtPlugins: TTabSheet
@@ -956,12 +995,12 @@ object frmOptions: TfrmOptions
     end
   end
   object imlPreview: TImageList
-    Left = 394
-    Top = 319
+    Left = 406
+    Top = 208
   end
   object popFormats: TPopupMenu
-    Left = 364
-    Top = 319
+    Left = 376
+    Top = 208
     object piSelectAll: TMenuItem
       Caption = 'Select All'
       OnClick = piSelectAllClick

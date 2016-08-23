@@ -123,7 +123,7 @@ object frmInfo: TfrmInfo
         LegacyBitmap = False
         MouseInteract = [miZoom, miScroll]
         EnableAlphaChannel = True
-        ImageEnVersion = '2.2.2'
+        ImageEnVersion = '2.2.3'
         Align = alClient
         TabOrder = 0
       end

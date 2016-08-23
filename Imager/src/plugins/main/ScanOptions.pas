@@ -30,8 +30,6 @@ implementation
 {$R *.dfm}
 
 procedure TfrmScanOpt.FormCreate(Sender: TObject);
-var
-	preg: TFRegistry;
 begin
 	Self.Caption 			:= LoadLStr(3701);
 
@@ -44,18 +42,7 @@ begin
     btnOK.Caption			:= LoadLStr(50);
     btnCancel.Caption		:= LoadLStr(51);
 
-    preg := TFRegistry.Create(RA_READONLY);
-    preg.RootKey := HKEY_CURRENT_USER;
-
-    if preg.OpenKey(sSettings, false) then
-        begin
-        rgpSystem.ItemIndex := preg.RInt('Scan_Subsystem', 0);
-        preg.CloseKey();
-        end
-    else
-    	rgpSystem.ItemIndex := 0;
-        
-    FreeAndNil(preg);
+    rgpSystem.ItemIndex 	:= FxRegRInt('Scan_Subsystem', 0);
 end;
 
 procedure TfrmScanOpt.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -76,19 +63,8 @@ begin
 end;
 
 procedure TfrmScanOpt.btnOKClick(Sender: TObject);
-var
-	preg: TFRegistry;
 begin
-    preg := TFRegistry.Create(RA_FULL);
-    preg.RootKey := HKEY_CURRENT_USER;
-
-    if preg.OpenKey(sSettings, true) then
-        begin
-        preg.WInteger('Scan_Subsystem', rgpSystem.ItemIndex);
-        preg.CloseKey();
-        end;
-        
-    FreeAndNil(preg);
+	FxRegWInt('Scan_Subsystem', rgpSystem.ItemIndex);
 
     Close();
 end;

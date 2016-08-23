@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, ieview, imageenview, ComCtrls, ToolWin, StdCtrls,
   imageenproc, AppEvnts, c_const, ToolbarEx, c_wndpos, c_utils, Clipbrd, Menus,
-  hyieutils, hyiedefs, c_locales, hsvbox;
+  hyieutils, hyiedefs, c_locales, hsvbox, c_reg;
 
 const
   FM_RECTSELECT 				= 0;
@@ -144,14 +144,18 @@ procedure TfrmEditor.FormCreate(Sender: TObject);
 var
 	filters: TStringList;
     i: integer;
+	wreg: TFRegistry;
 begin
+	wreg := TFRegistry.Create(RA_READONLY);
+	wreg.RootKey := HKEY_CURRENT_USER;
+
+    if Assigned(frmShow) then
+  		frmShow.Close();
+
 	frmMain.Menu := nil;
     FSSavePos(true);
     frmMain.tbrMain.Hide();
     frmmain.sbrMain.Hide();
-
-    if Assigned(frmShow) then
-  		frmShow.Close();
 
     img.Blank();
     img.EnableShiftKey := false;
@@ -173,13 +177,25 @@ begin
         end;
 
     // reading settings
-	reg.OpenKey(sSettings, true);
-    if reg.RBool('Editor_ZoomToFit', true) then
+	if wreg.OpenKey(sSettings, false) then
+    	begin
+    	if wreg.RBool('Editor_ZoomToFit', true) then
+        	tbnSetFitClick(Self);
+
+    	updTolerance.Position := wreg.RInt('Editor_Tolerance', 10);
+    	sbxColor.Color := StringToColor(wreg.RStr('Editor_Color', 'clWhite'));
+
+		wreg.CloseKey();
+    	end
+    else
+    	begin
         tbnSetFitClick(Self);
-    updTolerance.Position := reg.RInt('Editor_Tolerance', 10);
-    sbxColor.Color := StringToColor(reg.RStr('Editor_Color', 'clWhite'));
+
+        updTolerance.Position := 10;
+        sbxColor.Color := clWhite;
+        end;
+
     boxColorSelector.SetColor(sbxColor.Color);
-	reg.CloseKey();
 
 	// getting main image
     img.Background := frmMain.sbxMain.Color;
@@ -191,9 +207,12 @@ begin
     filters.Duplicates := dupIgnore;
     filters.Sorted := true;
 
-	reg.OpenKey(sModules + '\' + PS_FFILTER, true);
-	reg.GetValueNames(filters);
-	reg.CloseKey();
+	if wreg.OpenKey(sModules + '\' + PS_FFILTER, false) then
+    	begin
+		wreg.GetValueNames(filters);
+
+		wreg.CloseKey();
+        end;
 
     filters.Add(LoadLStr(1750));
     filters.Add(LoadLStr(1751));
@@ -208,6 +227,8 @@ begin
         end;
 
     FreeAndNil(filters);
+    FreeAndNil(wreg);
+
     lvwFilters.Refresh();
 end;
 
@@ -215,7 +236,7 @@ procedure TfrmEditor.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
     frmMain.Menu := frmMain.mnuMain;
     FSRestorePos(true);
-    
+
 	Action := caFree;
 end;
 
@@ -233,11 +254,9 @@ end;
 procedure TfrmEditor.btnApplyClick(Sender: TObject);
 begin
     // saving settings
-	reg.OpenKey(sSettings, true);
-    reg.WBool('Editor_ZoomToFit', img.AutoShrink);
-    reg.WString('Editor_Color', ColorToString(boxColorSelector.Color));
-    reg.WInteger('Editor_Tolerance', updTolerance.Position);
-	reg.CloseKey();
+    FxRegWBool('Editor_ZoomToFit', img.AutoShrink);
+    FxRegWStr('Editor_Color', ColorToString(boxColorSelector.Color));
+	FxRegWInt('Editor_Tolerance', updTolerance.Position);
 
     // working
 	frmMain.img.Proc.SaveUndo();
@@ -420,9 +439,7 @@ begin
     nPreviousMode := nCurrentMode;
 
 	// trying external filters
-	reg.OpenKey(sModules + '\' + PS_FFILTER, true);
-    lib := LoadLibrary(PChar(reg.RStr(name, '')));
-    reg.CloseKey();
+    lib := LoadLibrary(PChar(FxRegRStr(name, '', sModules + '\' + PS_FFILTER)));
 
     if (lib <> 0) then
     	begin

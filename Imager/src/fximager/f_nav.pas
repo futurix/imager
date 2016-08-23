@@ -1,4 +1,3 @@
-// file navigation routines
 unit f_nav;
 
 interface

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Dialogs, Graphics, Forms, ShellAPI,
-  ShlObj, Printers, JwaHtmlHelp, c_const, c_utils, c_reg, c_locales;
+  ShlObj, Printers, h_chm, h_nt, c_const, c_utils, c_reg, c_locales;
 
 procedure CommandLine();
 procedure Uninstall();
@@ -16,6 +16,8 @@ procedure WriteHandler();
 procedure PutRegDock();
 function  IsShift(): boolean;
 function  IsCtrl(): boolean;
+function  IsMemberOfGroup(const DomainAliasRid: DWORD): boolean;
+function  IsStrongUser(): boolean;
 
 
 implementation
@@ -68,53 +70,56 @@ end;
 // removes all registry associations
 procedure Uninstall();
 var
-	lreg: TFRegistry;
+	rreg, wreg: TFRegistry;
     exts: TStringList;
     i: integer;
     tmp: string;
 begin
-    lreg := TFRegistry.Create();
-    lreg.RootKey := HKEY_CURRENT_USER;
+    rreg := TFRegistry.Create(RA_READONLY);
+    rreg.RootKey := HKEY_CURRENT_USER;
 
     exts := TStringList.Create();
 
-	if lreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
+	if rreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
     	begin
-		lreg.GetValueNames(exts);
-		lreg.CloseKey();
+		rreg.GetValueNames(exts);
+
+		rreg.CloseKey();
         end;
 
     exts.Sort();
+    
+    FreeAndNil(rreg);
 
 	for i := 0 to (exts.Count - 1) do
     	begin
-        lreg.RootKey := HKEY_CLASSES_ROOT;
+        wreg := TFRegistry.Create(RA_FULL);
+        wreg.RootKey := HKEY_CLASSES_ROOT;
 
-		if lreg.OpenKey('\.' + exts[i], false) then
+		if wreg.OpenKey('\.' + exts[i], false) then
         	begin
-  			if lreg.RStr('', '') = sRegAssociation then
+  			if wreg.RStr('', '') = sRegAssociation then
     			begin
-				if lreg.ValueExists(sRegAssociationOld) then
+				if wreg.ValueExists(sRegAssociationOld) then
       				begin
-      				tmp := lreg.RStr(sRegAssociationOld, '');
-      				lreg.WriteString('', tmp);
-      				lreg.DeleteValue(sRegAssociationOld);
+      				tmp := wreg.RStr(sRegAssociationOld, '');
+      				wreg.WString('', tmp);
+      				wreg.DeleteValue(sRegAssociationOld);
       				end
     			else
-                	lreg.DeleteValue('');
+                	wreg.DeleteValue('');
     			end
   			else
-    			if lreg.ValueExists(sRegAssociationOld) then
-      				lreg.DeleteValue(sRegAssociationOld);
+    			if wreg.ValueExists(sRegAssociationOld) then
+      				wreg.DeleteValue(sRegAssociationOld);
 
-			lreg.CloseKey();
+			wreg.CloseKey();
         	end;
 
-  		lreg.RootKey:=HKEY_CURRENT_USER;
+  		FreeAndNil(wreg);
         end;
 
     FreeAndNil(exts);
-    FreeAndNil(lreg);
 end;
 
 procedure FileNotFound(path: string);
@@ -141,7 +146,7 @@ end;
 
 procedure OpenHelp(page: WideString);
 begin
-    HtmlHelpW(GetDesktopWindow(), PWideChar(WideString(FN_HELP + '::/') + page), HH_DISPLAY_TOPIC, 0);
+    HtmlHelpW(GetDesktopWindow(), PWideChar(WideString(path_app + FN_HELP + '::/') + page), HH_DISPLAY_TOPIC, 0);
 end;
 
 procedure OpenURL(url: WideString);
@@ -159,42 +164,55 @@ var
 	icon_num: integer;
 	description: string;
 	fs: boolean;
+	nreg: TFRegistry;
 begin
 	// preparing
-	reg.OpenKey(sSettings, true);
-	icon_num := reg.RInt('Formats_Icon', 1);
-	description := reg.RStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
-
-	if description = 'Image file' then
-  		description := Format(LoadLStr(640), [sAppName]); // fix for ugly name
-	fs := reg.RBool('Formats_FullScreen', false);
-	reg.CloseKey();
+    icon_num := FxRegRInt('Formats_Icon', 1);
+    description := FxRegRStr('Formats_Description', Format(LoadLStr(640), [sAppName]));
+	fs := FxRegRBool('Formats_FullScreen', false);
 
 	// doing stuff
-	reg.RootKey := HKEY_CLASSES_ROOT;
+	nreg := TFRegistry.Create(RA_FULL);
+	nreg.RootKey := HKEY_CLASSES_ROOT;
 
-	reg.OpenKey('\' + sRegAssociation, true);
-	reg.WriteString('', description);
-	reg.OpenKey('\' + sRegAssociation + '\DefaultIcon', true);
-	reg.WriteString('', path_app + FN_APP + ',' + IntToStr(icon_num));
-	reg.OpenKey('\' + sRegAssociation + '\Shell\Open', true);
-	reg.WriteString('', LoadLStr(641));
-	reg.OpenKey('\' + sRegAssociation + '\Shell\Open\Command', true);
-	if not fs then
-  		reg.WriteString('', '"' + Application.ExeName + '" "%1"')
-	else
-  		reg.WriteString('', '"' + Application.ExeName + '" "%1" /fs');
-	reg.CloseKey();
+	if nreg.OpenKey('\' + sRegAssociation, true) then
+    	begin
+		nreg.WString('', description);
 
-	reg.RootKey := HKEY_CURRENT_USER;
+        nreg.CloseKey();
+
+        if nreg.OpenKey('\' + sRegAssociation + '\DefaultIcon', true) then
+        	begin
+			nreg.WString('', path_app + FN_APP + ',' + IntToStr(icon_num));
+
+            nreg.CloseKey();
+            end;
+
+		if nreg.OpenKey('\' + sRegAssociation + '\Shell\Open', true) then
+            begin
+			nreg.WString('', LoadLStr(641));
+
+            nreg.CloseKey();
+            end;
+
+		if nreg.OpenKey('\' + sRegAssociation + '\Shell\Open\Command', true) then
+        	begin
+			if not fs then
+  				nreg.WString('', '"' + Application.ExeName + '" "%1"')
+			else
+  				nreg.WString('', '"' + Application.ExeName + '" "%1" /fs');
+
+			nreg.CloseKey();
+        	end;
+    	end;
+
+    FreeAndNil(nreg);
 end;
 
 procedure PutRegDock();
 begin
-	reg.OpenKey(sReg, true);
-	reg.WriteString(sRegAssociation, Application.ExeName);
-	reg.WriteString('InstallationPath', path_app);
-	reg.CloseKey();
+    FxRegWStr(sAppName, Application.ExeName, sReg);
+    FxRegWStr('InstallationPath', path_app, sReg);
 end;
 
 function IsShift(): boolean;
@@ -205,6 +223,45 @@ end;
 function IsCtrl(): boolean;
 begin
 	Result := (HiWord(GetKeyState(VK_CONTROL)) <> 0);
+end;
+
+function IsMemberOfGroup(const DomainAliasRid: DWORD): boolean;
+const
+	SECURITY_NT_AUTHORITY: TSIDIdentifierAuthority =
+    	(Value: (0, 0, 0, 0, 0, 5));
+	SECURITY_BUILTIN_DOMAIN_RID = $00000020;
+var
+	sid: PSID;
+	IsMember: BOOL;
+begin
+	if Win32Platform <> VER_PLATFORM_WIN32_NT then
+    	begin
+    	Result := true;
+    	Exit;
+  		end;
+
+	Result := false;
+
+	if not AllocateAndInitializeSid(SECURITY_NT_AUTHORITY, 2,
+    	SECURITY_BUILTIN_DOMAIN_RID, DomainAliasRid,
+    	0, 0, 0, 0, 0, 0, sid) then
+    	Exit;
+
+	try
+		if CheckTokenMembership(0, sid, IsMember) then
+			Result := IsMember;
+
+  		finally
+    		FreeSid(sid);
+  		end;
+end;
+
+function IsStrongUser(): boolean;
+const
+	DOMAIN_ALIAS_RID_ADMINS = $00000220;
+    DOMAIN_ALIAS_RID_POWER_USERS = $00000223;
+begin
+	Result := (IsMemberOfGroup(DOMAIN_ALIAS_RID_ADMINS) or IsMemberOfGroup(DOMAIN_ALIAS_RID_POWER_USERS));
 end;
 
 end.

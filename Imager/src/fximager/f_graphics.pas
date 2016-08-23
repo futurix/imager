@@ -1,4 +1,3 @@
-// graphics routines
 unit f_graphics;
 
 interface
@@ -35,17 +34,11 @@ begin
 	if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
   		frmMain.dlgOpen.InitialDir := ExtractFileDir(infImage.path)
 	else
-  		begin
-  		reg.OpenKey(sSettings, true);
-  		frmMain.dlgOpen.InitialDir := reg.RStr('OpenPath', '');
-  		reg.CloseKey();
-        end;
+        frmMain.dlgOpen.InitialDir := FxRegRStr('OpenPath', '');
 
 	if frmMain.dlgOpen.Execute() then
   		begin
-  		reg.OpenKey(sSettings, true);
-  		reg.WriteString('OpenPath', ExtractFileDir(frmMain.dlgOpen.FileName));
-  		reg.CloseKey();
+        FxRegRStr('OpenPath', ExtractFileDir(frmMain.dlgOpen.FileName));
 
   		Load(frmMain.dlgOpen.FileName);
   		end;
@@ -77,10 +70,8 @@ begin
   		begin
   		res := Write(frmMain.dlgSave.FileName);
 
-        reg.OpenKey(sSettings, true);
-        reg.WInteger('SaveDialog_FilterSize', Length(frmMain.dlgSave.Filter));
-        reg.WInteger('SaveDialog_FilterIndex', frmMain.dlgSave.FilterIndex);
-        reg.CloseKey();
+        FxRegWInt('SaveDialog_FilterSize', Length(frmMain.dlgSave.Filter));
+        FxRegWInt('SaveDialog_FilterIndex', frmMain.dlgSave.FilterIndex);
 
   		if frmMain.bOpenAfterSave then
     		begin
@@ -164,9 +155,7 @@ begin
   		end;
 
 	ext := LowerCase(ExtractExt(path));
-	reg.OpenKey(sModules + '\' + PS_FOPEN, true);
-	lib_path := reg.RStr(ext, '');
-	reg.CloseKey();
+	lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FOPEN);
 
 	// main stuff
 	if ((lib_path <> '') and (lib_path <> sInternalFormat)) then
@@ -212,9 +201,7 @@ begin
   		end;
 
 	ext := LowerCase(ExtractExt(path));
-	reg.OpenKey(sModules + '\' + PS_FOPEN, true);
-	lib_path := reg.RStr(ext, '');
-	reg.CloseKey();
+	lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FOPEN);
 
 	// main stuff
 	if ((lib_path <> '') and (lib_path <> sInternalFormat)) then
@@ -318,9 +305,7 @@ begin
 	Result := FALSE;
 
 	Delete(ext, 1, 1);
-	reg.OpenKey(sModules + '\' + PS_FSAVE, true);
-	lib_path := reg.RStr(ext, '');
-	reg.CloseKey();
+	lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FSAVE);
 
 	// main stuff
 	if (lib_path <> '') then
@@ -475,14 +460,7 @@ end;
 // finds out if supported by FOpen
 function SupportedExt(ext: string):boolean;
 begin
-	reg.OpenKey(sModules + '\' + PS_FOPEN, true);
-
-	if reg.RStr(ext, '') <> '' then
-  		Result := true
-	else
-  		Result := false;
-
-	reg.CloseKey();
+    Result := (FxRegRStr(ext, '', sModules + '\' + PS_FOPEN) <> '');
 end;
 
 // finds out file type
@@ -509,45 +487,19 @@ end;
 // returns file type string or ''
 function GetTypeString(ext: string; default: string = ''):string;
 begin
-	reg.OpenKey(sModules + '\' + PS_FDESCR, true);
-	Result := reg.RStr(ext, default);
-	reg.CloseKey();
+	Result := FxRegRStr(ext, default, sModules + '\' + PS_FDESCR);
 end;
 
 function IsSupportedRole(role: string): boolean;
-var
-	lr: TFRegistry;
 begin
-    Result := false;
-    
-    lr := TFRegistry.Create(RA_READONLY);
-
-	if lr.OpenKey(sModules + '\' + PS_FROLE, false) then
-    	begin
-        Result := (lr.RStr(role, '') <> '');
-
-        lr.CloseKey();
-        end;
-
-    FreeAndNil(lr);
+	Result := (FxRegRStr(role, '', sModules + '\' + PS_FROLE) <> '');
 end;
 
 procedure ExecuteRole(role: string);
 var
-	lr: TFRegistry;
     lib_path: string;
 begin
-    lib_path := '';
-
-    lr := TFRegistry.Create(RA_READONLY);
-
-	if lr.OpenKey(sModules + '\' + PS_FROLE, false) then
-    	begin
-        lib_path := lr.RStr(role, '');
-        lr.CloseKey();
-        end;
-
-    FreeAndNil(lr);
+    lib_path := FxRegRStr(role, '', sModules + '\' + PS_FROLE);
 
     if (lib_path <> '') then
     	begin

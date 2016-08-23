@@ -529,7 +529,6 @@ end;
 
 function FxImgImport(info: PChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
-	preg: TFRegistry;
 	temp_res: TFxImgResult;
 	bmp: TBitmap;
     io: TImageEnIO;
@@ -553,30 +552,13 @@ begin
 
     if ((String(info) = LoadLStr(3080)) or (String(info) = PR_SCAN)) then
     	begin
-    	preg := TFRegistry.Create(RA_READONLY);
-    	preg.RootKey := HKEY_CURRENT_USER;
-
-    	if preg.OpenKey(sSettings, false) then
-        	begin
-            api := ieaTWain;
+        api := ieaTWain;
             
-            case preg.RInt('Scan_Subsystem', 0) of
-            	0, 1:
-                    if IsXP() then
-                    	api := ieaWIA;
-                end;
-
-        	preg.CloseKey();
-        	end
-    	else
-            begin
-            if IsXP() then
-            	api := ieaWIA
-            else
-            	api := ieaTWain;
+        case FxRegRInt('Scan_Subsystem', 0) of
+        	0, 1:
+            	if IsXP() then
+                	api := ieaWIA;
             end;
-
-    	FreeAndNil(preg);
 
         // working
 		io := TImageEnIO.Create(nil);
