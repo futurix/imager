@@ -41,5 +41,5 @@ Conditions:
 Copyright © 1999-2011 Alexander Frost
 All rights reserved
 
-E-mail: futurix@fxfp.com
+E-mail: dev@fxfp.com
 Web: http://dev.fxfp.com/

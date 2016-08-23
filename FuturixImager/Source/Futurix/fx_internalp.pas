@@ -231,7 +231,7 @@ begin
     io.Params.BMP_HandleTransparency := true;
     io.Params.IsNativePixelFormat := true;
     io.Params.EnableAdjustOrientation := bAutoRotateEXIF;
-    if iegEnableCMS then
+    if (iegEnableCMS and Assigned(colourProfile)) then
       io.Params.OutputICCProfile.Assign(colourProfile);
 
     if (ext = 'dcx') then

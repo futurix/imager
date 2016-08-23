@@ -7,8 +7,8 @@ uses
 
 const
   sAppName              = 'FuturixImager';
-  sVersion              = '6.0.2';
-  sVersionEx            = '6.0.2.0';
+  sVersion              = '6.0.3';
+  sVersionEx            = '6.0.3.0';
   sAuthor               = 'Alexander Frost';
   sRights               = '© 1999-2011 Alexander Frost';
   sRegAssociation       = 'FuturixImager_6';
@@ -16,7 +16,7 @@ const
 
   FXVER_MAJOR           = 6;
   FXVER_MINOR           = 0;
-  FXVER_REVISION        = 2;
+  FXVER_REVISION        = 3;
   FXVER_BUILD           = 0;
 
   // registry paths
