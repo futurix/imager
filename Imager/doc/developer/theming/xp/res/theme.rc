@@ -1,4 +1,0 @@
-
-TBSA RT_BITMAP "active.bmp"
-TBSD RT_BITMAP "disabled.bmp"
-IFXD RT_BITMAP "fixed.bmp"

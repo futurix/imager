@@ -97,10 +97,8 @@ object frmJPEG: TfrmJPEG
     Width = 325
     Height = 25
     Caption = 'Cut'
-    Enabled = False
     Flat = True
     Margin = 5
-    Visible = False
     OnClick = sbnCutClick
   end
   object sbnNone: TSpeedButton

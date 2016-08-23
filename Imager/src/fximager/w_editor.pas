@@ -216,6 +216,13 @@ begin
     filters.Add(LoadLStr(1753));
     filters.Add(LoadLStr(1754));
     filters.Add(LoadLStr(1755));
+    filters.Add(LoadLStr(1756));
+    filters.Add(LoadLStr(1757));
+    filters.Add(LoadLStr(1758));
+    filters.Add(LoadLStr(1759));
+    filters.Add(LoadLStr(1760));
+    filters.Add(LoadLStr(1761));
+    filters.Add(LoadLStr(1762));
 
     for i := 0 to (filters.Count - 1) do
         begin
@@ -494,6 +501,48 @@ begin
   				Application.CreateForm(TfrmSharpen, frmSharpen);
   				frmSharpen.ShowModal();
   				end;
+            end
+
+        else if (name = LoadLStr(1756)) then
+            begin
+        	proc.WallisFilter();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1757)) then
+            begin
+        	proc.AutoCrop2();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1758)) then
+            begin
+        	proc.AdjustGainOffset();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1759)) then
+            begin
+        	proc.AutoSharp();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1760)) then
+            begin
+        	proc.HistAutoEqualize();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1761)) then
+            begin
+        	proc.WhiteBalance_AutoWhite();
+            proc.ClearAllRedo();
+            end
+
+        else if (name = LoadLStr(1762)) then
+            begin
+        	proc.WhiteBalance_GrayWorld();
+            proc.ClearAllRedo();
             end
 
         else if (name = LoadLStr(1753)) then

@@ -8,7 +8,8 @@ uses
   c_const,
   c_locales,
   ImageEnIO,
-  rotate in 'rotate.pas' {frmJPEG};
+  rotate in 'rotate.pas' {frmJPEG},
+  cut in 'cut.pas' {frmCut};
 
 {$R *.RES}
 
@@ -66,6 +67,10 @@ begin
         if (((io.Params.Width mod 8) <> 0) or ((io.Params.Height mod 8) <> 0)) then
         	MessageBox(wnd, PChar(LoadLStr(3413)), sAppName, MB_OK or MB_ICONWARNING);
 
+        img_width := io.Params.Width;
+        img_height := io.Params.Height;
+        cut_rect := Rect(0, 0, 0, 0);
+
     	frmJPEG := TfrmJPEG.Create(Application);
     	frmJPEG.ShowModal();
 
@@ -79,7 +84,7 @@ begin
             if (frmJPEG.cbxBackup.Checked) then
             	CopyFile(document_path, PChar(ChangeFileExt(String(document_path), '.jpg.bak')), false);
 
-            JpegLosslessTransform2(document_path, transf, false, markers, Rect(0, 0, 0, 0), frmJPEG.cbxEXIF.Checked);
+            JpegLosslessTransform2(document_path, transf, false, markers, cut_rect, frmJPEG.cbxEXIF.Checked);
 
     		Result.result_type := RT_INT;
     		Result.result_value := 1;

@@ -1,6 +1,6 @@
 !include "MUI2.nsh"
 
-!define FXVERSION "5.9"
+!define FXVERSION "5.9.2"
 
 Name "FuturixImager Extras"
 OutFile "output\futuriximager_extras.exe"

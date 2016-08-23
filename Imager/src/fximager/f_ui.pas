@@ -327,6 +327,9 @@ begin
   		frmMain.full_screen := false;
   		end;
 
+    frmMain.Hide();
+    frmMain.Show();
+
     ApplyBackground();
 
     if not starting then

@@ -68,8 +68,8 @@ a:hover {
 		<td>
 			<p>Simple step-by-step instructions to create a new theme for FuturixImager:</p>
 			<ol>
-				<li>Copy sample theme (<em>xp</em>) to a new folder.</li>
-				<li>Replace provided graphics (<em>active.bmp</em>, <em>disabled.bmp</em>, <em>fixed.bmp</em>)  with your own (see requirements in a table below).</li>
+				<li>Copy sample theme (<em>example</em>) to a new folder.</li>
+				<li>Replace provided graphics (<em>main.bmp</em>, <em>fixed.bmp</em>)  with your own (see requirements in a table below).</li>
 				<li>Edit <em>definition.rc</em> file with Notepad to provide information about your theme and yourself.</li>
 				<li>Open <em>Theme.sln</em> project in Microsoft Visual C++ 2008 (either free Express edition or full edition included as part of  Visual Studio 2008) and build it.</li>
 				<li>Copy resulting DLL into FuturixImager folder and test it.</li>
@@ -103,13 +103,10 @@ a:hover {
 					<td width="79%" align="left" valign="top">Description and requirements</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top"><em>active.bmp</em></td>
-					<td align="left" valign="top">Provides graphics for toolbars in active state (when buttons are not disabled). </td>
+					<td align="left" valign="top"><em>main.bmp</em></td>
+					<td align="left" valign="top">Provides graphics for toolbars. </td>
 				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">The colour of the first pixel (top: 1, left: 1) is used as transparent for the whole bitmap. </td>
-				</tr>
+				
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">All buttons should be of the same size: typically 16x16, 24x24, 32x32 or 48x48 pixels - but  it can be any size between 8 and 128 pixels.</td>
@@ -120,37 +117,22 @@ a:hover {
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">Bit depth: 8-bit or 24-bit only.</td>
+					<td align="left" valign="top">Bit depth: 32-bit only (with alpha channel).</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
 					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top"><em>disabled.bmp</em></td>
-					<td align="left" valign="top">Provides graphics for toolbars in inactive  state (when buttons are  disabled).</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">Requirements are almost the same as for <em>active.bmp</em> file, except for the size and bit depth which should be exactly the same  as in <em>active.bmp</em> - this is important!</td>
 				</tr>
 				
 				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">&nbsp;</td>
-				</tr>
-				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top"><em>fixed.bmp</em></td>
-					<td align="left" valign="top">Provides graphics for context menu items and a couple of other controls. </td>
+					<td align="left" valign="top">Provides graphics for context menu items and a couple of other controls.</td>
 				</tr>
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">Requirements are almost the same as for <em>active.bmp</em> file, except that the size is fixed to 16x16 pixels. </td>
+					<td align="left" valign="top">Requirements are almost the same as for <em>main.bmp</em> file, except that the size is fixed to 16x16 pixels. </td>
 				</tr>
-				<tr bgcolor="#FFFFFF">
-					<td align="left" valign="top">&nbsp;</td>
-					<td align="left" valign="top">This bitmap is for active state of context menu items, no disabled state bitmap needed. </td>
-				</tr>
+				
 				
 				<tr bgcolor="#FFFFFF">
 					<td align="left" valign="top">&nbsp;</td>
@@ -191,24 +173,37 @@ a:hover {
 				<li>Save as</li>
 				<li>Close file    </li>
 				<li>Print</li>
+				<li>Print preview</li>
+				<li>Cut to clipboard </li>
 				<li>Copy to clipboard</li>
 				<li>Paste from clipboard</li>
-				<li>Editor</li>
+				<li>Undo</li>
+				<li>Redo</li>
+				<li>Go to first file</li>
+				<li>Go to previous file</li>
+				<li>Go to next file</li>
+				<li>Go to last file</li>
+				<li>Next page</li>
+				<li>Previous page</li>
 				<li>Zoom in</li>
 				<li>Zoom out</li>
 				<li>Misc. zoom</li>
-				<li>Full screen</li>
-				<li>Information about file</li>
-				<li>Go to previous file</li>
-				<li>Go to random file</li>
-				<li>Go to next file</li>
-				<li>Next page</li>
-				<li>Previous page           </li>
-				<li>Undo</li>
 				<li>Display modes</li>
-				<li>Rotate 90&deg; CW  </li>
-				<li>Cut to clipboard</li>
-				<li>Redo</li>
+				<li>Full screen</li>
+				<li>Editor</li>
+				<li>Information about file</li>
+				<li>Delete file</li>
+				<li>Copy file</li>
+				<li>Move file</li>
+				<li>Rename file</li>
+				<li>Rectangle selection</li>
+				<li>Hand drag tool</li>
+				<li>Pencil</li>
+				<li>Flood fill</li>
+				<li>Draw*</li>
+				<li>Filter*</li>
+				<li>Rotate 90&deg; CW</li>
+				<li>Rotate          90&deg; CCW</li>
 				<li>Crop</li>
 				<li>Zooming mode (in editor)</li>
 				<li>Fit mode (in editor)</li>
@@ -216,39 +211,23 @@ a:hover {
 				<li>Resize</li>
 				<li>Selection</li>
 				<li>Erase contents of selection</li>
-				<li>Filter*</li>
-				<li>Rectangle selection</li>
-				<li>Hand drag tool</li>
-				<li>Pencil    </li>
-				<li>Setup (for printer) </li>
-				<li>Flood fill</li>
-				<li>Draw*</li>
-				<li>Create new image*</li>
-				<li>Delete file</li>
-				<li>Copy file</li>
-				<li>Move file</li>
-				<li>Rename file</li>
+				<li>Setup (for printer)</li>
 				<li>Fit image</li>
 				<li>Fit image to width</li>
 				<li>Fit image to height</li>
-				<li>Rotate          90&deg; CCW</li>
-				<li>Go to first file</li>
-				<li>Go to last file</li>
+				<li>Go to random file</li>
+				<li>Create new image*</li>
 				<li>Slide show</li>
-				<li>Options (for FuturixImager) </li>
+				<li>Options</li>
 				<li>Help</li>
 				<li>FuturixImager website</li>
 				<li>About FuturixImager</li>
 				<li>Scan</li>
-				<li>Send by e-mail</li>
+				<li>Send by e-mail*</li>
 				<li>Screen capture</li>
 				<li>Lossless JPEG transformations</li>
-				<li>HEX viewer</li>
-				<li>Open new window*    </li>
+				<li>File browser with thumbnails*</li>
 				<li>Go to page</li>
-				<li>Navigator*</li>
-				<li>Steganography/security*</li>
-				<li>File browser with thumbnails* </li>
 			</ol>
 		</td>
 	</tr>
@@ -268,9 +247,38 @@ a:hover {
 				<li>Full screen</li>
 				<li>Go to previous file</li>
 				<li>Go to next file</li>
-				<li>Filters (in &quot;Editor&quot; window)</li>
-				<li>Up one level*</li>
-				<li>Plug-in options </li>
+				<li>Filter (in &quot;Editor&quot; window)</li>
+				<li>Options</li>
+				<li>Save as</li>
+				<li>Print</li>
+				<li>Print preview</li>
+				<li>Cut to clipboard </li>
+				<li>Copy to clipboard</li>
+				<li>Paste from clipboard</li>
+				<li>Undo</li>
+				<li>Redo</li>
+				<li>Next page</li>
+				<li>Previous page</li>
+				<li>Zoom in</li>
+				<li>Zoom out</li>
+				<li>Editor</li>
+				<li>Information about file</li>
+				<li>Delete file</li>
+				<li>Copy file</li>
+				<li>Move file</li>
+				<li>Rename file</li>
+				<li>Rotate 90&deg; CW</li>
+				<li>Rotate          90&deg; CCW</li>
+				<li>Fit mode</li>
+				<li>Fit image</li>
+				<li>Go to random file</li>
+				<li>Slide show</li>
+				<li>Options</li>
+				<li>Help</li>
+				<li>FuturixImager website</li>
+				<li>About FuturixImager</li>
+				<li>File browser with thumbnails*</li>
+				<li>Go to page</li>
 			</ol>
 		</td>
 	</tr>
@@ -305,7 +313,7 @@ a:hover {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td>
-			<p>If you want to distribution your theme to FuturixImager user - setup your website with theme download and <a href="mailto:alex@fxfp.com">send me</a> the URL (to the website, not to the download itself). </p>
+			<p>If you want to distribute your theme to FuturixImager users - setup your website with theme download and <a href="mailto:alex@fxfp.com">send me</a> the URL (to the website, not to the download itself).</p>
 		</td>
 	</tr>
 </table>
@@ -328,7 +336,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>Note: new versions of FuturixImager sometimes add new buttons, so your theme may need update in the future (usually new buttons added every 2-3 months). </td>
+		<td>Note: new versions of FuturixImager sometimes add new buttons, so your theme may need updates in the future (usually new buttons added every 5-6 months). </td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -350,7 +358,7 @@ a:hover {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>&copy; 1999-2008 <a href="http://www.fximage.com/" target="_blank">Alexander Tereshchenko</a></td>
+		<td>&copy; 1999-2009 <a href="http://fximage.com/">Alexander Tereshchenko</a></td>
 	</tr>
 </table>
 </body>

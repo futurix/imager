@@ -7,16 +7,16 @@ uses
 
 const
   sAppName 				= 'FuturixImager';
-  sVersion				= '5.9';
-  sVersionEx			= '5.9.0.0';
+  sVersion				= '5.9.2';
+  sVersionEx			= '5.9.2.0';
   sAuthor				= 'Alexander Tereshchenko';
-  sRights 				= '© 1999-2008 Alexander Tereshchenko';
+  sRights 				= '© 1999-2009 Alexander Tereshchenko';
   sRegAssociation		= 'FuturixImager';
   sRegAssociationOld	= 'FuturixImager.old';
 
   FXVER_MAJOR			= 5;
   FXVER_MINOR			= 9;
-  FXVER_REVISION		= 0;
+  FXVER_REVISION		= 2;
   FXVER_BUILD			= 0;
 
   sReg 					= '\Software\alex_t\FuturixImager';

@@ -61,7 +61,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\fxthemexp.dll"
+				OutputFile="$(OutDir)\fxthemex.dll"
 				LinkIncremental="1"
 				GenerateManifest="false"
 				GenerateDebugInformation="false"

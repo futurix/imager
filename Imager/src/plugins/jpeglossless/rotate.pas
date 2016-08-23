@@ -44,9 +44,14 @@ var
 	frmJPEG: TfrmJPEG;
 	transf: TIEJpegTransform = jtNone;
 	apply_transf: boolean = true;
+    cut_rect: TRect;
+    img_width: integer = 0;
+    img_height: integer = 0;
   
 
 implementation
+
+uses cut;
 
 {$R *.DFM}
 
@@ -157,6 +162,13 @@ end;
 procedure TfrmJPEG.sbnCutClick(Sender: TObject);
 begin
 	transf := jtCut;
+
+    if not Assigned(frmCut) then
+  		begin
+        frmCut := TfrmCut.Create(Application);
+    	frmCut.ShowModal();
+        FreeAndNil(frmCut);
+  		end;
 
     Close();
 end;

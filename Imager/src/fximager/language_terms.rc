@@ -4,7 +4,7 @@ BEGIN
     2		"English"                            			// name of the locale language (in English only!)
     3		"eng"                                           // ISO code of the language - http://www.w3.org/WAI/ER/IG/ert/iso639.htm (lowercase!)
     4		"Alexander Tereshchenko"        				// locale author
-    5		"5.9"                    						// last version of Futuris Imager this locale was updated for
+    5		"5.9.2"                    						// last version of Futuris Imager this locale was updated for
 	6		""												// localized name of the locale language (leave empty if you want English name only)
 	
     50		"OK"
@@ -654,6 +654,13 @@ BEGIN
     1753    "Resize"
     1754    "Rotate"
     1755	"Sharpen"
+    1756	"Auto Fix"
+    1757	"Auto Crop"
+    1758	"Auto Gain"
+    1759	"Auto Sharp"
+    1760	"Auto Equalize"
+    1761	"Auto White"
+    1762	"Auto Glow"
     
     1800	"Amount:"
     
@@ -899,6 +906,11 @@ BEGIN
     3413	"Warning! Current image may lose up to 16 pixels of image data near borders (for JPEG lossless transformations to work correctly image dimensions should be a multiple of 8)."
     3414	"Update EXIF thumbnail"
     3415	"Back-up original image"
+    3416	"Please select the size of rectangle to cut out"
+    3417	"Top:"
+    3418	"Right:"
+    3419	"Bottom:"
+    3420	"Left:"
     
     3500	"Customize..."
     3501	""
