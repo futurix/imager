@@ -202,7 +202,7 @@ if lib_path<>'' then
     @FIPISsave:=GetProcAddress(lib,'FIPISsave');
     if not (@FIPISsave=nil) then
       begin
-      res:=FIPISsave(PChar(path),PChar(ext),Application.Handle,frmMain.Handle,infImage.original.Handle);
+      res:=FIPISsave(PChar(path),PChar(ext),Application.Handle,frmMain.Handle,frmMain.imgMain.Picture.Bitmap.Handle);
       if res<>0 then
         infImage.modified:=false;
       Result:=res;
