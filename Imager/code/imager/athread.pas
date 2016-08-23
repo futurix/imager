@@ -50,8 +50,8 @@ var
 	delay: integer;
 begin
 	if not Terminated then
-  		if (@infAnim.FIPISanimGetFrame <> nil) then
-    		infAnim.FIPISanimGetFrame(frame, delay);
+  		if (@infAnim.FAnimGetFrame <> nil) then
+    		infAnim.FAnimGetFrame(frame, delay);
 
 	if (frame <> 0) then
   		begin

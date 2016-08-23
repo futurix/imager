@@ -144,8 +144,6 @@ end;
 
 procedure TfrmInfo.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-	SaveWindowSize(Self, reg, sReg + '\Position\Info');
-
 	Action := caFree;
 end;
 
@@ -161,17 +159,12 @@ end;
 
 procedure TfrmInfo.FormCreate(Sender: TObject);
 var
-	FIPISinfo: TFIPISinfo;
+	FInfo: TFInfo;
 	lib: THandle;
     tempd: double;
     temps: string;
     io: TImageEnIO;
 begin
-	RestoreWindowSize(Self, reg, sReg + '\Position\Info', Self.Width, Self.Height);
-	Self.Realign();
-	pclInfo.Realign();
-	btnOK.Realign();
-
 	if IsInformed(ExtractExt(infImage.path)) then
   		begin
   		reg.OpenKey(sModules + '\Info', true);
@@ -180,10 +173,10 @@ begin
 
   		if (lib <> 0) then
     		begin
-    		@FIPISinfo := GetProcAddress(lib, 'FIPISinfo');
+    		@FInfo := GetProcAddress(lib, 'FInfo');
 
-    		if not (@FIPISinfo = nil) then
-      			FIPISinfo(PChar(infImage.path), PChar(ExtractExt(infImage.path)), GetInfo, Application.Handle, frmMain.Handle);
+    		if not (@FInfo = nil) then
+      			FInfo(PChar(infImage.path), PChar(ExtractExt(infImage.path)), GetInfo, Application.Handle, frmMain.Handle);
 
     		FreeLibrary(lib);
     		end

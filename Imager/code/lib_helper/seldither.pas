@@ -40,14 +40,14 @@ type
 var
   frmDither: TfrmDither;
 
-function FIPIShelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; stdcall;
-function FIPIShelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; stdcall;
+function FHelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP; stdcall;
+function FHelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP; stdcall;
 
 implementation
 
 {$R *.dfm}
 
-function FIPIShelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP;
+function FHelpDitherOnDemand(bitmap: HBITMAP; clr: TColorReduction; dth: TDitherMode; app: THandle):HBITMAP;
 var
   tmp, output: TBitmap;
 begin
@@ -60,7 +60,7 @@ FreeAndNil(output);
 FreeAndNil(tmp);
 end;
 
-function FIPIShelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP;
+function FHelpDither(bitmap: HBITMAP; app, wnd: THandle):HBITMAP;
 var
   clr: TColorReduction;
   dth: TDitherMode;

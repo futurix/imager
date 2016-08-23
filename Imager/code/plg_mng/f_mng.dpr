@@ -834,19 +834,19 @@ end;
 {**                                                                        **}
 {****************************************************************************}
 
-function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-func(PT_FOPEN,'mng',' ');
-func(PT_FOPEN,'jng',' ');
+func(PT_FOPEN,'mng','Multiple-image Network Graphics (*.mng)');
+func(PT_FOPEN,'jng','JPEG Network Graphics (*.jng)');
+
 func(PT_FOPENANIM,'mng',' ');
-func(PT_FDESCR,'mng','Multiple-image Network Graphics (*.mng)');
-func(PT_FDESCR,'jng','JPEG Network Graphics (*.jng)');
+
 Result:=true;
 end;
 
 {****************************************************************************}
 
-function FIPISopen (path, ext : PChar; app : THandle) : hBitmap; stdcall;
+function FOpen (path, ext : PChar; app : THandle) : hBitmap; stdcall;
 begin
   OFBitmap := TBitmap.Create;
 
@@ -871,7 +871,7 @@ end;
 
 {****************************************************************************}
 
-function FIPISanimInit (filename, ext : PChar; app : THandle) : integer; stdcall;
+function FAnimStart (filename, ext : PChar; app : THandle) : integer; stdcall;
 begin
   OFBitmap   := TBitmap.Create;
   SFFileName := filename;
@@ -890,14 +890,7 @@ end;
 
 {****************************************************************************}
 
-function FIPISanimConfirm () : integer; stdcall;
-begin
-  Result := 1;
-end;
-
-{****************************************************************************}
-
-function FIPISanimRestart () : integer; stdcall;
+function FAnimRestart () : integer; stdcall;
 begin
   BFFirst := true;
   BFLast  := false;
@@ -912,7 +905,7 @@ end;
 
 {****************************************************************************}
 
-function FIPISanimGetFrame (var img : hBitmap; var delay : integer) : integer; stdcall;
+function FAnimGetFrame (var img : hBitmap; var delay : integer) : integer; stdcall;
 
 var OHBitmap : TBitmap;
 
@@ -948,7 +941,7 @@ end;
 
 {****************************************************************************}
 
-function FIPISanimDeInit () : integer; stdcall;
+function FAnimStop () : integer; stdcall;
 begin
   CleanupXNG;
 
@@ -963,8 +956,8 @@ end;
 {****************************************************************************}
 
 exports
-  FIPISquery, FIPISopen, FIPISanimInit, FIPISanimConfirm,
-  FIPISanimRestart, FIPISanimGetFrame, FIPISanimDeInit;
+  FQuery, FOpen,
+  FAnimStart, FAnimRestart, FAnimGetFrame, FAnimStop;
 
 {****************************************************************************}
 

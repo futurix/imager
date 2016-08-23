@@ -6,15 +6,15 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Dialogs,
   c_const, c_utils, c_reg;
 
-function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP; stdcall;
-function FIPIShelpBrowseForBitmap(app, wnd: THandle):HBITMAP; stdcall;
+function FHelpGetBitmap(path: PChar; app: THandle):HBITMAP; stdcall;
+function FHelpBrowseForBitmap(app, wnd: THandle):HBITMAP; stdcall;
 
 
 implementation
 
-function FIPIShelpGetBitmap(path: PChar; app: THandle):HBITMAP;
+function FHelpGetBitmap(path: PChar; app: THandle):HBITMAP;
 var
-  FIPISopen: TFIPISopen;
+  FOpen: TFOpen;
   bmp: HBITMAP;
   lib: THandle;
   reg: TFuturisRegistry;
@@ -41,10 +41,10 @@ if lib_path<>'' then
   lib:=LoadLibrary(PChar(lib_path));
   if lib<>0 then
     begin
-    @FIPISopen:=GetProcAddress(lib,'FIPISopen');
-    if not (@FIPISopen=nil) then
+    @FOpen:=GetProcAddress(lib,'FOpen');
+    if not (@FOpen=nil) then
       begin
-      bmp:=FIPISopen(PChar(path),PChar(ext),app);
+      bmp:=FOpen(PChar(path),PChar(ext),app);
       if bmp<>0 then
         begin
         //Success!!!
@@ -59,7 +59,7 @@ if lib_path<>'' then
 FreeAndNil(reg);
 end;
 
-function FIPIShelpBrowseForBitmap(app, wnd: THandle):HBITMAP;
+function FHelpBrowseForBitmap(app, wnd: THandle):HBITMAP;
 var
   dlgOpen: TOpenDialog;
 begin
@@ -70,7 +70,7 @@ dlgOpen:=TOpenDialog.Create(nil);
 dlgOpen.Filter:='All Files|*.*';
 if dlgOpen.Execute() then
   begin
-  Result:=FIPIShelpGetBitmap(PChar(dlgOpen.FileName),app);
+  Result:=FHelpGetBitmap(PChar(dlgOpen.FileName),app);
   end;
 
 // cleaning

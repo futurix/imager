@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=1
+MinorVer=2
 Release=0
-Build=57
+Build=60
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Helper Library
-FileVersion=5.1.0.57
+FileVersion=5.2.0.60
 InternalName=img_helper
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=img_helper.dll
 ProductName=Futuris Imager
-ProductVersion=5.1
+ProductVersion=5.2
 Comments=http://www.ukfog.com/
 [HistoryLists\hlUnitAliases]
 Count=1

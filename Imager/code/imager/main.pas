@@ -203,10 +203,10 @@ type
 
     procedure Initialize();
     procedure ShutDown();
-    procedure HandleFIPISimport(Sender: TObject);
-    procedure HandleFIPISexport(Sender: TObject);
-    procedure HandleFIPISfilter(Sender: TObject);
-    procedure HandleFIPIStool(Sender: TObject);
+    procedure HandleFImport(Sender: TObject);
+    procedure HandleFExport(Sender: TObject);
+    procedure HandleFFilter(Sender: TObject);
+    procedure HandleFTool(Sender: TObject);
     procedure DragNDrop(var msg: TWMDropFiles); message WM_DropFiles;
     procedure miAboutClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -372,10 +372,10 @@ begin
 	FreeAndNil(reg);
 end;
 
-// FIPISimport handler
-procedure TfrmMain.HandleFIPISimport(Sender: TObject);
+// FImport handler
+procedure TfrmMain.HandleFImport(Sender: TObject);
 var
-	FIPISimport: TFIPISimport;
+	FImport: TFImport;
 	lib: THandle;
 	func_result: hBitmap;
 begin
@@ -388,11 +388,11 @@ begin
     		Report('Cannot load import DLL!', 2)
   		else
     		begin
-    		@FIPISimport := GetProcAddress(lib, 'FIPISimport');
+    		@FImport := GetProcAddress(lib, 'FImport');
 
-    		if not (@FIPISimport = nil) then
+    		if not (@FImport = nil) then
       			begin
-      			func_result := FIPISimport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle);
+      			func_result := FImport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle);
       			if (func_result <> 0) then
         			OpenUntitled(nil, func_result);
       			end;
@@ -403,10 +403,10 @@ begin
 	end;
 end;
 
-// FIPISexport handler
-procedure TfrmMain.HandleFIPISexport(Sender: TObject);
+// FExport handler
+procedure TfrmMain.HandleFExport(Sender: TObject);
 var
-	FIPISexport: TFIPISexport;
+	FExport: TFExport;
 	lib: THandle;
 	img: TBitmap;
 begin
@@ -423,10 +423,10 @@ begin
     		img.Assign(frmMain.img.IEBitmap.VclBitmap);
     		img.PixelFormat := pf24bit;
 
-    		@FIPISexport := GetProcAddress(lib, 'FIPISexport');
+    		@FExport := GetProcAddress(lib, 'FExport');
 
-    		if not (@FIPISexport = nil) then
-      			FIPISexport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle, img.ReleaseHandle());
+    		if not (@FExport = nil) then
+      			FExport(PChar(StripHotKey(TMenuItem(Sender).Caption)), Application.Handle, frmMain.Handle, img.ReleaseHandle());
 
     		FreeLibrary(lib);
     		FreeAndNil(img);
@@ -435,16 +435,16 @@ begin
 	end;
 end;
 
-// FIPISfilter handler
-procedure TfrmMain.HandleFIPISfilter(Sender: TObject);
+// FFilter handler
+procedure TfrmMain.HandleFFilter(Sender: TObject);
 begin
 	HandleFilter(StripHotKey(TMenuItem(Sender).Caption));
 end;
 
-// FIPIStool handler
-procedure TfrmMain.HandleFIPIStool(Sender: TObject);
+// FTool handler
+procedure TfrmMain.HandleFTool(Sender: TObject);
 var
-	FIPIStool: TFIPIStool;
+	FTool: TFTool;
 	lib: THandle;
 	func_result: hBitmap;
 	img: TBitmap;
@@ -458,16 +458,16 @@ begin
   			Report('Cannot load tool DLL!', 2)
 		else
   			begin
-  			@FIPIStool := GetProcAddress(lib, 'FIPIStool');
+  			@FTool := GetProcAddress(lib, 'FTool');
 
-  			if not (@FIPIStool = nil) then
+  			if not (@FTool = nil) then
     			begin
     			img := TBitmap.Create();
     			img.Assign(frmMain.img.IEBitmap.VclBitmap);
     			img.PixelFormat := pf24bit;
 
     			try
-      				func_result := FIPIStool(PChar(StripHotKey(TMenuItem(Sender).Caption)), PChar(infImage.path), Application.Handle, frmMain.Handle, img.ReleaseHandle());
+      				func_result := FTool(PChar(StripHotKey(TMenuItem(Sender).Caption)), PChar(infImage.path), Application.Handle, frmMain.Handle, img.ReleaseHandle());
       				if (func_result <> 0) then
         				OpenUntitled(nil, func_result);
     			except

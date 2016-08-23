@@ -77,6 +77,9 @@ contains
   tiflzw,
   giflzw,
   ielcms,
-  iezlib;
+  iezlib,
+  ieXtraTransitions,
+  iepresetim,
+  ieraw;
 
 end.

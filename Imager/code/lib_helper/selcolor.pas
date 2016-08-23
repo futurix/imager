@@ -22,13 +22,13 @@ type
 var
   frmSelectColor: TfrmSelectColor;
 
-function FIPIShelpSelectColor(color: TColor; app, wnd: THandle):TColor; stdcall;
+function FHelpSelectColor(color: TColor; app, wnd: THandle):TColor; stdcall;
 
 implementation
 
 {$R *.dfm}
 
-function FIPIShelpSelectColor(color: TColor; app, wnd: THandle):TColor;
+function FHelpSelectColor(color: TColor; app, wnd: THandle):TColor;
 begin
 Application.Handle:=app;
 frmSelectColor:=TfrmSelectColor.Create(nil);

@@ -1,11 +1,12 @@
 object frmInfo: TfrmInfo
   Left = 190
   Top = 79
-  Width = 600
-  Height = 452
   ActiveControl = btnOK
   BorderIcons = [biSystemMenu]
-  Caption = 'File Information'
+  BorderStyle = bsDialog
+  Caption = 'Image Information'
+  ClientHeight = 423
+  ClientWidth = 592
   Color = clBtnFace
   Constraints.MinHeight = 200
   Constraints.MinWidth = 200
@@ -23,12 +24,12 @@ object frmInfo: TfrmInfo
   OnKeyDown = FormKeyDown
   DesignSize = (
     592
-    425)
+    423)
   PixelsPerInch = 96
   TextHeight = 13
   object btnOK: TButton
     Left = 513
-    Top = 392
+    Top = 390
     Width = 73
     Height = 25
     Anchors = [akRight, akBottom]
@@ -41,7 +42,7 @@ object frmInfo: TfrmInfo
     Left = 5
     Top = 5
     Width = 581
-    Height = 379
+    Height = 377
     ActivePage = shtGeneral
     Anchors = [akLeft, akTop, akRight, akBottom]
     HotTrack = True
@@ -53,7 +54,7 @@ object frmInfo: TfrmInfo
         Left = 0
         Top = 0
         Width = 563
-        Height = 341
+        Height = 339
         Align = alClient
         Columns = <
           item
@@ -122,6 +123,7 @@ object frmInfo: TfrmInfo
         LegacyBitmap = False
         MouseInteract = [miZoom, miScroll]
         EnableAlphaChannel = True
+        ImageEnVersion = '2.1.9_beta'
         Align = alClient
         TabOrder = 0
       end

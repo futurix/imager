@@ -151,7 +151,7 @@ end;
 // actually loads image
 function DoImageLoad(path: string):hBitmap;
 var
-	FIPISopen: TFIPISopen;
+	FOpen: TFOpen;
 	bmp: hBitmap;
 	lib: THandle;
 	ext, lib_path: string;
@@ -174,10 +174,10 @@ begin
   		lib := LoadLibrary(PChar(lib_path));
   		if (lib <> 0) then
     		begin
-    		@FIPISopen := GetProcAddress(lib, 'FIPISopen');
-    		if not (@FIPISopen = nil) then
+    		@FOpen := GetProcAddress(lib, 'FOpen');
+    		if not (@FOpen = nil) then
       			begin
-      			bmp := FIPISopen(PChar(path), PChar(ext), Application.Handle);
+      			bmp := FOpen(PChar(path), PChar(ext), Application.Handle);
       			if (bmp <> 0) then
         			begin
         			//Success!!!
@@ -195,7 +195,7 @@ end;
 // saves file
 function Write(path: string):integer;
 var
-	FIPISsave: TFIPISsave;
+	FSave: TFSave;
 	lib: THandle;
 	ext, lib_path: string;
 	res: integer;
@@ -218,14 +218,14 @@ begin
 
   		if (lib <> 0) then
     		begin
-    		@FIPISsave := GetProcAddress(lib, 'FIPISsave');
-    		if not (@FIPISsave = nil) then
+    		@FSave := GetProcAddress(lib, 'FSave');
+    		if not (@FSave = nil) then
       			begin
                 bim := TBitmap.Create();
                 bim.Assign(frmMain.img.IEBitmap.VclBitmap);
                 bim.PixelFormat := pf24bit;
 
-      			res := FIPISsave(PChar(path), PChar(ext), Application.Handle, frmMain.Handle, bim.ReleaseHandle());
+      			res := FSave(PChar(path), PChar(ext), Application.Handle, frmMain.Handle, bim.ReleaseHandle());
 
                 FreeAndNil(bim);
 
@@ -235,12 +235,12 @@ begin
       			Result := res;
       			end
     		else
-      			Report('FIPISsave function not found!');
+      			Report('FSave function not found!');
 
             FreeLibrary(lib);
     		end
   		else
-    		Report('DLL Library (FIPISsave) load error!');
+    		Report('DLL Library (FSave) load error!');
   		end;
 end;
 
@@ -296,7 +296,7 @@ begin
   		end;
 end;
 
-// finds out if supported by FIPISopen
+// finds out if supported by FOpen
 function SupportedExt(ext: string):boolean;
 begin
 	reg.OpenKey(sModules + '\Open', true);

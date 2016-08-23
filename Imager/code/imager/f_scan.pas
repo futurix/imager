@@ -13,7 +13,7 @@ var
 procedure DoScan();
 procedure ProcessLib(filename: string);
 function  SortData(module_type: integer; value1, value2: PChar):BOOL; stdcall;
-procedure WriteData(key, value1, value2: string; write_type: integer);
+procedure WriteData(key, value1: string; value2: string = ' ');
 
 
 implementation
@@ -65,16 +65,16 @@ end;
 procedure ProcessLib(filename: string);
 var
 	lib: THandle;
-	supp: TFIPISquery;
+	supp: TFQuery;
 begin
 	lib := LoadLibrary(PChar(filename));
 
     if (lib <> 0) then
   		begin
-  		if ((GetProcAddress(lib, 'FIPISquery') <> nil) and (GetProcAddress(lib, 'FIPISquery') <> nil)) then
+  		if (GetProcAddress(lib, 'FQuery') <> nil) then
     		begin
     		current_dll := filename;
-    		@supp := GetProcAddress(lib, 'FIPISquery');
+    		@supp := GetProcAddress(lib, 'FQuery');
     		supp(PChar(current_dll), SortData, HInstance);
     		current_dll := '';
     		end;
@@ -89,37 +89,32 @@ begin
 
     // working
 	case module_type of
-  		PT_FOPEN: WriteData('Open', String(value1), String(value2), 0);
-  		PT_FOPENMULTI: WriteData('Multi', String(value1), String(value2), 0);
-  		PT_FOPENANIM: WriteData('Anim', String(value1), String(value2), 0);
-  		PT_FSAVE: WriteData('Save', String(value1), String(value2), 0);
-  		PT_FIMPORT: WriteData('Import', String(value1), String(value2), 0);
-  		PT_FEXPORT: WriteData('Export', String(value1), String(value2), 0);
-  		PT_FFILTER: WriteData('Filters', String(value1), String(value2), 0);
-  		PT_FINFO: WriteData('Info', String(value1), String(value2), 0);
-  		PT_FTOOL: WriteData('Tools', String(value1), String(value2), 0);
-  		PT_FDESCR: WriteData('Descr', String(value1), String(value2), 1);
+  		PT_FOPEN: 		WriteData('Open', 	 String(value1), String(value2));
+  		PT_FOPENMULTI: 	WriteData('Multi',	 String(value1), String(value2));
+  		PT_FOPENANIM: 	WriteData('Anim', 	 String(value1), String(value2));
+  		PT_FSAVE: 		WriteData('Save', 	 String(value1), String(value2));
+  		PT_FIMPORT: 	WriteData('Import',  String(value1));
+  		PT_FEXPORT: 	WriteData('Export',  String(value1));
+  		PT_FFILTER: 	WriteData('Filters', String(value1));
+  		PT_FINFO: 		WriteData('Info', 	 String(value1));
+  		PT_FTOOL: 		WriteData('Tools', 	 String(value1));
   	else
-    	Result:=false;
+    	Result := false;
   	end;
 end;
 
-procedure WriteData(key, value1, value2: string; write_type: integer);
+procedure WriteData(key, value1: string; value2: string = ' ');
 begin
-	case write_type of
-  		0: // normal (key,value1=dll)
-    		begin
-            reg.OpenKey(sModules + '\' + key, true);
-    		reg.WString(value1, ExtractFileName(current_dll));
-    		reg.CloseKey();
-    		end;
-  		1: // normal (key,value1=value2)
-    		begin
-    		reg.OpenKey(sModules + '\' + key, true);
-    		reg.WString(value1, value2);
-    		reg.CloseKey();
-    		end;
-  	end;
+	reg.OpenKey(sModules + '\' + key, true);
+    reg.WString(value1, ExtractFileName(current_dll));
+    reg.CloseKey();
+
+    if ((Trim(value2) <> '') and (value2 <> '')) then
+    	begin
+        reg.OpenKey(sModules + '\Descr', true);
+        reg.WString(value1, value2);
+        reg.CloseKey();
+        end;
 end;
 
 end.

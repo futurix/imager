@@ -11,8 +11,8 @@ uses
 {$R *.res}
 
 exports
-  FIPIShelpSelectColor, FIPIShelpDither, FIPIShelpDitherOnDemand,
-  FIPIShelpGetBitmap, FIPIShelpBrowseForBitmap, FIPIShelpPrint;
+  FHelpSelectColor, FHelpDither, FHelpDitherOnDemand,
+  FHelpGetBitmap, FHelpBrowseForBitmap, FHelpPrint;
 
 begin
 end.

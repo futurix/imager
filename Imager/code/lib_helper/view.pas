@@ -56,7 +56,7 @@ type
     { Public declarations }
   end;
 
-function FIPIShelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; stdcall;
+function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL; stdcall;
 
 var
   frmPrint: TfrmPrint;
@@ -70,7 +70,7 @@ implementation
 
 {$R *.DFM}
 
-function FIPIShelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL;
+function FHelpPrint(app: HWND; img: HBITMAP; filename: PChar; fast: BOOL):BOOL;
 begin
 Application.Handle:=app;
 

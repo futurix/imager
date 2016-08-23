@@ -1,9 +1,0 @@
->>>> 5.2
-- update ImageEn and include latest features
-- single instance option
-- new unified FreeImage plug-in, based on latest FreeImage (3.7?) with it's new features
-
->>>> 5.5
-- better histogram (use read-only RGBcurves)
-- JPEG lossless transformations
-- localization

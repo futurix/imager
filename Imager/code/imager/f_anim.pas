@@ -53,27 +53,18 @@ begin
 
 	if infAnim.lib<>0 then
   		begin
-  		@infAnim.FIPISanimInit := GetProcAddress(infAnim.lib, 'FIPISanimInit');
-  		@infAnim.FIPISanimConfirm := GetProcAddress(infAnim.lib, 'FIPISanimConfirm');
-  		@infAnim.FIPISanimRestart := GetProcAddress(infAnim.lib, 'FIPISanimRestart');
-  		@infAnim.FIPISanimGetFrame := GetProcAddress(infAnim.lib, 'FIPISanimGetFrame');
-  		@infAnim.FIPISanimDeInit := GetProcAddress(infAnim.lib, 'FIPISanimDeInit');
+  		@infAnim.FAnimStart := GetProcAddress(infAnim.lib, 'FAnimStart');
+  		@infAnim.FAnimRestart := GetProcAddress(infAnim.lib, 'FAnimRestart');
+  		@infAnim.FAnimGetFrame := GetProcAddress(infAnim.lib, 'FAnimGetFrame');
+  		@infAnim.FAnimStop := GetProcAddress(infAnim.lib, 'FAnimStop');
 
-  		if ((@infAnim.FIPISanimInit <> nil) and
-			(@infAnim.FIPISanimConfirm <> nil) and
-      		(@infAnim.FIPISanimRestart <> nil) and
-      		(@infAnim.FIPISanimGetFrame <> nil) and
-      		(@infAnim.FIPISanimDeInit <> nil)) then
+  		if ((@infAnim.FAnimStart <> nil) and
+      		(@infAnim.FAnimRestart <> nil) and
+      		(@infAnim.FAnimGetFrame <> nil) and
+      		(@infAnim.FAnimStop <> nil)) then
     		begin
         	// settings
-    		if (infAnim.FIPISanimInit(PChar(path), PChar(ExtractExt(path)), Application.Handle) = 0) then
-      			begin
-      			CloseAnim();
-      			FileNotFound(path);
-      			Exit;
-      			end;
-
-    		if (infAnim.FIPISanimConfirm() = 0) then
+    		if (infAnim.FAnimStart(PChar(path), PChar(ExtractExt(path)), Application.Handle) = 0) then
       			begin
       			CloseAnim();
       			OpenLocal(path, add_to_mru, same_folder);
@@ -110,7 +101,7 @@ procedure APlay();
 begin
 	if (thrAnim = nil) then
   		begin
-  		infAnim.FIPISanimRestart();
+  		infAnim.FAnimRestart();
   		thrAnim := TAnimationThread.Create(false);
   		ATuneUI();
   		end
@@ -189,8 +180,8 @@ begin
 	except
 	end;
 
-	if (@infAnim.FIPISanimDeInit <> nil) then
-  		infAnim.FIPISanimDeInit();
+	if (@infAnim.FAnimStop <> nil) then
+  		infAnim.FAnimStop();
 
 	if (infAnim.lib <> 0) then
   		FreeLibrary(infAnim.lib);

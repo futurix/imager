@@ -32,7 +32,7 @@ begin
 	// setting sun
 	SetDialogs();
 
-	// setting FIPISimport
+	// setting FImport
 	s.Clear();
 
 	reg.OpenKey(sModules + '\Import', true);
@@ -49,14 +49,14 @@ begin
     		i := TMenuItem.Create(nil);
     		i.Caption := s.Strings[c];
     		i.Hint := s.Strings[c];
-    		i.OnClick := frmMain.HandleFIPISimport;
+    		i.OnClick := frmMain.HandleFImport;
     		frmMain.mImport.Add(i);
     		end;
 
   		frmMain.mImport.Enabled := true;
   		end;
 
-	// setting FIPISexport
+	// setting FExport
 	s.Clear();
 
 	reg.OpenKey(sModules + '\Export', true);
@@ -74,14 +74,14 @@ begin
     		i := TMenuItem.Create(nil);
     		i.Caption := s.Strings[c];
     		i.Hint := s.Strings[c];
-    		i.OnClick := frmMain.HandleFIPISexport;
+    		i.OnClick := frmMain.HandleFExport;
     		frmMain.mExport.Add(i);
     		end;
 
   		frmMain.mExport.Enabled := true;
   		end;
 
-	// setting FIPIStool
+	// setting FTool
 	s.Clear();
 
 	reg.OpenKey(sModules + '\Tools', true);
@@ -97,7 +97,7 @@ begin
     		i := TMenuItem.Create(nil);
     		i.Caption := s.Strings[c];
     		i.Hint := s.Strings[c];
-    		i.OnClick := frmMain.HandleFIPIStool;
+    		i.OnClick := frmMain.HandleFTool;
     		frmMain.mTools.Insert(0, i);
     		end;
   		end;
@@ -158,6 +158,8 @@ begin
 	reg.OpenKey(sModules + '\Open', true);
 	reg.GetValueNames(h);
 	reg.CloseKey();
+
+    h.Sort();
 
 	reg.OpenKey(sModules + '\Descr', true);
 
@@ -268,7 +270,7 @@ end;
 // handles filters
 function HandleFilter(name: string):boolean;
 var
-	FIPISfilter: TFIPISfilter;
+	FFilter: TFFilter;
 	lib: THandle;
 	func_result: hBitmap;
 	image, bim: TBitmap;
@@ -286,15 +288,15 @@ begin
     		Application.MessageBox('Cannot load filter DLL!', 'Error!', MB_OK + MB_ICONERROR)
   		else
     		begin
-    		@FIPISfilter := GetProcAddress(lib, 'FIPISfilter');
+    		@FFilter := GetProcAddress(lib, 'FFilter');
 
-    		if not (@FIPISfilter = nil) then
+    		if not (@FFilter = nil) then
       			begin
       			image := TBitmap.Create();
       			image.Assign(frmMain.img.IEBitmap.VclBitmap);
       			image.PixelFormat := pf24bit;
 
-      			func_result := FIPISfilter(PChar(name), false, Application.Handle, frmMain.Handle, image.ReleaseHandle());
+      			func_result := FFilter(PChar(name), false, Application.Handle, frmMain.Handle, image.ReleaseHandle());
 
       			if (func_result <> 0) then
         			begin
@@ -324,7 +326,7 @@ end;
 // handles filters preview
 function HandleFilterPreview(name: string):HBITMAP;
 var
-	FIPISfilter: TFIPISfilter;
+	FFilter: TFFilter;
 	lib: THandle;
 	image: TBitmap;
 begin
@@ -340,15 +342,15 @@ begin
 
   		if (lib <> 0)then
     		begin
-    		@FIPISfilter := GetProcAddress(lib, 'FIPISfilter');
+    		@FFilter := GetProcAddress(lib, 'FFilter');
 
-    		if not (@FIPISfilter = nil) then
+    		if not (@FFilter = nil) then
       			begin
       			image := TBitmap.Create();
       			image.Assign(frmMain.img.IEBitmap.VclBitmap);
       			image.PixelFormat := pf24bit;
 
-      			Result := FIPISfilter(PChar(name), true, Application.Handle, frmMain.Handle, image.ReleaseHandle());
+      			Result := FFilter(PChar(name), true, Application.Handle, frmMain.Handle, image.ReleaseHandle());
 
       			FreeAndNil(image);
       			end;

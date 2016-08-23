@@ -41,21 +41,19 @@ var infMulti: record
 	pages, page: integer;
 
 	// functions
-	FIPISmultiInit: TFIPISmultiInit;
-	FIPISmultiGetPages: TFIPISmultiGetPages;
-	FIPISmultiGetPage: TFIPISmultiGetPage;
-	FIPISmultiDeInit: TFIPISmultiDeInit;
+	FMultiStart: TFMultiStart;
+	FMultiGetPage: TFMultiGetPage;
+	FMultiStop: TFMultiStop;
 end;
 
 var infAnim: record
 	lib: THandle;
 
 	// functions
-	FIPISanimInit: TFIPISanimInit;
-	FIPISanimConfirm: TFIPISanimConfirm;
-	FIPISanimRestart: TFIPISanimRestart;
-	FIPISanimGetFrame: TFIPISanimGetFrame;
-	FIPISanimDeInit: TFIPISanimDeInit;
+	FAnimStart: TFAnimStart;
+	FAnimRestart: TFAnimRestart;
+	FAnimGetFrame: TFAnimGetFrame;
+	FAnimStop: TFAnimStop;
 end;
 
 procedure FillImage(path: string; file_type: TFileTypes; image_type: TImageTypes);

@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=1
+MinorVer=2
 Release=0
-Build=39
+Build=42
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Wallpaper Plug-ins
-FileVersion=5.1.0.39
+FileVersion=5.2.0.42
 InternalName=plg_wallpaper
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=f_wallpaper.dll
 ProductName=Futuris Imager
-ProductVersion=5.1
+ProductVersion=5.2
 Comments=http://www.ukfog.com/
 [HistoryLists\hlUnitAliases]
 Count=1

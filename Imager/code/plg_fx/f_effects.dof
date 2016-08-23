@@ -109,9 +109,9 @@ DebugCWD=
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=5
-MinorVer=1
+MinorVer=2
 Release=0
-Build=115
+Build=117
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +122,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Alexander Tereshchenko
 FileDescription=Futuris Imager Effects Library
-FileVersion=5.1.0.115
+FileVersion=5.2.0.117
 InternalName=plg_fx
 LegalCopyright=© 1999-2005 Alexander Tereshchenko
 LegalTrademarks=
 OriginalFilename=f_effects.dll
 ProductName=Futuris Imager
-ProductVersion=5.1
+ProductVersion=5.2
 Comments=http://www.ukfog.com/
 [HistoryLists\hlUnitAliases]
 Count=1

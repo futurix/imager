@@ -25,7 +25,7 @@ uses globals, main, w_show, f_graphics, f_ui, f_nav,
 // print with preview
 procedure PrintImage(fast: boolean = false);
 var
-	DoPrint: TFIPIShelpPrint;
+	DoPrint: TFHelpPrint;
 	lib: THandle;
 	bmp: TBitmap;
 begin
@@ -39,7 +39,7 @@ begin
   			Application.MessageBox('Cannot load Futuris Imager Helper DLL!', 'Error!', MB_OK + MB_ICONERROR)
 		else
   			begin
-  			@DoPrint := GetProcAddress(lib, 'FIPIShelpPrint');
+  			@DoPrint := GetProcAddress(lib, 'FHelpPrint');
 
   			if not (@DoPrint = nil) then
     			begin

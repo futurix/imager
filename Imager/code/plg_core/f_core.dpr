@@ -23,28 +23,35 @@ var
 {$R *.RES}
 
 
-function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 begin
-	func(PT_FOPEN, 'jpg', ' ');
-	func(PT_FOPEN, 'jpeg', ' ');
-	func(PT_FOPEN, 'jfif', ' ');
-	func(PT_FOPEN, 'jp2', ' ');
-	func(PT_FOPEN, 'jpc', ' ');
-	func(PT_FOPEN, 'j2k', ' ');
-    func(PT_FOPEN, 'j2c', ' ');
-    func(PT_FOPEN, 'gif', ' ');
-	func(PT_FOPEN, 'pbm', ' ');
-	func(PT_FOPEN, 'pgm', ' ');
-	func(PT_FOPEN, 'ppm', ' ');
-	func(PT_FOPEN, 'bmp', ' ');
-	func(PT_FOPEN, 'emf', ' ');
-	func(PT_FOPEN, 'wmf', ' ');
-	func(PT_FOPEN, 'pcx', ' ');
-	func(PT_FOPEN, 'dcx', ' ');
-	func(PT_FOPEN, 'png', ' ');
-	func(PT_FOPEN, 'tga', ' ');
-	func(PT_FOPEN, 'tif', ' ');
-	func(PT_FOPEN, 'tiff', ' ');
+	func(PT_FOPEN, 'jpg', 'Joint Photographic Experts Group (*.jpg)');
+	func(PT_FOPEN, 'jpeg', 'Joint Photographic Experts Group (*.jpeg)');
+	func(PT_FOPEN, 'jfif', 'Joint Photographic Experts Group (*.jfif)');
+	func(PT_FOPEN, 'jp2', 'JPEG 2000 (*.jp2)');
+	func(PT_FOPEN, 'jpc', 'JPEG 2000 (*.jpc)');
+	func(PT_FOPEN, 'j2k', 'JPEG 2000 (*.j2k)');
+    func(PT_FOPEN, 'j2c', 'JPEG 2000 (*.j2c)');
+    func(PT_FOPEN, 'gif', 'CompuServe GIF (*.gif)');
+	func(PT_FOPEN, 'pbm', 'Portable Bitmap (*.pbm)');
+	func(PT_FOPEN, 'pgm', 'Portable Graymap (*.pgm)');
+	func(PT_FOPEN, 'ppm', 'Portable Pixelmap (*.ppm)');
+    func(PT_FOPEN, 'raw', 'RAW Digital Camera Dump (*.raw)');
+    func(PT_FOPEN, 'dcr', 'RAW Digital Camera Dump (*.dcr)');
+    func(PT_FOPEN, 'nef', 'Nikon RAW Digital Camera Dump (*.nef)');
+    func(PT_FOPEN, 'raf', 'Fuji RAW Digital Camera Dump (*.raf)');
+    func(PT_FOPEN, 'crw', 'Canon RAW Digital Camera Dump (*.crw)');
+    func(PT_FOPEN, 'cr2', 'Canon RAW Digital Camera Dump (*.cr2)');
+	func(PT_FOPEN, 'bmp', 'Windows Bitmap (*.bmp)');
+	func(PT_FOPEN, 'emf', 'Enhanced Metafile (*.emf)');
+	func(PT_FOPEN, 'wmf', 'Windows Metafile (*.wmf)');
+	func(PT_FOPEN, 'pcx', 'ZSoft Paintbrush (*.pcx)');
+	func(PT_FOPEN, 'dcx', 'ZSoft Multi-page Paintbrush (*.dcx)');
+	func(PT_FOPEN, 'png', 'Portable Network Graphics (*.png)');
+	func(PT_FOPEN, 'tga', 'Truevision Targa (*.tga)');
+	func(PT_FOPEN, 'tif', 'Tag Image File Format (*.tif)');
+	func(PT_FOPEN, 'tiff', 'Tag Image File Format (*.tiff)');
+    func(PT_FOPEN, 'dng', 'Digital Negative (*.dng)');
 
 	func(PT_FOPENMULTI, 'dcx', ' ');
 	func(PT_FOPENMULTI, 'tif', ' ');
@@ -64,27 +71,6 @@ begin
 	func(PT_FSAVE, 'tga', ' ');
 	func(PT_FSAVE, 'tif', ' ');
 
-	func(PT_FDESCR, 'jpg', 'Joint Photographic Experts Group (*.jpg)');
-	func(PT_FDESCR, 'jpeg', 'Joint Photographic Experts Group (*.jpeg)');
-	func(PT_FDESCR, 'jfif', 'Joint Photographic Experts Group (*.jfif)');
-	func(PT_FDESCR, 'jp2', 'JPEG 2000 (*.jp2)');
-	func(PT_FDESCR, 'jpc', 'JPEG 2000 (*.jpc)');
-	func(PT_FDESCR, 'j2k', 'JPEG 2000 (*.j2k)');
-	func(PT_FDESCR, 'j2c', 'JPEG 2000 (*.j2c)');
-    func(PT_FDESCR, 'gif', 'CompuServe GIF (*.gif)');
-	func(PT_FDESCR, 'pbm', 'Portable bitmap format - black and white (*.pbm)');
-	func(PT_FDESCR, 'pgm', 'Portable bitmap format - grayscale (*.pgm)');
-	func(PT_FDESCR, 'ppm', 'Portable bitmap format - true color (*.ppm)');
-	func(PT_FDESCR, 'bmp', 'Windows Bitmap (*.bmp)');
-	func(PT_FDESCR, 'emf', 'Windows Metafile (*.wmf)');
-	func(PT_FDESCR, 'wmf', 'Enhanced Metafile (*.emf)');
-	func(PT_FDESCR, 'pcx', 'ZSoft Paintbrush (*.pcx)');
-	func(PT_FDESCR, 'dcx', 'ZSoft Multi-page Paintbrush (*.dcx)');
-	func(PT_FDESCR, 'png', 'Portable Network Graphics (*.png)');
-	func(PT_FDESCR, 'tga', 'Truevision Targa (*.tga)');
-	func(PT_FDESCR, 'tif', 'Tag Image File Format (*.tif)');
-	func(PT_FDESCR, 'tiff', 'Tag Image File Format (*.tiff)');
-
     func(PT_FIMPORT, 'Get Image from Digital Camera or Scanner...', ' ');
 
 	func(PT_FFILTER, 'Flip Horizontal', ' ');
@@ -96,12 +82,13 @@ begin
 	Result := true;
 end;
 
-function FIPISopen(path, ext: PChar; app: THandle):hBitmap; stdcall;
+function FOpen(path, ext: PChar; app: THandle):hBitmap; stdcall;
 var
 	bmp: TBitmap;
     io: TImageEnIO;
 begin
     Result := 0;
+    iegEnableCMS := true;
 
     io := TImageEnIO.Create(nil);
     bmp := TBitmap.Create();
@@ -119,13 +106,14 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FIPISsave(path, ext: PChar; app, wnd: THandle; img: hBitmap):integer; stdcall;
+function FSave(path, ext: PChar; app, wnd: THandle; img: hBitmap):integer; stdcall;
 var
 	bmp: TBitmap;
     mex: string;
     io: TImageEnIO;
 begin
     Result := 0;
+    iegEnableCMS := true;
 
 	bmp := TBitmap.Create();
     bmp.Handle := img;
@@ -336,7 +324,7 @@ begin
 	FreeAndNil(bmp);
 end;
 
-function FIPISanimInit(filename, ext: PChar; app: THandle):integer; stdcall;
+function FAnimStart(filename, ext: PChar; app: THandle):integer; stdcall;
 begin
 	Result := 1;
     gframe := 0;
@@ -346,25 +334,17 @@ begin
     gframes := mio.LoadFromFileGIF(String(filename));
     gfile := String(filename);
 
-    if mio.Aborting then
+    if (mio.Aborting or (gframes < 2)) then
         Result := 0;
 end;
 
-function FIPISanimConfirm():integer; stdcall;
-begin
-	if (gframes < 2) then
-  		Result := 0
-	else
-  		Result := 1;
-end;
-
-function FIPISanimRestart():integer; stdcall;
+function FAnimRestart():integer; stdcall;
 begin
 	gframe := 0;
 	Result := 1;
 end;
 
-function FIPISanimGetFrame(var img: hBitmap; var delay: integer):integer; stdcall;
+function FAnimGetFrame(var img: hBitmap; var delay: integer):integer; stdcall;
 var
 	bmp: TBitmap;
 begin
@@ -394,15 +374,16 @@ begin
 		gframe := 0;
 end;
 
-function FIPISanimDeInit():integer; stdcall;
+function FAnimStop():integer; stdcall;
 begin
 	Result := 1;
 	FreeAndNil(mio);
 end;
 
-function FIPISmultiInit(filename, ext: PChar; app: THandle):integer; stdcall;
+function FMultiStart(filename, ext: PChar; app: THandle):integer; stdcall;
 begin
     gpage := 0;
+    iegEnableCMS := true;
     gext := ExtractExt(String(filename));
     gfilep := String(filename);
 
@@ -420,18 +401,15 @@ begin
     if pio.Aborting then
         Result := 0
     else
-    	Result := gpages;
+        begin
+		if (gext = 'dcx') then
+			Result := EnumDCXIm(String(gfilep))
+		else
+  			Result := EnumTIFFIm(String(gfilep));
+        end;
 end;
 
-function FIPISmultiGetPages():integer; stdcall;
-begin
-	if (gext = 'dcx') then
-		Result := EnumDCXIm(String(gfilep))
-	else
-  		Result := EnumTIFFIm(String(gfilep));
-end;
-
-function FIPISmultiGetPage(index: integer):hBitmap; stdcall;
+function FMultiGetPage(index: integer):hBitmap; stdcall;
 var
 	bmp: TBitmap;
 begin
@@ -460,13 +438,13 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FIPISmultiDeInit():integer; stdcall;
+function FMultiStop():integer; stdcall;
 begin
 	Result := 1;
     FreeAndNil(pio);
 end;
 
-function FIPISfilter(info: PChar; preview: boolean; app, wnd: THandle; img: HBITMAP):HBITMAP; stdcall;
+function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: HBITMAP):HBITMAP; stdcall;
 var
 	bmp: TBitmap;
     proc: TImageEnProc;
@@ -493,7 +471,7 @@ begin
     FreeAndNil(bmp);
 end;
 
-function FIPISimport(info: PChar; app, wnd: THandle):hBitmap; stdcall;
+function FImport(info: PChar; app, wnd: THandle):hBitmap; stdcall;
 var
 	bmp: TBitmap;
     io: TImageEnIO;
@@ -518,7 +496,7 @@ begin
     	end;
 end;
 
-function FIPIStool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
+function FTool(info,path: PChar; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
 var
 	tmp, new: string;
 	html: TStringList;
@@ -574,10 +552,9 @@ begin
 end;
 
 exports
-	FIPISquery, FIPISopen, FIPISsave, FIPISfilter, FIPISimport,
-	FIPISanimInit, FIPISanimConfirm, FIPISanimRestart, FIPISanimGetFrame, FIPISanimDeInit,
-    FIPISmultiInit, FIPISmultiGetPages, FIPISmultiGetPage, FIPISmultiDeInit,
-    FIPIStool;
+	FQuery, FOpen, FSave, FFilter, FImport,
+	FAnimStart, FAnimRestart, FAnimGetFrame, FAnimStop,
+    FMultiStart, FMultiGetPage, FMultiStop, FTool;
 
 begin
 end.

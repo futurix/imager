@@ -46,6 +46,7 @@ object frmMain: TfrmMain
       LegacyBitmap = False
       MouseInteract = [miScroll]
       EnableAlphaChannel = True
+      ImageEnVersion = '2.1.9_beta'
       FlatScrollBars = True
       Align = alClient
       PopupMenu = popMain
@@ -486,6 +487,15 @@ object frmMain: TfrmMain
       object N14: TMenuItem
         Caption = '-'
       end
+      object miInfo: TMenuItem
+        Caption = 'File Information'
+        Hint = 'Show file information panel'
+        ShortCut = 16457
+        OnClick = miInfoClick
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
       object miPrint: TMenuItem
         Caption = 'Print'
         Hint = 'Print current image'
@@ -496,15 +506,6 @@ object frmMain: TfrmMain
         Hint = 'Print image with result preview'
         ShortCut = 16464
         OnClick = miPrintPreviewClick
-      end
-      object N3: TMenuItem
-        Caption = '-'
-      end
-      object miInfo: TMenuItem
-        Caption = 'File Information'
-        Hint = 'Show file information panel'
-        ShortCut = 16457
-        OnClick = miInfoClick
       end
       object N20: TMenuItem
         Caption = '-'

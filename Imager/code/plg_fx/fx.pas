@@ -33,8 +33,8 @@ var
   canceled: boolean = true;
   effect: string = 'Gaussian Blur';
 
-function FIPISfilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
-function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
+function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap; stdcall;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL; stdcall;
 
 implementation
 
@@ -42,7 +42,7 @@ uses bright, color, size, rotate, crop;
 
 {$R *.DFM}
 
-function FIPISquery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
+function FQuery(plug_path: PChar; func: TPlugInCallBack; app: HWND):BOOL;
 begin
     func(PT_FFILTER,'Resize',' ');
     func(PT_FFILTER,'Rotate',' ');
@@ -67,7 +67,7 @@ begin
 	Result:=true;
 end;
 
-function FIPISfilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap;
+function FFilter(info: PChar; preview: boolean; app, wnd: THandle; img: hBitmap):hBitmap;
 var
   local: TBitmap;
   has_preview: boolean;
@@ -389,6 +389,6 @@ if Key=VK_ESCAPE then
 end;
 
 exports
-  FIPISquery, FIPISfilter;
+  FQuery, FFilter;
 
 end.

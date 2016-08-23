@@ -52,27 +52,18 @@ begin
 
 	if (infMulti.lib <> 0) then
   		begin
-  		@infMulti.FIPISmultiInit := GetProcAddress(infMulti.lib, 'FIPISmultiInit');
-  		@infMulti.FIPISmultiGetPages := GetProcAddress(infMulti.lib, 'FIPISmultiGetPages');
-  		@infMulti.FIPISmultiGetPage := GetProcAddress(infMulti.lib, 'FIPISmultiGetPage');
-  		@infMulti.FIPISmultiDeInit := GetProcAddress(infMulti.lib, 'FIPISmultiDeInit');
+  		@infMulti.FMultiStart := GetProcAddress(infMulti.lib, 'FMultiStart');
+  		@infMulti.FMultiGetPage := GetProcAddress(infMulti.lib, 'FMultiGetPage');
+  		@infMulti.FMultiStop := GetProcAddress(infMulti.lib, 'FMultiStop');
 
-  		if ((@infMulti.FIPISmultiInit <> nil) and
-      		(@infMulti.FIPISmultiGetPages <> nil) and
-      		(@infMulti.FIPISmultiGetPage <> nil) and
-      		(@infMulti.FIPISmultiDeInit <> nil)) then
+  		if ((@infMulti.FMultiStart <> nil) and
+      		(@infMulti.FMultiGetPage <> nil) and
+      		(@infMulti.FMultiStop <> nil)) then
     		begin
     		// settings
-    		if infMulti.FIPISmultiInit(PChar(path), PChar(ExtractExt(path)), Application.Handle) = 0 then
-      			begin
-      			CloseMulti();
-      			FileNotFound(path);
-      			Exit;
-      			end;
+            infMulti.pages := infMulti.FMultiStart(PChar(path), PChar(ExtractExt(path)), Application.Handle);
 
-    		infMulti.pages := infMulti.FIPISmultiGetPages();
-
-    		if (infMulti.pages = 1) then
+    		if (infMulti.pages <= 1) then
       			begin
       			CloseMulti();
       			OpenLocal(path, add_to_mru, same_folder);
@@ -109,7 +100,7 @@ var
 	bmp: hBitmap;
 	bim: TBitmap;
 begin
-	bmp := infMulti.FIPISmultiGetPage(index);
+	bmp := infMulti.FMultiGetPage(index);
 
     if (bmp <> 0) then
   		begin
@@ -183,7 +174,7 @@ procedure MExtract();
 var
 	img: hBitmap;
 begin
-	img := infMulti.FIPISmultiGetPage(infMulti.page);
+	img := infMulti.FMultiGetPage(infMulti.page);
 
 	if img <> 0 then
   		OpenUntitled(nil, img);
@@ -192,8 +183,8 @@ end;
 // closes multi-page image
 procedure CloseMulti();
 begin
-	if @infMulti.FIPISmultiDeInit <> nil then
-  		infMulti.FIPISmultiDeInit();
+	if @infMulti.FMultiStop <> nil then
+  		infMulti.FMultiStop();
 
 	if infMulti.lib <> 0 then
   		FreeLibrary(infMulti.lib);
