@@ -8,14 +8,19 @@ uses
   fx_defs, c_locales;
   
 procedure FinalizeImage();
+
 procedure Zoom(scale: integer; change_style: boolean = false);
 procedure ZoomIn();
 procedure ZoomOut();
 procedure CustomZoom();
+
 procedure SetDisplayStyle(style: TDisplayStyles; careful: boolean = false);
+procedure SetDisplayStyleIfNeeded(style: TDisplayStyles; careful: boolean = false);
 function GetDisplayStyle(): TDisplayStyles;
+
 procedure SetCenter(center: boolean);
 function GetCenter(): boolean;
+
 procedure SetScrollbars(show: boolean);
 function GetScrollbars(): boolean;
 
@@ -25,56 +30,31 @@ implementation
 uses w_custzoom, f_ui, w_main;
 
 procedure FinalizeImage();
+var
+  needsUpdate: boolean;
 begin
-  case frmMain.nNewBitmap of
-    0:  // Keep previous display state (and zoom to 100% in normal state)
-      begin
-      frmMain.img.Zoom := 100;
-      end;
+  needsUpdate := true;
 
-    1:  // Do nothing (keep previous zoom and display state)
-      begin
-      // well, doing nothing
-      end;
-
-    2:  // Set display state to "Fit Big"
-      begin
-      if (GetDisplayStyle() <> dsFitBig) then
-        SetDisplayStyle(dsFitBig);
-      end;
-
-    3:  // Set display state to "Fit All"
-      begin
-      if (GetDisplayStyle() <> dsFitAll) then
-        SetDisplayStyle(dsFitAll);
-      end;
-
-    4:  // Set display state to "Normal" and reset zoom to 100%
-      begin
-      if ((GetDisplayStyle() <> dsNormal) or (frmMain.img.Zoom <> 100.0)) then
-        SetDisplayStyle(dsNormal);
-      end;
-
-    5:  // Set display state to "Normal" and keep previous zoom
-      begin
-      if (GetDisplayStyle() <> dsNormal) then
-        SetDisplayStyle(dsNormal, true);
-      end;
-
-    else
-      begin
-      // same as 0
-      frmMain.img.Zoom := 100;
-      end;
+  if (frmMain.SelectedDisplayState <> GetDisplayStyle()) then
+    begin
+    SetDisplayStyle(frmMain.SelectedDisplayState);
+    needsUpdate := false;
     end;
 
-    frmMain.img.Repaint();
+  if ((GetDisplayStyle() = dsNormal) and (frmMain.img.Zoom <> 100)) then
+    begin
+    frmMain.img.Zoom := 100;
+    needsUpdate := false;
+    end;
+
+  if needsUpdate then
+    frmMain.img.Update();
 end;
 
 // main zoom procedure
 procedure Zoom(scale: integer; change_style: boolean = false);
 begin
-  if change_style then
+  if change_style and (GetDisplayStyle() <> dsNormal) then
     SetDisplayStyle(dsNormal, true);
         
   frmMain.img.Zoom := scale;
@@ -140,8 +120,8 @@ begin
     end;
 end;
 
-// sets display styles
-procedure SetDisplayStyle(style: TDisplayStyles; careful: boolean = false);
+// sets display style
+procedure SetDisplayStyle(style: TDisplayStyles; careful: boolean);
 begin
   case style of
     dsNormal:
@@ -174,7 +154,7 @@ begin
       frmMain.SetHintPanelText(LoadLStr(212));
       end;
 
-    dsFitBig:
+    dsFit:
       begin
       if not frmMain.img.AutoShrink then
         frmMain.img.AutoShrink := true;
@@ -190,49 +170,30 @@ begin
         frmMain.tbnZoomMisc.Enabled := true;
         end;
 
-      frmMain.miDSFitBig.Checked := true;
-      frmMain.piDSFitBig.Checked := true;
+      frmMain.miDSFit.Checked := true;
+      frmMain.piDSFit.Checked := true;
 
       frmMain.img.MouseInteract := [];
 
       frmMain.SetHintPanelText(LoadLStr(214));
-      end;
-
-    dsFitAll:
-      begin
-      if not frmMain.img.AutoShrink then
-        frmMain.img.AutoShrink := true;
-
-      if not frmMain.img.AutoStretch then
-        frmMain.img.AutoStretch := true;
-
-      if IsPresent() then
-        begin
-        frmMain.mZoom.Enabled := true;
-        frmMain.tbnZoomIn.Enabled := true;
-        frmMain.tbnZoomOut.Enabled := true;
-        frmMain.tbnZoomMisc.Enabled := true;
-        end;
-
-      frmMain.miDSFitAll.Checked := true;
-      frmMain.piDSFitAll.Checked := true;
-
-      frmMain.img.MouseInteract := [];
-
-      frmMain.SetHintPanelText(LoadLStr(216));
       end;
   end;
 
   frmMain.img.Update();
 end;
 
+// sets display style if it is not set already
+procedure SetDisplayStyleIfNeeded(style: TDisplayStyles; careful: boolean);
+begin
+  if GetDisplayStyle() <> style then
+    SetDisplayStyle(style, careful);
+end;
+
 // returns display styles
-function GetDisplayStyle():TDisplayStyles;
+function GetDisplayStyle(): TDisplayStyles;
 begin
   if ((frmMain.img.AutoShrink = true) and (frmMain.img.AutoStretch = false)) then
-    Result := dsFitBig
-  else if ((frmMain.img.AutoShrink = true) and (frmMain.img.AutoStretch = true)) then
-    Result := dsFitAll
+    Result := dsFit
   else
     Result := dsNormal;
 end;

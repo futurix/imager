@@ -43,6 +43,7 @@ object fraOptPlugins: TfraOptPlugins
         Width = 275
       end>
     ColumnClick = False
+    HideSelection = False
     ReadOnly = True
     RowSelect = True
     SortType = stText

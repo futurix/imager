@@ -1,4 +1,4 @@
-unit o_welcome;
+unit o_display;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   Dialogs, ExtCtrls, StdCtrls;
 
 type
-  TfraOptWelcome = class(TFrame)
+  TfraOptDisplay = class(TFrame)
   private
   public
     procedure Load();
@@ -23,22 +23,22 @@ uses w_options;
 
 {$R *.dfm}
 
-procedure TfraOptWelcome.Load();
+procedure TfraOptDisplay.Load();
 begin
   //
 end;
 
-procedure TfraOptWelcome.Reload();
+procedure TfraOptDisplay.Reload();
 begin
   //
 end;
 
-procedure TfraOptWelcome.Save();
+procedure TfraOptDisplay.Save();
 begin
   //
 end;
 
-procedure TfraOptWelcome.Cancelled();
+procedure TfraOptDisplay.Cancelled();
 begin
   //
 end;

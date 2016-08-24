@@ -75,7 +75,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">2122</VersionInfo>
+						<VersionInfo Name="Build">2161</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -87,7 +87,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.2122</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.2161</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -108,7 +108,7 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<RcCompile Include="futurix.rc">
-				<Form>futurix.res</Form>
+				<Form>&apos;futurix.res&apos;</Form>
 			</RcCompile>
 			<DCCReference Include="w_main.pas">
 				<Form>frmMain</Form>
@@ -164,8 +164,8 @@
 			<DCCReference Include="fx_pluginscanner.pas"/>
 			<DCCReference Include="fx_pluginmanager.pas"/>
 			<DCCReference Include="fx_internalp.pas"/>
-			<DCCReference Include="o_welcome.pas">
-				<Form>fraOptWelcome</Form>
+			<DCCReference Include="o_display.pas">
+				<Form>fraOptDisplay</Form>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
 			<DCCReference Include="o_plugins.pas">

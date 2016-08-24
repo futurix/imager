@@ -56,36 +56,6 @@ begin
   else
     frmMain.imlDis.Clear();
 
-  // fixed-size images
-  bmp := LoadBitmapFromTheme('IMGFIXED');
-
-  if (bmp <> nil) then
-    begin
-    frmMain.imlFixed.Height := bmp.Height;
-    frmMain.imlFixed.Width := bmp.Height;
-    frmMain.imlFixed.Clear();
-    frmMain.imlFixed.Add(bmp, nil);
-
-    FreeAndNil(bmp);
-    end
-  else
-    frmMain.imlFixed.Clear();
-
-  // large fixed-size images
-  bmp := LoadBitmapFromTheme('IMGFIXEDL');
-
-  if (bmp <> nil) then
-    begin
-    frmMain.imlFixedLarge.Height := bmp.Height;
-    frmMain.imlFixedLarge.Width := bmp.Height;
-    frmMain.imlFixedLarge.Clear();
-    frmMain.imlFixedLarge.Add(bmp, nil);
-
-    FreeAndNil(bmp);
-    end
-  else
-    frmMain.imlFixedLarge.Clear();
-
   // update toolbar button sizes
   frmMain.itbMain.ButtonHeight := frmMain.imlStd.Height + 6;
   frmMain.itbMain.ButtonWidth := frmMain.imlStd.Height + 7;

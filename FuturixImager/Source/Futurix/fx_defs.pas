@@ -12,7 +12,7 @@ var
   ver_status: integer = 2;
 
   // version of the above (should be 0 for release)
-  ver_number: integer = 4;
+  ver_number: integer = 5;
 
   // codename of the above (should be '' for release)
   ver_codename: string = 'S';
@@ -27,7 +27,7 @@ const
   MK_XBUTTON2     = $0040;
 
 type
-  TDisplayStyles = (dsNormal, dsFitBig, dsFitAll);
+  TDisplayStyles = (dsNormal, dsFit);
 
   FuturixPluginCacheData = record
     lib: THandle;

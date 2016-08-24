@@ -141,7 +141,7 @@ type
     piZmHeight: TMenuItem;
     mDisplay: TMenuItem;
     miDSNormal: TMenuItem;
-    miDSFitBig: TMenuItem;
+    miDSFit: TMenuItem;
     N18: TMenuItem;
     miDSCenterImage: TMenuItem;
     miDSScrollbars: TMenuItem;
@@ -151,7 +151,7 @@ type
     tbnMultiPrev: TToolButton;
     tbnMultiNext: TToolButton;
     piDSNormal: TMenuItem;
-    piDSFitBig: TMenuItem;
+    piDSFit: TMenuItem;
     N23: TMenuItem;
     piDSCenterImage: TMenuItem;
     piDSScrollbars: TMenuItem;
@@ -180,8 +180,6 @@ type
     N28: TMenuItem;
     piRotateView: TMenuItem;
     piRotateViewCCW: TMenuItem;
-    miDSFitAll: TMenuItem;
-    piDSFitAll: TMenuItem;
     N5: TMenuItem;
     miCustTB: TMenuItem;
     N30: TMenuItem;
@@ -210,13 +208,11 @@ type
     tbnHelp: TToolButton;
     tbnOnline: TToolButton;
     tbnAbout: TToolButton;
-    imlFixed: TImageList;
     dlgOpen: TOpenDialog;
     pRecent: TMenuItem;
     N31: TMenuItem;
     miOptions2: TMenuItem;
     imlDis: TImageList;
-    imlFixedLarge: TImageList;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -279,7 +275,7 @@ type
     procedure miZmWidthClick(Sender: TObject);
     procedure miZmHeightClick(Sender: TObject);
     procedure miDSNormalClick(Sender: TObject);
-    procedure miDSFitBigClick(Sender: TObject);
+    procedure miDSFitClick(Sender: TObject);
     procedure miDSCenterImageClick(Sender: TObject);
     procedure miDSScrollbarsClick(Sender: TObject);
     procedure tbnDispClick(Sender: TObject);
@@ -289,7 +285,6 @@ type
     procedure miRotateViewCCWClick(Sender: TObject);
     procedure appEventsHint(Sender: TObject);
     procedure appEventsIdle(Sender: TObject; var Done: Boolean);
-    procedure miDSFitAllClick(Sender: TObject);
     procedure SetHintPanelText(new_text: string);
     procedure imgProgress(Sender: TObject; per: Integer);
     procedure dlgSaveTypeChange(Sender: TObject);
@@ -305,6 +300,7 @@ type
     procedure miOptions2Click(Sender: TObject);
   private
     prev_progress: integer;
+    dispStyle: TDisplayStyles;
 
     procedure UMAppIDCheck(var Message: TMessage); message UM_APP_ID_CHECK;
     procedure UMRestoreApplication(var Message: TMessage); message UM_RESTORE_APPLICATION;
@@ -313,27 +309,24 @@ type
   public
     mru: FuturixMRU;
 
-    bOpenAfterSave: boolean;
     bFullPathInTitle: boolean;
     bOpenDef: boolean;
     bNoMRU: boolean;
     bProgressiveLoad: boolean;
-    bFSonDblClick: boolean;
-    nArrows: integer;
-    nEnter: integer;
     nMouseDrag: integer;
-    nMouseWheel: integer;
     bReverseWheel: boolean;
-    nNewBitmap: integer;
 
     SaveExtensions: TStringList;
 
     dir: string;
     full_screen: boolean;
 
+    property SelectedDisplayState: TDisplayStyles read dispStyle;
+
     procedure Localize();
     procedure UpdateThemes();
     procedure NoticeThemeChange(var msg: TMessage); message WM_THEMECHANGED;
+    procedure SetDisplayStyleEx(style: TDisplayStyles; careful: boolean = false);
   end;
 
 var
@@ -537,24 +530,15 @@ begin
     fxSettings.ColorGradient := StringToColor(wreg.RStr('Gradient', 'clSilver'));
     fxSettings.BackgroundStyle := wreg.RInt('BgStyle', 0);
 
-    frmMain.bOpenAfterSave := (wreg.RInt('OpenAfterSave', 1) = 1);
-    frmMain.bOpenDef := (wreg.RInt('OpenDef', 1) = 1);
-    frmMain.bNoMRU := wreg.RBool('NoMRU', false);
+    bOpenDef := (wreg.RInt('OpenDef', 1) = 1);
+    bNoMRU := wreg.RBool('NoMRU', false);
 
-    nArrows := wreg.RInt('ArrowKeys', 0);
-    nEnter := wreg.RInt('EnterKey', 0);
-    nMouseWheel := wreg.RInt('MouseWheel', 1);
     nMouseDrag := wreg.RInt('MouseDrag', 0);
-    nNewBitmap := wreg.RInt('OnNewBitmap', 0);
     bProgressiveLoad := wreg.RBool('ProgressiveImageLoad', false);
-    bFSonDblClick := wreg.RBool('FSonDblClick', true);
     img.DelayZoomFilter := wreg.RBool('DelayZoomFilter', false);
     bReverseWheel := wreg.RBool('ReverseMouseWheel', false);
 
     iegEnableCMS := wreg.RBool('UseCMS', false);
-
-    miDSFitAll.Visible := wreg.RBool('EnableFitAll', false);
-    piDSFitAll.Visible := miDSFitAll.Visible;
 
     if wreg.RBool('HighQualityDisplay', true) then
       begin
@@ -585,11 +569,10 @@ begin
       else ToggleStatusbar(true, false);
 
     case wreg.RInt('DispStyle', 1) of
-      0: SetDisplayStyle(dsNormal);
-      1: SetDisplayStyle(dsFitBig);
-      2: SetDisplayStyle(dsFitAll);
+      0: SetDisplayStyleEx(dsNormal);
+      1: SetDisplayStyleEx(dsFit);
       else
-        SetDisplayStyle(dsNormal);
+        SetDisplayStyleEx(dsNormal);
     end;
 
     SetCenter(wreg.RBool('DispCenter', true));
@@ -606,31 +589,22 @@ begin
     fxSettings.ColorGradient := clSilver;
     fxSettings.BackgroundStyle := 0;
 
-    frmMain.bOpenAfterSave := true;
-    frmMain.bOpenDef := true;
-    frmMain.bNoMRU := false;
+    bOpenDef := true;
+    bNoMRU := false;
 
-    nArrows := 0;
-    nEnter := 0;
-    nMouseWheel := 1;
     nMouseDrag := 0;
-    nNewBitmap := 0;
     bProgressiveLoad := false;
-    bFSonDblClick := true;
     img.DelayZoomFilter := false;
     bReverseWheel := false;
 
     iegEnableCMS := false;
-
-    miDSFitAll.Visible := false;
-    piDSFitAll.Visible := miDSFitAll.Visible;
 
     img.ZoomFilter := rfFastLinear;
 
     ToggleMainToolbar(true, true);
     ToggleStatusbar(true, true);
 
-    SetDisplayStyle(dsFitBig);
+    SetDisplayStyleEx(dsFit);
     SetCenter(true);
     SetScrollbars(true);
 
@@ -672,10 +646,9 @@ begin
         else wreg.WInteger('TBStatus', 0);
       end;
 
-    case GetDisplayStyle() of
+    case dispStyle of
       dsNormal: wreg.WInteger('DispStyle', 0);
-      dsFitBig: wreg.WInteger('DispStyle', 1);
-      dsFitAll: wreg.WInteger('DispStyle', 2);
+      dsFit: wreg.WInteger('DispStyle', 1);
     end;
 
     wreg.WBool('DispCenter', GetCenter());
@@ -827,6 +800,12 @@ begin
   DragFinish(msg.Drop);
 end;
 
+procedure TfrmMain.SetDisplayStyleEx(style: TDisplayStyles; careful: boolean);
+begin
+  dispStyle := style;
+  SetDisplayStyleIfNeeded(style, careful);
+end;
+
 procedure TfrmMain.miOptions2Click(Sender: TObject);
 begin
   if not Assigned(frmOptions) then
@@ -891,15 +870,13 @@ begin
 
   mDisplay.Caption      := GetLString(FXL_MI_DISPLAY_OPTIONS);
   miDSNormal.Caption    := GetLString(FXL_MI_DISPLAY_NORMAL);
-  miDSFitBig.Caption    := GetLString(FXL_MI_DISPLAY_FIT);
-  miDSFitAll.Caption    := GetLString(FXL_MI_DISPLAY_FIT_ALL);
+  miDSFit.Caption       := GetLString(FXL_MI_DISPLAY_FIT);
 
   miDSCenterImage.Caption   := GetLString(FXL_MI_CENTER_IMAGE);
   miDSScrollbars.Caption    := GetLString(FXL_MI_SHOW_SCROLLBARS);
 
   piDSNormal.Caption        := miDSNormal.Caption;
-  piDSFitBig.Caption        := miDSFitBig.Caption;
-  piDSFitAll.Caption        := miDSFitAll.Caption;
+  piDSFit.Caption           := miDSFit.Caption;
   piDSCenterImage.Caption   := miDSCenterImage.Caption;
   piDSScrollbars.Caption    := miDSScrollbars.Caption;
 
@@ -1144,7 +1121,7 @@ begin
 
   if dlgOpen.Execute() then
     begin
-    FxRegRStr('OpenPath', ExtractFileDir(dlgOpen.FileName));
+    FxRegWStr('OpenPath', ExtractFileDir(dlgOpen.FileName));
 
     OpenLocal(dlgOpen.FileName);
     end;
@@ -1169,14 +1146,11 @@ begin
     FxRegWInt('SaveDialog_FilterSize', Length(dlgSave.Filter));
     FxRegWInt('SaveDialog_FilterIndex', dlgSave.FilterIndex);
 
-    if bOpenAfterSave then
+    if (res and IsSupported(dlgSave.FileName)) then
       begin
-      if (res and IsSupported(dlgSave.FileName)) then
-        begin
-        tmp := dlgSave.FileName;
-        CloseImage();
-        OpenLocal(tmp);
-        end;
+      tmp := dlgSave.FileName;
+      CloseImage();
+      OpenLocal(tmp);
       end;
     end;
 end;
@@ -1508,30 +1482,33 @@ end;
 
 procedure TfrmMain.miZmFitClick(Sender: TObject);
 begin
-  SetDisplayStyle(dsNormal, true);
+  SetDisplayStyleIfNeeded(dsNormal, true);
+
   frmMain.img.Fit();
 end;
 
 procedure TfrmMain.miZmWidthClick(Sender: TObject);
 begin
-  SetDisplayStyle(dsNormal, true);
+  SetDisplayStyleIfNeeded(dsNormal, true);
+
   frmMain.img.FitToWidth();
 end;
 
 procedure TfrmMain.miZmHeightClick(Sender: TObject);
 begin
-  SetDisplayStyle(dsNormal, true);
+  SetDisplayStyleIfNeeded(dsNormal, true);
+
   frmMain.img.FitToHeight();
 end;
 
 procedure TfrmMain.miDSNormalClick(Sender: TObject);
 begin
-  SetDisplayStyle(dsNormal);
+  SetDisplayStyleEx(dsNormal);
 end;
 
-procedure TfrmMain.miDSFitBigClick(Sender: TObject);
+procedure TfrmMain.miDSFitClick(Sender: TObject);
 begin
-  SetDisplayStyle(dsFitBig);
+  SetDisplayStyleEx(dsFit);
 end;
 
 procedure TfrmMain.miDSCenterImageClick(Sender: TObject);
@@ -1546,17 +1523,10 @@ end;
 
 procedure TfrmMain.tbnDispClick(Sender: TObject);
 begin
-  if (GetDisplayStyle() = dsFitBig) then
-    begin
-    if miDSFitAll.Visible then
-      SetDisplayStyle(dsFitAll)
-    else
-      SetDisplayStyle(dsNormal);
-    end
-  else if (GetDisplayStyle() = dsFitAll) then
-    SetDisplayStyle(dsNormal)
+  if (GetDisplayStyle() = dsFit) then
+    SetDisplayStyleEx(dsNormal)
   else if (GetDisplayStyle() = dsNormal) then
-    SetDisplayStyle(dsFitBig);
+    SetDisplayStyleEx(dsFit);
 end;
 
 procedure TfrmMain.MRUpopClick(Sender: TObject; const FileName: String);
@@ -1690,11 +1660,6 @@ begin
     end;
 end;
 
-procedure TfrmMain.miDSFitAllClick(Sender: TObject);
-begin
-  SetDisplayStyle(dsFitAll);
-end;
-
 procedure TfrmMain.SetHintPanelText(new_text: string);
 begin
   sbrMain.Panels[3].Text := new_text;
@@ -1722,8 +1687,7 @@ end;
 
 procedure TfrmMain.imgDblClick(Sender: TObject);
 begin
-  if bFSonDblClick then
-    miFullScreenClick(Self);
+  miFullScreenClick(Self);
 end;
 
 procedure TfrmMain.imgMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -1743,48 +1707,7 @@ begin
   if bReverseWheel then
     up := not up;
 
-  if ((ssShift in Shift) and (ssCtrl in Shift)) then
-    begin
-    // scrolling
-    if up then
-      img.Perform(WM_HSCROLL, MakeWParam(SB_PAGEUP, 0), 0)
-    else
-      img.Perform(WM_HSCROLL, MakeWParam(SB_PAGEDOWN, 0), 0);
-    end
-  else if (ssShift in Shift) then
-    begin
-    // scrolling
-    if up then
-      img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEUP, 0), 0)
-    else
-      img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEDOWN, 0), 0);
-    end
-  else if (ssCtrl in Shift) then
-    begin
-    if ((nMouseWheel = 0) or (nMouseWheel = 2)) then
-      begin
-      // zooming
-      if up then
-        begin
-        if (Round(img.Zoom / 1.25) >= 1) then
-          img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom / 1.25, true);
-        end
-      else
-        begin
-        if (Round(img.Zoom * 1.25) <= 250000) then
-          img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom * 1.25, true);
-        end;
-      end
-    else
-      begin
-      // file navigation
-      if up then
-        GoPrev()
-      else
-        GoNext();
-      end;
-    end
-  else if (nMouseWheel = 0) then
+  if (ssShift in Shift) then
     begin
     // file navigation
     if up then
@@ -1792,11 +1715,10 @@ begin
     else
       GoNext();
     end
-  else if (nMouseWheel = 1) then
+  else
     begin
     // zooming
-    if (GetDisplayStyle() <> dsNormal) then
-      SetDisplayStyle(dsNormal, true);
+    SetDisplayStyleIfNeeded(dsNormal, true);
 
     if up then
       begin
@@ -1808,14 +1730,6 @@ begin
       if (Round(img.Zoom * 1.25) <= 250000) then
         img.ZoomAt(MousePos.X, MousePos.Y, img.Zoom * 1.25, false);
       end;
-    end
-  else if (nMouseWheel = 2) then
-    begin
-    // scrolling
-    if up then
-      img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEUP, 0), 0)
-    else
-      img.Perform(WM_VSCROLL, MakeWParam(SB_PAGEDOWN, 0), 0);
     end;
 end;
 
@@ -1887,12 +1801,12 @@ end;
 procedure TfrmMain.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
 begin
   case Msg.CharCode of
-    VK_RETURN:
+    VK_RETURN, VK_BROWSER_REFRESH:
       begin
-      if (frmMain.nEnter = 0) then
-        tbnDispClick(Self)
-      else
-        miFullScreenClick(Self);
+      if (GetDisplayStyle() = dsFit) then
+        SetDisplayStyleIfNeeded(dsNormal)
+      else if (GetDisplayStyle() = dsNormal) then
+        SetDisplayStyleIfNeeded(dsFit);
 
       Handled := true;
       end;
@@ -1935,13 +1849,6 @@ begin
         else
           GoNext();
         end;
-
-      Handled := true;
-      end;
-
-    VK_BROWSER_REFRESH:
-      begin
-      tbnDispClick(Self);
 
       Handled := true;
       end;
@@ -2002,7 +1909,7 @@ begin
 
     VK_UP:
       begin
-      if (frmMain.nArrows = 0) then
+      if (GetDisplayStyle() = dsFit) then
         begin
         if tbnGoBack.Enabled then
           GoPrev();
@@ -2020,7 +1927,7 @@ begin
 
     VK_DOWN:
       begin
-      if (frmMain.nArrows = 0) then
+      if (GetDisplayStyle() = dsFit) then
         begin
         if tbnGoForward.Enabled then
           GoNext();
@@ -2038,7 +1945,7 @@ begin
 
     VK_RIGHT:
       begin
-      if (frmMain.nArrows = 0) then
+      if (GetDisplayStyle() = dsFit) then
         begin
         if tbnGoForward.Enabled then
           GoNext();
@@ -2056,7 +1963,7 @@ begin
 
     VK_LEFT:
       begin
-      if (frmMain.nArrows = 0) then
+      if (GetDisplayStyle() = dsFit) then
         begin
         if tbnGoBack.Enabled then
           GoPrev();

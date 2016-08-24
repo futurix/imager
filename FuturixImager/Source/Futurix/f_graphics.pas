@@ -75,8 +75,6 @@ end;
 function DoPreviewLoad(path: string): HBITMAP;
 var
   FxImgOpen: TFxImgOpen;
-  io: TImageEnIO;
-  cnv: TBitmap;
   ext: string;
   tmp_res: TFxImgResult;
 begin
@@ -99,39 +97,6 @@ begin
 
     if (tmp_res.result_type = RT_HBITMAP) then
       Result := tmp_res.result_value;
-    end;
-
-  if (Result = 0) then
-    begin
-    // guessing the format
-    io := TImageEnIO.Create(nil);
-    io.Params.JPEG_DCTMethod := ioJPEG_IFAST;
-    io.Params.BMP_HandleTransparency := true;
-
-    try
-      io.LoadFromFile(path);
-
-      if io.Aborting then
-        io.LoadFromFileAuto(path);
-
-    except
-      io.Aborting := true;
-    end;
-
-    if not io.Aborting and not io.IEBitmap.IsEmpty then
-      begin
-      io.IEBitmap.PrepareAlphaForExternalUse();
-
-      cnv := TBitmap.Create();
-      io.IEBitmap.CopyToTBitmap(cnv);
-
-      cnv.ApplyLimits();
-      Result := cnv.ReleaseHandle();
-
-      FreeAndNil(cnv);
-      end;
-
-    FreeAndNil(io);
     end;
 end;
 
@@ -161,36 +126,6 @@ begin
 
       FinalizeImage();
       Able();
-      end
-    else
-      begin
-      // internal formats
-      frmMain.img.IO.Params.JPEG_DCTMethod := ioJPEG_IFAST;
-      frmMain.img.IO.Params.BMP_HandleTransparency := true;
-
-      try
-        frmMain.img.IO.LoadFromFile(path);
-
-        if frmMain.img.IO.Aborting then
-          frmMain.img.IO.LoadFromFileAuto(path);
-
-      except
-        frmMain.img.IO.Aborting := true;
-      end;
-
-      if not frmMain.img.IO.Aborting then
-        begin
-        FillImage(path, 0, 0);
-
-        if add_to_mru then
-          frmMain.mru.AddItem(path, true);
-
-        ScanFolder(path);
-
-        FinalizeImage();
-        Header();
-        Able();
-        end;
       end;
     end
   else

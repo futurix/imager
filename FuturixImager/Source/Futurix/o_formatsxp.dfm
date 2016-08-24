@@ -21,6 +21,7 @@ object fraOptFormatsXP: TfraOptFormatsXP
         Width = 375
       end>
     ColumnClick = False
+    HideSelection = False
     ReadOnly = True
     RowSelect = True
     SortType = stText

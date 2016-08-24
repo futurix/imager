@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 190
   Top = 79
   Caption = 'FuturixImager'
-  ClientHeight = 509
+  ClientHeight = 549
   ClientWidth = 742
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 24
     Width = 742
-    Height = 466
+    Height = 506
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -32,11 +32,12 @@ object frmMain: TfrmMain
     ParentColor = False
     PopupMenu = popMain
     TabOrder = 0
+    ExplicitHeight = 466
     object img: TImageEnView
       Left = 0
       Top = 0
       Width = 738
-      Height = 462
+      Height = 502
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -54,11 +55,12 @@ object frmMain: TfrmMain
       TabStop = True
       OnDblClick = imgDblClick
       OnMouseDown = imgMouseDown
+      ExplicitHeight = 462
     end
   end
   object sbrMain: TStatusBar
     Left = 0
-    Top = 490
+    Top = 530
     Width = 742
     Height = 19
     Panels = <
@@ -82,6 +84,7 @@ object frmMain: TfrmMain
         Width = 50
       end>
     PopupMenu = popBars
+    ExplicitTop = 490
   end
   object tbrMain: TCoolBar
     Left = 0
@@ -700,20 +703,15 @@ object frmMain: TfrmMain
       end
       object mDisplay: TMenuItem
         Caption = 'Display Options'
+        object miDSFit: TMenuItem
+          Caption = 'Fit Large Images'
+          RadioItem = True
+          OnClick = miDSFitClick
+        end
         object miDSNormal: TMenuItem
           Caption = 'Normal Display'
           RadioItem = True
           OnClick = miDSNormalClick
-        end
-        object miDSFitBig: TMenuItem
-          Caption = 'Fit Large Images'
-          RadioItem = True
-          OnClick = miDSFitBigClick
-        end
-        object miDSFitAll: TMenuItem
-          Caption = 'Fit All Images'
-          RadioItem = True
-          OnClick = miDSFitAllClick
         end
         object N18: TMenuItem
           Caption = '-'
@@ -1107,20 +1105,15 @@ object frmMain: TfrmMain
   object popDisp: TPopupMenu
     Left = 569
     Top = 159
+    object piDSFit: TMenuItem
+      Caption = 'Fit'
+      RadioItem = True
+      OnClick = miDSFitClick
+    end
     object piDSNormal: TMenuItem
       Caption = 'Normal'
       RadioItem = True
       OnClick = miDSNormalClick
-    end
-    object piDSFitBig: TMenuItem
-      Caption = 'Fit Big'
-      RadioItem = True
-      OnClick = miDSFitBigClick
-    end
-    object piDSFitAll: TMenuItem
-      Caption = 'Fit All'
-      RadioItem = True
-      OnClick = miDSFitAllClick
     end
     object N23: TMenuItem
       Caption = '-'
@@ -1163,11 +1156,6 @@ object frmMain: TfrmMain
     Left = 444
     Top = 128
   end
-  object imlFixed: TImageList
-    ColorDepth = cd32Bit
-    Left = 506
-    Top = 221
-  end
   object dlgOpen: TOpenDialog
     Filter = 'All files (*.*)|*.*'
     Title = 'Open image ...'
@@ -1177,13 +1165,6 @@ object frmMain: TfrmMain
   object imlDis: TImageList
     ColorDepth = cd32Bit
     Left = 475
-    Top = 221
-  end
-  object imlFixedLarge: TImageList
-    ColorDepth = cd32Bit
-    Height = 32
-    Width = 32
-    Left = 537
     Top = 221
   end
 end

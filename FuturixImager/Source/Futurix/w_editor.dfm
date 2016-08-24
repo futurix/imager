@@ -97,9 +97,9 @@ object frmEditor: TfrmEditor
     FixedOrder = True
     ShowText = False
     object tbrEditor: TToolBar
-      Left = 2
+      Left = 0
       Top = 0
-      Width = 737
+      Width = 739
       Height = 22
       AutoSize = True
       Caption = 'Editor Toolbar'
@@ -524,7 +524,6 @@ object frmEditor: TfrmEditor
       ReadOnly = True
       RowSelect = True
       ShowColumnHeaders = False
-      SmallImages = frmMain.imlFixed
       TabOrder = 2
       ViewStyle = vsReport
       OnDblClick = lvwFiltersDblClick

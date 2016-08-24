@@ -101,42 +101,6 @@ object frmOldOptions: TfrmOldOptions
         FocusControl = cbxMouseDrag
         Transparent = True
       end
-      object lblArrows: TLabel
-        Left = 3
-        Top = 3
-        Width = 100
-        Height = 13
-        Caption = 'Arrow keys function:'
-        FocusControl = cbxArrows
-        Transparent = True
-      end
-      object lblEnter: TLabel
-        Left = 240
-        Top = 3
-        Width = 101
-        Height = 13
-        Caption = 'Enter key behaviour:'
-        FocusControl = cbxEnter
-        Transparent = True
-      end
-      object lblWheel: TLabel
-        Left = 3
-        Top = 49
-        Width = 145
-        Height = 13
-        Caption = 'Mouse wheel default function:'
-        FocusControl = cbxWheel
-        Transparent = True
-      end
-      object lblNewImage: TLabel
-        Left = 3
-        Top = 118
-        Width = 99
-        Height = 13
-        Caption = 'On new image open:'
-        FocusControl = cbxNewImage
-        Transparent = True
-      end
       object lblSFSColor: TLabel
         Left = 3
         Top = 214
@@ -172,49 +136,6 @@ object frmOldOptions: TfrmOldOptions
         Caption = 'Gradient color:'
         FocusControl = sbxGradColor
       end
-      object cbxArrows: TComboBox
-        Left = 3
-        Top = 22
-        Width = 175
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        ItemIndex = 0
-        TabOrder = 0
-        Text = 'File navigation'
-        Items.Strings = (
-          'File navigation'
-          'Image scrolling')
-      end
-      object cbxEnter: TComboBox
-        Left = 240
-        Top = 22
-        Width = 175
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        ItemIndex = 0
-        TabOrder = 1
-        Text = 'Switch between display modes'
-        Items.Strings = (
-          'Switch between display modes'
-          'Toggle full screen mode')
-      end
-      object cbxWheel: TComboBox
-        Left = 3
-        Top = 68
-        Width = 175
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        ItemIndex = 0
-        TabOrder = 2
-        Text = 'File navigation'
-        Items.Strings = (
-          'File navigation'
-          'Zooming'
-          'Image scrolling')
-      end
       object cbxMouseDrag: TComboBox
         Left = 240
         Top = 68
@@ -223,29 +144,11 @@ object frmOldOptions: TfrmOldOptions
         Style = csDropDownList
         ItemHeight = 13
         ItemIndex = 0
-        TabOrder = 3
+        TabOrder = 0
         Text = 'Scroll image'
         Items.Strings = (
           'Scroll image'
           'Zoom to selected rectangle')
-      end
-      object cbxNewImage: TComboBox
-        Left = 3
-        Top = 137
-        Width = 175
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        ItemIndex = 0
-        TabOrder = 4
-        Text = 'Keep previous display state (and zoom to 100% in normal state)'
-        Items.Strings = (
-          'Keep previous display state (and zoom to 100% in normal state)'
-          'Do nothing (keep previous zoom and display state)'
-          'Set display state to "Fit Big"'
-          'Set display state to "Fit All"'
-          'Set display state to "Normal" and reset zoom to 100%'
-          'Set display state to "Normal" and keep previous zoom')
       end
       object cbxReverseWheel: TCheckBox
         Left = 3
@@ -253,7 +156,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 17
         Caption = 'Reverse direction'
-        TabOrder = 5
+        TabOrder = 1
       end
       object sbxFSColor: TScrollBox
         Left = 3
@@ -268,7 +171,7 @@ object frmOldOptions: TfrmOldOptions
         ParentColor = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 6
+        TabOrder = 2
         OnClick = sbxFSColorClick
       end
       object sbxMainColor: TScrollBox
@@ -284,7 +187,7 @@ object frmOldOptions: TfrmOldOptions
         ParentColor = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 7
+        TabOrder = 3
         OnClick = sbxMainColorClick
       end
       object cbxResample: TComboBox
@@ -295,7 +198,7 @@ object frmOldOptions: TfrmOldOptions
         Style = csDropDownList
         ItemHeight = 13
         ItemIndex = 0
-        TabOrder = 8
+        TabOrder = 4
         Text = 'Fast linear'
         Items.Strings = (
           'Fast linear'
@@ -325,7 +228,7 @@ object frmOldOptions: TfrmOldOptions
         ParentColor = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 9
+        TabOrder = 5
         OnClick = sbxGradColorClick
       end
       object rdgBg: TRadioGroup
@@ -340,98 +243,7 @@ object frmOldOptions: TfrmOldOptions
           'System default'
           'Box pattern'
           'Diagonals')
-        TabOrder = 10
-      end
-    end
-    object shtPlugins: TTabSheet
-      Caption = 'Plug-ins'
-      ImageIndex = 6
-      TabVisible = False
-      object lblInstPlugins: TLabel
-        Left = 3
-        Top = 3
-        Width = 85
-        Height = 13
-        Caption = 'Installed plug-ins:'
-        FocusControl = lvwPlugins
-        Transparent = True
-      end
-      object lblPlugScan: TLabel
-        Left = 3
-        Top = 402
-        Width = 115
-        Height = 13
-        Caption = 'Scan for new plug-ins...'
-        Transparent = True
-      end
-      object lblOpenPlugFolder: TLabel
-        Left = 229
-        Top = 402
-        Width = 109
-        Height = 13
-        Caption = 'Open plug-ins folder...'
-        Transparent = True
-        OnClick = lblOpenPlugFolderClick
-      end
-      object lvwPlugins: TListView
-        Left = 3
-        Top = 22
-        Width = 470
-        Height = 374
-        Columns = <
-          item
-            Caption = 'File'
-            Width = -1
-            WidthType = (
-              -1)
-          end
-          item
-            Caption = 'Description'
-            Width = -1
-            WidthType = (
-              -1)
-          end>
-        ColumnClick = False
-        ReadOnly = True
-        RowSelect = True
-        SortType = stText
-        TabOrder = 0
-        ViewStyle = vsReport
-      end
-    end
-    object shtPlugCfg: TTabSheet
-      Caption = 'Additional'
-      ImageIndex = 6
-      TabVisible = False
-      object lblPlugCfg: TLabel
-        Left = 3
-        Top = 3
-        Width = 102
-        Height = 13
-        Caption = 'Plug-in configuration:'
-        FocusControl = lvwPlugCfg
-        Transparent = True
-      end
-      object lvwPlugCfg: TListView
-        Left = 3
-        Top = 22
-        Width = 470
-        Height = 393
-        Columns = <
-          item
-            Width = -2
-            WidthType = (
-              -2)
-          end>
-        ColumnClick = False
-        ReadOnly = True
-        RowSelect = True
-        ShowColumnHeaders = False
-        SortType = stText
-        TabOrder = 0
-        ViewStyle = vsReport
-        OnDblClick = lvwPlugCfgDblClick
-        OnKeyDown = lvwPlugCfgKeyDown
+        TabOrder = 6
       end
     end
   end

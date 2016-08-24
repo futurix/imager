@@ -58,7 +58,6 @@
   <LocalizedString id="1150" pid="MI_DISPLAY_OPTIONS" data="Display Options" />
   <LocalizedString id="1151" pid="MI_DISPLAY_NORMAL" data="Normal Display" />
   <LocalizedString id="1152" pid="MI_DISPLAY_FIT" data="Fit Large Images" />
-  <LocalizedString id="1153" pid="MI_DISPLAY_FIT_ALL" data="Fit All Images" />
   <LocalizedString id="1160" pid="MI_CENTER_IMAGE" data="Center Image" />
   <LocalizedString id="1161" pid="MI_SHOW_SCROLLBARS" data="Show Scrollbars" />
   <LocalizedString id="1170" pid="MI_ZOOM" data="Zoom" />

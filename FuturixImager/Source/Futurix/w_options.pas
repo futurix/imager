@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ImgList,
   c_utils, c_locales, c_themes,
-  o_plugins, o_welcome, o_formats, o_formatsxp, o_advanced, o_iconlib, o_lang,
+  o_plugins, o_display, o_formats, o_formatsxp, o_advanced, o_iconlib, o_lang,
   o_themes;
 
 type
@@ -27,7 +27,7 @@ type
     procedure btnCancelClick(Sender: TObject);
     procedure tvwCategoriesChange(Sender: TObject; Node: TTreeNode);
   private
-    optWelcome: TfraOptWelcome;
+    optDisplay: TfraOptDisplay;
     optPlugins: TfraOptPlugins;
     optFormats: TfraOptFormats;
     optFormatsXP: TfraOptFormatsXP;
@@ -50,7 +50,7 @@ type
 
 const
   // pages
-  OPAGE_WELCOME       = 0;
+  OPAGE_DISPLAY       = 0;
   OPAGE_PLUGINS       = 1;
   OPAGE_FORMATS       = 2;
   OPAGE_FORMATSXP     = 3;
@@ -72,6 +72,7 @@ uses f_plugins, fx_formats_legacy, f_tools, w_main, w_show, f_ui;
 procedure TfrmOptions.FormCreate(Sender: TObject);
 var
   temp: TTreeNode;
+  bmp: TBitmap;
 begin
   // no actions by default
   actionUpdateLocalization := false;
@@ -80,44 +81,72 @@ begin
   actionScanForNewPlugins := false;
   actionReinstallPlugins := false;
 
+  // loading page icons
+  bmp := LoadBitmapFromTheme('IMGFIXEDL');
+
+  if (bmp <> nil) then
+    begin
+    imlOptions.Height := bmp.Height;
+    imlOptions.Width := bmp.Height;
+    imlOptions.Clear();
+    imlOptions.Add(bmp, nil);
+
+    FreeAndNil(bmp);
+    end
+  else
+    imlOptions.Clear();
+
   // adding pages to the list
-  temp := tvwCategories.Items.Add(nil, 'Welcome');
-  temp.ImageIndex := 0;
-  temp.Data := Pointer(OPAGE_WELCOME);
+  tvwCategories.Items.BeginUpdate();
+
+  temp := tvwCategories.Items.Add(nil, 'Display');
+  temp.ImageIndex := 1;
+  temp.SelectedIndex := 1;
+  temp.Data := Pointer(OPAGE_DISPLAY);
 
   temp := tvwCategories.Items.Add(nil, 'Plug-ins');
-  temp.ImageIndex := 0;
+  temp.ImageIndex := 2;
+  temp.SelectedIndex := 2;
   temp.Data := Pointer(OPAGE_PLUGINS);
 
   if IsVista() then
     begin
     temp := tvwCategories.Items.Add(nil, 'File Formats');
-    temp.ImageIndex := 0;
+    temp.ImageIndex := 3;
+    temp.SelectedIndex := 3;
     temp.Data := Pointer(OPAGE_FORMATS);
     end
   else
     begin
     temp := tvwCategories.Items.Add(nil, 'File Formats');
-    temp.ImageIndex := 0;
+    temp.ImageIndex := 3;
+    temp.SelectedIndex := 3;
     temp.Data := Pointer(OPAGE_FORMATSXP);
     end;
 
   temp := tvwCategories.Items.Add(nil, 'Icons');
-  temp.ImageIndex := 0;
+  temp.ImageIndex := 4;
+  temp.SelectedIndex := 4;
   temp.Data := Pointer(OPAGE_ICONLIB);
 
   temp := tvwCategories.Items.Add(nil, 'Languages');
-  temp.ImageIndex := 0;
+  temp.ImageIndex := 5;
+  temp.SelectedIndex := 5;
   temp.Data := Pointer(OPAGE_LANG);
 
   temp := tvwCategories.Items.Add(nil, 'Themes');
-  temp.ImageIndex := 0;
+  temp.ImageIndex := 6;
+  temp.SelectedIndex := 6;
   temp.Data := Pointer(OPAGE_THEMES);
 
-  //temp := tvwCategories.Items.Add(nil, 'Advanced');
-  //temp.ImageIndex := 0;
-  //temp.Data := Pointer(OPAGE_ADVANCED);
+  temp := tvwCategories.Items.Add(nil, 'Advanced');
+  temp.ImageIndex := 7;
+  temp.SelectedIndex := 7;
+  temp.Data := Pointer(OPAGE_ADVANCED);
 
+  tvwCategories.Items.EndUpdate();
+
+  // select first page
   tvwCategories.Select(tvwCategories.Items[0]);
 
   Localize();
@@ -146,8 +175,8 @@ end;
 
 procedure TfrmOptions.UpdatePages();
 begin
-  if (optWelcome <> nil) then
-    optWelcome.Reload();
+  if (optDisplay <> nil) then
+    optDisplay.Reload();
 
   if (optPlugins <> nil) then
     optPlugins.Reload();
@@ -226,19 +255,19 @@ begin
   if (Node <> nil) then
     begin
     case Integer(Node.Data) of
-      OPAGE_WELCOME:
+      OPAGE_DISPLAY:
         begin
-        if (optWelcome <> nil) then
-          optWelcome.BringToFront()
+        if (optDisplay <> nil) then
+          optDisplay.BringToFront()
         else
           begin
-          optWelcome := TfraOptWelcome.Create(sbxFrameHost);
-          optWelcome.Visible := false;
-          optWelcome.Parent := sbxFrameHost;
-          optWelcome.Align := alClient;
-          optWelcome.Load();
-          optWelcome.BringToFront();
-          optWelcome.Show();
+          optDisplay := TfraOptDisplay.Create(sbxFrameHost);
+          optDisplay.Visible := false;
+          optDisplay.Parent := sbxFrameHost;
+          optDisplay.Align := alClient;
+          optDisplay.Load();
+          optDisplay.BringToFront();
+          optDisplay.Show();
           end;
         end;
 
@@ -359,8 +388,8 @@ end;
 
 procedure TfrmOptions.btnOKClick(Sender: TObject);
 begin
-  if (optWelcome <> nil) then
-    optWelcome.Save();
+  if (optDisplay <> nil) then
+    optDisplay.Save();
 
   if (optPlugins <> nil) then
     optPlugins.Save();
@@ -389,8 +418,8 @@ end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
 begin
-  if (optWelcome <> nil) then
-    optWelcome.Cancelled();
+  if (optDisplay <> nil) then
+    optDisplay.Cancelled();
 
   if (optPlugins <> nil) then
     optPlugins.Cancelled();

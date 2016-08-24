@@ -224,12 +224,11 @@ begin
     end
   else
     begin
-    iegEnableCMS := true;
-
     io := TImageEnIO.Create(nil);
     bmp := TBitmap.Create();
 
     io.Params.JPEG_DCTMethod := ioJPEG_IFAST;
+    io.Params.BMP_HandleTransparency := true;
     io.Params.IsNativePixelFormat := true;
 
     if (ext = 'dcx') then
@@ -624,33 +623,97 @@ function InternalPluginImport(info: PWideChar; app, wnd: HWND; app_query: TAppCa
 var
   bmp: TBitmap;
   io: TImageEnIO;
-  api: TIEAcquireApi;
+  found, scanned: boolean;
 begin
   Result.result_type := RT_HBITMAP;
   Result.result_value := 0;
 
   if ((string(info) = LoadLStr(3080)) or (string(info) = PR_SCAN)) then
     begin
-    api := ieaWIA;
-
-    if (FxRegRInt('Imaging_Subsystem', 0) = 1) then
-      api := ieaTWain;
-
-    // working
+    // initialization
     io := TImageEnIO.Create(nil);
     bmp := TBitmap.Create();
 
-    if ((api = ieaWIA) and (io.WIAParams.DevicesInfoCount = 0)) then
-      MessageBox(wnd, PWideChar(LoadLStr(3707)), sAppName, MB_OK or MB_ICONERROR);
+    // working
+    case FxRegRInt('Imaging_API', 0) of
+      1: // only WIA
+        begin
+        if (io.WIAParams.DevicesInfoCount > 0) then
+          begin
+          if (io.SelectAcquireSource(ieaWIA) and io.Acquire(ieaWIA)) then
+            begin
+            io.IEBitmap.PrepareAlphaForExternalUse();
+            io.IEBitmap.CopyToTBitmap(bmp);
+            bmp.ApplyLimits();
+            Result.result_value := bmp.ReleaseHandle();
+            end;
+          end
+        else
+          MessageBox(wnd, PWideChar(LoadLStr(3707)), sAppName, MB_OK or MB_ICONERROR);
+        end;
 
-    if (io.SelectAcquireSource(api) and io.Acquire(api)) then
-      begin
-      io.IEBitmap.PrepareAlphaForExternalUse();
-      io.IEBitmap.CopyToTBitmap(bmp);
-      bmp.ApplyLimits();
-      Result.result_value := bmp.ReleaseHandle();
-      end;
+      2: // only TWAIN
+        begin
+        if (io.TWainParams.SourceCount > 0) then
+          begin
+          if (io.SelectAcquireSource(ieaTWain) and io.Acquire(ieaTWain)) then
+            begin
+            io.IEBitmap.PrepareAlphaForExternalUse();
+            io.IEBitmap.CopyToTBitmap(bmp);
+            bmp.ApplyLimits();
+            Result.result_value := bmp.ReleaseHandle();
+            end;
+          end
+        else
+          MessageBox(wnd, PWideChar(LoadLStr(3707)), sAppName, MB_OK or MB_ICONERROR);
+        end;
 
+      else
+        // auto-selection (default)
+        begin
+        found := false;
+        scanned := false;
+
+        // WIA first
+        if (io.WIAParams.DevicesInfoCount > 0) then
+          begin
+          found := true;
+
+          if (io.SelectAcquireSource(ieaWIA) and io.Acquire(ieaWIA)) then
+            begin
+            scanned := true;
+
+            io.IEBitmap.PrepareAlphaForExternalUse();
+            io.IEBitmap.CopyToTBitmap(bmp);
+            bmp.ApplyLimits();
+            Result.result_value := bmp.ReleaseHandle();
+            end;
+          end;
+
+        // TWAIN next
+        if not scanned then
+          begin
+          if (io.TWainParams.SourceCount > 0) then
+            begin
+            found := true;
+
+            if (io.SelectAcquireSource(ieaTWain) and io.Acquire(ieaTWain)) then
+              begin
+              io.IEBitmap.PrepareAlphaForExternalUse();
+              io.IEBitmap.CopyToTBitmap(bmp);
+              bmp.ApplyLimits();
+              Result.result_value := bmp.ReleaseHandle();
+              end;
+            end;
+          end;
+
+        // warning if needed
+        if not found then
+          MessageBox(wnd, PWideChar(LoadLStr(3707)), sAppName, MB_OK or MB_ICONERROR);
+        end;
+    end;
+
+    // clean-up
     FreeAndNil(io);
     FreeAndNil(bmp);
     end;

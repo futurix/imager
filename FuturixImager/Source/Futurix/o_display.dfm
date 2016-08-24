@@ -1,4 +1,4 @@
-object fraOptWelcome: TfraOptWelcome
+object fraOptDisplay: TfraOptDisplay
   Left = 0
   Top = 0
   Width = 503

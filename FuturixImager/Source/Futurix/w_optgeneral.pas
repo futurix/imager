@@ -9,13 +9,10 @@ uses
   ImgList, c_themes, c_reg, c_ui, Menus;
 
 const
-  SETTING_OPENAFTERSAVE             = 0;
   SETTING_SHOWALLFILTERDEFAULT      = 1;
   SETTING_DISABLEMRU                = 2;
-  SETTING_ENABLEFITALL              = 3;
   SETTING_SHOWFULLPATHINTITLE       = 4;
   SETTING_ALLOWMULTIPLEINST         = 5;
-  SETTING_FSONDOUBLECLICK           = 6;
   SETTING_PROGRESSIVELOAD           = 7;
   SETTING_HQDISPLAYFILTER           = 8;
   SETTING_DELAYDISPLAYFILTER        = 9;
@@ -29,28 +26,14 @@ type
     btnCancel: TButton;
     sbxMainColor: TScrollBox;
     sbxFSColor: TScrollBox;
-    lblArrows: TLabel;
-    cbxArrows: TComboBox;
-    lblEnter: TLabel;
-    cbxEnter: TComboBox;
-    lblWheel: TLabel;
-    cbxWheel: TComboBox;
     lblMouseDrag: TLabel;
     cbxMouseDrag: TComboBox;
-    lblNewImage: TLabel;
-    cbxNewImage: TComboBox;
     pclOptions: TPageControl;
     shtGeneral: TTabSheet;
     shtBeh: TTabSheet;
     cbxReverseWheel: TCheckBox;
-    shtPlugins: TTabSheet;
-    lblInstPlugins: TLabel;
-    lvwPlugins: TListView;
     imlPreview: TImageList;
     lvwSettings: TListView;
-    shtPlugCfg: TTabSheet;
-    lblPlugCfg: TLabel;
-    lvwPlugCfg: TListView;
     lblResample: TLabel;
     cbxResample: TComboBox;
     lblSGradColor: TLabel;
@@ -58,8 +41,6 @@ type
     rdgBg: TRadioGroup;
     lblFormats: TLabel;
     lblClearMRU: TLabel;
-    lblPlugScan: TLabel;
-    lblOpenPlugFolder: TLabel;
 
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -69,16 +50,12 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbxMainColorClick(Sender: TObject);
     procedure sbxFSColorClick(Sender: TObject);
-    procedure lvwPlugCfgDblClick(Sender: TObject);
-    procedure lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbxGradColorClick(Sender: TObject);
     procedure lblClearMRUClick(Sender: TObject);
-    procedure lblOpenPlugFolderClick(Sender: TObject);
   private
-    procedure GetInstalledPluginsList();
-  procedure AddSetting(id: longint; name: string);
-  function  GetSetting(id: longint): boolean;
-  procedure SetSetting(id: longint; value: boolean);
+    procedure AddSetting(id: longint; name: string);
+    function  GetSetting(id: longint): boolean;
+    procedure SetSetting(id: longint; value: boolean);
   public
     procedure Localize();
   end;
@@ -92,67 +69,6 @@ implementation
 uses w_main, f_ui, f_plugins, f_tools, w_show, f_images, fx_defs;
 
 {$R *.DFM}
-
-procedure TfrmOldOptions.GetInstalledPluginsList();
-var
-  list: TStringList;
-  //i: integer;
-  //item: TListItem;
-  show_cfg: boolean;
-  wreg: TFRegistry;
-begin
-  wreg := TFRegistry.Create(RA_READONLY);
-  wreg.RootKey := HKEY_CURRENT_USER;
-
-  show_cfg := false;
-
-  lvwPlugins.Items.Clear();
-  lvwPlugCfg.Items.Clear();
-
-  list := TStringList.Create();
-
-  {if wreg.OpenKey(sModules + '\' + PS_FNAME, false) then
-    begin
-    wreg.GetValueNames(list);
-
-    list.Sort();
-
-    for i := 0 to (list.Count - 1) do
-      begin
-      item := lvwPlugins.Items.Add();
-      item.Caption := ExtractFileName(wreg.RStr(list[i], '???'));
-      item.SubItems.Add(list[i]);
-      end;
-
-    wreg.CloseKey();
-    end;}
-
-  list.Clear();
-
-  {if wreg.OpenKey(sModules + '\' + PS_FCONFIG, false) then
-    begin
-    wreg.GetValueNames(list);
-
-    list.Sort();
-
-    if (list.Count > 0) then
-      show_cfg := true;
-
-    for i := 0 to (list.Count - 1) do
-      begin
-      item := lvwPlugCfg.Items.Add();
-      item.Caption := list[i];
-      item.ImageIndex := 6;
-      end;
-
-    wreg.CloseKey();
-    end; }
-
-  FreeAndNil(list);
-  FreeAndNil(wreg);
-
-  shtPlugCfg.TabVisible := show_cfg;
-end;
 
 procedure TfrmOldOptions.AddSetting(id: longint; name: string);
 var
@@ -218,23 +134,16 @@ begin
   Localize();
 
   SetStyleAsLink(lblClearMRU);
-  SetStyleAsLink(lblPlugScan);
-  SetStyleAsLink(lblOpenPlugFolder);
   SetStyleAsLink(lblFormats);
 
-  AddSetting(SETTING_OPENAFTERSAVE, LoadLStr(847));
   AddSetting(SETTING_SHOWALLFILTERDEFAULT, LoadLStr(848));
   AddSetting(SETTING_DISABLEMRU, LoadLStr(849));
-  AddSetting(SETTING_ENABLEFITALL, LoadLStr(3306));
   AddSetting(SETTING_SHOWFULLPATHINTITLE, LoadLStr(846));
   AddSetting(SETTING_ALLOWMULTIPLEINST, LoadLStr(874));
-  AddSetting(SETTING_FSONDOUBLECLICK, LoadLStr(3307));
   AddSetting(SETTING_PROGRESSIVELOAD, LoadLStr(868));
   AddSetting(SETTING_HQDISPLAYFILTER, LoadLStr(869));
   AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
   AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
-
-  GetInstalledPluginsList();
 
   if wreg.OpenKey(sSettings, false) then
     begin
@@ -244,21 +153,14 @@ begin
 
     rdgBg.ItemIndex           := wreg.RInt('BgStyle', 0);
 
-    cbxArrows.ItemIndex       := wreg.RInt('ArrowKeys', 0);
-    cbxEnter.ItemIndex        := wreg.RInt('EnterKey', 0);
-    cbxWheel.ItemIndex        := wreg.RInt('MouseWheel', 1);
     cbxMouseDrag.ItemIndex    := wreg.RInt('MouseDrag', 0);
-    cbxNewImage.ItemIndex     := wreg.RInt('OnNewBitmap', 0);
     cbxResample.ItemIndex     := wreg.RInt('Resampler', 0);
     cbxReverseWheel.Checked   := wreg.RBool('ReverseMouseWheel', false);
 
-    SetSetting(SETTING_OPENAFTERSAVE, (wreg.RInt('OpenAfterSave', 1) = 1));
     SetSetting(SETTING_SHOWALLFILTERDEFAULT, (wreg.RInt('OpenDef', 1) = 1));
     SetSetting(SETTING_DISABLEMRU, wreg.RBool('NoMRU', false));
-    SetSetting(SETTING_ENABLEFITALL, wreg.RBool('EnableFitAll', false));
     SetSetting(SETTING_SHOWFULLPATHINTITLE, (wreg.RInt('FullPathInTitle', 0) = 1));
     SetSetting(SETTING_ALLOWMULTIPLEINST, (not wreg.RBool('OneInstanceOnly', false)));
-    SetSetting(SETTING_FSONDOUBLECLICK, wreg.RBool('FSonDblClick', true));
     SetSetting(SETTING_PROGRESSIVELOAD, wreg.RBool('ProgressiveImageLoad', false));
     SetSetting(SETTING_HQDISPLAYFILTER, wreg.RBool('HighQualityDisplay', true));
     SetSetting(SETTING_DELAYDISPLAYFILTER, wreg.RBool('DelayZoomFilter', false));
@@ -274,21 +176,14 @@ begin
 
     rdgBg.ItemIndex           := 0;
 
-    cbxArrows.ItemIndex       := 0;
-    cbxEnter.ItemIndex        := 0;
-    cbxWheel.ItemIndex        := 1;
     cbxMouseDrag.ItemIndex    := 0;
-    cbxNewImage.ItemIndex     := 0;
     cbxResample.ItemIndex     := 0;
     cbxReverseWheel.Checked   := false;
 
-    SetSetting(SETTING_OPENAFTERSAVE, true);
     SetSetting(SETTING_SHOWALLFILTERDEFAULT, true);
     SetSetting(SETTING_DISABLEMRU, false);
-    SetSetting(SETTING_ENABLEFITALL, false);
     SetSetting(SETTING_SHOWFULLPATHINTITLE, false);
     SetSetting(SETTING_ALLOWMULTIPLEINST, true);
-    SetSetting(SETTING_FSONDOUBLECLICK, true);
     SetSetting(SETTING_PROGRESSIVELOAD, false);
     SetSetting(SETTING_HQDISPLAYFILTER, true);
     SetSetting(SETTING_DELAYDISPLAYFILTER, false);
@@ -312,11 +207,6 @@ begin
   // saving settings
   if wreg.OpenKey(sSettings, true) then
     begin
-    if GetSetting(SETTING_OPENAFTERSAVE) then
-      wreg.WInteger('OpenAfterSave', 1)
-    else
-      wreg.WInteger('OpenAfterSave', 0);
-
     wreg.WString('Color', ColorToString(sbxMainColor.Color));
     wreg.WString('FSColor', ColorToString(sbxFSColor.Color));
     wreg.WString('Gradient', ColorToString(sbxGradColor.Color));
@@ -335,13 +225,7 @@ begin
     wreg.WBool('NoMRU', GetSetting(SETTING_DISABLEMRU));
     
     wreg.WBool('ProgressiveImageLoad', GetSetting(SETTING_PROGRESSIVELOAD));
-    wreg.WInteger('ArrowKeys', cbxArrows.ItemIndex);
-    wreg.WInteger('EnterKey', cbxEnter.ItemIndex);
-    wreg.WBool('EnableFitAll', GetSetting(SETTING_ENABLEFITALL));
-    wreg.WBool('FSonDblClick', GetSetting(SETTING_FSONDOUBLECLICK));
-    wreg.WInteger('MouseWheel', cbxWheel.ItemIndex);
     wreg.WInteger('MouseDrag', cbxMouseDrag.ItemIndex);
-    wreg.WInteger('OnNewBitmap', cbxNewImage.ItemIndex);
     wreg.WInteger('Resampler', cbxResample.ItemIndex);
     wreg.WBool('HighQualityDisplay', GetSetting(SETTING_HQDISPLAYFILTER));
     wreg.WBool('DelayZoomFilter', GetSetting(SETTING_DELAYDISPLAYFILTER));
@@ -360,20 +244,8 @@ begin
     MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['core'])), sAppName, MB_OK or MB_ICONERROR);
 
   // updating settings
-  frmMain.miDSFitAll.Visible := GetSetting(SETTING_ENABLEFITALL);
-  frmMain.piDSFitAll.Visible := frmMain.miDSFitAll.Visible;
-  if not GetSetting(SETTING_ENABLEFITALL) then
-    if (GetDisplayStyle() = dsFitAll) then
-      SetDisplayStyle(dsFitBig);
-
-  frmMain.bFSonDblClick := GetSetting(SETTING_FSONDOUBLECLICK);
-  frmMain.nArrows := cbxArrows.ItemIndex;
-  frmMain.nMouseWheel := cbxWheel.ItemIndex;
   frmMain.bReverseWheel := cbxReverseWheel.Checked;
   frmMain.nMouseDrag := cbxMouseDrag.ItemIndex;
-  frmMain.nNewBitmap := cbxNewImage.ItemIndex;
-  frmMain.nEnter := cbxEnter.ItemIndex;
-  frmMain.bOpenAfterSave := GetSetting(SETTING_OPENAFTERSAVE);
   frmMain.bProgressiveLoad := GetSetting(SETTING_PROGRESSIVELOAD);
 
   ApplyBackground();
@@ -456,36 +328,11 @@ begin
 
   shtBeh.Caption          := LoadLStr(842);
 
-  lblArrows.Caption       := LoadLStr(3300);
-  temp_itemindex          := cbxArrows.ItemIndex;
-  cbxArrows.Items[0]      := LoadLStr(3301);
-  cbxArrows.Items[1]      := LoadLStr(3302);
-  cbxArrows.ItemIndex     := temp_itemindex;
-  lblEnter.Caption        := LoadLStr(3303);
-  temp_itemindex          := cbxEnter.ItemIndex;
-  cbxEnter.Items[0]       := LoadLStr(3304);
-  cbxEnter.Items[1]       := LoadLStr(3305);
-  cbxEnter.ItemIndex      := temp_itemindex;
-  lblWheel.Caption        := LoadLStr(3312);
-  temp_itemindex          := cbxWheel.ItemIndex;
-  cbxWheel.Items[0]       := LoadLStr(3301);
-  cbxWheel.Items[1]       := LoadLStr(3313);
-  cbxWheel.Items[2]       := LoadLStr(3302);
-  cbxWheel.ItemIndex      := temp_itemindex;
   lblMouseDrag.Caption    := LoadLStr(3314);
   temp_itemindex          := cbxMouseDrag.ItemIndex;
   cbxMouseDrag.Items[0]   := LoadLStr(3315);
   cbxMouseDrag.Items[1]   := LoadLStr(3316);
   cbxMouseDrag.ItemIndex  := temp_itemindex;
-  lblNewImage.Caption     := LoadLStr(3317);
-  temp_itemindex          := cbxNewImage.ItemIndex;
-  cbxNewImage.Items[0]    := LoadLStr(3318);
-  cbxNewImage.Items[1]    := LoadLStr(3319);
-  cbxNewImage.Items[2]    := LoadLStr(3320);
-  cbxNewImage.Items[3]    := LoadLStr(3321);
-  cbxNewImage.Items[4]    := LoadLStr(3322);
-  cbxNewImage.Items[5]    := LoadLStr(3323);
-  cbxNewImage.ItemIndex   := temp_itemindex;
   cbxReverseWheel.Caption := LoadLStr(875);
 
   lblResample.Caption     := LoadLStr(3326);
@@ -502,18 +349,6 @@ begin
   cbxResample.Items[10]   := LoadLStr(3337);
   cbxResample.Items[11]   := LoadLStr(3338);
   cbxResample.Items[12]   := LoadLStr(3339);
-
-  shtPlugins.Caption      := LoadLStr(862);
-
-  lblPlugScan.Caption         := LoadLStr(863);
-  lblOpenPlugFolder.Caption   := LoadLStr(864);
-  lblInstPlugins.Caption      := LoadLStr(867);
-
-  lvwPlugins.Columns[0].Caption := LoadLStr(876);
-  lvwPlugins.Columns[1].Caption := LoadLStr(877);
-
-  shtPlugCfg.Caption      := LoadLStr(3558);
-  lblPlugCfg.Caption      := LoadLStr(3559);
 
   btnOK.Caption           := LoadLStr(50);
   btnCancel.Caption       := LoadLStr(51);
@@ -567,43 +402,6 @@ end;
 procedure TfrmOldOptions.lblClearMRUClick(Sender: TObject);
 begin
   frmMain.mru.ClearItems(true);
-end;
-
-procedure TfrmOldOptions.lblOpenPlugFolderClick(Sender: TObject);
-begin
-  ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath), nil, nil, SW_SHOWNORMAL);
-end;
-
-procedure TfrmOldOptions.lvwPlugCfgDblClick(Sender: TObject);
-{var
-  FxImgCfg: TFxImgCfg;
-  lib: THandle;
-  lib_path: string;}
-begin
-  {if (lvwPlugCfg.Selected <> nil) then
-    begin
-    lib_path := FxRegRStr(lvwPlugCfg.Selected.Caption, '', sModules + '\' + PS_FCONFIG);
-
-    lib := LoadLibrary(PWideChar(lib_path));
-
-    if (lib <> 0) then
-      begin
-      @FxImgCfg := GetProcAddress(lib, EX_CFG);
-
-      if (@FxImgCfg <> nil) then
-        FxImgCfg(PWideChar(lvwPlugCfg.Selected.Caption), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-
-      FreeLibrary(lib);
-      end
-    else
-      ShowMessage(LoadLStr(607));
-    end;}
-end;
-
-procedure TfrmOldOptions.lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-  if (Key = VK_SPACE) then
-    lvwPlugCfgDblClick(Self);
 end;
 
 end.

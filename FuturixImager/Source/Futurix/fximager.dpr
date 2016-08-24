@@ -37,7 +37,7 @@ uses
   fx_pluginscanner in 'fx_pluginscanner.pas',
   fx_pluginmanager in 'fx_pluginmanager.pas',
   fx_internalp in 'fx_internalp.pas',
-  o_welcome in 'o_welcome.pas' {fraOptWelcome: TFrame},
+  o_display in 'o_display.pas' {fraOptDisplay: TFrame},
   o_plugins in 'o_plugins.pas' {fraOptPlugins: TFrame},
   fx_cmdline in 'fx_cmdline.pas',
   o_formats in 'o_formats.pas' {fraOptFormats: TFrame},
