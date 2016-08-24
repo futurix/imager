@@ -62,10 +62,6 @@ object frmResize: TfrmResize
     TabOrder = 0
     object shtSize: TTabSheet
       Caption = 'Size'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblWidth: TLabel
         Left = 10
         Top = 13
@@ -217,7 +213,7 @@ object frmResize: TfrmResize
         Height = 21
         AutoDropDown = True
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 0
         Text = 'Bicubic'

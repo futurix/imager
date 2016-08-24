@@ -171,7 +171,7 @@ var
 
 implementation
 
-uses w_main, f_ui, f_plugins, f_tools, w_show, f_images, fx_consts;
+uses w_main, f_ui, f_plugins, f_tools, w_show, f_images, fx_defs;
 
 {$R *.DFM}
 

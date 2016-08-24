@@ -1,26 +1,51 @@
 object fraOptPlugins: TfraOptPlugins
   Left = 0
   Top = 0
-  Width = 475
-  Height = 452
+  Width = 503
+  Height = 414
   TabOrder = 0
-  object btmScanPlugins: TButton
-    Left = 3
-    Top = 3
-    Width = 156
-    Height = 25
-    Caption = 'Scan for new plugins'
+  object sbxCommands: TScrollBox
+    Left = 0
+    Top = 379
+    Width = 503
+    Height = 35
+    Align = alBottom
+    AutoScroll = False
+    BorderStyle = bsNone
     TabOrder = 0
-    OnClick = btmScanPluginsClick
+    DesignSize = (
+      503
+      35)
+    object btnScanPlugins: TButton
+      Left = 348
+      Top = 6
+      Width = 156
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Scan for new plugins'
+      TabOrder = 0
+      OnClick = btnScanPluginsClick
+    end
   end
-  object btnFormats: TButton
-    Left = 3
-    Top = 34
-    Width = 156
-    Height = 25
-    Caption = 'File format associations'
-    ElevationRequired = True
+  object lvwPlugins: TListView
+    Left = 0
+    Top = 0
+    Width = 503
+    Height = 379
+    Align = alClient
+    Columns = <
+      item
+        Caption = 'File'
+        Width = 150
+      end
+      item
+        Caption = 'Plug-in name'
+        Width = 315
+      end>
+    ColumnClick = False
+    RowSelect = True
+    SortType = stText
     TabOrder = 1
-    OnClick = btnFormatsClick
+    ViewStyle = vsReport
   end
 end

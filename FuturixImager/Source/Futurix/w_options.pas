@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ImgList,
-  o_plugins, o_welcome;
+  c_utils,
+  o_plugins, o_welcome, o_formats, o_formatsxp;
 
 type
   TfrmOptions = class(TForm)
@@ -27,14 +28,19 @@ type
   private
     optWelcome: TfraOptWelcome;
     optPlugins: TfraOptPlugins;
+    optFormats: TfraOptFormats;
+    optFormatsXP: TfraOptFormatsXP;
   public
     procedure Localize();
+    procedure UpdatePages();
   end;
 
 const
   // pages
   OPAGE_WELCOME       = 0;
   OPAGE_PLUGINS       = 1;
+  OPAGE_FORMATS       = 2;
+  OPAGE_FORMATSXP     = 3;
 
 var
   frmOptions: TfrmOptions;
@@ -56,6 +62,19 @@ begin
   temp.ImageIndex := 0;
   temp.Data := Pointer(OPAGE_PLUGINS);
 
+  if IsVista() then
+    begin
+    temp := tvwCategories.Items.Add(nil, 'File formats');
+    temp.ImageIndex := 0;
+    temp.Data := Pointer(OPAGE_FORMATS);
+    end
+  else
+    begin
+    temp := tvwCategories.Items.Add(nil, 'File formats');
+    temp.ImageIndex := 0;
+    temp.Data := Pointer(OPAGE_FORMATSXP);
+    end;
+
   tvwCategories.Select(tvwCategories.Items[0]);
 
   Localize();
@@ -63,8 +82,6 @@ end;
 
 procedure TfrmOptions.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  //
-
   Action := caFree;
 end;
 
@@ -82,6 +99,21 @@ end;
 procedure TfrmOptions.Localize();
 begin
   //
+end;
+
+procedure TfrmOptions.UpdatePages();
+begin
+  if (optWelcome <> nil) then
+    optWelcome.Reload();
+
+  if (optPlugins <> nil) then
+    optPlugins.Reload();
+
+  if (optFormats <> nil) then
+    optFormats.Reload();
+
+  if (optFormatsXP <> nil) then
+    optFormatsXP.Reload();
 end;
 
 procedure TfrmOptions.tvwCategoriesChange(Sender: TObject; Node: TTreeNode);
@@ -116,6 +148,34 @@ begin
           optPlugins.BringToFront();
           end;
         end;
+
+      OPAGE_FORMATS:
+        begin
+        if (optFormats <> nil) then
+          optFormats.BringToFront()
+        else
+          begin
+          optFormats := TfraOptFormats.Create(sbxFrameHost);
+          optFormats.Parent := sbxFrameHost;
+          optFormats.Align := alClient;
+          optFormats.Load();
+          optFormats.BringToFront();
+          end;
+        end;
+
+      OPAGE_FORMATSXP:
+        begin
+        if (optFormatsXP <> nil) then
+          optFormatsXP.BringToFront()
+        else
+          begin
+          optFormatsXP := TfraOptFormatsXP.Create(sbxFrameHost);
+          optFormatsXP.Parent := sbxFrameHost;
+          optFormatsXP.Align := alClient;
+          optFormatsXP.Load();
+          optFormatsXP.BringToFront();
+          end;
+        end;
     end;
     end;
 end;
@@ -128,11 +188,29 @@ begin
   if (optPlugins <> nil) then
     optPlugins.Save();
 
+  if (optFormats <> nil) then
+    optFormats.Save();
+
+  if (optFormatsXP <> nil) then
+    optFormatsXP.Save();
+
   Close();
 end;
 
 procedure TfrmOptions.btnCancelClick(Sender: TObject);
 begin
+  if (optWelcome <> nil) then
+    optWelcome.Cancelled();
+
+  if (optPlugins <> nil) then
+    optPlugins.Cancelled();
+
+  if (optFormats <> nil) then
+    optFormats.Cancelled();
+
+  if (optFormatsXP <> nil) then
+    optFormatsXP.Cancelled();
+
   Close();
 end;
 

@@ -60,6 +60,10 @@ object frmOldOptions: TfrmOldOptions
     TabOrder = 2
     object shtGeneral: TTabSheet
       Caption = 'General'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblClearMRU: TLabel
         Left = 3
         Top = 402
@@ -182,7 +186,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 0
         Text = 'File navigation'
@@ -196,7 +200,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 1
         Text = 'Switch between display modes'
@@ -210,7 +214,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 2
         Text = 'File navigation'
@@ -225,7 +229,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 3
         Text = 'Scroll image'
@@ -239,7 +243,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 4
         Text = 'Keep previous display state (and zoom to 100% in normal state)'
@@ -297,7 +301,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 0
+        ItemHeight = 13
         ItemIndex = 0
         TabOrder = 8
         Text = 'Fast linear'

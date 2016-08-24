@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Forms, StdCtrls,
-  hyieutils, imageenview, w_main, c_locales;
+  hyieutils, imageenview,
+  fx_defs, c_locales;
   
 procedure FinalizeImage();
 procedure Zoom(scale: integer; change_style: boolean = false);
@@ -21,7 +22,7 @@ function GetScrollbars(): boolean;
 
 implementation
 
-uses w_custzoom, f_ui;
+uses w_custzoom, f_ui, w_main;
 
 procedure FinalizeImage();
 begin

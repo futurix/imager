@@ -48,14 +48,15 @@ type
   private
     no_change: boolean;
   public
+    orig_width: integer;
+    orig_height: integer;
+    xy_scale: double;
+
     procedure Localize();
   end;
 
 var
   frmResize: TfrmResize;
-  orig_width: integer = 100;
-  orig_height: integer = 100;
-  xy_scale: double = 1.0;
 
 
 implementation
@@ -66,6 +67,9 @@ uses w_editor, w_main;
 
 procedure TfrmResize.FormCreate(Sender: TObject);
 begin
+  orig_width := 100;
+  orig_height := 100;
+  xy_scale := 1.0;
   no_change := true;
 
   Localize();

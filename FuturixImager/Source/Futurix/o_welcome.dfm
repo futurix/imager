@@ -12,7 +12,7 @@ object fraOptWelcome: TfraOptWelcome
     Align = alClient
     Alignment = taCenter
     AutoSize = False
-    Caption = 'Nothing to see here yet!'
+    Caption = 'This page is intentionally left blank'
     TabOrder = 0
   end
 end

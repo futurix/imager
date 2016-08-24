@@ -38,9 +38,6 @@
     631   "Type page number to go to... (range from 1 to %s)"
     632   "Page does not exist."
 
-    640   "%s Document"
-    641   "&Open"
-
     700   "About %s"
     701   "Visit %s website"
 

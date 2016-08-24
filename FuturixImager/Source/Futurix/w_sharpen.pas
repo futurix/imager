@@ -29,6 +29,7 @@ type
 var
   frmSharpen: TfrmSharpen;
 
+
 implementation
 
 uses w_main, w_editor;

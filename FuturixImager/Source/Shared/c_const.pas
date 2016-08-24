@@ -9,8 +9,8 @@ const
   sAppName              = 'FuturixImager';
   sVersion              = '6.0';
   sVersionEx            = '6.0.0.0';
-  sAuthor               = 'Alexander Tereshchenko';
-  sRights               = '© 1999-2009 Alexander Tereshchenko';
+  sAuthor               = 'Alex Tereshchenko';
+  sRights               = '© 1999-2010 Alex Tereshchenko';
   sRegAssociation       = 'FuturixImager_6';
   sRegAssociationOld    = 'FuturixImager_6_BAK';
 
@@ -19,12 +19,17 @@ const
   FXVER_REVISION        = 0;
   FXVER_BUILD           = 0;
 
-  sReg                  = '\Software\Futurix\FuturixImager';                  // HKCU
-  sSettings             = '\Software\Futurix\FuturixImager\Settings';         // HKCU
-  sModules              = '\Software\Futurix\FuturixImager\Cache';            // HKCU
-  sModSearch            = '\Software\Futurix\FuturixImager\PluginLocations';  // HKLM
+  sReg                  = '\SOFTWARE\Futurix\FuturixImager';                  // HKCU, HKLM
+  sSettings             = '\SOFTWARE\Futurix\FuturixImager\Settings';         // HKCU
+  sModules              = '\SOFTWARE\Futurix\FuturixImager\Cache';            // HKCU
+  sModSearch            = '\SOFTWARE\Futurix\FuturixImager\PluginLocations';  // HKLM
 
   sInternalFormat       = 'fx_ip';
+
+  // file names
+  FXFILE_APP            = 'fximager.exe';
+  FXFILE_FORMATS        = 'fxfreg.exe';
+  FXFILE_HELP           = 'fxhelp.exe';
 
   // URLs
   sURL                  = 'http://fximage.com/';

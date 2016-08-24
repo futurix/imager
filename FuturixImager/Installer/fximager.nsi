@@ -1,5 +1,5 @@
 !include "MUI2.nsh"
-!define FXVERSION "$\"S$\" Beta 1"
+!define FXVERSION "$\"S$\" Beta 2"
 
 Name "FuturixImager"
 OutFile "Output\futuriximager.exe"
@@ -60,13 +60,11 @@ Section "FuturixImager"
   # installing main files
   SetOutPath "$INSTDIR"
   File "..\Bin\fxextraformats.dll"
-  #File "..\Bin\fxfimg.dll"
   File "..\Bin\fxfreg.exe"
   File "..\Bin\fximager.exe"
   File "..\Bin\fxjbig.dll"
   File "..\Bin\fxlegacy.dll"
   File "..\Bin\fxmagick.dll"
-  File "..\Bin\fxmain.dll"
   File "..\Bin\fxraw.dll"
   
   # writing unistaller registry key
@@ -81,9 +79,13 @@ Section "FuturixImager"
   # creating uninstaller
   WriteUninstaller "uninstallfx.exe"
   
-  # plug-in system clean-up
+  # plug-in system setup
   DeleteRegKey HKEY_CURRENT_USER "Software\Futurix\FuturixImager\Cache"
-
+  ExecWait '"$INSTDIR\fximager.exe" /scan'
+  
+  # registering with default programs
+  ExecWait '"$INSTDIR\fxfreg.exe" /sync'
+  
   # creating shortcuts
   CreateShortCut "$SMPROGRAMS\FuturixImager.lnk" "$INSTDIR\fximager.exe"
   
@@ -97,11 +99,6 @@ SectionEnd
 #  File "..\Bin\fxraw.dll"
 #SectionEnd
 
-#Section "Lossless JPEG transformations"
-#  SetOutPath "$INSTDIR"
-#  File "..\Bin\fxjpeglossless.dll"
-#SectionEnd
-
 #Section "Screen capture"
 #  SetOutPath "$INSTDIR"
 #  File "..\Bin\fxcapture.dll"
@@ -112,17 +109,13 @@ SectionEnd
 #  File "..\Bin\fxeffects.dll"
 #SectionEnd
 
-#Section "Wallpaper tools"
-#  SetOutPath "$INSTDIR"
-#  File "..\Bin\fxwallpaper.dll"
-#SectionEnd
-
 
 Section Uninstall
   SetDetailsPrint none
   
   # registry clean-up
-  #ExecWait '"$INSTDIR\fxformats.exe" /uninstall'
+  ExecWait '"$INSTDIR\fxfreg.exe" /clean'
+  ExecWait '"$INSTDIR\fximager.exe" /clean'
 
   # deleting files
   Delete $SMPROGRAMS\FuturixImager.lnk

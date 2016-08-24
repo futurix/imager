@@ -1,10 +1,10 @@
 >>>>>>>>> VERSION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-Alexander Tereshchenko
+Alex Tereshchenko
 FuturixImager ###
 6.0.0.#
 futuriximager_###
-© 1999-2009 Alexander Tereshchenko
+© 1999-2010 Alex Tereshchenko
 
 fx###.dll
 FuturixImager

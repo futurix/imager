@@ -1,0 +1,9 @@
+
+// get tlb files from IDL
+midl /client none /server none /out "D:\Projects\FuturixImager\Source\Temp" "C:\Program Files\Microsoft SDKs\Windows\v7.0\Include\ShObjIdl.idl"
+
+// get Pascal header (with comments)
+"C:\Program Files (x86)\CodeGear\RAD Studio\6.0\bin\tlibimp.exe" -P+ -Ha- -Hr- -Hs- -Fe- -R- ShObjIdl.tlb
+
+// get Pascal header (without comments)
+"C:\Program Files (x86)\CodeGear\RAD Studio\6.0\bin\tlibimp.exe" -P+ -Ha- -Hr- -Hs- -Fe- -R- -O- -W- -Wc- ShObjIdl.tlb

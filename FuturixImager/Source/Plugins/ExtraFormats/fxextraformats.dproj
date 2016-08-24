@@ -79,7 +79,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">22</VersionInfo>
+						<VersionInfo Name="Build">25</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -89,11 +89,11 @@
 						<VersionInfo Name="CodePage">1252</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager Extra File Formats Support</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.22</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.25</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_extraformats</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename">fxextraformats.dll</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys>

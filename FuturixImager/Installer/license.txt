@@ -38,7 +38,8 @@ Conditions:
    requires written permission from the author.
 
 
-Copyright © 1999-2009 Alexander Tereshchenko
+Copyright © 1999-2010 Alex Tereshchenko
+Copyright © 2009-2010 Futurix Limited
 All rights reserved
 
 E-mail: info@fximage.com

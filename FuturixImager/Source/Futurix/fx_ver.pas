@@ -8,7 +8,7 @@ var
   ver_status: integer = 2;
 
   // version of the above (should be 0 for release)
-  ver_number: integer = 1;
+  ver_number: integer = 2;
 
   // codename of the above (should be '' for release)
   ver_codename: string = 'S';

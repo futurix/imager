@@ -32,7 +32,6 @@ object frmMain: TfrmMain
     ParentColor = False
     PopupMenu = popMain
     TabOrder = 0
-    ExplicitHeight = 614
     object img: TImageEnView
       Left = 0
       Top = 0
@@ -55,7 +54,6 @@ object frmMain: TfrmMain
       TabStop = True
       OnDblClick = imgDblClick
       OnMouseDown = imgMouseDown
-      ExplicitHeight = 610
     end
   end
   object sbrMain: TStatusBar
@@ -84,7 +82,6 @@ object frmMain: TfrmMain
         Width = 50
       end>
     PopupMenu = popBars
-    ExplicitTop = 638
   end
   object tbrMain: TCoolBar
     Left = 0

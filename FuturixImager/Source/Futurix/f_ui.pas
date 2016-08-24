@@ -353,9 +353,6 @@ begin
 
   ApplyBackground();
 
-  if not starting then
-    frmMain.img.SetFocus();
-
   // restore drag-n-drop support
   DragAcceptFiles(frmMain.Handle, true);
 end;

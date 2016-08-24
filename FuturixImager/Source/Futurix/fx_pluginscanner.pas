@@ -17,6 +17,8 @@ type
     PluginInformation: TDictionary<integer, FuturixPluginInformation>;
     NotRec: TList<string>;
     lock: TRTLCriticalSection;
+    UIallowed: boolean;
+    UIhandle: HWND;
 
     class var current_reader: FuturixScannerEvent;
     class function SortData(module_type: longword; value1, value2: PWideChar): BOOL; static; cdecl;
@@ -33,7 +35,7 @@ type
     procedure WriteTheme(dll, name: string);
     procedure WriteID(id: integer; dll: string);
   public
-    constructor Create(app_path: string);
+    constructor Create(app_path: string; interactive: boolean = true);
     destructor Destroy(); override;
 
     procedure Scan();
@@ -42,9 +44,9 @@ type
 
 implementation
 
-uses w_main, fx_consts, fx_internalp;
+uses w_main, fx_defs, fx_internalp, f_tools;
 
-constructor FuturixPluginScanner.Create(app_path: string);
+constructor FuturixPluginScanner.Create(app_path: string; interactive: boolean);
 var
   temp: TStringList;
   reg: TFRegistry;
@@ -55,6 +57,13 @@ begin
 
   IDs := TDictionary<integer, string>.Create();
   current_id := PI_CUSTOM;
+
+  UIallowed := interactive;
+  if interactive then
+    UIhandle := frmMain.Handle
+  else
+    UIhandle := 0;
+
   PluginInformation := TDictionary<integer, FuturixPluginInformation>.Create();
   NotRec := TList<string>.Create();
 
@@ -82,6 +91,7 @@ var
   info: TPair<integer, FuturixPluginInformation>;
   intres: TFxCore2Result;
   intsupp: TFxImgQuery;
+  updateDef: boolean;
 begin
   current_id := PI_CUSTOM;            // always start IDs with special value
   suspects := TStringList.Create();
@@ -110,7 +120,7 @@ begin
   if (intres.res = FX_TRUE) then
     begin
     intsupp := intres.data;
-    intsupp(PWideChar(Application.ExeName), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    intsupp(PWideChar(Application.ExeName), SortData, Application.Handle, UIhandle, FxImgGlobalCallback);
     end;
 
   current_id := PI_CUSTOM;
@@ -154,6 +164,15 @@ begin
   current_reader := nil;
   LeaveCriticalSection(lock);
   FreeAndNil(suspects);
+
+  // update default programs
+  if IsVista() and UIallowed then
+    begin
+    updateDef := FxRegRBool('Formats_UpdateSystemOnPluginScan', true);
+
+    if updateDef then
+      DefaultPrograms('/sync');
+    end;
 end;
 
 procedure FuturixPluginScanner.CleanUp();
@@ -246,7 +265,7 @@ begin
         if (qres.res = FX_TRUE) then
           begin
           supp := qres.data;
-          supp(PWideChar(dll), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+          supp(PWideChar(dll), SortData, Application.Handle, UIhandle, FxImgGlobalCallback);
           end;
 
         Inc(current_id);

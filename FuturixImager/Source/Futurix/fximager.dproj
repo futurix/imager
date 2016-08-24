@@ -75,7 +75,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1858</VersionInfo>
+						<VersionInfo Name="Build">1957</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -85,11 +85,11 @@
 						<VersionInfo Name="CodePage">1252</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.1858</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.1957</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename">fximager.exe</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys>
@@ -156,7 +156,7 @@
 				<Form>frmSharpen</Form>
 			</DCCReference>
 			<DCCReference Include="fx_core.pas"/>
-			<DCCReference Include="fx_consts.pas"/>
+			<DCCReference Include="fx_defs.pas"/>
 			<DCCReference Include="fx_ver.pas"/>
 			<DCCReference Include="fx_mru.pas"/>
 			<DCCReference Include="w_options.pas">
@@ -174,6 +174,40 @@
 				<Form>fraOptPlugins</Form>
 				<DesignClass>TFrame</DesignClass>
 			</DCCReference>
+			<DCCReference Include="fx_cmdline.pas"/>
+			<DCCReference Include="o_formats.pas">
+				<Form>fraOptFormats</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_formatsxp.pas">
+				<Form>fraOptFormatsXP</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="w_save_JPEG.pas">
+				<Form>frmJPEGsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_JPEG2K.pas">
+				<Form>frmJPsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_TIFF.pas">
+				<Form>frmTIFFsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_save_XR.pas">
+				<Form>frmXRsave</Form>
+			</DCCReference>
+			<DCCReference Include="w_lsJPEG_cut.pas">
+				<Form>frmCut</Form>
+			</DCCReference>
+			<DCCReference Include="w_lsJPEG_rotate.pas">
+				<Form>frmJPEG</Form>
+			</DCCReference>
+			<DCCReference Include="w_setwall.pas">
+				<Form>frmWallpaperS</Form>
+			</DCCReference>
+			<DCCReference Include="w_viewwall.pas">
+				<Form>frmWallpaper</Form>
+			</DCCReference>
+			<DCCReference Include="fx_formats_legacy.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

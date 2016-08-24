@@ -35,7 +35,7 @@ procedure MGoLast();
 
 implementation
 
-uses w_main, f_plugins, f_ui, f_tools, f_nav, f_images, fx_consts;
+uses w_main, f_plugins, f_ui, f_tools, f_nav, f_images, fx_defs;
 
 function DoImageLoad(path: string; page: integer = 0): TFxOpenResult;
 var

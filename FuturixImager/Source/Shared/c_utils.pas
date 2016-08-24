@@ -33,7 +33,10 @@ function IsXP(): boolean;
 function IsVista(): boolean;
 function IsWin7(): boolean;
 function IsThemed(): boolean;
+
+// information functions
 function GetShellFolderPath(const FolderID: Integer): string;
+function GetModuleLocation(md: cardinal): string;
 
 // resource functions
 function LoadResString(inst: cardinal; id: integer): string;
@@ -347,6 +350,15 @@ begin
     if Assigned(Malloc) then
       Malloc.Free(pidl);
     end;
+end;
+
+// returns module path
+function GetModuleLocation(md: cardinal): string;
+var
+  buf: array[0..MAX_PATH] of WideChar;
+begin
+  GetModuleFileName(md, buf, MAX_PATH);
+  Result := buf;
 end;
 
 // loads resource string from custom library

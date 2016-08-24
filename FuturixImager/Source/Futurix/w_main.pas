@@ -6,14 +6,11 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, ShlObj, ClipBrd,
   Printers, AppEvnts, Registry, UxTheme,
-  c_const, c_wndpos, c_reg, c_utils, c_locales, c_lang, c_themes, c_ie,
-  c_graphics,
+  c_const, c_wndpos, c_reg, c_utils, c_locales, c_lang, c_themes, c_ie, c_graphics,
   ieview, imageenview, hyieutils, ImageEnIO, hyiedefs,
-  fx_consts, fx_mru, fx_core, c_tb, f_instance;
+  fx_defs, fx_mru, fx_core, c_tb, f_instance;
 
 type
-  TDisplayStyles = (dsNormal, dsFitBig, dsFitAll);
-
   TfrmMain = class(TForm)
     mnuMain: TMainMenu;
     popMain: TPopupMenu;
@@ -341,7 +338,6 @@ type
 var
   fx: FuturixCore;
   frmMain: TfrmMain;
-  starting: boolean = true;
   files: TStringList;
 
   fxSettings: record
@@ -381,6 +377,8 @@ uses
 
 function FxImgGlobalCallback(query_type, value, xtra: longword): TFxImgResult;
 begin
+  // note: this function should not depend on the presence of frmMain
+  // as it might be called when the main window is not available
   case query_type of
     CQ_GETLANGLIBS:
       begin
@@ -488,7 +486,7 @@ begin
   // localization
   Localize();
 
-  // XP GUI updates
+  // theme UI updates
   UpdateThemes();
 
   DragAcceptFiles(frmMain.Handle, true);
@@ -496,7 +494,7 @@ begin
   // install plug-ins if not done that already
   if not wreg.KeyExists(sModules) then
     begin
-    fx.PluginScan();
+    fx.PluginScan(false);
 
     pluginScanned := true;
     end;
@@ -507,7 +505,7 @@ begin
   if (globalIndex > localIndex) then
     begin
     if not pluginScanned then
-      fx.PluginScan();
+      fx.PluginScan(false);
 
     FxRegWInt('PreviousScanCounter', globalIndex);
     end;
@@ -647,11 +645,9 @@ begin
 
   // final
   Able();
-  CommandLine();
+  ProcessCommandLine();
 
   FreeAndNil(wreg);
-    
-  starting := false;
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -979,7 +975,8 @@ begin
 
   piFullScreen.Caption  := miFullScreen.Caption;
 
-  miOptions.Caption     := GetLString(FXL_MI_OPTIONS);
+  //TODO: remove!
+  miOptions.Caption     := 'Legacy Options...';
   miOptions2.Caption    := GetLString(FXL_MI_OPTIONS);
 
   miWebSite.Caption     := Format(GetLString(FXL_MI_WEBSITE), [sAppName]);

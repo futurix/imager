@@ -23,6 +23,9 @@
   <LocalizedString id="54" pid="NA" data="N/A" />
   <LocalizedString id="55" pid="NA_LC" data="n/a" />
   <LocalizedString id="56" pid="T_PERCENT" data="%s%%" />
+  <LocalizedString id="990" pid="REG_FF_DESCRIPTION" data="%s Document" />
+  <LocalizedString id="991" pid="REG_FF_ACTION_OPEN" data="&amp;Open" />
+  <LocalizedString id="992" pid="REG_FF_OVERVIEW" data="%s is a compact and customizable image viewer / editor." />
   <LocalizedString id="1000" pid="MM_FILE" data="File" />
   <LocalizedString id="1001" pid="MM_EDIT" data="Edit" />
   <LocalizedString id="1002" pid="MM_VIEW" data="View" />

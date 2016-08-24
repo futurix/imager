@@ -34,7 +34,7 @@ type
 
 implementation
 
-uses w_main, fx_consts;
+uses w_main, fx_defs;
 
 constructor FuturixMRU.Create();
 var

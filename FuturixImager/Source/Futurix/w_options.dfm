@@ -29,15 +29,11 @@ object frmOptions: TfrmOptions
     Align = alClient
     AutoScroll = False
     BorderStyle = bsNone
-    Padding.Left = 8
+    Padding.Left = 7
     Padding.Top = 5
-    Padding.Right = 8
+    Padding.Right = 7
     Padding.Bottom = 5
     TabOrder = 0
-    ExplicitLeft = 250
-    ExplicitTop = 27
-    ExplicitWidth = 456
-    ExplicitHeight = 394
   end
   object sbxCommands: TScrollBox
     Left = 0
@@ -118,10 +114,6 @@ object frmOptions: TfrmOptions
       ShowRoot = False
       TabOrder = 0
       OnChange = tvwCategoriesChange
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 168
-      ExplicitHeight = 487
     end
   end
   object imlOptions: TImageList

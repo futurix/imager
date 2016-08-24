@@ -1,5 +1,2 @@
->>>> 6.0 RC
-+ new localization system
-+ speed improvements for raw camera photos and DNG images
-+ better support for Unicode EXIF data
-+ bug-fixes, raw camera formats update
+>>>> 6.0 Beta 2
++ support for "Default Programs"

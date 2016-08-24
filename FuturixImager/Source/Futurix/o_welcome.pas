@@ -13,11 +13,15 @@ type
     { Private declarations }
   public
     procedure Load();
+    procedure Reload();
     procedure Save();
+    procedure Cancelled();
   end;
 
 
 implementation
+
+uses w_options;
 
 {$R *.dfm}
 
@@ -26,7 +30,17 @@ begin
   //
 end;
 
+procedure TfraOptWelcome.Reload();
+begin
+  //
+end;
+
 procedure TfraOptWelcome.Save();
+begin
+  //
+end;
+
+procedure TfraOptWelcome.Cancelled();
 begin
   //
 end;

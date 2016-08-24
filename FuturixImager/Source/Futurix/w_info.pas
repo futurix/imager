@@ -40,12 +40,13 @@ type
   private
     proc: TImageEnProc;
   public
+    gen_hyst: boolean;
+
     procedure Localize();
   end;
 
 var
   frmInfo: TfrmInfo;
-  gen_hyst: boolean = false;
 
 function IsInformed(ext: string): boolean;
 function GetInfo(name, value: PWideChar): BOOL; cdecl;

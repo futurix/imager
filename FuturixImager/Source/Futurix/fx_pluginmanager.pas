@@ -63,7 +63,12 @@ type
     function ResolveConfiguration(id: integer): TFxImgCfg;
     function ListConfiguration(): TList<integer>;
 
+    function ListPluginIDs(): TList<integer>;
+    function FindPluginName(id: integer): string;
+    function FindPluginLocation(id: integer): string;
     function FindFormatDescription(extension: string): string;
+    function IsRareFormat(extension: string): boolean;
+    function ListRare(): TStringList;
     function HasRole(name: string): boolean;
     function FindRoleHandler(name: string): integer;
   end;
@@ -71,7 +76,7 @@ type
 
 implementation
 
-uses w_main, fx_consts, fx_internalp;
+uses w_main, fx_defs, fx_internalp;
 
 constructor FuturixPluginManager.Create();
 begin
@@ -288,7 +293,7 @@ begin
     temp.res := FX_FALSE;
 
     if (id = PI_INTERNAL) then
-      InternalCore2(p_intf, FxImgGlobalCallback)
+      temp := InternalCore2(p_intf, FxImgGlobalCallback)
     else if (fCache.ContainsKey(id) or CachePlugin(id)) then
       temp := fCache[id].func(p_intf, FxImgGlobalCallback);
 
@@ -505,10 +510,43 @@ begin
       Result.Add(entry.Key);
 end;
 
+function FuturixPluginManager.ListPluginIDs(): TList<integer>;
+begin
+  Result := TList<integer>.Create();
+  Result.AddRange(fID.Keys);
+end;
+
+function FuturixPluginManager.FindPluginName(id: integer): string;
+begin
+  if ((id >= PI_CUSTOM) and fPlugInfo.ContainsKey(id)) then
+    Result := fPlugInfo[id].name;
+end;
+
+function FuturixPluginManager.FindPluginLocation(id: integer): string;
+begin
+  if ((id >= PI_CUSTOM) and fID.ContainsKey(id)) then
+    Result := fID[id];
+end;
+
 function FuturixPluginManager.FindFormatDescription(extension: string): string;
 begin
   if ((extension <> '') and (fDescr.ContainsKey(extension))) then
     Result := fDescr[extension];
+end;
+
+function FuturixPluginManager.IsRareFormat(extension: string): boolean;
+begin
+  Result := ((extension <> '') and (fNotRec.Contains(extension)));
+end;
+
+function FuturixPluginManager.ListRare(): TStringList;
+var
+  temp: string;
+begin
+  Result := TStringList.Create();
+
+  for temp in fNotRec do
+    Result.Add(temp);
 end;
 
 function FuturixPluginManager.HasRole(name: string): boolean;

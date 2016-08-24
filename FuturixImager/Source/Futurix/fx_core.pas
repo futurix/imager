@@ -16,7 +16,7 @@ type
     constructor Create();
     destructor Destroy(); override;
 
-    procedure PluginScan();
+    procedure PluginScan(interactive: boolean = true);
 
     property ApplicationPath: string read fApplicationPath;
     property Plugins: FuturixPluginManager read fPluginManager;
@@ -25,7 +25,7 @@ type
 
 implementation
 
-uses w_main, fx_consts, fx_pluginscanner;
+uses w_main, fx_defs, fx_pluginscanner;
 
 constructor FuturixCore.Create();
 begin
@@ -36,13 +36,11 @@ begin
   fPluginManager := FuturixPluginManager.Create();
 end;
 
-procedure FuturixCore.PluginScan();
+procedure FuturixCore.PluginScan(interactive: boolean);
 var
   scanner: FuturixPluginScanner;
 begin
-  //TODO: clear plug-in cache (if this is needed to unload DLLs)
-
-  scanner := FuturixPluginScanner.Create(ApplicationPath);
+  scanner := FuturixPluginScanner.Create(ApplicationPath, interactive);
   scanner.Scan();
   FreeAndNil(scanner);
 
