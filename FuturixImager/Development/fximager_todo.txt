@@ -1,11 +1,16 @@
-- plug-in interface for thumbnails
-
-- new way of locating plug-ins
-- new way of getting functions in plug-ins (via single entry functions and callbacks)
-- support for internal plug-ins
-
+! plug-in cache (with plug-in look-up, automatic plug-in IDs, support for internal plug-ins)
 - merge most bundled plug-ins with main executable (main, jpegll, wallpaper)
+/ plug-in interface for thumbnails
+/ plug-in interface for credits for used libraries
 - move editor into plug-in
+
+? move WriteInternal in plug-in scanner to internal plug-in function of Imager itself
+
+! only one configuration per plug-in (plus merge all plug-in data in registry: ID=DLL:name:IsConfigurable)
+! only one value for NOTREC (multi-string one)
+
+! file metadata recognizers plug-in interface (non-extension specific; EXIF, XMP)
+? file type recognizers plug-in interface
 
 - smarter zoom modes (restore last explicit user selection on new image)
 
@@ -13,10 +18,17 @@
 
 - rewrite full screen (as separate window)
 
+- normalize plug-in DLL base addresses
+  (as now they should not have same address because multiple can be loaded at the same time)
+
+- support for extra EXIF tags: Windows XP, GPS
+- support for IPTC
+- support for XMP
+
 - redesign "Options" dialog
 - write new file format registration support (with support for default programs on Vista/7)
 
-- separate ImageEn plug-ins into separate plug-in
+- minimize idling
 
 - options for text captions for toolbar buttons (none / selected / all)
 - make main menu optional (and all toggles for menu, toolbar, and status bar to system menu)
@@ -27,7 +39,6 @@
 - new customization dialog for toolbar
 
 - import digital camera dump (raw image) from unknown extensions
-- credits for used libraries
 - new raw plug-in using libRAW
 - better customization for Vista dialogs
 - new scan UI (with explicit WIA / TWAIN selection)

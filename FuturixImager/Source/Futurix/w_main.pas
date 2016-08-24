@@ -8,7 +8,7 @@ uses
   Printers, AppEvnts, Registry, UxTheme,
   c_const, c_wndpos, c_reg, c_utils, c_locales, c_themes, c_ie, c_graphics,
   ieview, imageenview, hyieutils, ImageEnIO, hyiedefs,
-  fx_consts, fx_mru, c_tb, f_instance;
+  fx_consts, fx_mru, fx_core, c_tb, f_instance;
 
 type
   TDisplayStyles = (dsNormal, dsFitBig, dsFitAll);
@@ -221,11 +221,11 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure HandleFImport(Sender: TObject);
-    procedure DoHandleFImport(lib_path, name: string);
+    procedure DoHandleFImport(func: TFxImgImport; name: string);
     procedure HandleFExport(Sender: TObject);
-    procedure DoHandleFExport(lib_path, name: string);
+    procedure DoHandleFExport(func: TFxImgExport; name: string);
     procedure HandleFTool(Sender: TObject);
-    procedure DoHandleFTool(lib_path, name: string);
+    procedure DoHandleFTool(func: TFxImgTool; name: string);
     procedure DragNDrop(var msg: TWMDropFiles); message WM_DROPFILES;
     procedure miAboutClick(Sender: TObject);
     procedure miOpenClick(Sender: TObject);
@@ -336,10 +336,10 @@ type
   end;
 
 var
+  fx: FuturixCore;
   frmMain: TfrmMain;
   starting: boolean = true;
   files: TStringList;
-  path_app: string = '';
 
   fxSettings: record
     ColorDefault: TColor;
@@ -372,8 +372,7 @@ implementation
 
 uses
   w_about, w_custzoom, w_info, f_ui, f_nav, f_images, f_plugins, f_tools, f_graphics,
-  f_filectrl, w_show, w_editor, f_scan, w_optgeneral,
-  f_toolbar, w_custtb, w_preview, w_options;
+  f_filectrl, w_show, w_editor, w_optgeneral, f_toolbar, w_custtb, w_preview, w_options;
 
 {$R *.DFM}
 
@@ -449,6 +448,8 @@ procedure TfrmMain.FormCreate(Sender: TObject);
 var
   wreg: TFRegistry;
 begin
+  fx := FuturixCore.Create();
+
   wreg := TFRegistry.Create(RA_READONLY);
   wreg.RootKey := HKEY_CURRENT_USER;
 
@@ -467,9 +468,6 @@ begin
   InitLocalization(HInstance);
   LoadTheme(HInstance);
     
-  // setting folder variables
-  path_app := Slash(ExtractFilePath(Application.ExeName));
-
   // setting image view
   img.Blank();
   img.Proc.UndoLimit := 32;
@@ -487,7 +485,7 @@ begin
 
   // plug-ins check
   if not wreg.KeyExists(sModules) then
-    DoPluginScan();
+    fx.PluginScan();
 
   // writing paths
   PutRegDock();
@@ -672,6 +670,7 @@ begin
     frmShow.Close();
 
   FreeAndNil(wreg);
+  FreeAndNil(fx);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
@@ -684,44 +683,32 @@ end;
 
 procedure TfrmMain.HandleFImport(Sender: TObject);
 var
-  lib_path, name: string;
+  name: string;
 begin
   name := StripHotKey(TMenuItem(Sender).Caption);
-  lib_path := FxRegRStr(name, '', sModules + '\' + PS_FIMPORT);
 
-  DoHandleFImport(lib_path, name);
+  DoHandleFImport(
+    fx.Plugins.ResolveImport(name),
+    name);
 end;
 
-procedure TfrmMain.DoHandleFImport(lib_path, name: string);
+procedure TfrmMain.DoHandleFImport(func: TFxImgImport; name: string);
 var
-  FxImgImport: TFxImgImport;
-  lib: THandle;
   func_result: HBITMAP;
   tmp_res: TFxImgResult;
 begin
   try
-    lib := LoadLibrary(PWideChar(lib_path));
-
-    if (lib = 0) then
-      ShowMessage(LoadLStr(601))
-    else
+    if (@func <> nil) then
       begin
-      @FxImgImport := GetProcAddress(lib, EX_IMPORT);
+      tmp_res := func(PWideChar(name), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-      if (@FxImgImport <> nil) then
-        begin
-        tmp_res := FxImgImport(PWideChar(name), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+      if (tmp_res.result_type = RT_HBITMAP) then
+        func_result := tmp_res.result_value
+      else
+        func_result := 0;
 
-        if (tmp_res.result_type = RT_HBITMAP) then
-          func_result := tmp_res.result_value
-        else
-          func_result := 0;
-
-        if (func_result <> 0) then
-          OpenUntitled(nil, func_result);
-        end;
-
-      FreeLibrary(lib);
+      if (func_result <> 0) then
+        OpenUntitled(nil, func_result);
       end;
   finally
   end;
@@ -729,38 +716,29 @@ end;
 
 procedure TfrmMain.HandleFExport(Sender: TObject);
 var
-  lib_path, name: string;
+  name: string;
 begin
   name := StripHotKey(TMenuItem(Sender).Caption);
-  lib_path := FxRegRStr(name, '', sModules + '\' + PS_FEXPORT);
 
-  DoHandleFExport(lib_path, name);
+  DoHandleFExport(
+    fx.Plugins.ResolveExport(name),
+    name);
 end;
 
-procedure TfrmMain.DoHandleFExport(lib_path, name: string);
+procedure TfrmMain.DoHandleFExport(func: TFxImgExport; name: string);
 var
-  FxImgExport: TFxImgExport;
-  lib: THandle;
   img: TBitmap;
 begin
   try
-    lib := LoadLibrary(PWideChar(lib_path));
-
-    if (lib = 0) then
-      ShowMessage(LoadLStr(602))
-    else
+    if (@func <> nil) then
       begin
       img := TBitmap.Create();
       frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
       frmMain.img.IEBitmap.CopyToTBitmap(img);
       img.ApplyLimits();
 
-      @FxImgExport := GetProcAddress(lib, EX_EXPORT);
+      func(PWideChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-      if (@FxImgExport <> nil) then
-        FxImgExport(PWideChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-
-      FreeLibrary(lib);
       FreeAndNil(img);
       end;
   finally
@@ -770,51 +748,39 @@ end;
 // FTool handler
 procedure TfrmMain.HandleFTool(Sender: TObject);
 var
-  lib_path, name: string;
+  name: string;
 begin
   name := StripHotKey(TMenuItem(Sender).Caption);
-  lib_path := FxRegRStr(name, '', sModules + '\' + PS_FTOOL);
 
-  DoHandleFTool(lib_path, name);
+  DoHandleFTool(
+    fx.Plugins.ResolveTool(name),
+    name);
 end;
 
-procedure TfrmMain.DoHandleFTool(lib_path, name: string);
+procedure TfrmMain.DoHandleFTool(func: TFxImgTool; name: string);
 var
-  FxImgTool: TFxImgTool;
-  lib: THandle;
   img: TBitmap;
   tmp_res: TFxImgResult;
 begin
   try
-    lib := LoadLibrary(PWideChar(lib_path));
-
-    if (lib = 0) then
-      ShowMessage(LoadLStr(603))
-    else
+    if (@func <> nil) then
       begin
-      @FxImgTool := GetProcAddress(lib, EX_SIMPLETOOL);
+      img := TBitmap.Create();
+      frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+      frmMain.img.IEBitmap.CopyToTBitmap(img);
+      img.ApplyLimits();
 
-      if (@FxImgTool <> nil) then
-        begin
-        img := TBitmap.Create();
-        frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
-        frmMain.img.IEBitmap.CopyToTBitmap(img);
-        img.ApplyLimits();
+      try
+        tmp_res := func(PWideChar(infImage.path), PWideChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-        try
-          tmp_res := FxImgTool(PWideChar(infImage.path), PWideChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+        if (tmp_res.result_type = RT_HBITMAP) then
+          OpenUntitled(nil, tmp_res.result_value)
+        else if ((tmp_res.result_type = RT_INT) and (tmp_res.result_value = 1)) then
+          OpenLocal(tmp_res.result_string_data, true, 0, true);
+      except
+      end;
 
-          if (tmp_res.result_type = RT_HBITMAP) then
-            OpenUntitled(nil, tmp_res.result_value)
-          else if ((tmp_res.result_type = RT_INT) and (tmp_res.result_value = 1)) then
-            OpenLocal(tmp_res.result_string_data, true, 0, true);
-        except
-        end;
-
-        FreeAndNil(img);
-        end;
-
-      FreeLibrary(lib);
+      FreeAndNil(img);
       end;
   finally
   end;
@@ -1395,11 +1361,11 @@ end;
 
 procedure TfrmMain.miOptionsClick(Sender: TObject);
 begin
-  if not Assigned(frmOptions) then
+  {if not Assigned(frmOptions) then
     begin
     Application.CreateForm(TfrmOptions, frmOptions);
     frmOptions.ShowModal();
-    end;
+    end;}
 
   // to be deleted
   if not Assigned(frmOldOptions) then
@@ -1666,109 +1632,109 @@ begin
   Header();
 
   // setting undo
-  if (frmMain.img.Proc.CanUndo) then
+  if (img.Proc.CanUndo) then
     begin
-    frmMain.miUndo.Enabled := true;
-    frmMain.tbnUndo.Enabled := true;
+    miUndo.Enabled := true;
+    tbnUndo.Enabled := true;
     end
   else
     begin
-    frmMain.miUndo.Enabled := false;
-    frmMain.tbnUndo.Enabled := false;
+    miUndo.Enabled := false;
+    tbnUndo.Enabled := false;
     end;
 
   // "Paste" button routine
   if ((Clipboard.HasFormat(CF_BITMAP)) or (Clipboard.HasFormat(CF_METAFILEPICT))) then
     begin
-    frmMain.tbnPaste.Enabled := true;
-    frmMain.miPaste.Enabled := true;
+    tbnPaste.Enabled := true;
+    miPaste.Enabled := true;
     end
   else
     begin
-    frmMain.tbnPaste.Enabled := false;
-    frmMain.miPaste.Enabled := false;
+    tbnPaste.Enabled := false;
+    miPaste.Enabled := false;
     end;
 
   // file navigation disabling, if only 1 file
   if ((files.Count < 2) or IsUnsaved() or (not IsPresent())) then
     begin
-    frmMain.tbnGoBack.Enabled := false;
-    frmMain.tbnGoForward.Enabled := false;
-    frmMain.tbnGoRandom.Enabled := false;
-    frmMain.piBack.Enabled := false;
-    frmMain.piForward.Enabled := false;
-    frmMain.miGoBack.Enabled := false;
-    frmMain.miGoForward.Enabled := false;
-    frmMain.miGoFirst.Enabled := false;
-    frmMain.miGoLast.Enabled := false;
-    frmMain.miGoRandom.Enabled := false;
-    frmMain.miShow.Enabled := false;
-    frmMain.miStartShow.Enabled := false;
+    tbnGoBack.Enabled := false;
+    tbnGoForward.Enabled := false;
+    tbnGoRandom.Enabled := false;
+    piBack.Enabled := false;
+    piForward.Enabled := false;
+    miGoBack.Enabled := false;
+    miGoForward.Enabled := false;
+    miGoFirst.Enabled := false;
+    miGoLast.Enabled := false;
+    miGoRandom.Enabled := false;
+    miShow.Enabled := false;
+    miStartShow.Enabled := false;
     if Assigned(frmShow) then
       frmShow.Close();
     end
   else
     begin
-    frmMain.tbnGoBack.Enabled := true;
-    frmMain.tbnGoForward.Enabled := true;
-    frmMain.tbnGoRandom.Enabled := true;
-    frmMain.piBack.Enabled := true;
-    frmMain.piForward.Enabled := true;
-    frmMain.miGoBack.Enabled := true;
-    frmMain.miGoForward.Enabled := true;
-    frmMain.miGoFirst.Enabled := true;
-    frmMain.miGoLast.Enabled := true;
-    frmMain.miGoRandom.Enabled := true;
-    frmMain.miShow.Enabled := true;
-    frmMain.miStartShow.Enabled := true;
+    tbnGoBack.Enabled := true;
+    tbnGoForward.Enabled := true;
+    tbnGoRandom.Enabled := true;
+    piBack.Enabled := true;
+    piForward.Enabled := true;
+    miGoBack.Enabled := true;
+    miGoForward.Enabled := true;
+    miGoFirst.Enabled := true;
+    miGoLast.Enabled := true;
+    miGoRandom.Enabled := true;
+    miShow.Enabled := true;
+    miStartShow.Enabled := true;
     end;
 
   // zoom status
   if (not IsPresent()) then
     begin
-    frmMain.sbrMain.Panels[0].Width := 0;
-    frmMain.sbrMain.Panels[0].Text := '';
+    sbrMain.Panels[0].Width := 0;
+    sbrMain.Panels[0].Text := '';
     end
   else
     begin
-    frmMain.sbrMain.Panels[0].Width := 55;
-    frmMain.sbrMain.Panels[0].Text := IntToStr(Round(frmMain.img.Zoom)) + '%';
+    sbrMain.Panels[0].Width := 55;
+    sbrMain.Panels[0].Text := IntToStr(Round(img.Zoom)) + '%';
     end;
 
   // image size
   if (not IsPresent()) then
     begin
-    frmMain.sbrMain.Panels[1].Width := 0;
-    frmMain.sbrMain.Panels[1].Text := '';
+    sbrMain.Panels[1].Width := 0;
+    sbrMain.Panels[1].Text := '';
     end
   else
     begin
-    frmMain.sbrMain.Panels[1].Width := 75;
-    frmMain.sbrMain.Panels[1].Text := Format('%s x %s', [IntToStr(img.IEBitmap.Width), IntToStr(img.IEBitmap.Height)]);
+    sbrMain.Panels[1].Width := 75;
+    sbrMain.Panels[1].Text := Format('%s x %s', [IntToStr(img.IEBitmap.Width), IntToStr(img.IEBitmap.Height)]);
     end;
 
   // multiple pages
   if IsMultipage() then
     begin
-    frmMain.sbrMain.Panels[2].Width := 50;
-    frmMain.sbrMain.Panels[2].Text := IntToStr(infImage.page + 1) + ' / ' + IntToStr(infImage.pages);
+    sbrMain.Panels[2].Width := 50;
+    sbrMain.Panels[2].Text := IntToStr(infImage.page + 1) + ' / ' + IntToStr(infImage.pages);
     end
   else
     begin
-    frmMain.sbrMain.Panels[2].Width := 0;
-    frmMain.sbrMain.Panels[2].Text := '';
+    sbrMain.Panels[2].Width := 0;
+    sbrMain.Panels[2].Text := '';
     end;
 
   // MRU stuff
   if infImage.path <> '' then
     begin
-    frmMain.tbnLast.Enabled := not (frmMain.mru.Count < 2);
-    frmMain.miLoadLast.Enabled := not (frmMain.mru.Count < 2);
+    tbnLast.Enabled := not (mru.Count < 2);
+    miLoadLast.Enabled := not (mru.Count < 2);
     end
   else
     begin
-    frmMain.tbnLast.Enabled := not (frmMain.mru.Count < 1);
-    frmMain.miLoadLast.Enabled := not (frmMain.mru.Count < 1);
+    tbnLast.Enabled := not (mru.Count < 1);
+    miLoadLast.Enabled := not (mru.Count < 1);
     end;
 end;
 
@@ -1779,12 +1745,12 @@ end;
 
 procedure TfrmMain.SetHintPanelText(new_text: string);
 begin
-  frmMain.sbrMain.Panels[3].Text := new_text;
+  sbrMain.Panels[3].Text := new_text;
 end;
 
 procedure TfrmMain.imgProgress(Sender: TObject; per: Integer);
 begin
-  if frmMain.bProgressiveLoad then
+  if bProgressiveLoad then
     begin
     if ((prev_progress <> per) and ((per = 33) or (per = 66))) then
       begin

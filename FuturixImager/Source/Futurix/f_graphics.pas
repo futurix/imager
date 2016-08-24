@@ -21,7 +21,7 @@ procedure CloseImage(turn_off_ui: boolean = true);
 function Write(path: string): BOOL;
 
 function IsSupported(path: string): boolean;
-function GetTypeString(ext: string; default: string = ''): string;
+function GetTypeString(ext: string): string;
 
 function IsSupportedRole(role: string): boolean;
 procedure ExecuteRole(role: string);
@@ -40,57 +40,44 @@ uses w_main, f_plugins, f_ui, f_tools, f_nav, f_images, fx_consts;
 function DoImageLoad(path: string; page: integer = 0): TFxOpenResult;
 var
   FxImgOpen: TFxImgOpen;
-  lib: THandle;
-  ext, lib_path: string;
+  ext: string;
   tmp_res: TFxImgResult;
 begin
   Result.bitmap := 0;
   Result.page := 0;
   Result.pages := 0;
 
-  //!/ silent?
   if not FileExists(path) then
     begin
     FileNotFound(path);
     Abort();
     end;
 
-  ext := LowerCase(ExtractExt(path));
-  lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FOPEN);
+  ext := ExtractExt(path);
 
-  // main stuff
-  if ((lib_path <> '') and (lib_path <> sInternalFormat)) then
+  // main
+  FxImgOpen := fx.Plugins.ResolveOpen(ext);
+
+  if (@FxImgOpen <> nil) then
     begin
-    lib := LoadLibrary(PWideChar(lib_path));
+    tmp_res := FxImgOpen(PWideChar(path), PWideChar(ext), page, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-    if (lib <> 0) then
+    if (tmp_res.result_type = RT_HBITMAP) then
       begin
-      @FxImgOpen := GetProcAddress(lib, EX_OPEN);
-
-      if (@FxImgOpen <> nil) then
-        begin
-        tmp_res := FxImgOpen(PWideChar(path), PWideChar(ext), page, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-
-        if (tmp_res.result_type = RT_HBITMAP) then
-          begin
-          Result.bitmap := tmp_res.result_value;
-          Result.page := page;
-          Result.pages := tmp_res.result_xtra;
-          end;
-        end;
-
-      FreeLibrary(lib);
+      Result.bitmap := tmp_res.result_value;
+      Result.page := page;
+      Result.pages := tmp_res.result_xtra;
       end;
     end;
 end;
 
+// TODO: switch to the future thumbnail interface
 function DoPreviewLoad(path: string): HBITMAP;
 var
   FxImgOpen: TFxImgOpen;
   io: TImageEnIO;
-  lib: THandle;
   cnv: TBitmap;
-  ext, lib_path: string;
+  ext: string;
   tmp_res: TFxImgResult;
 begin
   Result := 0;
@@ -101,28 +88,17 @@ begin
     Abort();
     end;
 
-  ext := LowerCase(ExtractExt(path));
-  lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FOPEN);
+  ext := ExtractExt(path);
 
   // main stuff
-  if ((lib_path <> '') and (lib_path <> sInternalFormat)) then
+  FxImgOpen := fx.Plugins.ResolveOpen(ext);
+
+  if (@FxImgOpen <> nil) then
     begin
-    lib := LoadLibrary(PWideChar(lib_path));
+    tmp_res := FxImgOpen(PWideChar(path), PWideChar(ext), 0, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-    if (lib <> 0) then
-      begin
-      @FxImgOpen := GetProcAddress(lib, EX_OPEN);
-
-      if (@FxImgOpen <> nil) then
-        begin
-        tmp_res := FxImgOpen(PWideChar(path), PWideChar(ext), 0, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-
-        if (tmp_res.result_type = RT_HBITMAP) then
-          Result := tmp_res.result_value;
-        end;
-
-      FreeLibrary(lib);
-      end;
+    if (tmp_res.result_type = RT_HBITMAP) then
+      Result := tmp_res.result_value;
     end;
 
   if (Result = 0) then
@@ -169,7 +145,7 @@ begin
     begin
     CloseImage(false);
 
-    ext := LowerCase(ExtractExt(path));
+    ext := ExtractExt(path);
     res := DoImageLoad(path, page);
 
     if (res.bitmap <> 0) then
@@ -272,85 +248,77 @@ end;
 function Write(path: string): BOOL;
 var
   FxImgSave: TFxImgSave;
-  lib: THandle;
-  ext, lib_path: string;
+  ext: string;
   res: integer;
   bim: TBitmap;
   tmp_res: TFxImgResult;
 begin
   // start
-  ext := ExtractFileExt(path);
-  ext := LowerCase(ext);
+  ext := ExtractExt(path);
   Result := FALSE;
 
-  Delete(ext, 1, 1);
-  lib_path := FxRegRStr(ext, '', sModules + '\' + PS_FSAVE);
-
   // main stuff
-  if (lib_path <> '') then
+  FxImgSave := fx.Plugins.ResolveSave(ext);
+
+  if (@FxImgSave <> nil) then
     begin
-    lib := LoadLibrary(PWideChar(lib_path));
+    bim := TBitmap.Create();
+    frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+    frmMain.img.IEBitmap.CopyToTBitmap(bim);
+    bim.ApplyLimits();
 
-    if (lib <> 0) then
-      begin
-      @FxImgSave := GetProcAddress(lib, EX_SAVE);
+    tmp_res := FxImgSave(PWideChar(path), PWideChar(ext), bim.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-      if (@FxImgSave <> nil) then
-        begin
-        bim := TBitmap.Create();
-        frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
-        frmMain.img.IEBitmap.CopyToTBitmap(bim);
-        bim.ApplyLimits();
+    if (tmp_res.result_type = RT_BOOL) then
+      res := tmp_res.result_value
+    else
+      res := 0;
 
-        tmp_res := FxImgSave(PWideChar(path), PWideChar(ext), bim.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    FreeAndNil(bim);
 
-        if (tmp_res.result_type = RT_BOOL) then
-          res := tmp_res.result_value
-        else
-          res := 0;
+    if (res <> 0) then
+      frmMain.img.Proc.ClearAllUndo();
 
-        FreeAndNil(bim);
-
-        if (res <> 0) then
-          frmMain.img.Proc.ClearAllUndo();
-
-        Result := (res = FX_TRUE);
-        end;
-
-      FreeLibrary(lib);
-      end;
+    Result := (res = FX_TRUE);
     end;
 end;
 
 // finds out if format is supported
 function IsSupported(path: string): boolean;
 begin
-  Result := (FxRegRStr(ExtractExt(path), '', sModules + '\' + PS_FOPEN) <> '');
+  Result := fx.Plugins.HasOpen(ExtractExt(path));
 end;
 
 // returns file type string or ''
-function GetTypeString(ext: string; default: string = ''): string;
+function GetTypeString(ext: string): string;
 begin
-  Result := FxRegRStr(ext, default, sModules + '\' + PS_FDESCR);
+  Result := fx.Plugins.FindFormatDescription(ext);
 end;
 
 function IsSupportedRole(role: string): boolean;
 begin
-  Result := (FxRegRStr(role, '', sModules + '\' + PS_FROLE) <> '');
+  Result := fx.Plugins.HasRole(role);
 end;
 
+//TODO: all other roles
 procedure ExecuteRole(role: string);
 var
-  lib_path: string;
+  id: integer;
 begin
-  lib_path := FxRegRStr(role, '', sModules + '\' + PS_FROLE);
+  id := fx.Plugins.FindRoleHandler(role);
 
-  if (lib_path <> '') then
+  if (id <> PI_NULL) then
     begin
     if ((role = PR_SCAN) or (role = PR_CAPTURE)) then
-      frmMain.DoHandleFImport(lib_path, role)     // importer roles
+      // importer roles
+      frmMain.DoHandleFImport(
+        fx.Plugins.GetFunctionFromPlugin(id, CP_FIMPORT),
+        role)
     else if ((role = PR_JPEGLL) or (role = PR_EMAIL)) then
-      frmMain.DoHandleFTool(lib_path, role);      // tool roles
+      // tool roles
+      frmMain.DoHandleFTool(
+        fx.Plugins.GetFunctionFromPlugin(id, CP_FTOOL),
+        role);
     end;
 end;
 

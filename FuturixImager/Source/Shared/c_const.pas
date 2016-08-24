@@ -19,9 +19,10 @@ const
   FXVER_REVISION        = 0;
   FXVER_BUILD           = 0;
 
-  sReg                  = '\Software\Futurix\FuturixImager';
-  sSettings             = '\Software\Futurix\FuturixImager\Settings';
-  sModules              = '\Software\Futurix\FuturixImager\Cache';
+  sReg                  = '\Software\Futurix\FuturixImager';                  // HKCU
+  sSettings             = '\Software\Futurix\FuturixImager\Settings';         // HKCU
+  sModules              = '\Software\Futurix\FuturixImager\Cache';            // HKCU
+  sModSearch            = '\Software\Futurix\FuturixImager\PluginLocations';  // HKLM
 
   sInternalFormat       = 'fx_ip';
 
@@ -58,7 +59,25 @@ const
   PT_FINFO         = 60;
   PT_FTOOL         = 80;
 
+  // core types
+  CP_FQUERY        = 1;
+  CP_FCONFIG       = 2;
+  CP_FOPEN         = 3;
+  CP_FPREVIEW      = 4;
+  CP_FSAVE         = 5;
+  CP_FIMPORT       = 6;
+  CP_FEXPORT       = 7;
+  CP_FFILTER       = 8;
+  CP_FINFO         = 9;
+  CP_FTOOL         = 10;
+
+  // plug-in IDs
+  PI_NULL          = 0;
+  PI_INTERNAL      = 1;
+  PI_CUSTOM        = 2;
+
   // plug-in type strings
+  PS_FID           = 'ID';
   PS_FNAME         = 'Plug-ins';
   PS_FROLE         = 'Roles';
   PS_FCONFIG       = 'Settings';
@@ -76,6 +95,7 @@ const
   PS_FTOOL         = 'SimpleTool';
 
   // exported function names
+  EX_CORE2         = 'FxCore2';
   EX_QUERY         = 'FxImgQuery';
   EX_CFG           = 'FxImgCfg';
   EX_OPEN          = 'FxImgOpen';
@@ -126,6 +146,11 @@ type
     result_string_data: array[0..2047] of WideChar;
   end;
 
+  TFxCore2Result = record
+    res: ULONG;
+    data: Pointer;
+  end;
+
   TStringCallBack     = procedure(filename: string); cdecl;   // Pascal-only
 
   TPreviewCallBack    = function(preview: HBITMAP): BOOL; cdecl;
@@ -133,6 +158,10 @@ type
   TDoubleCallBack     = function(name, value: PWideChar): BOOL; cdecl;
   TAppCallBack        = function(query_type, value, xtra: ULONG): TFxImgResult; cdecl;
 
+
+  TFxCore2            = function(
+                          p_intf: ULONG;
+                          app_query: TAppCallBack): TFxCore2Result; cdecl;
 
   TFxImgQuery         = function(
                           plugin_path: PWideChar;

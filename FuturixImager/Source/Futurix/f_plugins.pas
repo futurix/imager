@@ -22,24 +22,16 @@ var
   c: integer;
   i: TMenuItem;
   s: TStringList;
-  wreg: TFRegistry;
 begin
   // setting sun
   SetDialogs();
 
   // the beginning
-  wreg := TFRegistry.Create(RA_READONLY);
-  wreg.RootKey := HKEY_CURRENT_USER;
-    
   s := TStringList.Create();
-  s.Clear();
 
-  if wreg.OpenKey(sModules + '\' + PS_FIMPORT, false) then
-    begin
-    wreg.GetValueNames(s);
-    wreg.CloseKey();
-    end;
-  
+  s.Clear();
+  s.AddStrings(fx.Plugins.ListImport());
+
   if (s.Count > 0) then
     begin
     s.Sort();
@@ -59,12 +51,7 @@ begin
 
   // setting FExport
   s.Clear();
-
-  if wreg.OpenKey(sModules + '\' + PS_FEXPORT, false) then
-    begin
-    wreg.GetValueNames(s);
-    wreg.CloseKey();
-    end;
+  s.AddStrings(fx.Plugins.ListExport());
 
   if (s.Count > 0) then
     begin
@@ -85,12 +72,7 @@ begin
 
   // setting FTool
   s.Clear();
-
-  if wreg.OpenKey(sModules + '\' + PS_FTOOL, false) then
-    begin
-    wreg.GetValueNames(s);
-    wreg.CloseKey();
-    end;
+  s.AddStrings(fx.Plugins.ListTool());
 
   if (s.Count > 0) then
     begin
@@ -119,7 +101,6 @@ begin
   i := TMenuItem.Create(nil);
   FreeAndNil(s);
   FreeAndNil(i);
-  FreeAndNil(wreg);
 
   // setting roles
   infRoles.capture := IsSupportedRole(PR_CAPTURE);
@@ -153,33 +134,13 @@ end;
 // sets open and save dialogs
 procedure SetDialogs();
 var
-  h, d: TStringList;
+  h: TStringList;
   i: integer;
   s, t_d: string;
-  wreg: TFRegistry;
-  bDescrAvailable: boolean;
 begin
-  wreg := TFRegistry.Create(RA_READONLY);
-  wreg.RootKey := HKEY_CURRENT_USER;
   h := TStringList.Create();
-  d := TStringList.Create();
+  h.AddStrings(fx.Plugins.ListOpen());
   s := '';
-
-  // common ( descriptions )
-  if wreg.OpenKey(sModules + '\' + PS_FDESCR, false) then
-    begin
-    wreg.GetValueNames(d);
-    wreg.CloseKey();
-    end;
-
-  // open dialog
-  if wreg.OpenKey(sModules + '\' + PS_FOPEN, false) then
-    begin
-    wreg.GetValueNames(h);
-    wreg.CloseKey();
-    end;
-
-  bDescrAvailable := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
 
   if (h.Count > 0) then
     begin
@@ -190,10 +151,7 @@ begin
       // default filter is "*.*"
       for i := 0 to (h.Count - 1) do
         begin
-        if bDescrAvailable then
-          t_d := wreg.RStr(h.Strings[i], '')
-        else
-          t_d := '';
+        t_d := fx.Plugins.FindFormatDescription(h.Strings[i]);
 
         if (t_d = '') then
           t_d := ('*.' + h.Strings[i])
@@ -214,10 +172,7 @@ begin
       // default filter is combined one
       for i := 0 to (h.Count - 1) do
         begin
-        if bDescrAvailable then
-          t_d := wreg.RStr(h.Strings[i], '')
-        else
-          t_d := '';
+        t_d := fx.Plugins.FindFormatDescription(h.Strings[i]);
 
         if (t_d = '') then
           t_d := ('*.' + h.Strings[i])
@@ -235,22 +190,11 @@ begin
       end;
     end;
 
-  if bDescrAvailable then
-    wreg.CloseKey();
-
   // temp clearing
   frmMain.SaveExtensions.Clear();
+  frmMain.SaveExtensions.AddStrings(fx.Plugins.ListSave());
   s := '';
   t_d := '';
-
-  // save dialog
-  if wreg.OpenKey(sModules + '\' + PS_FSAVE, false) then
-    begin
-    wreg.GetValueNames(frmMain.SaveExtensions);
-    wreg.CloseKey();
-    end;
-
-  bDescrAvailable := wreg.OpenKey(sModules + '\' + PS_FDESCR, false);
 
   if (frmMain.SaveExtensions.Count > 0) then
     begin
@@ -258,10 +202,7 @@ begin
 
     for i := 0 to (frmMain.SaveExtensions.Count - 1) do
       begin
-      if bDescrAvailable then
-        t_d := wreg.RStr(frmMain.SaveExtensions.Strings[i], '')
-      else
-        t_d := '';
+      t_d := fx.Plugins.FindFormatDescription(frmMain.SaveExtensions.Strings[i]);
 
       if (t_d = '') then
         t_d := ('*.' + frmMain.SaveExtensions.Strings[i])
@@ -277,13 +218,8 @@ begin
     frmMain.dlgSave.Filter := s;
     end;
 
-  if bDescrAvailable then
-    wreg.CloseKey();
-
   // final
-  FreeAndNil(d);
   FreeAndNil(h);
-  FreeAndNil(wreg);
 
   // setting MRU
   if frmMain.bNoMRU then

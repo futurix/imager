@@ -59,7 +59,7 @@ uses w_main, f_filectrl, f_tools;
 
 function IsInformed(ext: string):boolean;
 begin
-  Result := (FxRegRStr(ext, '', sModules + '\' + PS_FINFO) <> '');
+  Result := fx.Plugins.HasInfo(ext);
 end;
 
 procedure TfrmInfo.AddCommonInfo();
@@ -128,7 +128,6 @@ end;
 procedure TfrmInfo.FormCreate(Sender: TObject);
 var
   FxImgInfo: TFxImgInfo;
-  lib: THandle;
   tempd: double;
   temps: string;
   io: TImageEnIO;
@@ -143,17 +142,10 @@ begin
 
   if IsInformed(ExtractExt(infImage.path)) then
     begin
-    lib := LoadLibrary(PWideChar(FxRegRStr(ExtractExt(infImage.path), '', sModules + '\' + PS_FINFO)));
+    FxImgInfo := fx.Plugins.ResolveInfo(ExtractExt(infImage.path));
 
-    if (lib <> 0) then
-      begin
-      @FxImgInfo := GetProcAddress(lib, EX_INFO);
-
-      if (@FxImgInfo <> nil) then
-        FxImgInfo(PWideChar(infImage.path), PWideChar(ExtractExt(infImage.path)), GetInfo, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-
-      FreeLibrary(lib);
-      end;
+    if (@FxImgInfo <> nil) then
+      FxImgInfo(PWideChar(infImage.path), PWideChar(ExtractExt(infImage.path)), GetInfo, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
     end;
 
   // adding EXIF and IPTC information (if applicable)

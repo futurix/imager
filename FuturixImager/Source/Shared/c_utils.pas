@@ -203,17 +203,16 @@ begin
     Result := -1;
 end;
 
-// extracts file extension without dot
+// returns lowercase file extension without dot
 function ExtractExt(filename: string): string;
-var
-  i: integer;
 begin
-  i := LastDelimiter('.' + PathDelim + DriveDelim, filename);
+  Result := ExtractFileExt(filename);
 
-  if ((i > 0) and (filename[i] = '.')) then
-    Result := Copy(filename, (i + 1), MaxInt)
-  else
-    Result := '';
+  if (Result <> '') then
+    begin
+    Delete(Result, 1, 1);
+    Result := LowerCase(Result);
+    end;
 end;
 
 // runs app and waits for end of it's execution

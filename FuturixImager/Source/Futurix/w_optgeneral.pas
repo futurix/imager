@@ -172,7 +172,7 @@ var
 
 implementation
 
-uses w_main, f_ui, f_plugins, f_scan, f_tools, w_show, f_images, fx_consts;
+uses w_main, f_ui, f_plugins, f_tools, w_show, f_images, fx_consts;
 
 {$R *.DFM}
 
@@ -395,8 +395,8 @@ begin
   AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
   AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
     
-  DoLocaleScan();
-  DoThemesScan();
+  //DoLocaleScan();
+  //DoThemesScan();
     
   InitLocales();
   InitThemes();
@@ -596,7 +596,7 @@ begin
     CleanLocalization();
     InitLocalization(HInstance);
 
-    DoPluginScan();
+    fx.PluginScan();
     UpdatePlugIns();
 
     // localization fix
@@ -887,18 +887,19 @@ end;
 
 procedure TfrmOldOptions.lblFormatsClick(Sender: TObject);
 begin
-  ShellExecute(Application.Handle, 'open', PWideChar(path_app + FN_FORMATS), nil, nil, SW_SHOWNORMAL);
+  ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath + FN_FORMATS), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TfrmOldOptions.lblOpenPlugFolderClick(Sender: TObject);
 begin
-  ShellExecute(Application.Handle, 'open', PWideChar(path_app), nil, nil, SW_SHOWNORMAL);
+  ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath), nil, nil, SW_SHOWNORMAL);
 end;
 
 procedure TfrmOldOptions.lblPlugScanClick(Sender: TObject);
 begin
-  DoPluginScan();
+  fx.PluginScan();
   UpdatePlugIns();
+
   SetDialogs();
   GetInstalledPluginsList();
 

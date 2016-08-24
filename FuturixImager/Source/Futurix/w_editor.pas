@@ -203,11 +203,7 @@ begin
   filters.Duplicates := dupIgnore;
   filters.Sorted := true;
 
-  if wreg.OpenKey(sModules + '\' + PS_FFILTER, false) then
-    begin
-    wreg.GetValueNames(filters);
-    wreg.CloseKey();
-    end;
+  filters.AddStrings(fx.Plugins.ListFilter());
 
   filters.Add(LoadLStr(1750));
   filters.Add(LoadLStr(1751));
@@ -434,8 +430,7 @@ end;
 procedure TfrmEditor.HandleFilter(name: string);
 var
   FxImgFilter: TFxImgFilter;
-  lib: THandle;
-  func_result: hBitmap;
+  func_result: HBITMAP;
   local_image, local_result: TBitmap;
   tmp_res: TFxImgResult;
 begin
@@ -444,34 +439,27 @@ begin
   nPreviousMode := nCurrentMode;
 
   // trying external filters
-  lib := LoadLibrary(PWideChar(FxRegRStr(name, '', sModules + '\' + PS_FFILTER)));
+  FxImgFilter := fx.Plugins.ResolveFilter(name);
 
-  if (lib <> 0) then
+  if (@FxImgFilter <> nil) then
     begin
-    @FxImgFilter := GetProcAddress(lib, EX_FILTER);
+    local_image := TBitmap.Create();
 
-    if (@FxImgFilter <> nil) then
-      begin
-      local_image := TBitmap.Create();
+    if img.Selected then
+      img.CopySelectionToBitmap(local_image)
+    else
+      img.IEBitmap.CopyToTBitmap(local_image);
 
-      if img.Selected then
-        img.CopySelectionToBitmap(local_image)
-      else
-        img.IEBitmap.CopyToTBitmap(local_image);
+    local_image.ApplyLimits();
 
-      local_image.ApplyLimits();
+    tmp_res := FxImgFilter(PWideChar(name), local_image.ReleaseHandle(), @ProcessPreview, Application.Handle, Self.Handle, FxImgGlobalCallback);
 
-      tmp_res := FxImgFilter(PWideChar(name), local_image.ReleaseHandle(), @ProcessPreview, Application.Handle, Self.Handle, FxImgGlobalCallback);
+    if (tmp_res.result_type = RT_HBITMAP) then
+      func_result := tmp_res.result_value
+    else
+      func_result := 0;
 
-      if (tmp_res.result_type = RT_HBITMAP) then
-        func_result := tmp_res.result_value
-      else
-        func_result := 0;
-
-      FreeAndNil(local_image);
-      end;
-
-    FreeLibrary(lib);
+    FreeAndNil(local_image);
     end;
 
   // well, if there is no externals... (rotate and resize should be last in the list)

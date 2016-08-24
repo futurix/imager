@@ -7,7 +7,7 @@
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
 			<DCC_DependencyCheckOutputName>..\..\Bin\fximager.exe</DCC_DependencyCheckOutputName>
 			<ProjectVersion>12.0</ProjectVersion>
-			<Config Condition="'$(Config)'==''">Release</Config>
+			<Config Condition="'$(Config)'==''">Debug</Config>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -74,7 +74,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1594</VersionInfo>
+						<VersionInfo Name="Build">1728</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -86,7 +86,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.1594</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.1728</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -131,7 +131,6 @@
 			<DCCReference Include="w_show.pas">
 				<Form>frmShow</Form>
 			</DCCReference>
-			<DCCReference Include="f_scan.pas"/>
 			<DCCReference Include="w_editor.pas">
 				<Form>frmEditor</Form>
 			</DCCReference>
@@ -162,6 +161,9 @@
 			<DCCReference Include="w_options.pas">
 				<Form>frmOptions</Form>
 			</DCCReference>
+			<DCCReference Include="fx_pluginscanner.pas"/>
+			<DCCReference Include="fx_pluginmanager.pas"/>
+			<DCCReference Include="fx_internalp.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

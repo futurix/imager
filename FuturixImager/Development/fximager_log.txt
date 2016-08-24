@@ -1,7 +1,2 @@
->>>> 6.0 Alpha 3
-+ support for JPEG XR photos with alpha channel
-+ support for loading/saving 32-bit PNG images with alpha channel
-+ support for loading/saving 32-bit Windows bitmaps with alpha channel
-+ Imager now correctly handles alpha channel in most situations (except some filters in editor)
-+ removed (almost unused) support for animation
-+ rewrote support for multi-page images
+>>>> 6.0 Alpha 4
++ Imager now supports multiple folders with plug-ins

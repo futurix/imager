@@ -21,7 +21,6 @@ uses
   f_tools in 'f_tools.pas',
   f_ui in 'f_ui.pas',
   w_show in 'w_show.pas' {frmShow},
-  f_scan in 'f_scan.pas',
   w_editor in 'w_editor.pas' {frmEditor},
   w_resize in 'w_resize.pas' {frmResize},
   w_rotate in 'w_rotate.pas' {frmRotate},
@@ -35,7 +34,10 @@ uses
   fx_consts in 'fx_consts.pas',
   fx_ver in 'fx_ver.pas',
   fx_mru in 'fx_mru.pas',
-  w_options in 'w_options.pas' {frmOptions};
+  w_options in 'w_options.pas' {frmOptions},
+  fx_pluginscanner in 'fx_pluginscanner.pas',
+  fx_pluginmanager in 'fx_pluginmanager.pas',
+  fx_internalp in 'fx_internalp.pas';
 
 {$R *.RES}
 

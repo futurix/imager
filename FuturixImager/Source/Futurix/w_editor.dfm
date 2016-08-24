@@ -377,12 +377,11 @@ object frmEditor: TfrmEditor
         Left = 2
         Top = 2
         Width = 54
-        Height = 32
+        Height = 13
         Align = alLeft
         Caption = 'Tolerance: '
         Transparent = True
         Layout = tlCenter
-        ExplicitHeight = 13
       end
       object pnlTolerance: TPanel
         Left = 56
@@ -450,14 +449,13 @@ object frmEditor: TfrmEditor
           Left = 0
           Top = 0
           Width = 32
-          Height = 19
+          Height = 13
           Align = alLeft
           Alignment = taRightJustify
           Caption = 'Color: '
           FocusControl = boxColorSelector
           Transparent = True
           Layout = tlCenter
-          ExplicitHeight = 13
         end
         object sbxColor: TScrollBox
           Left = 32

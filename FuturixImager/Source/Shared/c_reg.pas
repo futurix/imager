@@ -9,11 +9,15 @@ uses
 type
   TFRegistry = class(TRegistry)
   public
+    function OpenKeyLocal(key: string; a: LongWord = RA_READONLY): boolean;
+    function OpenKeyShared(key: string; a: LongWord = RA_READONLY): boolean;
+
     function RBool(name: string; default: boolean): boolean;
     function RInt(name: string; default: integer): integer;
     function RStr(name, default: string): string;
     function RBin(name: string; var buf; size: integer): boolean;
     procedure RStrings(valueName: string; var strings: TStringList);
+
     procedure WBool(name: string; value: boolean);
     procedure WInteger(name: string; value: integer);
     procedure WString(name, value: string);
@@ -32,6 +36,22 @@ function RegDeleteKeyIncludingSubkeys(const Key: HKEY; const Name: PWideChar): L
 
 
 implementation
+
+function TFRegistry.OpenKeyLocal(key: string; a: LongWord = RA_READONLY): boolean;
+begin
+  RootKey := HKEY_CURRENT_USER;
+  Access := a;
+
+  Result := OpenKey(key, false);
+end;
+
+function TFRegistry.OpenKeyShared(key: string; a: LongWord = RA_READONLY): boolean;
+begin
+  RootKey := HKEY_LOCAL_MACHINE;
+  Access := a;
+
+  Result := OpenKey(key, false);
+end;
 
 function TFRegistry.RBool(name: string; default: boolean): boolean;
 begin

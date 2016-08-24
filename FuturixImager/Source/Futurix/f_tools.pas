@@ -114,7 +114,7 @@ end;
 procedure PutRegDock();
 begin
   FxRegWStr(sAppName, Application.ExeName, sReg);
-  FxRegWStr('InstallationPath', path_app, sReg);
+  FxRegWStr('InstallationPath', fx.ApplicationPath, sReg);
 end;
 
 function IsShift(): boolean;
