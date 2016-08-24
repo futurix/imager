@@ -110,7 +110,7 @@ begin
     Exit();
 
   // handler
-  WriteHandler();
+  WriteHandlers();
 
   // registering formats
   for i := 0 to (lvwFormats.Items.Count - 1) do

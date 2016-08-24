@@ -1,12 +1,27 @@
 
+// set language
+LANGUAGE 0x09, 0x01
+
+// common defines
+#include "..\Shared\fximager_version.h"
+
+// main application icon
+MAINICON ICON "res\futurix.ico"
+
+// application manifest
+1 24 "res\futurix.manifest"
+
+// version info
+#include "res\version.rc"
+
+// built-in theme
 IMGMAIN   RT_BITMAP   "res\main.bmp"
 IMGMAIND  RT_BITMAP   "res\maind.bmp"
 IMGFIXED  RT_BITMAP   "res\fixed.bmp"
 
-1       ICON       "res\icon_1.ico"
-2       ICON       "res\icon_2.ico"
-3       ICON       "res\icon_3.ico"
-4       ICON       "res\icon_4.ico"
+// built-in fallback file format icon
+1       ICON       "res\fallback.ico"
 
-#include "language_terms.rc"
+// built-in language
+#include "res\language_terms.rc"
 

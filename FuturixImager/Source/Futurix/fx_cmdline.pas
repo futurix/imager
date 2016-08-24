@@ -25,6 +25,9 @@ begin
   // saving parameter
   prm := ParamStr(1);
 
+  // initializing localization
+  InitLocalization(HInstance);
+
   if ((prm = '/scan') or (prm = '-scan')) then
     begin
     Result := true;
@@ -56,16 +59,17 @@ end;
 procedure RunCleanup();
 var
   reg: TFRegistry;
-  exts: TStringList;
+  exts, persist: TStringList;
   ext: string;
 begin
-  // remove handler
-  RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'SOFTWARE\Classes\' + sRegAssociation);
-
   // cleaning all extensions
   reg := TFRegistry.Create(RA_READONLY);
   reg.RootKey := HKEY_CURRENT_USER;
   exts := TStringList.Create();
+  persist := TStringList.Create();
+  persist.Sorted := true;
+  persist.CaseSensitive := false;
+  persist.Duplicates := dupIgnore;
 
   if reg.OpenKey(sModules + '\' + PS_FOPEN, false) then
     begin
@@ -73,12 +77,29 @@ begin
     reg.CloseKey();
     end;
 
-  for ext in exts do
+  if reg.OpenKey(sPersistentSettings, false) then
+    begin
+    reg.RStrings(sPersistentExts, persist);
+    reg.CloseKey();
+    end;
+
+  persist.AddStrings(exts);
+
+  for ext in persist do
     begin
     if GetExt(ext) then
       UnsetExt(ext);
     end;
 
+  // removing all handlers
+  for ext in persist do
+    RemoveHanderExt(ext);
+
+  // removing default handler
+  RemoveHanderExt('');
+
+  // clean-up
+  FreeAndNil(persist);
   FreeAndNil(exts);
   FreeAndNil(reg);
 

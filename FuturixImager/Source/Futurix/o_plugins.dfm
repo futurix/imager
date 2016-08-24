@@ -39,10 +39,11 @@ object fraOptPlugins: TfraOptPlugins
         Width = 150
       end
       item
-        Caption = 'Plug-in name'
-        Width = 315
+        Caption = 'Name'
+        Width = 275
       end>
     ColumnClick = False
+    ReadOnly = True
     RowSelect = True
     SortType = stText
     TabOrder = 1

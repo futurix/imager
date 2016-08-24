@@ -9,8 +9,12 @@ uses
 type
   TFRegistry = class(TRegistry)
   public
-    function OpenKeyLocal(key: string; a: LongWord = RA_READONLY): boolean;
-    function OpenKeyShared(key: string; a: LongWord = RA_READONLY): boolean;
+    function OpenKeyUser(key: string): boolean;
+    function OpenKeyUserRO(key: string): boolean;
+    function OpenKeyMachine(key: string): boolean;
+    function OpenKeyMachineRO(key: string): boolean;
+
+    procedure ReadKeysAndValues(var strings: TStringList);
 
     function RBool(name: string; default: boolean): boolean;
     function RInt(name: string; default: integer): integer;
@@ -35,24 +39,53 @@ procedure FxRegWStr(name, value: string; path: string = sSettings; key: HKEY = H
 procedure FxRegWStrs(name: string; value: TStringList; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
 
 function RegDeleteKeyIncludingSubkeys(const Key: HKEY; const Name: PWideChar): Longint;
+function RegDeleteKeyIncludingSubkeys_WOW64(const Key: HKEY; const Name: PWideChar): Longint;
 
 
 implementation
 
-function TFRegistry.OpenKeyLocal(key: string; a: LongWord = RA_READONLY): boolean;
+function TFRegistry.OpenKeyUser(key: string): boolean;
 begin
   RootKey := HKEY_CURRENT_USER;
-  Access := a;
+  Access := RA_FULL;
+
+  Result := OpenKey(key, true);
+end;
+
+function TFRegistry.OpenKeyUserRO(key: string): boolean;
+begin
+  RootKey := HKEY_CURRENT_USER;
+  Access := RA_READONLY;
 
   Result := OpenKey(key, false);
 end;
 
-function TFRegistry.OpenKeyShared(key: string; a: LongWord = RA_READONLY): boolean;
+function TFRegistry.OpenKeyMachine(key: string): boolean;
 begin
   RootKey := HKEY_LOCAL_MACHINE;
-  Access := a;
+  Access := RA_FULL;
+
+  Result := OpenKey(key, true);
+end;
+
+function TFRegistry.OpenKeyMachineRO(key: string): boolean;
+begin
+  RootKey := HKEY_LOCAL_MACHINE;
+  Access := RA_READONLY;
 
   Result := OpenKey(key, false);
+end;
+
+procedure TFRegistry.ReadKeysAndValues(var strings: TStringList);
+var
+  i: integer;
+begin
+  strings.Clear();
+
+  GetValueNames(strings);
+
+  for i := 0 to strings.Count - 1 do
+    strings.Strings[i] := (strings.Strings[i] + strings.NameValueSeparator + RStr(strings.Strings[i], ''));
 end;
 
 function TFRegistry.RBool(name: string; default: boolean): boolean;
@@ -343,6 +376,43 @@ begin
   if Win32Platform = VER_PLATFORM_WIN32_NT then
     begin
     if RegOpenKeyEx(Key, Name, 0, KEY_ENUMERATE_SUB_KEYS or KEY_QUERY_VALUE, H) = ERROR_SUCCESS then
+      begin
+      if RegQueryInfoKey(H, nil, nil, nil, nil, @MaxCount, nil, nil, nil, nil, nil, nil) = ERROR_SUCCESS then
+        begin
+        if MaxCount < 1 then
+          MaxCount := 1;
+        SetLength(KeyName, MaxCount);
+        I := 0;
+
+        while True do
+          begin
+          KeyNameCount := MaxCount+1;
+
+          if RegEnumKeyEx(H, I, PWideChar(KeyName), KeyNameCount, nil, nil, nil, @FT) <> ERROR_SUCCESS then
+            Break;
+          if RegDeleteKeyIncludingSubkeys(H, PWideChar(KeyName)) <> ERROR_SUCCESS then
+            Inc(I);
+          end;
+        end;
+
+      RegCloseKey(H);
+      end;
+    end;
+
+  Result := RegDeleteKey(Key, Name);
+end;
+
+function RegDeleteKeyIncludingSubkeys_WOW64(const Key: HKEY; const Name: PWideChar): Longint;
+var
+  H: HKEY;
+  KeyName: String;
+  KeyNameCount, MaxCount: DWORD;
+  FT: TFileTime;
+  I: Integer;
+begin
+  if Win32Platform = VER_PLATFORM_WIN32_NT then
+    begin
+    if RegOpenKeyEx(Key, Name, 0, KEY_ENUMERATE_SUB_KEYS or KEY_QUERY_VALUE or KEY_WOW64_64KEY, H) = ERROR_SUCCESS then
       begin
       if RegQueryInfoKey(H, nil, nil, nil, nil, @MaxCount, nil, nil, nil, nil, nil, nil) = ERROR_SUCCESS then
         begin

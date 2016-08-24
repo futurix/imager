@@ -5,7 +5,18 @@ interface
 uses
   Windows, SysUtils, Classes, UxTheme, ShlObj, ActiveX,
   c_const;
-  
+
+// known folders
+const
+  FOLDERID_Desktop: TGUID = '{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}';
+  FOLDERID_LocalAppData: TGUID = '{F1B32785-6FBA-4FCF-9D55-7B8E7F157091}';
+  FOLDERID_ProgramData: TGUID = '{62AB5D82-FDC1-4DC3-A9DD-070D1D495D97}';
+  FOLDERID_ProgramFiles: TGUID = '{905e63b6-c1bf-494e-b29c-65b732d3d21a}';
+  FOLDERID_RoamingAppData: TGUID = '{3EB685DB-65F9-4CF6-A03A-E3EF65729F3D}';
+  FOLDERID_System: TGUID = '{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}';
+  FOLDERID_SystemX86: TGUID = '{D65231B0-B2F1-4857-A4CE-A8E7C6EA7D27}';
+  FOLDERID_Windows: TGUID = '{F38BF404-1D43-42F2-9305-67DE0B28FC23}';
+
 // search functions
 procedure ScanFolderRecL(path, mask: string; var list: TStringList);
 procedure ScanFolderRecLF(path, mask: string; var list: TStringList; func: TStringCallBack);
@@ -32,10 +43,12 @@ procedure StrSplitI(s: string; sep: string; const list: TStrings);
 function IsXP(): boolean;
 function IsVista(): boolean;
 function IsWin7(): boolean;
+function IsWin64(): boolean;
 function IsThemed(): boolean;
 
 // information functions
 function GetShellFolderPath(const FolderID: Integer): string;
+function GetKnownFolderPath(folderID: TGUID): string;
 function GetModuleLocation(md: cardinal): string;
 
 // resource functions
@@ -325,6 +338,35 @@ begin
   Result := ((Win32MajorVersion > 6) or ((Win32MajorVersion = 6) and (Win32MinorVersion >= 1)));
 end;
 
+// returns true if application is running on 64-bit Windows as WOW64 process
+function IsWin64(): boolean;
+type
+  TIsWow64Process = function(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall;
+var
+  func: TIsWow64Process;
+  lib: THandle;
+  temp: BOOL;
+  res: boolean;
+begin
+  res := false;
+  lib := LoadLibrary('kernel32.dll');
+
+  if (lib <> 0) then
+    begin
+    @func := GetProcAddress(lib, 'IsWow64Process');
+
+    if Assigned(func) then
+      begin
+      if func(GetCurrentProcess(), temp) then
+        res := temp;
+      end;
+
+    FreeLibrary(lib);
+    end;
+
+  Result := res;
+end;
+
 // returns true if application is currently themed
 function IsThemed(): boolean;
 begin
@@ -350,6 +392,46 @@ begin
     if Assigned(Malloc) then
       Malloc.Free(pidl);
     end;
+end;
+
+// returns known folders path (Vista+ only)
+function GetKnownFolderPath(folderID: TGUID): string;
+type
+  TSHGetKnownFolderPath = function(
+    const rfid: PGUID; dwFlags: DWORD; hToken: THandle; out ppszPath: PWideChar): HRESULT; stdcall;
+var
+  func: TSHGetKnownFolderPath;
+  lib: THandle;
+  res: string;
+  buf: PWideChar;
+begin
+  // safety check
+  if not IsVista then
+    Exit('');
+
+  // initializing
+  res := '';
+
+  // trying to get the function
+  lib := LoadLibrary('shell32.dll');
+
+  if (lib <> 0) then
+    begin
+    @func := GetProcAddress(lib, 'SHGetKnownFolderPath');
+
+    if Assigned(func) then
+      begin
+      if Succeeded(func(@folderID, 0, 0, buf)) then
+        begin
+        res := buf;
+        CoTaskMemFree(buf);
+        end;
+      end;
+
+    FreeLibrary(lib);
+    end;
+
+  Result := res;
 end;
 
 // returns module path

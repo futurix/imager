@@ -8,7 +8,9 @@ uses
   c_const, c_utils, c_reg, c_lang, c_locales;
 
 procedure UpdateAssociations();
-procedure WriteHandler();
+procedure WriteHandlers();
+procedure WriteHandlerExt(ext, description, icon, app_path: string; fs: boolean = false);
+procedure RemoveHanderExt(ext: string);
 function GetExt(ext: string): boolean;
 procedure SetExt(ext: string);
 procedure UnsetExt(ext: string);
@@ -23,47 +25,148 @@ begin
   SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
 end;
 
-procedure WriteHandler();
+procedure WriteHandlers();
+const
+  defIconNumber: integer = 1;
 var
   reg: TFRegistry;
-  icon_num: integer;
-  description, app_path: string;
-  full_screen: boolean;
+  description, app_path, temp, t_descr, t_icon: string;
+  def_descr, full_screen: boolean;
+  exts, descr, icons, persist: TStringList;
 begin
   // safety first
   if IsVista() then
     Exit();
 
+  // initializing
+  reg := TFRegistry.Create(RA_FULL);
+  exts := TStringList.Create();
+  descr := TStringList.Create();
+  icons := TStringList.Create();
+  persist := TStringList.Create();
+  persist.Sorted := true;
+  persist.CaseSensitive := false;
+  persist.Duplicates := dupIgnore;
+
   // loading settings
-  icon_num := FxRegRInt('Formats_Icon', 1);
   description := FxRegRStr('Formats_Description', Format(GetLString(FXL_REG_FF_DESCRIPTION), [sAppName]));
+  def_descr := FxRegRBool('Formats_DefaultDescriptionOnly', false);
   full_screen := FxRegRBool('Formats_FullScreen', false);
   app_path := Slash(ExtractFilePath(GetModuleLocation(HInstance)));
 
-  // writing common handler
-  reg := TFRegistry.Create(RA_FULL);
+  // reading supported formats + rare formats + descriptions + icons + PEL
   reg.RootKey := HKEY_CURRENT_USER;
 
-  if reg.OpenKey('\SOFTWARE\Classes\' + sRegAssociation, true) then
+  if reg.OpenKey(sModules + '\' + PS_FOPEN, false) then
+    begin
+    reg.GetValueNames(exts);
+    reg.CloseKey();
+    end;
+
+  if reg.OpenKey(sModules + '\' + PS_FDESCR, false) then
+    begin
+    reg.ReadKeysAndValues(descr);
+    reg.CloseKey();
+    end;
+
+  if reg.OpenKey(sFormatIcons, false) then
+    begin
+    reg.ReadKeysAndValues(icons);
+    reg.CloseKey();
+    end;
+
+  if reg.OpenKey(sPersistentSettings, false) then
+    begin
+    reg.RStrings(sPersistentExts, persist);
+    reg.CloseKey();
+    end;
+
+  persist.AddStrings(exts);
+
+  if reg.OpenKey(sPersistentSettings, true) then
+    begin
+    reg.WStrings(sPersistentExts, persist);
+    reg.CloseKey();
+    end;
+
+  // writing extension-specific handlers
+  for temp in persist do
+    begin
+    t_descr := description;
+    if ((not def_descr) and (descr.IndexOfName(temp) <> -1) and (Trim(descr.Values[temp]) <> '')) then
+      t_descr := descr.Values[temp];
+
+    if ((icons.IndexOfName(temp) <> -1) and (Trim(icons.Values[temp]) <> '')) then
+      t_icon := icons.Values[temp]
+    else if ((icons.IndexOfName('') <> -1) and (Trim(icons.Values['']) <> '')) then
+      t_icon := icons.Values['']
+    else
+      t_icon := app_path + FXFILE_APP + ',' + IntToStr(defIconNumber);
+
+    WriteHandlerExt(temp, t_descr, t_icon, app_path, full_screen);
+    end;
+
+  // writing default handler
+  if ((icons.IndexOfName('') <> -1) and (Trim(icons.Values['']) <> '')) then
+    t_icon := icons.Values['']
+  else
+    t_icon := app_path + FXFILE_APP + ',' + IntToStr(defIconNumber);
+
+  WriteHandlerExt('', description, t_icon, app_path, full_screen);
+
+  // clean-up
+  FreeAndNil(persist);
+  FreeAndNil(icons);
+  FreeAndNil(descr);
+  FreeAndNil(exts);
+  FreeAndNil(reg);
+end;
+
+procedure WriteHandlerExt(ext, description, icon, app_path: string; fs: boolean);
+var
+  reg: TFRegistry;
+  ass: string;
+  access: cardinal;
+begin
+  // safety first
+  if IsVista() then
+    Exit();
+
+  // need to disable registry redirection on Win64
+  if IsWin64() then
+    access := RA_FULL or KEY_WOW64_64KEY
+  else
+    access := RA_FULL;
+
+  // working
+  reg := TFRegistry.Create(access);
+  reg.RootKey := HKEY_CURRENT_USER;
+
+  if (ext <> '') then
+    ass := sRegAssociation + '.' + LowerCase(ext)
+  else
+    ass := sRegAssociation;
+
+  if reg.OpenKey('SOFTWARE\Classes\' + ass, true) then
     begin
     reg.WString('', description);
     reg.CloseKey();
 
-    if reg.OpenKey('\SOFTWARE\Classes\' + sRegAssociation + '\DefaultIcon', true) then
+    if reg.OpenKey('SOFTWARE\Classes\' + ass + '\DefaultIcon', true) then
       begin
-      reg.WString('', app_path + FXFILE_APP + ',' + IntToStr(icon_num));
+      reg.WString('', icon);
       reg.CloseKey();
       end;
 
-    if reg.OpenKey('\SOFTWARE\Classes\' + sRegAssociation + '\Shell\Open', true) then
+    if reg.OpenKey('SOFTWARE\Classes\' + ass + '\Shell\Open', true) then
       begin
       reg.WString('', GetLString(FXL_REG_FF_ACTION_OPEN));
       reg.CloseKey();
       end;
 
-    if reg.OpenKey('\SOFTWARE\Classes\' + sRegAssociation + '\Shell\Open\Command', true) then
+    if reg.OpenKey('SOFTWARE\Classes\' + ass + '\Shell\Open\Command', true) then
       begin
-      if not full_screen then
+      if not fs then
         reg.WString('', '"' + app_path + FXFILE_APP + '" "%1"')
       else
         reg.WString('', '"' + app_path + FXFILE_APP + '" "%1" /fs');
@@ -75,18 +178,43 @@ begin
   FreeAndNil(reg);
 end;
 
+procedure RemoveHanderExt(ext: string);
+var
+  ass: string;
+begin
+  if (ext <> '') then
+    ass := sRegAssociation + '.' + LowerCase(ext)
+  else
+    ass := sRegAssociation;
+
+  if IsWin64() then
+    RegDeleteKeyIncludingSubkeys_WOW64(HKEY_CURRENT_USER, PWideChar('SOFTWARE\Classes\' + ass))
+  else
+    RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, PWideChar('SOFTWARE\Classes\' + ass));
+end;
+
 function GetExt(ext: string): boolean;
 var
   freg: TFRegistry;
+  hdl: string;
+  access: cardinal;
 begin
   Result := false;
 
-  freg := TFRegistry.Create(RA_READONLY);
+  // need to disable registry redirection on Win64
+  if IsWin64() then
+    access := RA_READONLY or KEY_WOW64_64KEY
+  else
+    access := RA_READONLY;
+
+  freg := TFRegistry.Create(access);
   freg.RootKey := HKEY_CURRENT_USER;
 
-  if freg.OpenKey('\SOFTWARE\Classes\.' + ext, false) then
+  if freg.OpenKey('SOFTWARE\Classes\.' + ext, false) then
     begin
-    Result := (freg.ReadString('') = sRegAssociation);
+    hdl := freg.ReadString('');
+    Result := ((hdl = sRegAssociation) or (hdl = (sRegAssociation + '.' + LowerCase(ext))));
+
     freg.CloseKey();
     end;
 
@@ -97,18 +225,25 @@ procedure SetExt(ext: string);
 var
   freg: TFRegistry;
   tmp: string;
+  access: cardinal;
 begin
-  freg := TFRegistry.Create(RA_FULL);
+  // need to disable registry redirection on Win64
+  if IsWin64() then
+    access := RA_FULL or KEY_WOW64_64KEY
+  else
+    access := RA_FULL;
+
+  freg := TFRegistry.Create(access);
   freg.RootKey := HKEY_CURRENT_USER;
 
-  if freg.OpenKey('\SOFTWARE\Classes\.' + ext, true) then
+  if freg.OpenKey('SOFTWARE\Classes\.' + ext, true) then
     begin
     tmp := freg.RStr('', '');
 
-    if ((tmp <> '') and (tmp <> sRegAssociation)) then
+    if ((tmp <> '') and (tmp <> sRegAssociation) and (tmp <> (sRegAssociation + '.' + LowerCase(ext)))) then
       freg.WriteString(sRegAssociationOld, tmp);
 
-    freg.WriteString('', sRegAssociation);
+    freg.WriteString('', sRegAssociation + '.' + LowerCase(ext));
     freg.CloseKey();
     end;
 
@@ -118,14 +253,23 @@ end;
 procedure UnsetExt(ext: string);
 var
   freg: TFRegistry;
-  tmp: string;
+  tmp, hdl: string;
+  access: cardinal;
 begin
-  freg := TFRegistry.Create(RA_FULL);
+  // need to disable registry redirection on Win64
+  if IsWin64() then
+    access := RA_FULL or KEY_WOW64_64KEY
+  else
+    access := RA_FULL;
+
+  freg := TFRegistry.Create(access);
   freg.RootKey := HKEY_CURRENT_USER;
 
-  if freg.OpenKey('\SOFTWARE\Classes\.' + ext, false) then
+  if freg.OpenKey('SOFTWARE\Classes\.' + ext, false) then
     begin
-    if (freg.RStr('', '') = sRegAssociation) then
+    hdl := freg.RStr('', '');
+
+    if ((hdl = sRegAssociation) or (hdl = (sRegAssociation + '.' + LowerCase(ext)))) then
       begin
       if freg.ValueExists(sRegAssociationOld) then
         begin

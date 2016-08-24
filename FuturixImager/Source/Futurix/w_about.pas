@@ -21,7 +21,6 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure lblWebClick(Sender: TObject);
   private
-    { Private declarations }
   public
     procedure Localize();
   end;
@@ -32,7 +31,7 @@ var
 
 implementation
 
-uses w_main, fx_ver;
+uses w_main, fx_defs;
 
 {$R *.DFM}
 

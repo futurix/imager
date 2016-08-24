@@ -59,8 +59,7 @@ begin
 
     if (temp_res.result_type = RT_HANDLE) then
       begin
-      locale_lib := temp_res.result_value;
-      backup_lib := temp_res.result_xtra;
+      OverrideLocalizationLibraries(temp_res.result_value, temp_res.result_xtra);
 
       //!//
       legacy_locale := locale_lib;

@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<BRCC_CompilerToUse>rc</BRCC_CompilerToUse>
 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
 			<DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
 			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -81,7 +82,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">133</VersionInfo>
+						<VersionInfo Name="Build">173</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -93,7 +94,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager File Format Helper</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.133</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.173</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_formatreg</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>

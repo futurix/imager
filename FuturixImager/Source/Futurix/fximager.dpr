@@ -32,13 +32,11 @@ uses
   w_sharpen in 'w_sharpen.pas' {frmSharpen},
   fx_core in 'fx_core.pas',
   fx_defs in 'fx_defs.pas',
-  fx_ver in 'fx_ver.pas',
   fx_mru in 'fx_mru.pas',
   w_options in 'w_options.pas' {frmOptions},
   fx_pluginscanner in 'fx_pluginscanner.pas',
   fx_pluginmanager in 'fx_pluginmanager.pas',
   fx_internalp in 'fx_internalp.pas',
-  fx_types in 'fx_types.pas',
   o_welcome in 'o_welcome.pas' {fraOptWelcome: TFrame},
   o_plugins in 'o_plugins.pas' {fraOptPlugins: TFrame},
   fx_cmdline in 'fx_cmdline.pas',
@@ -52,9 +50,11 @@ uses
   w_lsJPEG_rotate in 'w_lsJPEG_rotate.pas' {frmJPEG},
   w_setwall in 'w_setwall.pas' {frmWallpaperS},
   w_viewwall in 'w_viewwall.pas' {frmWallpaper},
-  fx_formats_legacy in 'fx_formats_legacy.pas';
-
-{$R *.RES}
+  fx_formats_legacy in 'fx_formats_legacy.pas',
+  o_lang in 'o_lang.pas' {fraOptLang: TFrame},
+  o_themes in 'o_themes.pas' {fraOptThemes: TFrame},
+  o_iconlib in 'o_iconlib.pas' {fraOptIconLib: TFrame},
+  o_advanced in 'o_advanced.pas' {fraOptAdv: TFrame};
 
 begin
   Graphics.DefFontData.Name := 'MS Shell Dlg 2';
@@ -73,13 +73,11 @@ begin
     begin
     PassParamsToPreviousInstance();
     Exit();
-    end
-  else
-    begin
-    Application.Initialize();
-    Application.MainFormOnTaskbar := True;
-    Application.Title := 'FuturixImager';
-    Application.CreateForm(TfrmMain, frmMain);
-    Application.Run();
     end;
+
+  Application.Initialize();
+  Application.MainFormOnTaskbar := True;
+  Application.Title := 'FuturixImager';
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.Run();
 end.

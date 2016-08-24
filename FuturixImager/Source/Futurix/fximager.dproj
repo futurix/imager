@@ -75,19 +75,19 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1957</VersionInfo>
+						<VersionInfo Name="Build">2089</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
 						<VersionInfo Name="Private">False</VersionInfo>
 						<VersionInfo Name="DLL">False</VersionInfo>
-						<VersionInfo Name="Locale">2057</VersionInfo>
+						<VersionInfo Name="Locale">1033</VersionInfo>
 						<VersionInfo Name="CodePage">1252</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.1957</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.2089</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -157,7 +157,6 @@
 			</DCCReference>
 			<DCCReference Include="fx_core.pas"/>
 			<DCCReference Include="fx_defs.pas"/>
-			<DCCReference Include="fx_ver.pas"/>
 			<DCCReference Include="fx_mru.pas"/>
 			<DCCReference Include="w_options.pas">
 				<Form>frmOptions</Form>
@@ -165,7 +164,6 @@
 			<DCCReference Include="fx_pluginscanner.pas"/>
 			<DCCReference Include="fx_pluginmanager.pas"/>
 			<DCCReference Include="fx_internalp.pas"/>
-			<DCCReference Include="fx_types.pas"/>
 			<DCCReference Include="o_welcome.pas">
 				<Form>fraOptWelcome</Form>
 				<DesignClass>TFrame</DesignClass>
@@ -208,6 +206,22 @@
 				<Form>frmWallpaper</Form>
 			</DCCReference>
 			<DCCReference Include="fx_formats_legacy.pas"/>
+			<DCCReference Include="o_lang.pas">
+				<Form>fraOptLang</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_themes.pas">
+				<Form>fraOptThemes</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_iconlib.pas">
+				<Form>fraOptIconLib</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_advanced.pas">
+				<Form>fraOptAdv</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

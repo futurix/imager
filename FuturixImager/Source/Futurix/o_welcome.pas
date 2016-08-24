@@ -8,9 +8,7 @@ uses
 
 type
   TfraOptWelcome = class(TFrame)
-    StaticText1: TStaticText;
   private
-    { Private declarations }
   public
     procedure Load();
     procedure Reload();

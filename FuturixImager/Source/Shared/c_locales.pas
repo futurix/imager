@@ -7,6 +7,7 @@ uses
   c_utils, c_reg, c_const;
 
 procedure InitLocalization(back_up: THandle);
+procedure OverrideLocalizationLibraries(main, back_up: THandle);
 procedure CleanLocalization();
 //!!!
 function LoadLStr(id: integer): string;
@@ -38,9 +39,9 @@ begin
 
   locale_reg := TFRegistry.Create(KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS);
 
-  if locale_reg.OpenKey(sReg, false) then
+  if locale_reg.OpenKey(sSettings, false) then
     begin
-    locale_str := locale_reg.RStr(sLocaleLib, '');
+    locale_str := locale_reg.RStr(sLocaleFile, '');
     locale_reg.CloseKey();
 
     if ((locale_str <> '') and FileExists(locale_str)) then
@@ -57,6 +58,12 @@ begin
       end;
 
     FreeAndNil(locale_reg);
+end;
+
+procedure OverrideLocalizationLibraries(main, back_up: THandle);
+begin
+  locale_lib := main;
+  backup_lib := back_up;
 end;
 
 procedure CleanLocalization();

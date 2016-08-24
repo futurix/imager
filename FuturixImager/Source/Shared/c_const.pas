@@ -19,10 +19,12 @@ const
   FXVER_REVISION        = 0;
   FXVER_BUILD           = 0;
 
-  sReg                  = '\SOFTWARE\Futurix\FuturixImager';                  // HKCU, HKLM
-  sSettings             = '\SOFTWARE\Futurix\FuturixImager\Settings';         // HKCU
-  sModules              = '\SOFTWARE\Futurix\FuturixImager\Cache';            // HKCU
-  sModSearch            = '\SOFTWARE\Futurix\FuturixImager\PluginLocations';  // HKLM
+  sReg                  = 'SOFTWARE\Futurix\FuturixImager';                   // HKCU, HKLM
+  sSettings             = 'SOFTWARE\Futurix\FuturixImager\Settings';          // HKCU
+  sPersistentSettings   = 'SOFTWARE\Futurix\FuturixImager\PersistentStore';   // HKCU, HKLM
+  sModules              = 'SOFTWARE\Futurix\FuturixImager\Cache';             // HKCU
+  sFormatIcons          = 'SOFTWARE\Futurix\FuturixImager\IconLib';           // HKCU
+  sModSearch            = 'SOFTWARE\Futurix\FuturixImager\PluginLocations';   // HKLM
 
   sInternalFormat       = 'fx_ip';
 
@@ -37,13 +39,17 @@ const
   // signatures
   sLocaleID             = 'FxImgLocaleR6';
   sThemeID              = 'FxImgThemeR6';
+  sIconLibID            = 'FxImgIconLibR6';
 
   // registry value names
   sLocaleName           = 'CurrentLocaleName';
-  sLocaleLib            = 'CurrentLocaleLib';
+  sLocaleFile           = 'CurrentLocaleFile';
   sThemeName            = 'CurrentThemeName';
-  sThemeLib             = 'CurrentThemeLib';
+  sThemeFile            = 'CurrentThemeFile';
+  sIconLibName          = 'CurrentIconLibName';
+  sIconLibFile          = 'CurrentIconLibFile';
   sPluginCounter        = 'UpdateCounter';
+  sPersistentExts       = 'PExtList';
 
   // registry access
   RA_FULL               = KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or
@@ -91,6 +97,7 @@ const
   PS_FDESCR        = 'Descriptions';
   PS_FLOCALE       = 'Locales';
   PS_FTHEME        = 'Themes';
+  PS_FICONLIB      = 'IconLibs';
   PS_FOPEN         = 'Open';
   PS_FPREVIEW      = 'Preview';
   PS_FSAVE         = 'Save';
@@ -135,6 +142,7 @@ const
   PR_CAPTURE       = 'ROLE::CAPTURE';
   PR_JPEGLL        = 'ROLE::JPEGLL';
   PR_EDITOR        = 'ROLE::EDITOR';
+  PR_FILEBROWSER   = 'ROLE::FILEBROWSER';
 
   // boolean values
   FX_FALSE         = 0;

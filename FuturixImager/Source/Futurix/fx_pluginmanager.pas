@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Classes, SysUtils, Generics.Collections, Menus, Forms,
-  fx_types, c_const, c_utils, c_locales, c_reg;
+  fx_defs, c_const, c_utils, c_locales, c_reg;
 
 type
   FuturixPluginManager = class(TObject)
@@ -76,7 +76,7 @@ type
 
 implementation
 
-uses w_main, fx_defs, fx_internalp;
+uses w_main, fx_internalp;
 
 constructor FuturixPluginManager.Create();
 begin
@@ -125,7 +125,7 @@ begin
   fTool.Clear();
 
   // plug-in IDs
-  if reg.OpenKeyLocal(sModules + '\' + PS_FID) then
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FID) then
     begin
     temp.Clear();
     reg.GetValueNames(temp);
@@ -142,7 +142,7 @@ begin
     end;
 
   // expanded plug-in data
-  if reg.OpenKeyLocal(sModules + '\' + PS_FPLUGINFO) then
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FPLUGINFO) then
     begin
     temp.Clear();
     reg.GetValueNames(temp);
@@ -170,7 +170,7 @@ begin
   ReadSimpleData(reg, sModules + '\' + PS_FROLE, fRole);
 
   // descriptions
-  if reg.OpenKeyLocal(sModules + '\' + PS_FDESCR) then
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FDESCR) then
     begin
     temp.Clear();
     reg.GetValueNames(temp);
@@ -182,7 +182,7 @@ begin
     end;
 
   // not recommended
-  if reg.OpenKeyLocal(sModules) then
+  if reg.OpenKeyUserRO(sModules) then
     begin
     temp.Clear();
     reg.RStrings(FX_REG_NOTREC, temp);
@@ -213,7 +213,7 @@ var
   temp: TStringList;
   item: string;
 begin
-  if reg.OpenKeyLocal(path) then
+  if reg.OpenKeyUserRO(path) then
     begin
     temp := TStringList.Create();
     temp.Clear();

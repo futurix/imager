@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Generics.Collections, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls,
-  c_const, ComCtrls;
+  Dialogs, ExtCtrls, StdCtrls, ComCtrls,
+  c_const, c_reg;
 
 type
   TfraOptPlugins = class(TFrame)
@@ -15,8 +15,6 @@ type
     procedure btnScanPluginsClick(Sender: TObject);
   private
     scanned: boolean;
-
-    procedure ReloadPluginsAfterScan();
   public
     procedure Init();
     procedure Load();
@@ -45,10 +43,17 @@ end;
 procedure TfraOptPlugins.Init();
 var
   ids: TList<integer>;
-  id: integer;
+  id, i: integer;
   item: TListItem;
   temp: string;
+  reg: TFRegistry;
+  data: TStringList;
 begin
+  // initializing
+  reg := TFRegistry.Create();
+  data := TStringList.Create();
+
+  // plug-ins
   ids := fx.Plugins.ListPluginIDs();
 
   lvwPlugins.Items.BeginUpdate();
@@ -69,6 +74,84 @@ begin
     item.SubItems.Add(fx.Plugins.FindPluginName(id));
     end;
 
+  // localizations
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FLOCALE) then
+    begin
+    reg.ReadKeysAndValues(data);
+
+    for i := 0 to data.Count - 1 do
+      begin
+      if Trim(data.Names[i]) <> '' then
+        begin
+        item := lvwPlugins.Items.Add();
+        item.Data := nil;
+
+        temp := data.Values[data.Names[i]];
+        if (temp <> '') then
+          temp := ExtractFileName(temp)
+        else
+          temp := '?';
+
+        item.Caption := temp;
+        item.SubItems.Add(Format('%s (localization)', [data.Names[i]]));
+        end;
+      end;
+
+    reg.CloseKey();
+    end;
+
+  // themes
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FTHEME) then
+    begin
+    reg.ReadKeysAndValues(data);
+
+    for i := 0 to data.Count - 1 do
+      begin
+      if Trim(data.Names[i]) <> '' then
+        begin
+        item := lvwPlugins.Items.Add();
+        item.Data := nil;
+
+        temp := data.Values[data.Names[i]];
+        if (temp <> '') then
+          temp := ExtractFileName(temp)
+        else
+          temp := '?';
+
+        item.Caption := temp;
+        item.SubItems.Add(Format('%s (theme)', [data.Names[i]]));
+        end;
+      end;
+
+    reg.CloseKey();
+    end;
+
+  // icon libraries
+  if reg.OpenKeyUserRO(sModules + '\' + PS_FICONLIB) then
+    begin
+    reg.ReadKeysAndValues(data);
+
+    for i := 0 to data.Count - 1 do
+      begin
+      if Trim(data.Names[i]) <> '' then
+        begin
+        item := lvwPlugins.Items.Add();
+        item.Data := nil;
+
+        temp := data.Values[data.Names[i]];
+        if (temp <> '') then
+          temp := ExtractFileName(temp)
+        else
+          temp := '?';
+
+        item.Caption := temp;
+        item.SubItems.Add(Format('%s (icon library)', [data.Names[i]]));
+        end;
+      end;
+
+    reg.CloseKey();
+    end;
+
   // column sizes
   lvwPlugins.Column[0].Width := -1;
   if (lvwPlugins.Column[0].Width < 100) then
@@ -79,7 +162,10 @@ begin
 
   lvwPlugins.Items.EndUpdate();
 
+  // clean-up
   FreeAndNil(ids);
+  FreeAndNil(data);
+  FreeAndNil(reg);
 end;
 
 procedure TfraOptPlugins.Load();
@@ -96,19 +182,14 @@ end;
 
 procedure TfraOptPlugins.Save();
 begin
-  if scanned then
-    ReloadPluginsAfterScan();
+  if Assigned(frmOptions) then
+    frmOptions.actionReinstallPlugins := scanned;
 end;
 
 procedure TfraOptPlugins.Cancelled();
 begin
-  if scanned then
-    ReloadPluginsAfterScan();
-end;
-
-procedure TfraOptPlugins.ReloadPluginsAfterScan();
-begin
-  UpdatePlugIns();
+  if Assigned(frmOptions) then
+    frmOptions.actionReinstallPlugins := scanned;
 end;
 
 end.

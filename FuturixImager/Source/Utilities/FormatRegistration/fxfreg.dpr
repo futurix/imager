@@ -1,6 +1,5 @@
 program fxfreg;
 
-{$R *.res}
 {$R 'fx_res.res' 'fx_res.rc'}
 
 uses

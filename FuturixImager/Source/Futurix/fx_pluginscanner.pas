@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Classes, SysUtils, Generics.Collections, Menus, Forms,
-  fx_types, c_const, c_utils, c_locales, c_reg;
+  fx_defs, c_const, c_utils, c_locales, c_reg;
 
 type
   FuturixScannerEvent = function(module_type: longword; value1, value2: PWideChar): BOOL of object;
@@ -33,6 +33,7 @@ type
     procedure WriteDescr(ext, name: string);
     procedure WriteLocale(dll, name: string);
     procedure WriteTheme(dll, name: string);
+    procedure WriteIconLib(dll, name: string);
     procedure WriteID(id: integer; dll: string);
   public
     constructor Create(app_path: string; interactive: boolean = true);
@@ -44,7 +45,7 @@ type
 
 implementation
 
-uses w_main, fx_defs, fx_internalp, f_tools;
+uses w_main, fx_internalp, f_tools;
 
 constructor FuturixPluginScanner.Create(app_path: string; interactive: boolean);
 var
@@ -71,7 +72,7 @@ begin
   reg := TFRegistry.Create();
   temp := TStringList.Create();
 
-  if reg.OpenKeyShared(sModSearch) then
+  if reg.OpenKeyMachineRO(sModSearch) then
     begin
     reg.GetValueNames(temp);
     locations.AddStrings(temp);
@@ -182,7 +183,7 @@ begin
   reg := TFRegistry.Create();
 
   // recreating registry keys
-  if reg.OpenKeyLocal(sModules, RA_FULL) then
+  if reg.OpenKeyUser(sModules) then
     begin
     reg.DeleteValue(FX_REG_NOTREC);
 
@@ -192,6 +193,7 @@ begin
     reg.DeleteKey(PS_FDESCR);
     reg.DeleteKey(PS_FLOCALE);
     reg.DeleteKey(PS_FTHEME);
+    reg.DeleteKey(PS_FICONLIB);
     reg.DeleteKey(PS_FOPEN);
     reg.DeleteKey(PS_FPREVIEW);
     reg.DeleteKey(PS_FSAVE);
@@ -226,7 +228,7 @@ begin
 
     if (id = sLocaleID) then
       begin
-      // library is compatible locale
+      // compatible locale
       tmp := LoadResString(lib, 2);
 
       if (Trim(tmp) <> '') then
@@ -234,11 +236,19 @@ begin
       end
     else if (id = sThemeID) then
       begin
-      // library is compatible theme
+      // compatible theme
       tmp := LoadResString(lib, 2);
 
       if (Trim(tmp) <> '') then
         WriteTheme(dll, tmp);
+      end
+    else if (id = sIconLibID) then
+      begin
+      // compatible icon library
+      tmp := LoadResString(lib, 2);
+
+      if (Trim(tmp) <> '') then
+        WriteIconLib(dll, tmp);
       end
     else
       check_for_plugin := true;
@@ -369,6 +379,11 @@ end;
 procedure FuturixPluginScanner.WriteTheme(dll, name: string);
 begin
   FxRegWStr(name, dll, sModules + '\' + PS_FTHEME);
+end;
+
+procedure FuturixPluginScanner.WriteIconLib(dll, name: string);
+begin
+  FxRegWStr(name, dll, sModules + '\' + PS_FICONLIB);
 end;
 
 procedure FuturixPluginScanner.WriteID(id: integer; dll: string);
