@@ -6,9 +6,6 @@ const
   // application filenames
   FN_APP          = 'fximager.exe';
   FN_FORMATS      = 'fxformats.exe';  // to be replaced
-  FN_ADDRAW       = 'fxraw.dll';      // to be replaced
-  FN_ADDJBIG      = 'fxjbig.dll';
-  FN_ADDMAGICK    = 'fxmagick.dll';
 
   // limit for the list of most recently used files
   MRU_LIMIT       = 8;

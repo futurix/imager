@@ -22,7 +22,7 @@ const
   SETTING_ENABLECMS                 = 10;
 
 type
-  TfrmOptions = class(TForm)
+  TfrmOldOptions = class(TForm)
     lblSWinColor: TLabel;
     lblSFSColor: TLabel;
     btnOK: TButton;
@@ -167,16 +167,16 @@ resourcestring
   sBuiltInTheme = 'Default (built-in)';
 
 var
-  frmOptions: TfrmOptions;
+  frmOldOptions: TfrmOldOptions;
 
 
 implementation
 
-uses main, f_ui, f_plugins, f_scan, f_tools, w_show, f_images, fx_consts;
+uses w_main, f_ui, f_plugins, f_scan, f_tools, w_show, f_images, fx_consts;
 
 {$R *.DFM}
 
-procedure TfrmOptions.InitLocales();
+procedure TfrmOldOptions.InitLocales();
 var
   langs: TStringList;
   locale_name: string;
@@ -214,7 +214,7 @@ begin
   FreeAndNil(langs);
 end;
 
-procedure TfrmOptions.InitThemes();
+procedure TfrmOldOptions.InitThemes();
 var
   themes: TStringList;
   theme_name: string;
@@ -251,7 +251,7 @@ begin
   FreeAndNil(themes);
 end;
 
-procedure TfrmOptions.GetInstalledPluginsList();
+procedure TfrmOldOptions.GetInstalledPluginsList();
 var
   list: TStringList;
   i: integer;
@@ -312,7 +312,7 @@ begin
   shtPlugCfg.TabVisible := show_cfg;
 end;
 
-procedure TfrmOptions.AddSetting(id: longint; name: string);
+procedure TfrmOldOptions.AddSetting(id: longint; name: string);
 var
   item: TListItem;
 begin
@@ -321,7 +321,7 @@ begin
   item.Data := Pointer(id);
 end;
 
-function TfrmOptions.GetSetting(id: longint): boolean;
+function TfrmOldOptions.GetSetting(id: longint): boolean;
 var
   i: integer;
 begin
@@ -337,7 +337,7 @@ begin
     end;
 end;
 
-procedure TfrmOptions.SetSetting(id: longint; value: boolean);
+procedure TfrmOldOptions.SetSetting(id: longint; value: boolean);
 var
   i: integer;
 begin
@@ -351,22 +351,22 @@ begin
     end;
 end;
 
-procedure TfrmOptions.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TfrmOldOptions.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caFree;
 end;
 
-procedure TfrmOptions.FormDestroy(Sender: TObject);
+procedure TfrmOldOptions.FormDestroy(Sender: TObject);
 begin
-  frmOptions := nil;
+  frmOldOptions := nil;
 end;
 
-procedure TfrmOptions.btnCancelClick(Sender: TObject);
+procedure TfrmOldOptions.btnCancelClick(Sender: TObject);
 begin
   Self.Close();
 end;
 
-procedure TfrmOptions.FormCreate(Sender: TObject);
+procedure TfrmOldOptions.FormCreate(Sender: TObject);
 var
   wreg: TFRegistry;
 begin
@@ -465,7 +465,7 @@ begin
   FreeAndNil(wreg);
 end;
 
-procedure TfrmOptions.btnOKClick(Sender: TObject);
+procedure TfrmOldOptions.btnOKClick(Sender: TObject);
 var
   locale_lib, theme_lib: string;
   wreg: TFRegistry;
@@ -489,10 +489,10 @@ begin
     wreg.WString('Gradient', ColorToString(sbxGradColor.Color));
     wreg.WInteger('BgStyle', rdgBg.ItemIndex);
 
-    fx.ColorDefault := sbxMainColor.Color;
-    fx.ColorFullScreen := sbxFSColor.Color;
-    fx.ColorGradient := sbxGradColor.Color;
-    fx.BackgroundStyle := rdgBg.ItemIndex;
+    fxSettings.ColorDefault := sbxMainColor.Color;
+    fxSettings.ColorFullScreen := sbxFSColor.Color;
+    fxSettings.ColorGradient := sbxGradColor.Color;
+    fxSettings.BackgroundStyle := rdgBg.ItemIndex;
 
     if GetSetting(SETTING_SHOWALLFILTERDEFAULT) then
       wreg.WInteger('OpenDef', 1)
@@ -682,13 +682,13 @@ begin
   Self.Close();
 end;
 
-procedure TfrmOptions.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfrmOldOptions.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
     Self.Close();
 end;
 
-procedure TfrmOptions.Localize();
+procedure TfrmOldOptions.Localize();
 var
   temp_itemindex: integer;
 begin
@@ -785,7 +785,7 @@ begin
   btnCancel.Caption       := LoadLStr(51);
 end;
 
-procedure TfrmOptions.sbxMainColorClick(Sender: TObject);
+procedure TfrmOldOptions.sbxMainColorClick(Sender: TObject);
 var
   dlg: TColorDialog;
 begin
@@ -800,7 +800,7 @@ begin
   FreeAndNil(dlg);
 end;
 
-procedure TfrmOptions.sbxFSColorClick(Sender: TObject);
+procedure TfrmOldOptions.sbxFSColorClick(Sender: TObject);
 var
   dlg: TColorDialog;
 begin
@@ -815,7 +815,7 @@ begin
   FreeAndNil(dlg);
 end;
 
-procedure TfrmOptions.sbxGradColorClick(Sender: TObject);
+procedure TfrmOldOptions.sbxGradColorClick(Sender: TObject);
 var
   dlg: TColorDialog;
 begin
@@ -830,7 +830,7 @@ begin
   FreeAndNil(dlg);
 end;
 
-procedure TfrmOptions.cbxLanguagesChange(Sender: TObject);
+procedure TfrmOldOptions.cbxLanguagesChange(Sender: TObject);
 var
   locale_str, lang_loc: string;
   local_lib: THandle;
@@ -880,22 +880,22 @@ begin
     end;
 end;
 
-procedure TfrmOptions.lblClearMRUClick(Sender: TObject);
+procedure TfrmOldOptions.lblClearMRUClick(Sender: TObject);
 begin
   frmMain.mru.ClearItems(true);
 end;
 
-procedure TfrmOptions.lblFormatsClick(Sender: TObject);
+procedure TfrmOldOptions.lblFormatsClick(Sender: TObject);
 begin
   ShellExecute(Application.Handle, 'open', PWideChar(path_app + FN_FORMATS), nil, nil, SW_SHOWNORMAL);
 end;
 
-procedure TfrmOptions.lblOpenPlugFolderClick(Sender: TObject);
+procedure TfrmOldOptions.lblOpenPlugFolderClick(Sender: TObject);
 begin
   ShellExecute(Application.Handle, 'open', PWideChar(path_app), nil, nil, SW_SHOWNORMAL);
 end;
 
-procedure TfrmOptions.lblPlugScanClick(Sender: TObject);
+procedure TfrmOldOptions.lblPlugScanClick(Sender: TObject);
 begin
   DoPluginScan();
   UpdatePlugIns();
@@ -905,7 +905,7 @@ begin
   Application.MessageBox(PWideChar(LoadLStr(604)), sAppName, MB_OK + MB_ICONINFORMATION);
 end;
 
-procedure TfrmOptions.cbxThemesChange(Sender: TObject);
+procedure TfrmOldOptions.cbxThemesChange(Sender: TObject);
 var
   theme_str, theme_descr: string;
   load_default: boolean;
@@ -985,7 +985,7 @@ begin
   tbrPreview.ButtonWidth := imlPreview.Height + 7;
 end;
 
-procedure TfrmOptions.lvwPlugCfgDblClick(Sender: TObject);
+procedure TfrmOldOptions.lvwPlugCfgDblClick(Sender: TObject);
 var
   FxImgCfg: TFxImgCfg;
   lib: THandle;
@@ -1011,7 +1011,7 @@ begin
     end;
 end;
 
-procedure TfrmOptions.lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TfrmOldOptions.lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key = VK_SPACE) then
     lvwPlugCfgDblClick(Self);

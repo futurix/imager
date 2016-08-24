@@ -6,14 +6,15 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, ieview, imageenview, ComCtrls, ToolWin, StdCtrls,
   imageenproc, AppEvnts, c_const, c_wndpos, c_utils, Clipbrd, Menus,
-  hyieutils, hyiedefs, c_locales, hsvbox, c_reg, c_tb;
+  hyieutils, hyiedefs, c_locales, hsvbox,
+  c_reg, c_tb, c_graphics, c_ie;
 
 const
   FM_RECTSELECT         = 0;
-  FM_HAND             = 1;
-  FM_DRAW             = 2;
-  FM_PREVIEW           = 3;
-  FM_PENCIL            = 4;
+  FM_HAND               = 1;
+  FM_DRAW               = 2;
+  FM_PREVIEW            = 3;
+  FM_PENCIL             = 4;
   FM_FLOODFILL          = 5;
 
 type
@@ -136,7 +137,7 @@ function ProcessPreview(preview: HBITMAP): BOOL; cdecl;
 
 implementation
 
-uses main, w_resize, w_rotate, f_ui, w_show, w_sharpen;
+uses w_main, w_resize, w_rotate, f_ui, w_show, w_sharpen;
 
 {$R *.dfm}
 
@@ -194,7 +195,7 @@ begin
 
   // getting main image
   img.Background := frmMain.sbxMain.Color;
-  img.IEBitmap.AssignImage(frmMain.img.IEBitmap);
+  img.IEBitmap.Assign(frmMain.img.IEBitmap);
   img.Update();
 
   // getting filter names and creating entries for them
@@ -263,7 +264,7 @@ begin
   // working
   frmMain.img.Proc.SaveUndo();
   frmMain.img.Proc.ClearAllRedo();
-  frmMain.img.IEBitmap.AssignImage(img.IEBitmap);
+  frmMain.img.IEBitmap.Assign(img.IEBitmap);
   frmMain.img.Update();
 
   Self.Close();
@@ -311,7 +312,8 @@ begin
   else
     proc.PasteFromClipboard();
 
-  proc.ConvertTo24Bit();
+  if (img.IEBitmap.PixelFormat <> ie32RGB) then
+    proc.ConvertTo24Bit();
     
   proc.ClearAllRedo();
   proc.AutoUndo := true;
@@ -325,7 +327,8 @@ begin
     proc.SaveUndo();
 
     proc.SelPasteFromClip();
-    proc.ConvertTo24Bit();
+    if (img.IEBitmap.PixelFormat <> ie32RGB) then
+      proc.ConvertTo24Bit();
 
     proc.ClearAllRedo();
     proc.AutoUndo := true;
@@ -456,7 +459,7 @@ begin
       else
         img.IEBitmap.CopyToTBitmap(local_image);
 
-      local_image.PixelFormat := pf24bit;
+      local_image.ApplyLimits();
 
       tmp_res := FxImgFilter(PWideChar(name), local_image.ReleaseHandle(), @ProcessPreview, Application.Handle, Self.Handle, FxImgGlobalCallback);
 
@@ -567,7 +570,7 @@ begin
     begin
     local_result := TBitmap.Create();
     local_result.Handle := func_result;
-    local_result.PixelFormat := pf24bit;
+    local_result.ApplyLimits();
 
     proc.AutoUndo := false;
     proc.SaveUndo();
@@ -903,13 +906,14 @@ begin
       if frmEditor.img.Selected then
         frmEditor.img.CopySelectionToIEBitmap(frmEditor.imgPreview.IEBitmap)
       else
-        frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
+        frmEditor.imgPreview.IEBitmap.Assign(frmEditor.img.IEBitmap);
       end
     else
       begin
       // updating preview
       local_preview := TBitmap.Create();
       local_preview.Handle := preview;
+      local_preview.ApplyLimits();
 
       frmEditor.imgPreview.IEBitmap.Assign(local_preview);
 
@@ -1023,6 +1027,8 @@ begin
       proc.AutoUndo := false;
       proc.SaveUndo();
       proc.ClearAllRedo();
+      if (proc.AttachedIEBitmap.PixelFormat <> ie24RGB) then
+        proc.ConvertTo24Bit();
       proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
       img.Update();
       proc.AutoUndo := true;
@@ -1040,6 +1046,8 @@ begin
   if ((ssLeft in Shift) and (nCurrentMode = FM_PENCIL)) then
     begin
     // pencil
+    if (proc.AttachedIEBitmap.PixelFormat <> ie24RGB) then
+        proc.ConvertTo24Bit();
     proc.AttachedIEBitmap.Pixels_ie24RGB[img.XScr2Bmp(X), img.Yscr2Bmp(Y)] := CreateRGB(boxColorSelector.Red, boxColorSelector.Green, boxColorSelector.Blue);
     img.Update();
     end;

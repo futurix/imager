@@ -24,6 +24,7 @@ type
     procedure AddConnection(link: TObject; do_update: boolean);
     procedure ClearItems(do_update: boolean);
     procedure CleanUp(do_update: boolean);
+    procedure EnforceLimit();
     function GetLastItem(): string;
     procedure Save();
 
@@ -33,7 +34,7 @@ type
 
 implementation
 
-uses main, fx_consts;
+uses w_main, fx_consts;
 
 constructor FuturixMRU.Create();
 var
@@ -55,6 +56,7 @@ begin
     for str in temp do
       items.Add(str);
 
+    EnforceLimit();
     FreeAndNil(temp);
     end;
 
@@ -126,6 +128,7 @@ begin
     items.Remove(document);
 
   items.Insert(0, document);
+  EnforceLimit();
 
   if do_update then
     Update();
@@ -171,6 +174,17 @@ begin
 
   if do_update then
     Update();
+end;
+
+procedure FuturixMRU.EnforceLimit();
+begin
+  if (items.Count > MRU_LIMIT) then
+    begin
+    try
+      items.DeleteRange(MRU_LIMIT, items.Count - MRU_LIMIT);
+    except
+    end;
+    end;
 end;
 
 function FuturixMRU.GetLastItem(): string;

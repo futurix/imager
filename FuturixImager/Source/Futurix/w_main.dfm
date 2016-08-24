@@ -2,7 +2,7 @@ object frmMain: TfrmMain
   Left = 190
   Top = 79
   Caption = 'FuturixImager'
-  ClientHeight = 618
+  ClientHeight = 637
   ClientWidth = 742
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -22,7 +22,7 @@ object frmMain: TfrmMain
     Left = 0
     Top = 24
     Width = 742
-    Height = 575
+    Height = 594
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -36,7 +36,7 @@ object frmMain: TfrmMain
       Left = 0
       Top = 0
       Width = 738
-      Height = 571
+      Height = 590
       Cursor = crDefault
       Background = clAppWorkSpace
       ParentCtl3D = False
@@ -58,7 +58,7 @@ object frmMain: TfrmMain
   end
   object sbrMain: TStatusBar
     Left = 0
-    Top = 599
+    Top = 618
     Width = 742
     Height = 19
     Panels = <
@@ -871,22 +871,6 @@ object frmMain: TfrmMain
           OnClick = tbnExtractPageClick
         end
       end
-      object mAnim: TMenuItem
-        Caption = 'Animation'
-        Visible = False
-        object miAnimPlay: TMenuItem
-          Caption = 'Play'
-          OnClick = tbnPlayClick
-        end
-        object miAnimPause: TMenuItem
-          Caption = 'Pause'
-          OnClick = tbnPauseClick
-        end
-        object miAnimStop: TMenuItem
-          Caption = 'Stop'
-          OnClick = tbnStopClick
-        end
-      end
       object N34: TMenuItem
         Caption = '-'
       end
@@ -1007,22 +991,6 @@ object frmMain: TfrmMain
     end
     object N13: TMenuItem
       Caption = '-'
-    end
-    object pAnim: TMenuItem
-      Caption = 'Animation'
-      Visible = False
-      object piAnimPlay: TMenuItem
-        Caption = 'Play'
-        OnClick = tbnPlayClick
-      end
-      object piAnimPause: TMenuItem
-        Caption = 'Pause'
-        OnClick = tbnPauseClick
-      end
-      object piAnimStop: TMenuItem
-        Caption = 'Stop'
-        OnClick = tbnStopClick
-      end
     end
     object pMulti: TMenuItem
       Caption = 'Multi-Page'

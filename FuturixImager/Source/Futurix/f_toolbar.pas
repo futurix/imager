@@ -28,7 +28,7 @@ function CollapseSynName(code: string): string;
 
 implementation
 
-uses f_tools, main;
+uses f_tools, w_main;
 
 // applies custom toolbar
 procedure ApplyCustomToolbar(again: boolean = false);

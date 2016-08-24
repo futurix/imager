@@ -3,23 +3,12 @@ library fxmain;
 uses
   SysUtils, Windows, Classes, Graphics, Forms, Dialogs,
   ImageEnIO, ImageEnProc, hyieutils, hyiedefs, iewic,
-  c_const, c_utils, c_locales, c_reg,
+  c_const, c_utils, c_locales, c_reg, c_graphics, c_ie,
   JPEG2Ksave in 'JPEG2Ksave.pas' {frmJPsave},
   TIFFsave in 'TIFFsave.pas' {frmTIFFsave},
   JPEGsave in 'JPEGsave.pas' {frmJPEGsave},
   ScanOptions in 'ScanOptions.pas' {frmScanOpt},
   XRsave in 'XRsave.pas' {frmXRsave};
-
-var
-  gframe: cardinal = 0;
-  gframes: cardinal = 0;
-  gfile: string = '';
-
-  pio: TImageEnIO;
-  gpage: cardinal = 0;
-  gpages: cardinal = 0;
-  gfilep: string = '';
-  gext: string = '';
 
 {$R *.RES}
 
@@ -47,11 +36,10 @@ begin
   info_call(PT_FROLE, PR_SCAN, '');
   info_call(PT_FCONFIG, PWideChar(LoadLStr(3700)), '');
 
+  info_call(PT_FOPEN, 'tif', '');
+  info_call(PT_FOPEN, 'tiff', '');
+  info_call(PT_FOPEN, 'dcx', '');
   info_call(PT_FOPEN, 'cur', '');
-
-  info_call(PT_FOPENMULTI, 'dcx', '');
-  info_call(PT_FOPENMULTI, 'tif', '');
-  info_call(PT_FOPENMULTI, 'tiff', '');
 
   info_call(PT_FSAVE, 'jp2', '');
   info_call(PT_FSAVE, 'j2k', '');
@@ -96,18 +84,22 @@ begin
     end;
 end;
 
-function FxImgOpen(document_path, info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function FxImgOpen(document_path, info: PWideChar; page: ULONG; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
   bmp, tmp: TBitmap;
   io: TImageEnIO;
   imh: THandle;
   pic: TPicture;
   iif: TIconInfo;
+  ext: string;
 begin
   Result.result_type := RT_HBITMAP;
   Result.result_value := 0;
+  Result.result_xtra := 1;
 
-  if (LowerCase(ExtractExt(string(document_path))) = 'cur') then
+  ext := LowerCase(ExtractExt(string(document_path)));
+
+  if (ext = 'cur') then
     begin
     imh := LoadImage(HInstance, document_path, IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTCOLOR);
 
@@ -128,6 +120,7 @@ begin
       bmp.Width := tmp.Width;
       bmp.Height := tmp.Height;
       bmp.Canvas.Draw(0, 0, pic.Graphic);
+      bmp.ApplyLimits();
 
       Result.result_value := bmp.ReleaseHandle();
 
@@ -146,15 +139,32 @@ begin
     io.Params.JPEG_DCTMethod := ioJPEG_IFAST;
     io.Params.IsNativePixelFormat := true;
 
-    io.LoadFromFile(String(document_path));
+    if (ext = 'dcx') then
+      begin
+      io.Params.DCX_ImageIndex := page;
+      Result.result_xtra := EnumDCXIm(String(document_path));
+
+
+      if (Result.result_xtra > 0) then
+        io.LoadFromFileDCX(String(document_path));
+      end
+    else if ((ext = 'tif') or (ext = 'tiff')) then
+      begin
+      io.Params.TIFF_ImageIndex := page;
+
+      Result.result_xtra := io.LoadFromFileTIFF(String(document_path));
+      end
+    else
+      io.LoadFromFile(String(document_path));
 
     if not io.Aborting then
       begin
+      io.IEBitmap.PrepareAlphaForExternalUse();
       if (io.IEBitmap.PixelFormat <> ie32RGB) then
         io.IEBitmap.PixelFormat := ie24RGB;
 
-      bmp.Assign(io.IEBitmap.VclBitmap);
-      bmp.PixelFormat := DiscoverImage(bmp.Handle);
+      io.IEBitmap.CopyToTBitmap(bmp);
+      bmp.ApplyLimits();
       Result.result_value := bmp.ReleaseHandle();
       end;
 
@@ -189,7 +199,7 @@ begin
 
   bmp := TBitmap.Create();
   bmp.Handle := img;
-  bmp.PixelFormat := pf24bit;
+  bmp.ApplyLimits();
 
   mex := ExtractExt(String(document_path));
 
@@ -202,6 +212,7 @@ begin
       begin
       io := TImageEnIO.Create(nil);
       io.IEBitmap.Assign(bmp);
+      io.IEBitmap.PrepareAlphaAfterAssignment();
 
       if frmJPsave.cbxLossless.Checked then
         io.Params.J2000_Rate := 1.0
@@ -227,8 +238,18 @@ begin
         
   else if (mex = 'bmp') then
     begin
-    bmp.SaveToFile(String(document_path));
-    Result.result_value := FX_TRUE;
+    io := TImageEnIO.Create(nil);
+    io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
+
+    io.Params.BMP_HandleTransparency := true;
+
+    io.SaveToFileBMP(String(document_path));
+
+    if not io.Aborting then
+      Result.result_value := FX_TRUE;
+
+    FreeAndNil(io);
     end
 
   else if (mex = 'jpg') then
@@ -240,6 +261,7 @@ begin
       begin
       io := TImageEnIO.Create(nil);
       io.IEBitmap.Assign(bmp);
+      io.IEBitmap.PrepareAlphaAfterAssignment();
 
       if (frmJPEGsave.tbrQuality.Position > 0) then
         io.Params.JPEG_Quality := frmJPEGsave.tbrQuality.Position
@@ -268,6 +290,7 @@ begin
       begin
       io := TImageEnIO.Create(nil);
       io.IEBitmap.Assign(bmp);
+      io.IEBitmap.PrepareAlphaAfterAssignment();
 
       io.Params.HDP_ImageQuality := frmXRsave.tbrQuality.Position / 100;
       io.Params.HDP_Lossless := frmXRsave.cbxLossless.Checked;
@@ -287,6 +310,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.Params.PCX_Compression := ioPCX_RLE;
     io.SaveToFilePCX(String(document_path));
@@ -301,6 +325,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.Params.PNG_Filter := ioPNG_FILTER_SUB;
     io.Params.PNG_Compression := 9;
@@ -316,6 +341,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.SaveToFilePSD(String(document_path));
 
@@ -329,6 +355,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.IEBitmap.DefaultDitherMethod := ieOrdered;
 
@@ -346,6 +373,7 @@ begin
       end
     else
       begin
+      io.IEBitmap.PixelFormat := ie24RGB;
       io.Params.BitsPerSample := 8;
       io.Params.SamplesPerPixel := 3;
       end;
@@ -362,6 +390,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.Params.TGA_Compressed := true;
     io.SaveToFileTGA(String(document_path));
@@ -376,6 +405,7 @@ begin
     begin
     io := TImageEnIO.Create(nil);
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     io.SaveToFileGIF(String(document_path));
 
@@ -392,6 +422,7 @@ begin
     io.CreatePDFFile(String(document_path));
 
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
     io.Params.PDF_Producer := sAppName;
     io.Params.PDF_Compression:= ioPDF_JPEG;
     io.SaveToPDF();
@@ -411,6 +442,7 @@ begin
     io.CreatePSFile(String(document_path));
 
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
     io.Params.PS_Compression := ioPS_JPEG;
     io.SaveToPS();
 
@@ -427,6 +459,7 @@ begin
     io := TImageEnIO.Create(nil);
 
     io.IEBitmap.Assign(bmp);
+    io.IEBitmap.PrepareAlphaAfterAssignment();
 
     proc := TImageEnProc.Create(nil);
     proc.AttachedIEBitmap := io.IEBitmap;
@@ -451,6 +484,7 @@ begin
       begin
       io := TImageEnIO.Create(nil);
       io.IEBitmap.Assign(bmp);
+      io.IEBitmap.PrepareAlphaAfterAssignment();
 
       io.IEBitmap.DefaultDitherMethod := ieOrdered;
 
@@ -505,78 +539,6 @@ begin
   FreeAndNil(bmp);
 end;
 
-function FxImgMultiStart(document_path, info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-begin
-  Result.result_type := RT_INT;
-  Result.result_value := 0;
-
-  gpage := 0;
-  iegEnableCMS := true;
-  gext := ExtractExt(String(document_path));
-  gfilep := String(document_path);
-
-  // initializing
-  pio := TImageEnIO.Create(nil);
-
-  if (gext = 'dcx') then
-    begin
-    gpages := EnumDCXIm(String(document_path));
-    pio.LoadFromFileDCX(String(document_path));
-    end
-  else
-    gpages := pio.LoadFromFileTIFF(String(document_path));
-
-  if pio.Aborting then
-    Result.result_value := 0
-  else
-    begin
-    if (gext = 'dcx') then
-      Result.result_value := EnumDCXIm(String(gfilep))
-    else
-      Result.result_value := EnumTIFFIm(String(gfilep));
-    end;
-end;
-
-function FxImgMultiGetPage(page_index: integer; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-var
-  bmp: TBitmap;
-begin
-  Result.result_type := RT_HBITMAP;
-  Result.result_value := 0;
-
-  bmp := TBitmap.Create();
-
-  if (gext = 'dcx') then
-    begin
-    pio.Params.DCX_ImageIndex := page_index;
-    pio.LoadFromFileDCX(gfilep);
-    end
-  else
-    begin
-    pio.Params.TIFF_ImageIndex := page_index;
-    pio.LoadFromFileTIFF(gfilep);
-    end;
-
-  if pio.Aborting then
-    Result.result_value := 0
-  else
-    begin
-    bmp.Assign(pio.IEBitmap.VclBitmap);
-    bmp.PixelFormat := pf24bit;
-    Result.result_value := bmp.ReleaseHandle();
-    end;
-
-  FreeAndNil(bmp);
-end;
-
-function FxImgMultiStop(app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-begin
-  Result.result_type := RT_BOOL;
-  Result.result_value := FX_TRUE;
-
-  FreeAndNil(pio);
-end;
-
 function FxImgImport(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 var
   temp_res: TFxImgResult;
@@ -616,7 +578,9 @@ begin
 
     if (io.SelectAcquireSource(api) and io.Acquire(api)) then
       begin
-      bmp.Assign(io.IEBitmap.VclBitmap);
+      io.IEBitmap.PrepareAlphaForExternalUse();
+      io.IEBitmap.CopyToTBitmap(bmp);
+      bmp.ApplyLimits();
       Result.result_value := bmp.ReleaseHandle();
       end;
 
@@ -651,8 +615,7 @@ begin
 end;
 
 exports
-  FxImgQuery, FxImgOpen, FxImgSave, FxImgImport,
-  FxImgMultiStart, FxImgMultiGetPage, FxImgMultiStop, FxImgCfg;
+  FxImgQuery, FxImgOpen, FxImgSave, FxImgImport, FxImgCfg;
 
 begin
 end.

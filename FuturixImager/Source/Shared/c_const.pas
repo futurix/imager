@@ -46,12 +46,11 @@ const
   // plug-in types
   PT_FNAME         = 1;
   PT_FROLE         = 2;
-  PT_FCONFIG       = 3;     // to be removed
+  PT_FCONFIG       = 3;
   PT_FDESCR        = 5;
   PT_FNOTREC       = 6;
   PT_FOPEN         = 10;
-  PT_FOPENMULTI    = 11;    // to be replaced
-  PT_FOPENANIM     = 19;    // to be removed
+  PT_FPREVIEW      = 15;
   PT_FSAVE         = 20;
   PT_FIMPORT       = 30;
   PT_FEXPORT       = 40;
@@ -67,9 +66,8 @@ const
   PS_FNOTREC       = 'NotRecommended';
   PS_FLOCALE       = 'Locales';
   PS_FTHEME        = 'Themes';
-  PS_FOPEN         = 'OpenBitmap';
-  PS_FOPENMULTI    = 'OpenPages';
-  PS_FOPENANIM     = 'OpenAnimation';
+  PS_FOPEN         = 'Open';
+  PS_FPREVIEW      = 'Preview';
   PS_FSAVE         = 'Save';
   PS_FIMPORT       = 'Import';
   PS_FEXPORT       = 'Export';
@@ -80,20 +78,14 @@ const
   // exported function names
   EX_QUERY         = 'FxImgQuery';
   EX_CFG           = 'FxImgCfg';
-  EX_OPENPLAIN     = 'FxImgOpen';
+  EX_OPEN          = 'FxImgOpen';
+  EX_PREVIEW       = 'FxImgPreview';
   EX_SAVE          = 'FxImgSave';
   EX_IMPORT        = 'FxImgImport';
   EX_EXPORT        = 'FxImgExport';
   EX_FILTER        = 'FxImgFilter';
   EX_SIMPLETOOL    = 'FxImgTool';
   EX_INFO          = 'FxImgInfo';
-  EX_ANIMSTART     = 'FxImgAnimStart';
-  EX_ANIMRESTART   = 'FxImgAnimRestart';
-  EX_ANIMFRAME     = 'FxImgAnimGetFrame';
-  EX_ANIMSTOP      = 'FxImgAnimStop';
-  EX_MULTISTART    = 'FxImgMultiStart';
-  EX_MULTIPAGE     = 'FxImgMultiGetPage';
-  EX_MULTISTOP     = 'FxImgMultiStop';
 
   // TFxImgResult result types
   RT_BOOL          = 0;
@@ -121,7 +113,7 @@ const
   PR_CAPTURE       = 'ROLE::CAPTURE';
   PR_JPEGLL        = 'ROLE::JPEGLL';
   PR_EDITOR        = 'ROLE::EDITOR';
-  
+
   // boolean values
   FX_FALSE         = 0;
   FX_TRUE          = 1;
@@ -147,15 +139,16 @@ type
                           info_call: TPlugInCallBack;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
-                                    
+
   TFxImgCfg           = function(
                           info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
-                                    
+
 
   TFxImgOpen          = function(
                           document_path, info: PWideChar;
+                          page: ULONG;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
@@ -169,7 +162,7 @@ type
                           info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
-                                    
+
   TFxImgExport        = function(
                           info: PWideChar;
                           img: HBITMAP;
@@ -195,38 +188,9 @@ type
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
-
-  // animation (to be removed soon)
-  TFxImgAnimStart     = function(
+  TFxImgPreview       = function(
                           document_path, info: PWideChar;
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-  TFxImgAnimRestart   = function(
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-  TFxImgAnimGetFrame  = function(
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-  TFxImgAnimStop      = function(
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-
-  // multi-page (to be replaced soon)
-  TFxImgMultiStart    = function(
-                          document_path, info: PWideChar;
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-  TFxImgMultiGetPage  = function(
-                          page_index: ULONG;
-                          app, wnd: HWND;
-                          app_query: TAppCallBack): TFxImgResult; cdecl;
-
-  TFxImgMultiStop     = function(
+                          speed: ULONG;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 

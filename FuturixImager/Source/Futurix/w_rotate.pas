@@ -35,7 +35,7 @@ var
 
 implementation
 
-uses main, w_editor;
+uses w_main, w_editor;
 
 {$R *.dfm}
 
@@ -173,7 +173,7 @@ begin
         end;
     end;
 
-    frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
+    frmEditor.imgPreview.IEBitmap.Assign(frmEditor.img.IEBitmap);
 
     if (updAngle.Position = 0) then
       frmEditor.imgPreview.Proc.Rotate(360, tmp_aa, tmp_mode, frmEditor.sbxColor.Color)

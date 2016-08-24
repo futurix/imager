@@ -14,7 +14,7 @@ procedure SetSaveDialog();
 
 implementation
 
-uses main, f_graphics, f_images, f_ui, f_tools;
+uses w_main, f_graphics, f_images, f_ui, f_tools;
 
 // adds plug-ins from ini
 procedure InstallPlugIns();
@@ -312,7 +312,7 @@ begin
   if FileExists(infImage.path) then
     frmMain.dlgSave.InitialDir := ExtractFileDir(infImage.path);
 
-  if (((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone))) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     tmp := ExtractFileName(infImage.path);
     ext := ExtractFileExt(infImage.path);

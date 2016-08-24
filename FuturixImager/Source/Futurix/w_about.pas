@@ -32,7 +32,7 @@ var
 
 implementation
 
-uses main, fx_ver;
+uses w_main, fx_ver;
 
 {$R *.DFM}
 

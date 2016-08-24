@@ -9,7 +9,7 @@ uses
   SysUtils,
   Graphics,
   Dialogs,
-  main in 'main.pas' {frmMain},
+  w_main in 'w_main.pas' {frmMain},
   w_about in 'w_about.pas' {frmAbout},
   w_custzoom in 'w_custzoom.pas' {frmCustZoom},
   w_info in 'w_info.pas' {frmInfo},
@@ -20,15 +20,12 @@ uses
   f_plugins in 'f_plugins.pas',
   f_tools in 'f_tools.pas',
   f_ui in 'f_ui.pas',
-  f_multi in 'f_multi.pas',
-  f_anim in 'f_anim.pas',
-  athread in 'athread.pas',
   w_show in 'w_show.pas' {frmShow},
   f_scan in 'f_scan.pas',
   w_editor in 'w_editor.pas' {frmEditor},
   w_resize in 'w_resize.pas' {frmResize},
   w_rotate in 'w_rotate.pas' {frmRotate},
-  w_optgeneral in 'w_optgeneral.pas' {frmOptions},
+  w_optgeneral in 'w_optgeneral.pas' {frmOldOptions},
   f_toolbar in 'f_toolbar.pas',
   w_custtb in 'w_custtb.pas' {frmCustTB},
   f_instance in 'f_instance.pas',
@@ -37,7 +34,8 @@ uses
   fx_core in 'fx_core.pas',
   fx_consts in 'fx_consts.pas',
   fx_ver in 'fx_ver.pas',
-  fx_mru in 'fx_mru.pas';
+  fx_mru in 'fx_mru.pas',
+  w_options in 'w_options.pas' {frmOptions};
 
 {$R *.RES}
 

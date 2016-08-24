@@ -48,7 +48,7 @@ var
   
 implementation
 
-uses f_tools, main, f_toolbar;
+uses f_tools, w_main, f_toolbar;
 
 {$R *.dfm}
 

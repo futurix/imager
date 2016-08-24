@@ -76,8 +76,6 @@ object frmEditor: TfrmEditor
     Align = alClient
     Visible = False
     TabOrder = 4
-    ExplicitTop = 26
-    ExplicitHeight = 484
   end
   object cbrEditor: TCoolBar
     Left = 0
@@ -379,11 +377,12 @@ object frmEditor: TfrmEditor
         Left = 2
         Top = 2
         Width = 54
-        Height = 13
+        Height = 32
         Align = alLeft
         Caption = 'Tolerance: '
         Transparent = True
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object pnlTolerance: TPanel
         Left = 56
@@ -429,8 +428,6 @@ object frmEditor: TfrmEditor
     BevelKind = bkSoft
     BorderStyle = bsNone
     TabOrder = 1
-    ExplicitTop = 26
-    ExplicitHeight = 484
     object pnlColorSelector: TPanel
       Left = 0
       Top = 0
@@ -453,13 +450,14 @@ object frmEditor: TfrmEditor
           Left = 0
           Top = 0
           Width = 32
-          Height = 13
+          Height = 19
           Align = alLeft
           Alignment = taRightJustify
           Caption = 'Color: '
           FocusControl = boxColorSelector
           Transparent = True
           Layout = tlCenter
+          ExplicitHeight = 13
         end
         object sbxColor: TScrollBox
           Left = 32
@@ -530,7 +528,6 @@ object frmEditor: TfrmEditor
       ViewStyle = vsReport
       OnDblClick = lvwFiltersDblClick
       OnKeyDown = lvwFiltersKeyDown
-      ExplicitHeight = 295
     end
   end
   object img: TImageEnView
@@ -551,8 +548,6 @@ object frmEditor: TfrmEditor
     TabStop = True
     OnMouseDown = imgMouseDown
     OnMouseMove = imgMouseMove
-    ExplicitTop = 26
-    ExplicitHeight = 484
   end
   object proc: TImageEnProc
     AttachedImageEn = img

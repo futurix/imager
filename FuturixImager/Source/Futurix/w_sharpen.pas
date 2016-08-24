@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ImageEnProc, c_const, c_locales, c_reg;
+  Dialogs, StdCtrls, ComCtrls, ImageEnProc,
+  c_const, c_locales, c_reg;
 
 type
   TfrmSharpen = class(TForm)
@@ -30,7 +31,7 @@ var
 
 implementation
 
-uses main, w_editor;
+uses w_main, w_editor;
 
 {$R *.dfm}
 
@@ -113,7 +114,7 @@ begin
     if frmEditor.img.Selected then
       frmEditor.img.CopySelectionToIEBitmap(frmEditor.imgPreview.IEBitmap)
     else
-      frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
+      frmEditor.imgPreview.IEBitmap.Assign(frmEditor.img.IEBitmap);
 
     frmEditor.imgPreview.Proc.Sharpen(tmp_value);
     end;

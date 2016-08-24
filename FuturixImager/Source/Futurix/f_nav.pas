@@ -18,7 +18,7 @@ procedure FindFileNumber();
 
 implementation
 
-uses main, f_graphics, f_filectrl;
+uses w_main, f_graphics, f_filectrl;
 
 // scans current folder for file list for all known extensions
 procedure ScanFolder(path: string);
@@ -67,12 +67,12 @@ begin
     if (num = 0) then
       begin
       if infImage.path <> files.Strings[(files.Count - 1)] then
-        Load(files.Strings[(files.Count - 1)], true);
+        OpenLocal(files.Strings[(files.Count - 1)], true);
       end
     else
       begin
       if infImage.path <> files.Strings[num - 1] then
-        Load(files.Strings[num - 1], true);
+        OpenLocal(files.Strings[num - 1], true);
       end;
     end;
 end;
@@ -99,12 +99,12 @@ begin
     if (num = (files.Count - 1)) then
       begin
       if infImage.path <> files.Strings[0] then
-        Load(files.Strings[0], true);
+        OpenLocal(files.Strings[0], true);
       end
     else
       begin
       if infImage.path <> files.Strings[num + 1] then
-        Load(files.Strings[num + 1], true);
+        OpenLocal(files.Strings[num + 1], true);
       end;
     end;
 end;
@@ -113,21 +113,21 @@ end;
 procedure GoLast();
 begin
   if ((files.Count > 1) and (infImage.path <> files.Strings[files.Count - 1])) then
-    Load(files.Strings[files.Count - 1], true);
+    OpenLocal(files.Strings[files.Count - 1], true);
 end;
 
 // go to first file in folder
 procedure GoFirst();
 begin
   if ((files.Count > 1) and (infImage.path <> files.Strings[0])) then
-    Load(files.Strings[0], true);
+    OpenLocal(files.Strings[0], true);
 end;
 
 // go to random file in folder
 procedure GoRandom();
 begin
   if (files.Count > 1) then
-    Load(files.Strings[Random(files.Count)], true);
+    OpenLocal(files.Strings[Random(files.Count)], true);
 end;
 
 // find and set file number in current dir

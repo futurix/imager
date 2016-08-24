@@ -17,7 +17,7 @@ function IsCtrl(): boolean;
 
 implementation
 
-uses main, w_show, f_graphics, f_ui, f_nav, f_filectrl, w_preview;
+uses w_main, w_show, f_graphics, f_ui, f_nav, f_filectrl, w_preview;
 
 // print with preview
 procedure PrintImage();
@@ -81,7 +81,7 @@ begin
     ToggleFS();
 
   if (filename <> '') then
-    Load(filename);
+    OpenLocal(filename);
 end;
 
 procedure FileNotFound(path: string);

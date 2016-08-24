@@ -49,12 +49,11 @@
 // plug-in types
 #define PT_FNAME 			1
 #define PT_FROLE 			2
-#define PT_FCONFIG			3		// to be removed
+#define PT_FCONFIG			3
 #define PT_FDESCR 			5
 #define PT_FNOTREC 			6
 #define PT_FOPEN 			10
-#define PT_FOPENMULTI 		11		// to be replaced
-#define PT_FOPENANIM 		19		// to be removed
+#define PT_FPREVIEW			15
 #define PT_FSAVE 			20
 #define PT_FIMPORT 			30
 #define PT_FEXPORT 			40
@@ -70,9 +69,8 @@
 #define PS_FNOTREC			L"NotRecommended"
 #define PS_FLOCALE 			L"Locales"
 #define PS_FTHEME 			L"Themes"
-#define PS_FOPEN 			L"OpenBitmap"
-#define PS_FOPENMULTI 		L"OpenPages"
-#define PS_FOPENANIM 		L"OpenAnimation"
+#define PS_FOPEN 			L"Open"
+#define PS_FPREVIEW			L"Preview"
 #define PS_FSAVE 			L"Save"
 #define PS_FIMPORT 			L"Import"
 #define PS_FEXPORT 			L"Export"
@@ -84,19 +82,13 @@
 #define EX_QUERY			"FxImgQuery"
 #define EX_CFG				"FxImgCfg"
 #define EX_OPENPLAIN		"FxImgOpen"
+#define EX_PREVIEW			"FxImgPreview"
 #define EX_SAVE				"FxImgSave"
 #define EX_IMPORT			"FxImgImport"                             
 #define EX_EXPORT			"FxImgExport"
 #define EX_FILTER			"FxImgFilter"
 #define EX_SIMPLETOOL		"FxImgTool"
 #define EX_INFO				"FxImgInfo"
-#define EX_ANIMSTART		"FxImgAnimStart"
-#define EX_ANIMRESTART		"FxImgAnimRestart"
-#define EX_ANIMFRAME		"FxImgAnimGetFrame"
-#define EX_ANIMSTOP			"FxImgAnimStop"
-#define EX_MULTISTART		"FxImgMultiStart"
-#define EX_MULTIPAGE		"FxImgMultiGetPage"
-#define EX_MULTISTOP		"FxImgMultiStop"
 
 // FXIMGRESULT result types
 #define RT_BOOL				0
@@ -159,6 +151,7 @@ typedef FXIMGRESULT (__cdecl *APPCALLBACK)(ULONG query_type, ULONG value, ULONG 
 //	
 
 /*
+
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgQuery(
 	LPWSTR plugin_path,
 	PLUGINCALLBACK info_call,
@@ -181,6 +174,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgCfg(
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgOpen(
 	LPWSTR document_path, LPWSTR info,
+	ULONG page,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -248,9 +242,9 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgInfo(
 	//
 }
 
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimStart(
+extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgPreview(
 	LPWSTR document_path, LPWSTR info,
+	ULONG speed,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -258,55 +252,5 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimStart(
 	//
 }
 
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimRestart(
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimGetFrame(
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimStop(
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
-
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgMultiStart(
-	LPWSTR document_path, LPWSTR info,
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgMultiGetPage(
-	ULONG page_index,
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
-
-extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgMultiStop(
-	HWND app, HWND wnd,
-	APPCALLBACK app_query)
-{
-	//
-	//
-}
 */
 

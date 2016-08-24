@@ -14,7 +14,7 @@ procedure FCopy();
 
 implementation
 
-uses f_graphics, f_nav, main;
+uses f_graphics, f_nav, w_main;
 
 procedure FDelete();
 var
@@ -24,7 +24,7 @@ var
 begin
   ZeroMemory(@op, SizeOf(TSHFileOpStruct));
 
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     tmp := infImage.path;
     CloseImage();
@@ -43,7 +43,7 @@ begin
     if ((res = 0) and (not op.fAnyOperationsAborted)) then
       GoNext()
     else
-      Load(tmp);
+      OpenLocal(tmp);
     end;
 end;
 
@@ -54,7 +54,7 @@ var
 begin
   tmp := FxRegRStr('LastMoveFolder', '');
 
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     if SelectDirectory(LoadLStr(611), '', tmp) then
       begin
@@ -66,9 +66,9 @@ begin
       FxRegWStr('LastMoveFolder', Slash(tmp));
 
       if res then
-        Load(Slash(tmp) + ExtractFileName(fl))
+        OpenLocal(Slash(tmp) + ExtractFileName(fl))
       else
-        Load(fl);
+        OpenLocal(fl);
       end;
     end;
 end;
@@ -77,7 +77,7 @@ procedure FRename();
 var
   tmp, new, name: string;
 begin
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     tmp := infImage.path;
     name := ExtractFileName(tmp);
@@ -89,9 +89,9 @@ begin
       new := Slash(ExtractFileDir(tmp)) + name;
 
       if RenameFile(tmp, new) then
-        Load(new)
+        OpenLocal(new)
       else
-        Load(tmp);
+        OpenLocal(tmp);
       end;
     end;
 end;
@@ -105,7 +105,7 @@ begin
 
   tmp := FxRegRStr('LastCopyFolder', '');
 
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     if SelectDirectory(LoadLStr(611), '', tmp) then
       begin

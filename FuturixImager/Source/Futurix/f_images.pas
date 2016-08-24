@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Forms, StdCtrls,
-  hyieutils, imageenview, main, c_locales;
+  hyieutils, imageenview, w_main, c_locales;
   
 procedure FinalizeImage();
 procedure Zoom(scale: integer; change_style: boolean = false);
@@ -151,7 +151,7 @@ begin
       if frmMain.img.AutoStretch then
         frmMain.img.AutoStretch := false;
 
-      if (infImage.image_type <> itNone) then
+      if IsPresent() then
         begin
         frmMain.mZoom.Enabled := true;
         frmMain.tbnZoomIn.Enabled := true;
@@ -181,7 +181,7 @@ begin
       if frmMain.img.AutoStretch then
         frmMain.img.AutoStretch := false;
 
-      if (infImage.image_type <> itNone) then
+      if IsPresent() then
         begin
         frmMain.mZoom.Enabled := true;
         frmMain.tbnZoomIn.Enabled := true;
@@ -205,7 +205,7 @@ begin
       if not frmMain.img.AutoStretch then
         frmMain.img.AutoStretch := true;
 
-      if (infImage.image_type <> itNone) then
+      if IsPresent() then
         begin
         frmMain.mZoom.Enabled := true;
         frmMain.tbnZoomIn.Enabled := true;

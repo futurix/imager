@@ -109,6 +109,7 @@ object frmShow: TfrmShow
     Caption = 'Hint'
     ShowAccelChar = False
     TabOrder = 5
+    ExplicitWidth = 23
   end
   object Timer: TTimer
     Enabled = False

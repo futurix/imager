@@ -1,22 +1,39 @@
-- preserve alpha channel internally
+- plug-in interface for thumbnails
 
-- get rid of animation
+- new way of locating plug-ins
+- new way of getting functions in plug-ins (via single entry functions and callbacks)
+- support for internal plug-ins
+
+- merge most bundled plug-ins with main executable (main, jpegll, wallpaper)
+- move editor into plug-in
 
 - smarter zoom modes (restore last explicit user selection on new image)
 
-- rewrite multi-page support
+- add support for more sophisticated clipboard formats (CF_DIBV5, etc)
+
 - rewrite full screen (as separate window)
 
-- plug-in interface for thumbnails
-
-- new application icon
-
+- redesign "Options" dialog
 - write new file format registration support (with support for default programs on Vista/7)
 
-- redesign "Options" dialog
+- separate ImageEn plug-ins into separate plug-in
+
+- options for text captions for toolbar buttons (none / selected / all)
+- make main menu optional (and all toggles for menu, toolbar, and status bar to system menu)
+- new application icon
+- new about box
+
+- dynamic creating of toolbar
+- new customization dialog for toolbar
 
 - import digital camera dump (raw image) from unknown extensions
 - credits for used libraries
 - new raw plug-in using libRAW
 - better customization for Vista dialogs
 - new scan UI (with explicit WIA / TWAIN selection)
+
+- EXIF-based auto-rotation on load
+- option to choose editor (either built-in or external; with multiple editors!)
+- editor in pop-up menu
+- multi-monitor support (select launch monitor, mirror current image on the second screen)
+- transitions for slideshow

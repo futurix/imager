@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ComCtrls, ExtCtrls, ToolWin, Printers, Preview, ImgList, Registry, Menus,
-  c_const, c_reg, StdCtrls, c_wndpos, c_locales, c_utils, c_tb;
+  StdCtrls,
+  c_const, c_reg, c_wndpos, c_locales, c_utils, c_tb, c_ie, c_graphics;
 
 type
   TfrmPrint = class(TForm)
@@ -66,7 +67,7 @@ var
   
 implementation
 
-uses main, f_ui, w_show, f_multi, f_tools;
+uses w_main, f_ui, w_show, f_tools, f_graphics;
 
 {$R *.DFM}
 
@@ -76,9 +77,9 @@ var
   tmp: TRect;
 begin
   bmp := TBitmap.Create();
+  frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
   frmMain.img.IEBitmap.CopyToTBitmap(bmp);
-
-  bmp.PixelFormat := pf24bit;
+  bmp.ApplyLimits();
 
   prwPrint.BeginDoc();
 
@@ -89,10 +90,10 @@ begin
     tmp.Right := prwPrint.ConvertX(Round(frmMain.img.IEBitmap.Width * (Screen.PixelsPerInch / frmMain.img.IO.Params.DpiX)), mmPixel, prwPrint.Units);
     tmp.Bottom := prwPrint.ConvertY(Round(frmMain.img.IEBitmap.Height * (Screen.PixelsPerInch / frmMain.img.IO.Params.DpiY)), mmPixel, prwPrint.Units);
 
-    prwPrint.PaintGraphicEx(tmp, frmMain.img.IEBitmap.VclBitmap, false, false, false);
+    prwPrint.PaintGraphicEx(tmp, bmp, false, false, false);
     end
   else
-    prwPrint.PaintGraphicEx(prwPrint.PageBounds, frmMain.img.IEBitmap.VclBitmap, cbxProportional.Checked, cbxShrinkOnlyLarge.Checked, cbxCenter.Checked);
+    prwPrint.PaintGraphicEx(prwPrint.PageBounds, bmp, cbxProportional.Checked, cbxShrinkOnlyLarge.Checked, cbxCenter.Checked);
 
   prwPrint.EndDoc();
 
@@ -103,7 +104,7 @@ procedure TfrmPrint.tbnPrintClick(Sender: TObject);
 var
   i: integer;
   bmp: TBitmap;
-  img: HBITMAP;
+  res: TFxOpenResult;
   tmp: TRect;
   fp: Word;
 begin
@@ -111,16 +112,17 @@ begin
   fp := Default8087CW;
   Set8087CW($133f);
 
-  if ((infImage.image_type = itMulti) and (infMulti.pages > 1) and cbxAllPages.Checked) then
+  if (IsMultipage() and (infImage.pages > 1) and cbxAllPages.Checked) then
     begin
-    for i := 0 to (infMulti.pages - 1) do
+    for i := 0 to (infImage.pages - 1) do
       begin
-      img := MGetPage(i);
+      res := DoImageLoad(infImage.path, i);
 
-      if (img <> 0) then
+      if (res.bitmap <> 0) then
         begin
         bmp := TBitmap.Create();
-        bmp.Handle := img;
+        bmp.Handle := res.bitmap;
+        bmp.ApplyLimits();
 
         prwPrint.BeginDoc();
 

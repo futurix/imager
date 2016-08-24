@@ -53,7 +53,7 @@ function GetInfo(name, value: PWideChar): BOOL; cdecl;
 
 implementation
 
-uses main, f_filectrl, f_tools;
+uses w_main, f_filectrl, f_tools;
 
 {$R *.DFM}
 
@@ -66,7 +66,7 @@ procedure TfrmInfo.AddCommonInfo();
 var
   date: TDateTime;
 begin
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone)) then
+  if (IsPresent() and not IsUnsaved()) then
     begin
     AddToList(LoadLStr(1200), infImage.path);
     AddToList(LoadLStr(1201), Format(LoadLStr(1204), [(FileSize(infImage.path) / 1024)]));
@@ -77,7 +77,7 @@ begin
     AddToList('', '');
     end;
 
-  AddToList(LoadLStr(1206), Format(LoadLStr(1207), [IntToStr(frmMain.img.IEBitmap.VclBitmap.Width), IntToStr(frmMain.img.IEBitmap.VclBitmap.Height)]));
+  AddToList(LoadLStr(1206), Format(LoadLStr(1207), [IntToStr(frmMain.img.IEBitmap.Width), IntToStr(frmMain.img.IEBitmap.Height)]));
 end;
 
 function GetInfo(name, value: PWideChar):BOOL;
@@ -157,7 +157,7 @@ begin
     end;
 
   // adding EXIF and IPTC information (if applicable)
-  if ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone) and (FileExists(infImage.path))) then
+  if (IsPresent() and not IsUnsaved() and (FileExists(infImage.path))) then
     begin
     io := TImageEnIO.Create(nil);
     io.ParamsFromFile(infImage.path);

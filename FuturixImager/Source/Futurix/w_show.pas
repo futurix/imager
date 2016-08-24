@@ -40,7 +40,7 @@ var
 
 implementation
 
-uses main, f_tools;
+uses w_main, f_tools;
 
 {$R *.DFM}
 

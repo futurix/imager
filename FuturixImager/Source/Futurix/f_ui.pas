@@ -20,7 +20,7 @@ procedure ApplyBackground();
 
 implementation
 
-uses main, f_nav, f_graphics, f_tools, w_show, f_images, w_editor, w_preview;
+uses w_main, f_nav, f_graphics, f_tools, w_show, f_images, w_editor, w_preview;
 
 procedure ApplyTheme();
 var
@@ -121,11 +121,11 @@ end;
 procedure Able();
 var
   i: integer;
-  is_file, is_writable, is_filled: boolean;
+  is_file, is_filled, is_multi: boolean;
 begin
-  is_file := ((infImage.image_type <> itUnsaved) and (infImage.image_type <> itNone));
-  is_writable := not ((infImage.image_type = itAnimated) or (infImage.image_type = itMulti) or (infImage.image_type = itNone));
-  is_filled := (infImage.image_type <> itNone);
+  is_file := (IsPresent() and not IsUnsaved());
+  is_filled := IsPresent();
+  is_multi := IsMultipage();
 
   frmMain.tbnRScan.Enabled := infRoles.scan;
   frmMain.tbnRMail.Enabled := (infRoles.email and is_filled);
@@ -163,8 +163,8 @@ begin
   frmMain.tbnZoomHeight.Enabled := is_filled;
   frmMain.tbnRotateCCW.Enabled := is_filled;
 
-  frmMain.miEditor.Enabled := is_writable;
-  frmMain.tbnEditor.Enabled := is_writable;
+  frmMain.miEditor.Enabled := is_filled;
+  frmMain.tbnEditor.Enabled := is_filled;
 
   for i := 0 to (frmMain.mTools.Count - 1) do
     begin
@@ -202,6 +202,12 @@ begin
   frmMain.tbnFCopy.Enabled := is_file;
   frmMain.tbnFMove.Enabled := is_file;
   frmMain.tbnFRename.Enabled := is_file;
+
+  frmMain.mMulti.Visible := is_multi;
+  frmMain.tbnMultiPrev.Enabled := is_multi;
+  frmMain.tbnMultiNext.Enabled := is_multi;
+  frmMain.tbnGoToPage.Enabled := is_multi;
+  frmMain.pMulti.Visible := is_multi;
 end;
 
 procedure FSRestorePos(toolbars_only: boolean = false);
@@ -341,13 +347,13 @@ end;
 procedure ApplyBackground();
 begin
   // checking correct style
-  case fx.BackgroundStyle of
+  case fxSettings.BackgroundStyle of
     0: // gradient
       begin
-      if frmMain.img.Background <> fx.ColorDefault then
-        frmMain.img.Background := fx.ColorDefault;
-      if frmMain.img.GradientEndColor <> fx.ColorGradient then
-        frmMain.img.GradientEndColor := fx.ColorGradient;
+      if frmMain.img.Background <> fxSettings.ColorDefault then
+        frmMain.img.Background := fxSettings.ColorDefault;
+      if frmMain.img.GradientEndColor <> fxSettings.ColorGradient then
+        frmMain.img.GradientEndColor := fxSettings.ColorGradient;
 
       if frmMain.img.BackgroundStyle <> iebsGradient then
         frmMain.img.BackgroundStyle := iebsGradient;
@@ -357,13 +363,13 @@ begin
       begin
       if not frmMain.full_screen then
         begin
-        if frmMain.img.Background <> fx.ColorDefault then
-          frmMain.img.Background := fx.ColorDefault;
+        if frmMain.img.Background <> fxSettings.ColorDefault then
+          frmMain.img.Background := fxSettings.ColorDefault;
         end
       else
         begin
-        if frmMain.img.Background <> fx.ColorFullScreen then
-          frmMain.img.Background := fx.ColorFullScreen;
+        if frmMain.img.Background <> fxSettings.ColorFullScreen then
+          frmMain.img.Background := fxSettings.ColorFullScreen;
         end;
 
       if frmMain.img.BackgroundStyle <> iebsSolid then
@@ -379,8 +385,8 @@ begin
         end
       else
         begin
-        if frmMain.img.Background <> fx.ColorFullScreen then
-          frmMain.img.Background := fx.ColorFullScreen;
+        if frmMain.img.Background <> fxSettings.ColorFullScreen then
+          frmMain.img.Background := fxSettings.ColorFullScreen;
         end;
 
       if frmMain.img.BackgroundStyle <> iebsSolid then
@@ -389,10 +395,10 @@ begin
 
     3: // box pattern
       begin
-      if frmMain.img.Background <> fx.ColorDefault then
-        frmMain.img.Background := fx.ColorDefault;
-      if frmMain.img.GradientEndColor <> fx.ColorGradient then
-        frmMain.img.GradientEndColor := fx.ColorGradient;
+      if frmMain.img.Background <> fxSettings.ColorDefault then
+        frmMain.img.Background := fxSettings.ColorDefault;
+      if frmMain.img.GradientEndColor <> fxSettings.ColorGradient then
+        frmMain.img.GradientEndColor := fxSettings.ColorGradient;
 
       if frmMain.img.BackgroundStyle <> iebsChessboard then
         frmMain.img.BackgroundStyle := iebsChessboard;
@@ -400,10 +406,10 @@ begin
 
     4: // diagonals
       begin
-      if frmMain.img.Background <> fx.ColorDefault then
-        frmMain.img.Background := fx.ColorDefault;
-      if frmMain.img.GradientEndColor <> fx.ColorGradient then
-        frmMain.img.GradientEndColor := fx.ColorGradient;
+      if frmMain.img.Background <> fxSettings.ColorDefault then
+        frmMain.img.Background := fxSettings.ColorDefault;
+      if frmMain.img.GradientEndColor <> fxSettings.ColorGradient then
+        frmMain.img.GradientEndColor := fxSettings.ColorGradient;
 
       if frmMain.img.BackgroundStyle <> iebsDiagonals then
         frmMain.img.BackgroundStyle := iebsDiagonals;

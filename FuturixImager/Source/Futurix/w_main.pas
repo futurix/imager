@@ -1,4 +1,4 @@
-unit main;
+unit w_main;
 
 interface
 
@@ -6,12 +6,11 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, ShlObj, ClipBrd,
   Printers, AppEvnts, Registry, UxTheme,
-  c_const, c_wndpos, c_reg, c_utils, c_locales, c_themes,
+  c_const, c_wndpos, c_reg, c_utils, c_locales, c_themes, c_ie, c_graphics,
   ieview, imageenview, hyieutils, ImageEnIO, hyiedefs,
   fx_consts, fx_mru, c_tb, f_instance;
 
 type
-  TImageTypes = (itNone, itUnsaved, itNormal, itMulti, itAnimated);
   TDisplayStyles = (dsNormal, dsFitBig, dsFitAll);
 
   TfrmMain = class(TForm)
@@ -95,11 +94,7 @@ type
     tbnEditor: TToolButton;
     miEditor: TMenuItem;
     piClose: TMenuItem;
-    pAnim: TMenuItem;
     pMulti: TMenuItem;
-    piAnimPlay: TMenuItem;
-    piAnimPause: TMenuItem;
-    piAnimStop: TMenuItem;
     piMultiFirst: TMenuItem;
     piMultiPrevious: TMenuItem;
     piMultiNext: TMenuItem;
@@ -163,7 +158,6 @@ type
     piDSCenterImage: TMenuItem;
     piDSScrollbars: TMenuItem;
     mMulti: TMenuItem;
-    mAnim: TMenuItem;
     miMultiFirst: TMenuItem;
     miMultiPrevious: TMenuItem;
     miMultiNext: TMenuItem;
@@ -171,9 +165,6 @@ type
     N24: TMenuItem;
     miMultiGoTo: TMenuItem;
     miMultiExtract: TMenuItem;
-    miAnimPlay: TMenuItem;
-    miAnimPause: TMenuItem;
-    miAnimStop: TMenuItem;
     dlgSave: TSaveDialog;
     popMRU: TPopupMenu;
     piMRU: TMenuItem;
@@ -265,9 +256,6 @@ type
     procedure miInfoClick(Sender: TObject);
     procedure miZM6Click(Sender: TObject);
     procedure miEditorClick(Sender: TObject);
-    procedure tbnPlayClick(Sender: TObject);
-    procedure tbnPauseClick(Sender: TObject);
-    procedure tbnStopClick(Sender: TObject);
     procedure tbnMultiFirstClick(Sender: TObject);
     procedure tbnMultiPrevClick(Sender: TObject);
     procedure tbnMultiNextClick(Sender: TObject);
@@ -350,13 +338,10 @@ type
 var
   frmMain: TfrmMain;
   starting: boolean = true;
-  init_raw: boolean = false;
-  init_magick: boolean = false;
-  init_jbig: boolean = false;
   files: TStringList;
   path_app: string = '';
 
-  fx: record
+  fxSettings: record
     ColorDefault: TColor;
     ColorFullScreen: TColor;
     ColorGradient: TColor;
@@ -366,26 +351,9 @@ var
 
   infImage: record
     path: string;
-    image_type: TImageTypes;
-    filenum: integer;
-  end;
-
-  infMulti: record
-    lib: THandle;
     pages, page: integer;
-
-    FxImgMultiStart: TFxImgMultiStart;
-    FxImgMultiGetPage: TFxImgMultiGetPage;
-    FxImgMultiStop: TFxImgMultiStop;
-  end;
-
-  infAnim: record
-    lib: THandle;
-
-    FxImgAnimStart: TFxImgAnimStart;
-    FxImgAnimRestart: TFxImgAnimRestart;
-    FxImgAnimGetFrame: TFxImgAnimGetFrame;
-    FxImgAnimStop: TFxImgAnimStop;
+    
+    filenum: integer;
   end;
 
   infRoles: record
@@ -393,16 +361,19 @@ var
   end;
 
 function FxImgGlobalCallback(query_type, value, xtra: longword): TFxImgResult; cdecl;
-procedure FillImage(path: string; image_type: TImageTypes);
-procedure FillBitmap(bmp: TBitmap; img: hBitmap = 0);
+function IsPresent(): boolean;
+function IsUnsaved(): boolean;
+function IsMultipage(): boolean;
+procedure FillImage(path: string; pages: integer = 0; page: integer = 0);
+procedure FillBitmap(bmp: TBitmap; img: HBITMAP = 0);
 
 
 implementation
 
 uses
   w_about, w_custzoom, w_info, f_ui, f_nav, f_images, f_plugins, f_tools, f_graphics,
-  f_filectrl, f_anim, f_multi, w_show, w_editor, f_scan, w_optgeneral,
-  f_toolbar, w_custtb, w_preview;
+  f_filectrl, w_show, w_editor, f_scan, w_optgeneral,
+  f_toolbar, w_custtb, w_preview, w_options;
 
 {$R *.DFM}
 
@@ -423,35 +394,52 @@ begin
   end;
 end;
 
-procedure FillImage(path: string; image_type: TImageTypes);
+function IsPresent(): boolean;
+begin
+  Result := false;
+
+  if Assigned(frmMain) then
+    Result := not frmMain.img.IsEmpty;
+end;
+
+function IsUnsaved(): boolean;
+begin
+  Result := (infImage.path = '');
+end;
+
+function IsMultipage(): boolean;
+begin
+  Result := (infImage.pages > 1);
+end;
+
+procedure FillImage(path: string; pages: integer = 0; page: integer = 0);
 begin
   infImage.path := path;
-  infImage.image_type := image_type;
+  infImage.pages := pages;
+  infImage.page := page;
 
   Header();
 end;
 
-procedure FillBitmap(bmp: TBitmap; img: hBitmap = 0);
+procedure FillBitmap(bmp: TBitmap; img: HBITMAP = 0);
 var
   bim: TBitmap;
 begin
   if (img = 0) then
     begin
-    bmp.PixelFormat := DiscoverImage(bmp.Handle);
+    bmp.ApplyLimits();
 
     frmMain.img.IEBitmap.Assign(bmp);
-    if (frmMain.img.IEBitmap.PixelFormat = ie32RGB) then
-      frmMain.img.IEBitmap.SynchronizeRGBA(true);
+    frmMain.img.IEBitmap.PrepareAlphaAfterAssignment();
     end
   else
     begin
     bim := TBitmap.Create();
     bim.Handle := img;
-    bim.PixelFormat := DiscoverImage(bim.Handle);
+    bim.ApplyLimits();
 
     frmMain.img.IEBitmap.Assign(bim);
-    if (frmMain.img.IEBitmap.PixelFormat = ie32RGB) then
-      frmMain.img.IEBitmap.SynchronizeRGBA(true);
+    frmMain.img.IEBitmap.PrepareAlphaAfterAssignment();
 
     FreeAndNil(bim);
     end;
@@ -523,10 +511,10 @@ begin
   // reading settings
   if wreg.OpenKey(sSettings, false) then
     begin
-    fx.ColorDefault := StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
-    fx.ColorFullScreen := StringToColor(wreg.RStr('FSColor', 'clBlack'));
-    fx.ColorGradient := StringToColor(wreg.RStr('Gradient', 'clSilver'));
-    fx.BackgroundStyle := wreg.RInt('BgStyle', 0);
+    fxSettings.ColorDefault := StringToColor(wreg.RStr('Color', 'clAppWorkSpace'));
+    fxSettings.ColorFullScreen := StringToColor(wreg.RStr('FSColor', 'clBlack'));
+    fxSettings.ColorGradient := StringToColor(wreg.RStr('Gradient', 'clSilver'));
+    fxSettings.BackgroundStyle := wreg.RInt('BgStyle', 0);
 
     frmMain.bOpenAfterSave := (wreg.RInt('OpenAfterSave', 1) = 1);
     frmMain.bOpenDef := (wreg.RInt('OpenDef', 1) = 1);
@@ -592,10 +580,10 @@ begin
     end
   else
     begin
-    fx.ColorDefault := clAppWorkSpace;
-    fx.ColorFullScreen := clBlack;
-    fx.ColorGradient := clSilver;
-    fx.BackgroundStyle := 0;
+    fxSettings.ColorDefault := clAppWorkSpace;
+    fxSettings.ColorFullScreen := clBlack;
+    fxSettings.ColorGradient := clSilver;
+    fxSettings.BackgroundStyle := 0;
 
     frmMain.bOpenAfterSave := true;
     frmMain.bOpenDef := true;
@@ -763,8 +751,9 @@ begin
     else
       begin
       img := TBitmap.Create();
-      img.Assign(frmMain.img.IEBitmap.VclBitmap);
-      img.PixelFormat := pf24bit;
+      frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+      frmMain.img.IEBitmap.CopyToTBitmap(img);
+      img.ApplyLimits();
 
       @FxImgExport := GetProcAddress(lib, EX_EXPORT);
 
@@ -808,8 +797,9 @@ begin
       if (@FxImgTool <> nil) then
         begin
         img := TBitmap.Create();
-        img.Assign(frmMain.img.IEBitmap.VclBitmap);
-        img.PixelFormat := pf24bit;
+        frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+        frmMain.img.IEBitmap.CopyToTBitmap(img);
+        img.ApplyLimits();
 
         try
           tmp_res := FxImgTool(PWideChar(infImage.path), PWideChar(name), img.ReleaseHandle(), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
@@ -817,7 +807,7 @@ begin
           if (tmp_res.result_type = RT_HBITMAP) then
             OpenUntitled(nil, tmp_res.result_value)
           else if ((tmp_res.result_type = RT_INT) and (tmp_res.result_value = 1)) then
-            OpenLocal(tmp_res.result_string_data);
+            OpenLocal(tmp_res.result_string_data, true, 0, true);
         except
         end;
 
@@ -842,7 +832,7 @@ begin
     if (i = 0) then
       begin
       DragQueryFile(msg.Drop, i, fName, 256);
-      Load(fName);
+      OpenLocal(fName);
       end;
     end;
 
@@ -1047,22 +1037,6 @@ begin
   piMultiExtract.Caption    := miMultiExtract.Caption;
   piMultiExtract.Hint       := miMultiExtract.Hint;
 
-  mAnim.Caption         := LoadLStr(300);
-  miAnimPlay.Caption    := LoadLStr(302);
-  miAnimPlay.Hint       := LoadLStr(303);
-  miAnimPause.Caption   := LoadLStr(304);
-  miAnimPause.Hint      := LoadLStr(305);
-  miAnimStop.Caption    := LoadLStr(306);
-  miAnimStop.Hint       := LoadLStr(307);
-
-  pAnim.Caption         := mAnim.Caption;
-  piAnimPlay.Caption    := miAnimPlay.Caption;
-  piAnimPlay.Hint       := miAnimPlay.Hint;
-  piAnimPause.Caption   := miAnimPause.Caption;
-  piAnimPause.Hint      := miAnimPause.Hint;
-  piAnimStop.Caption    := miAnimStop.Caption;
-  piAnimStop.Hint       := miAnimStop.Hint;
-
   mGo.Caption           := LoadLStr(310);
   miGoBack.Caption      := LoadLStr(312);
   miGoBack.Hint         := LoadLStr(313);
@@ -1228,7 +1202,17 @@ end;
 
 procedure TfrmMain.miOpenClick(Sender: TObject);
 begin
-  OpenImage();
+  if (IsPresent() and not IsUnsaved()) then
+    dlgOpen.InitialDir := ExtractFileDir(infImage.path)
+  else
+    dlgOpen.InitialDir := FxRegRStr('OpenPath', '');
+
+  if dlgOpen.Execute() then
+    begin
+    FxRegRStr('OpenPath', ExtractFileDir(dlgOpen.FileName));
+
+    OpenLocal(dlgOpen.FileName);
+    end;
 end;
 
 procedure TfrmMain.miCloseClick(Sender: TObject);
@@ -1237,8 +1221,29 @@ begin
 end;
 
 procedure TfrmMain.miSaveAsClick(Sender: TObject);
+var
+  tmp: string;
+  res: BOOL;
 begin
-  Save();
+  SetSaveDialog();
+
+  if dlgSave.Execute() then
+    begin
+    res := Write(dlgSave.FileName);
+
+    FxRegWInt('SaveDialog_FilterSize', Length(dlgSave.Filter));
+    FxRegWInt('SaveDialog_FilterIndex', dlgSave.FilterIndex);
+
+    if bOpenAfterSave then
+      begin
+      if (res and IsSupported(dlgSave.FileName)) then
+        begin
+        tmp := dlgSave.FileName;
+        CloseImage();
+        OpenLocal(tmp);
+        end;
+      end;
+    end;
 end;
 
 procedure TfrmMain.miExitClick(Sender: TObject);
@@ -1247,8 +1252,18 @@ begin
 end;
 
 procedure TfrmMain.miCopyClick(Sender: TObject);
+var
+  bmp: TBitmap;
 begin
-  Clipboard.Assign(frmMain.img.IEBitmap.VclBitmap);
+  bmp := TBitmap.Create();
+
+  frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+  frmMain.img.IEBitmap.CopyToTBitmap(bmp);
+  bmp.ApplyLimits();
+
+  Clipboard.Assign(bmp);
+
+  FreeAndNil(bmp);
 end;
 
 procedure TfrmMain.miPasteClick(Sender: TObject);
@@ -1261,7 +1276,8 @@ begin
   if Clipboard.HasFormat(CF_BITMAP) then
     begin
     tmp.Assign(Clipboard);
-    tmp.PixelFormat := pf24bit;
+    tmp.ApplyLimits();
+
     OpenUntitled(tmp);
     end
   else
@@ -1272,8 +1288,9 @@ begin
       wmf.Assign(Clipboard);
       tmp.Width := wmf.Width;
       tmp.Height := wmf.Height;
-      tmp.PixelFormat := pf24bit;
+      tmp.ApplyLimits();
       tmp.Canvas.Draw(0, 0, wmf);
+
       OpenUntitled(tmp);
 
       FreeAndNil(wmf);
@@ -1372,7 +1389,7 @@ begin
     str := (Sender as TMenuItem).Hint;
 
     if FileExists(str) then
-      Load(str);
+      OpenLocal(str);
     end;
 end;
 
@@ -1382,6 +1399,13 @@ begin
     begin
     Application.CreateForm(TfrmOptions, frmOptions);
     frmOptions.ShowModal();
+    end;
+
+  // to be deleted
+  if not Assigned(frmOldOptions) then
+    begin
+    Application.CreateForm(TfrmOldOptions, frmOldOptions);
+    frmOldOptions.ShowModal();
     end;
 end;
 
@@ -1418,21 +1442,6 @@ begin
     end;
 end;
 
-procedure TfrmMain.tbnPlayClick(Sender: TObject);
-begin
-  APlay();
-end;
-
-procedure TfrmMain.tbnPauseClick(Sender: TObject);
-begin
-  APause();
-end;
-
-procedure TfrmMain.tbnStopClick(Sender: TObject);
-begin
-  AStop();
-end;
-
 procedure TfrmMain.tbnMultiFirstClick(Sender: TObject);
 begin
   MGoFirst();
@@ -1440,29 +1449,61 @@ end;
 
 procedure TfrmMain.tbnMultiPrevClick(Sender: TObject);
 begin
-  if (infImage.image_type = itMulti) then
+  if IsMultipage() then
     MGoPrev();
 end;
 
 procedure TfrmMain.tbnMultiNextClick(Sender: TObject);
 begin
-  if (infImage.image_type = itMulti) then
+  if IsMultipage() then
     MGoNext();
 end;
 
 procedure TfrmMain.tbnMultiLastClick(Sender: TObject);
 begin
-  MGoLast();
+  if IsMultipage() then
+    MGoLast();
 end;
 
 procedure TfrmMain.tbnExtractPageClick(Sender: TObject);
+var
+  bmp: TBitmap;
 begin
-  MExtract();
+  bmp := TBitmap.Create();
+
+  frmMain.img.IEBitmap.PrepareAlphaForExternalUse();
+  frmMain.img.IEBitmap.CopyToTBitmap(bmp);
+  bmp.ApplyLimits();
+
+  OpenUntitled(bmp);
+
+  FreeAndNil(bmp);
 end;
 
 procedure TfrmMain.tbnGoToPageClick(Sender: TObject);
+var
+  tmp: string;
+  num: integer;
 begin
-  MPage();
+  num := 0;
+  tmp := IntToStr(infImage.pages);
+
+  if InputQuery(LoadLStr(630), Format(LoadLStr(631), [tmp]), tmp) then
+    begin
+    // browsing
+    try
+      num := StrToInt(tmp);
+    except
+      ShowMessage(LoadLStr(621));
+      Abort();
+    end;
+
+    Dec(num);
+    if ((num >= 0) and (num < infImage.pages)) then
+      MGoToPage(num)
+    else
+      ShowMessage(LoadLStr(632));
+    end;
 end;
 
 procedure TfrmMain.miPrintPreviewClick(Sender: TObject);
@@ -1591,7 +1632,7 @@ end;
 procedure TfrmMain.MRUpopClick(Sender: TObject; const FileName: String);
 begin
   if FileExists(FileName) then
-    Load(FileName);
+    OpenLocal(FileName);
 end;
 
 procedure TfrmMain.tbnRotateClick(Sender: TObject);
@@ -1649,7 +1690,7 @@ begin
     end;
 
   // file navigation disabling, if only 1 file
-  if ((files.Count < 2) or (infImage.image_type = itUnsaved) or (infImage.image_type = itNone)) then
+  if ((files.Count < 2) or IsUnsaved() or (not IsPresent())) then
     begin
     frmMain.tbnGoBack.Enabled := false;
     frmMain.tbnGoForward.Enabled := false;
@@ -1683,7 +1724,7 @@ begin
     end;
 
   // zoom status
-  if (infImage.image_type = itNone) then
+  if (not IsPresent()) then
     begin
     frmMain.sbrMain.Panels[0].Width := 0;
     frmMain.sbrMain.Panels[0].Text := '';
@@ -1695,7 +1736,7 @@ begin
     end;
 
   // image size
-  if (infImage.image_type = itNone) then
+  if (not IsPresent()) then
     begin
     frmMain.sbrMain.Panels[1].Width := 0;
     frmMain.sbrMain.Panels[1].Text := '';
@@ -1707,10 +1748,10 @@ begin
     end;
 
   // multiple pages
-  if (infImage.image_type = itMulti) then
+  if IsMultipage() then
     begin
     frmMain.sbrMain.Panels[2].Width := 50;
-    frmMain.sbrMain.Panels[2].Text := IntToStr(infMulti.page + 1) + ' / ' + IntToStr(infMulti.pages);
+    frmMain.sbrMain.Panels[2].Text := IntToStr(infImage.page + 1) + ' / ' + IntToStr(infImage.pages);
     end
   else
     begin
@@ -1877,7 +1918,7 @@ begin
   str := mru.GetLastItem();
 
   if (str <> '') then
-    Load(str);
+    OpenLocal(str);
 end;
 
 procedure TfrmMain.UMAppIDCheck(var Message: TMessage);
@@ -1906,7 +1947,7 @@ begin
     SetLength(S, Len);
 
     if FileExists(S) then
-      Load(S);
+      OpenLocal(S);
     end;
 end;
 

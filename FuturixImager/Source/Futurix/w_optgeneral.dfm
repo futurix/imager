@@ -1,4 +1,4 @@
-object frmOptions: TfrmOptions
+object frmOldOptions: TfrmOldOptions
   Left = 190
   Top = 79
   ActiveControl = btnOK
@@ -61,7 +61,9 @@ object frmOptions: TfrmOptions
     object shtGeneral: TTabSheet
       Caption = 'General'
       ExplicitLeft = 0
-      ExplicitTop = 28
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblClearMRU: TLabel
         Left = 3
         Top = 402
@@ -94,6 +96,10 @@ object frmOptions: TfrmOptions
     object shtBeh: TTabSheet
       Caption = 'More'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblMouseDrag: TLabel
         Left = 240
         Top = 49
@@ -348,6 +354,10 @@ object frmOptions: TfrmOptions
     object shtPlugins: TTabSheet
       Caption = 'Plug-ins'
       ImageIndex = 6
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblInstPlugins: TLabel
         Left = 3
         Top = 3
@@ -404,6 +414,10 @@ object frmOptions: TfrmOptions
     object shtThemes: TTabSheet
       Caption = 'Themes'
       ImageIndex = 5
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblTheme: TLabel
         Left = 3
         Top = 3
@@ -428,7 +442,7 @@ object frmOptions: TfrmOptions
         Height = 21
         AutoComplete = False
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
         OnChange = cbxThemesChange
       end
@@ -880,6 +894,10 @@ object frmOptions: TfrmOptions
     object shtLang: TTabSheet
       Caption = 'Languages'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblLocale: TLabel
         Left = 3
         Top = 3
@@ -904,7 +922,7 @@ object frmOptions: TfrmOptions
         Height = 21
         AutoComplete = False
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 0
         OnChange = cbxLanguagesChange
       end
@@ -912,6 +930,10 @@ object frmOptions: TfrmOptions
     object shtPlugCfg: TTabSheet
       Caption = 'Additional'
       ImageIndex = 6
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblPlugCfg: TLabel
         Left = 3
         Top = 3

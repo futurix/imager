@@ -33,7 +33,7 @@ var
 
 implementation
 
-uses main, f_images;
+uses w_main, f_images;
 
 {$R *.DFM}
 

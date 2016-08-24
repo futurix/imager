@@ -28,9 +28,6 @@ function StrLeft(const s: string; count: integer): string;
 procedure StrSplit(s: string; sep: string; const list: TStrings);
 procedure StrSplitI(s: string; sep: string; const list: TStrings);
 
-// imaging functions
-function DiscoverImage(img: HBITMAP): TPixelFormat;
-
 // system functions
 function IsXP(): boolean;
 function IsVista(): boolean;
@@ -309,25 +306,6 @@ begin
     end
   else
     Abort();
-end;
-
-// returns either 24-bits or 32-bits pixel formats depending on contents
-function DiscoverImage(img: HBITMAP): TPixelFormat;
-var
-  info: BITMAP;
-begin
-  Result := pf24bit;
-
-  if (img <> 0) then
-    begin
-    ZeroMemory(@info, SizeOf(BITMAP));
-
-    if (GetObject(img, SizeOf(BITMAP), @info) <> 0) then
-      begin
-      if (info.bmBitsPixel = 32) then
-        Result := pf32bit;
-      end;
-    end;
 end;
 
 // returns true if current OS is WindowsXP (or newer)

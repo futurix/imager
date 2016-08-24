@@ -74,7 +74,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1516</VersionInfo>
+						<VersionInfo Name="Build">1594</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -86,7 +86,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.1516</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.1594</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -109,7 +109,7 @@
 			<RcCompile Include="futurix.rc">
 				<Form>futurix.res</Form>
 			</RcCompile>
-			<DCCReference Include="main.pas">
+			<DCCReference Include="w_main.pas">
 				<Form>frmMain</Form>
 			</DCCReference>
 			<DCCReference Include="w_about.pas">
@@ -128,9 +128,6 @@
 			<DCCReference Include="f_plugins.pas"/>
 			<DCCReference Include="f_tools.pas"/>
 			<DCCReference Include="f_ui.pas"/>
-			<DCCReference Include="f_multi.pas"/>
-			<DCCReference Include="f_anim.pas"/>
-			<DCCReference Include="athread.pas"/>
 			<DCCReference Include="w_show.pas">
 				<Form>frmShow</Form>
 			</DCCReference>
@@ -145,7 +142,7 @@
 				<Form>frmRotate</Form>
 			</DCCReference>
 			<DCCReference Include="w_optgeneral.pas">
-				<Form>frmOptions</Form>
+				<Form>frmOldOptions</Form>
 			</DCCReference>
 			<DCCReference Include="f_toolbar.pas"/>
 			<DCCReference Include="w_custtb.pas">
@@ -162,6 +159,9 @@
 			<DCCReference Include="fx_consts.pas"/>
 			<DCCReference Include="fx_ver.pas"/>
 			<DCCReference Include="fx_mru.pas"/>
+			<DCCReference Include="w_options.pas">
+				<Form>frmOptions</Form>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -60,7 +60,7 @@ var
 
 implementation
 
-uses w_editor, main;
+uses w_editor, w_main;
 
 {$R *.dfm}
 
