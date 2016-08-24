@@ -1,0 +1,27 @@
+>>>>>>>>> VERSION <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Alexander Tereshchenko
+FuturixImager ###
+6.0.0.#
+futuriximager_###
+© 1999-2009 Alexander Tereshchenko
+
+fx###.dll
+FuturixImager
+6.0
+http://fximage.com/
+
+
+>>>>>>>>> PATHS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+$(FXIMAGER)\Bin
+$(FXIMAGER)\Source\Trash
+$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;
+
+
+>>>>>>>>> MISC <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Default form font: MS Shell Dlg 2
+Base plug-ins address: $01600000
+Base main package address: $00600000
+

@@ -1,0 +1,10 @@
+- convert plug-in system to Unicode
+- preserve alpha channel internally
+- get rid of fake linked labels
+
+- import digital camera dump (raw image) from unknown extensions
+- credits for used libraries
+- new raw plug-in using libRAW
+- option to use Vista dialogs
+- new scan UI (with explicit WIA / TWAIN selection)
+? new DICOM support

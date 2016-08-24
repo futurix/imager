@@ -1,0 +1,11 @@
+
+IMGMAIN   RT_BITMAP   "res\main.bmp"
+IMGFIXED  RT_BITMAP   "res\fixed.bmp"
+
+1       ICON       "res\icon_1.ico"
+2       ICON       "res\icon_2.ico"
+3       ICON       "res\icon_3.ico"
+4       ICON       "res\icon_4.ico"
+
+#include "language_terms.rc"
+

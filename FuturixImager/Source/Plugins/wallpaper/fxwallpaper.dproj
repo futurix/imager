@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{6b976eab-7154-4554-b343-6ee49e4b6d54}</ProjectGuid>
+    <MainSource>fxwallpaper.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\..\..\Bin\fxwallpaper.dll</DCC_DependencyCheckOutputName>
+    <DCC_UsePackage>fxcore</DCC_UsePackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+    <DCC_ImageBase>1600000</DCC_ImageBase>
+    <DCC_ExeOutput>$(FXIMAGER)\Bin</DCC_ExeOutput>
+    <DCC_DcuOutput>$(FXIMAGER)\Source\Trash</DCC_DcuOutput>
+    <DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
+    <DCC_HppOutput>$(FXIMAGER)\Source\Trash</DCC_HppOutput>
+    <DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;</DCC_UnitSearchPath>
+    <DCC_ResourcePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;</DCC_ResourcePath>
+    <DCC_ObjPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;</DCC_ObjPath>
+    <DCC_IncludePath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\ImageEn;</DCC_IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_AssertionsAtRuntime>False</DCC_AssertionsAtRuntime>
+    <DCC_SymbolReferenceInfo>2</DCC_SymbolReferenceInfo>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_SYMBOL_PLATFORM>False</DCC_SYMBOL_PLATFORM>
+    <DCC_UNIT_PLATFORM>False</DCC_UNIT_PLATFORM>
+    <DCC_ExeOutput>$(FXIMAGER)\bin</DCC_ExeOutput>
+    <DCC_DcuOutput>$(FXIMAGER)\src\output</DCC_DcuOutput>
+    <DCC_ObjOutput>$(FXIMAGER)\src\output</DCC_ObjOutput>
+    <DCC_HppOutput>$(FXIMAGER)\src\output</DCC_HppOutput>
+    <DCC_UnitSearchPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;</DCC_ResourcePath>
+    <DCC_ObjPath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;</DCC_ObjPath>
+    <DCC_IncludePath>.\;$(FXIMAGER)\src\shared;$(FXSHARED)\Includes;$(FXSHARED)\Misc;</DCC_IncludePath>
+    <DCC_ImageBase>1600000</DCC_ImageBase>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">True</VersionInfo><VersionInfo Name="MajorVer">6</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">50</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">True</VersionInfo><VersionInfo Name="Locale">2057</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys><VersionInfoKeys Name="FileDescription">FuturixImager Wallpaper Tools Plug-in</VersionInfoKeys><VersionInfoKeys Name="FileVersion">6.0.0.50</VersionInfoKeys><VersionInfoKeys Name="InternalName">futuriximager_wallpaper</VersionInfoKeys><VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename">fxwallpaper.dll</VersionInfoKeys><VersionInfoKeys Name="ProductName">FuturixImager</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">6.0</VersionInfoKeys><VersionInfoKeys Name="Comments">http://fximage.com/</VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">fxwallpaper.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="fxwallpaper.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="swall.pas">
+      <Form>frmWallpaperS</Form>
+    </DCCReference>
+    <DCCReference Include="wall.pas">
+      <Form>frmWallpaper</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>

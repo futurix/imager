@@ -1,0 +1,15 @@
+FuturixImager/Bin/*
+FuturixImager/Source/Trash/*
+*.identcache
+*.dproj.local
+*.user
+*.suo
+FuturixImager/Source/Plugins/fimg/library/Source/*
+FuturixImager/Source/Plugins/fimg/library/Dist/*
+*.dsk
+FuturixImager/Installer/Output/*
+FuturixImager/Help/Developer/plugins/thirdparty/delphi/*
+FuturixImager/Help/Developer/plugins/source/plugins/fimg/library/Source/*
+FuturixImager/Help/Developer/plugins/source/plugins/fimg/library/Dist/*
+FuturixImager/Development/Scraps/__imageen/*
+*.cbproj.local

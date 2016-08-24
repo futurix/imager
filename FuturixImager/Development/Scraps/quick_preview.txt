@@ -1,0 +1,156 @@
+procedure TfrmMain.dlgOpenXPreview(Sender: TFuturisOpenDialog; Ext: String);
+var
+	bmp: hBitmap;
+	img, thumb: TBitmap;
+    fast_io: TImageEnIO;
+    use_thumb: boolean;
+    nonthumb_width, nonthumb_height: integer;
+begin
+    bmp := 0;
+    use_thumb := false;
+    nonthumb_width := 0;
+    nonthumb_height := 0;
+
+    // trying to get faster previews for JPEGs
+    if ((Ext = 'jpg') or (Ext = 'jpeg') or (Ext = 'jfif') or (Ext = 'jpe')) then
+    	begin
+    	fast_io := TImageEnIO.Create(nil);
+		fast_io.Params.Width := 100;
+		fast_io.Params.Height := 100;
+        fast_io.Params.JPEG_Scale := ioJPEG_AUTOCALC;
+        fast_io.LoadFromFileJpeg(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+          	thumb := TBitmap.Create();
+            thumb.Assign(fast_io.IEBitmap.VclBitmap);
+
+            bmp := thumb.ReleaseHandle();
+
+            FreeAndNil(thumb);
+
+            use_thumb := true;
+            end;
+
+        FreeAndNil(fast_io);
+
+        // getting real size of the image
+        fast_io := TImageEnIO.Create(nil);
+        fast_io.ParamsFromFile(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+            nonthumb_width := fast_io.Params.Width;
+            nonthumb_height := fast_io.Params.Height;
+            end;
+
+        FreeAndNil(fast_io);
+        end;
+
+    // trying to get fast preview for Canon raw files
+    if (Ext = 'crw') then
+    	begin
+    	fast_io := TImageEnIO.Create(nil);
+        fast_io.LoadJpegFromFileCRW(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+          	thumb := TBitmap.Create();
+            thumb.Assign(fast_io.IEBitmap.VclBitmap);
+
+            bmp := thumb.ReleaseHandle();
+
+            FreeAndNil(thumb);
+
+            use_thumb := true;
+            end;
+
+        FreeAndNil(fast_io);
+
+        // getting real size of the image
+        fast_io := TImageEnIO.Create(nil);
+        fast_io.ParamsFromFile(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+            nonthumb_width := fast_io.Params.Width;
+            nonthumb_height := fast_io.Params.Height;
+            end;
+
+        FreeAndNil(fast_io);
+        end;
+
+    // trying to get fast preview for other raw files
+    if ((Ext = 'nef') or (Ext = 'cr2') or (Ext = 'dng') or (Ext = 'raw') or (Ext = 'raf') or (Ext = 'x3f') or
+    	(Ext = 'orf') or (Ext = 'srf') or (Ext = 'mrw') or (Ext = 'dcr') or (Ext = 'bay') or (Ext = 'pef')) then
+    	begin
+    	fast_io := TImageEnIO.Create(nil);
+        fast_io.Params.RAW_GetExifThumbnail := true;
+        fast_io.LoadFromFileRAW(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+          	thumb := TBitmap.Create();
+            thumb.Assign(fast_io.IEBitmap.VclBitmap);
+
+            bmp := thumb.ReleaseHandle();
+
+            FreeAndNil(thumb);
+
+            use_thumb := true;
+            end;
+
+        FreeAndNil(fast_io);
+
+        // getting real size of the image
+        fast_io := TImageEnIO.Create(nil);
+        fast_io.ParamsFromFile(Sender.FileName);
+
+        if not fast_io.Aborting then
+        	begin
+            nonthumb_width := fast_io.Params.Width;
+            nonthumb_height := fast_io.Params.Height;
+            end;
+
+        FreeAndNil(fast_io);
+        end;
+
+	// preview event for Adv.Open
+    if (use_thumb = false) then
+		bmp := DoPreviewLoad(Sender.FileName);
+
+	if (bmp <> 0) then
+  		begin
+  		img := TBitmap.Create();
+  		img.Handle := bmp;
+
+  		// end counting best fit
+        Sender.PreviewImage.Picture.Bitmap.Assign(img);
+        Sender.PreviewImage.Visible := true;
+
+  		// filling information
+        if ((not use_thumb) or ((nonthumb_width = 0) or (nonthumb_height = 0))) then
+  			Sender.Size.Caption := Format(LoadLStr(401), [IntToStr(img.Width), IntToStr(img.Height)])
+        else
+            Sender.Size.Caption := Format(LoadLStr(401), [IntToStr(nonthumb_width), IntToStr(nonthumb_height)]);
+
+  		FreeAndNil(img);
+  		end
+	else
+  		begin
+        Sender.PreviewImage.Visible := false;
+  		Sender.Size.Caption := LoadLStr(402);
+  		end;
+
+	// support info
+	Sender.Name.Caption := Format(LoadLStr(403), [ExtractFileName(Sender.FileName)]);
+
+	// getting file type
+	Sender.FileType.Caption := Format(LoadLStr(404), [GetTypeString(Ext, LoadLStr(411))]);
+
+	// is supported ?
+	if SupportedExt(Ext) then
+    	Sender.Support.Caption := LoadLStr(406)
+    else
+    	Sender.Support.Caption := LoadLStr(407);
+end;
