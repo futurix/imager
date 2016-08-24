@@ -14,6 +14,7 @@ type
     lblCopy: TLabel;
     imgAbout: TImage;
     lblWeb: TLabel;
+    lblUK: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure btnOKClick(Sender: TObject);

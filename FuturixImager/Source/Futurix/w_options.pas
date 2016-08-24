@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ImgList,
-  c_utils,
+  c_utils, c_locales, c_themes,
   o_plugins, o_welcome, o_formats, o_formatsxp, o_advanced, o_iconlib, o_lang,
   o_themes;
 
@@ -38,7 +38,10 @@ type
 
     procedure ProcessActions();
   public
+    actionUpdateLocalization: boolean;
+    actionUpdateTheme: boolean;
     actionUpdateFileFormatHandlers: boolean;
+    actionScanForNewPlugins: boolean;
     actionReinstallPlugins: boolean;
 
     procedure Localize();
@@ -62,7 +65,7 @@ var
 
 implementation
 
-uses f_plugins, fx_formats_legacy, f_tools;
+uses f_plugins, fx_formats_legacy, f_tools, w_main, w_show, f_ui;
 
 {$R *.dfm}
 
@@ -71,7 +74,10 @@ var
   temp: TTreeNode;
 begin
   // no actions by default
+  actionUpdateLocalization := false;
+  actionUpdateTheme := false;
   actionUpdateFileFormatHandlers := false;
+  actionScanForNewPlugins := false;
   actionReinstallPlugins := false;
 
   // adding pages to the list
@@ -100,13 +106,13 @@ begin
   temp.ImageIndex := 0;
   temp.Data := Pointer(OPAGE_ICONLIB);
 
-  //temp := tvwCategories.Items.Add(nil, 'Languages');
-  //temp.ImageIndex := 0;
-  //temp.Data := Pointer(OPAGE_LANG);
+  temp := tvwCategories.Items.Add(nil, 'Languages');
+  temp.ImageIndex := 0;
+  temp.Data := Pointer(OPAGE_LANG);
 
-  //temp := tvwCategories.Items.Add(nil, 'Themes');
-  //temp.ImageIndex := 0;
-  //temp.Data := Pointer(OPAGE_THEMES);
+  temp := tvwCategories.Items.Add(nil, 'Themes');
+  temp.ImageIndex := 0;
+  temp.Data := Pointer(OPAGE_THEMES);
 
   //temp := tvwCategories.Items.Add(nil, 'Advanced');
   //temp.ImageIndex := 0;
@@ -167,6 +173,31 @@ end;
 
 procedure TfrmOptions.ProcessActions();
 begin
+  if actionUpdateLocalization then
+    begin
+    actionScanForNewPlugins := true;
+    actionUpdateFileFormatHandlers := true;
+    actionReinstallPlugins := true;
+
+    CleanLocalization();
+    InitLocalization(HInstance);
+    end;
+
+  if actionUpdateTheme then
+    begin
+    UnloadTheme();
+    LoadTheme(HInstance);
+
+    ApplyTheme();
+    end;
+
+  if actionScanForNewPlugins then
+    begin
+    fx.PluginScan(false);
+
+    actionReinstallPlugins := true;
+    end;
+
   if actionUpdateFileFormatHandlers then
     begin
     if IsVista() then
@@ -180,6 +211,14 @@ begin
 
   if actionReinstallPlugins then
     UpdatePlugIns();
+
+  if actionUpdateLocalization then
+    begin
+    frmMain.Localize();
+
+    if Assigned(frmShow) then
+      frmShow.Localize();
+    end;
 end;
 
 procedure TfrmOptions.tvwCategoriesChange(Sender: TObject; Node: TTreeNode);

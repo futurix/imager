@@ -75,7 +75,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">2089</VersionInfo>
+						<VersionInfo Name="Build">2122</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -87,7 +87,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.2089</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.2122</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2010 Alex Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>

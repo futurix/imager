@@ -17,7 +17,20 @@ object fraOptThemes: TfraOptThemes
     Caption = 'Select theme:'
     ExplicitWidth = 66
   end
-  object ComboBox1: TComboBox
+  object lblInfo: TLabel
+    AlignWithMargins = True
+    Left = 0
+    Top = 38
+    Width = 503
+    Height = 13
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 6
+    Align = alTop
+    ExplicitWidth = 3
+  end
+  object cbxThemes: TComboBox
     AlignWithMargins = True
     Left = 0
     Top = 15
@@ -29,7 +42,36 @@ object fraOptThemes: TfraOptThemes
     Margins.Bottom = 2
     Align = alTop
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 0
+    OnSelect = cbxThemesSelect
+  end
+  object sbxPreview: TScrollBox
+    Left = 0
+    Top = 57
+    Width = 503
+    Height = 357
+    Align = alClient
+    AutoScroll = False
+    BorderStyle = bsNone
+    TabOrder = 1
+    ExplicitTop = 53
+    ExplicitHeight = 361
+    object tbrPreview: TToolBar
+      Left = 0
+      Top = 0
+      Width = 503
+      Height = 22
+      AutoSize = True
+      Caption = 'tbrPreview'
+      Images = imlPreview
+      TabOrder = 0
+      Wrapable = False
+    end
+  end
+  object imlPreview: TImageList
+    ColorDepth = cd32Bit
+    Left = 463
+    Top = 65
   end
 end

@@ -103,9 +103,9 @@ object frmMain: TfrmMain
     FixedOrder = True
     ShowText = False
     object itbMain: TToolBar
-      Left = 2
+      Left = 0
       Top = 0
-      Width = 740
+      Width = 742
       Height = 22
       AutoSize = True
       Caption = 'Main Toolbar'
@@ -1177,6 +1177,13 @@ object frmMain: TfrmMain
   object imlDis: TImageList
     ColorDepth = cd32Bit
     Left = 475
+    Top = 221
+  end
+  object imlFixedLarge: TImageList
+    ColorDepth = cd32Bit
+    Height = 32
+    Width = 32
+    Left = 537
     Top = 221
   end
 end

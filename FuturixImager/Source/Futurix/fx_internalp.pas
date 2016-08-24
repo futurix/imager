@@ -162,13 +162,16 @@ begin
     begin
     info_call(PT_FOPEN, 'hdp', '');
     info_call(PT_FOPEN, 'wdp', '');
+    info_call(PT_FOPEN, 'jxr', '');
 
     info_call(PT_FSAVE, 'hdp', '');
+    info_call(PT_FSAVE, 'jxr', '');
 
     info_call(PT_FNOTREC, 'wdp', '');
 
     info_call(PT_FDESCR, 'hdp', PWideChar(LoadLStr(1065)));
     info_call(PT_FDESCR, 'wdp', PWideChar(LoadLStr(1065)));
+    info_call(PT_FDESCR, 'jxr', PWideChar(LoadLStr(1065)));
 
     wic.Free();
     end;
@@ -359,7 +362,7 @@ begin
     FreeAndNil(frmJPEGsave);
     end
 
-  else if (mex = 'hdp') then
+  else if ((mex = 'hdp') or (mex = 'jxr')) then
     begin
     frmXRsave := TfrmXRsave.Create(nil);
     frmXRsave.ShowModal();

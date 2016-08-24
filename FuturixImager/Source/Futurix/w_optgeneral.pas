@@ -43,81 +43,11 @@ type
     shtGeneral: TTabSheet;
     shtBeh: TTabSheet;
     cbxReverseWheel: TCheckBox;
-    shtLang: TTabSheet;
-    shtThemes: TTabSheet;
     shtPlugins: TTabSheet;
-    lblLocale: TLabel;
-    cbxLanguages: TComboBox;
-    lblLocaleInfo: TLabel;
     lblInstPlugins: TLabel;
     lvwPlugins: TListView;
-    lblTheme: TLabel;
-    cbxThemes: TComboBox;
-    lblThemeInfo: TLabel;
-    sbxPreview: TScrollBox;
-    tbrPreview: TToolBar;
-    ToolButton0: TToolButton;
     imlPreview: TImageList;
     lvwSettings: TListView;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton4: TToolButton;
-    ToolButton5: TToolButton;
-    ToolButton6: TToolButton;
-    ToolButton7: TToolButton;
-    ToolButton8: TToolButton;
-    ToolButton9: TToolButton;
-    ToolButton10: TToolButton;
-    ToolButton11: TToolButton;
-    ToolButton12: TToolButton;
-    ToolButton13: TToolButton;
-    ToolButton14: TToolButton;
-    ToolButton15: TToolButton;
-    ToolButton16: TToolButton;
-    ToolButton17: TToolButton;
-    ToolButton18: TToolButton;
-    ToolButton19: TToolButton;
-    ToolButton20: TToolButton;
-    ToolButton21: TToolButton;
-    ToolButton22: TToolButton;
-    ToolButton23: TToolButton;
-    ToolButton24: TToolButton;
-    ToolButton25: TToolButton;
-    ToolButton26: TToolButton;
-    ToolButton27: TToolButton;
-    ToolButton28: TToolButton;
-    ToolButton29: TToolButton;
-    ToolButton30: TToolButton;
-    ToolButton31: TToolButton;
-    ToolButton32: TToolButton;
-    ToolButton33: TToolButton;
-    ToolButton34: TToolButton;
-    ToolButton35: TToolButton;
-    ToolButton36: TToolButton;
-    ToolButton37: TToolButton;
-    ToolButton38: TToolButton;
-    ToolButton39: TToolButton;
-    ToolButton40: TToolButton;
-    ToolButton41: TToolButton;
-    ToolButton42: TToolButton;
-    ToolButton43: TToolButton;
-    ToolButton44: TToolButton;
-    ToolButton45: TToolButton;
-    ToolButton46: TToolButton;
-    ToolButton47: TToolButton;
-    ToolButton48: TToolButton;
-    ToolButton49: TToolButton;
-    ToolButton50: TToolButton;
-    ToolButton51: TToolButton;
-    ToolButton52: TToolButton;
-    ToolButton53: TToolButton;
-    ToolButton54: TToolButton;
-    ToolButton55: TToolButton;
-    ToolButton56: TToolButton;
-    ToolButton57: TToolButton;
-    ToolButton58: TToolButton;
-    ToolButton59: TToolButton;
     shtPlugCfg: TTabSheet;
     lblPlugCfg: TLabel;
     lvwPlugCfg: TListView;
@@ -139,31 +69,19 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbxMainColorClick(Sender: TObject);
     procedure sbxFSColorClick(Sender: TObject);
-    procedure cbxLanguagesChange(Sender: TObject);
-    procedure cbxThemesChange(Sender: TObject);
     procedure lvwPlugCfgDblClick(Sender: TObject);
     procedure lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbxGradColorClick(Sender: TObject);
     procedure lblClearMRUClick(Sender: TObject);
-    procedure lblPlugScanClick(Sender: TObject);
     procedure lblOpenPlugFolderClick(Sender: TObject);
   private
-    procedure InitLocales();
-    procedure InitThemes();
     procedure GetInstalledPluginsList();
   procedure AddSetting(id: longint; name: string);
   function  GetSetting(id: longint): boolean;
   procedure SetSetting(id: longint; value: boolean);
   public
-    bLangChanged: boolean;
-    bThemeChanged: boolean;
-
     procedure Localize();
   end;
-
-resourcestring
-  sBuiltInLang = 'English (built-in)';
-  sBuiltInTheme = 'Default (built-in)';
 
 var
   frmOldOptions: TfrmOldOptions;
@@ -174,81 +92,6 @@ implementation
 uses w_main, f_ui, f_plugins, f_tools, w_show, f_images, fx_defs;
 
 {$R *.DFM}
-
-procedure TfrmOldOptions.InitLocales();
-var
-  langs: TStringList;
-  locale_name: string;
-  wreg: TFRegistry;
-begin
-  // loading languages
-  langs := TStringList.Create();
-  cbxLanguages.Items.Clear();
-
-  wreg := TFRegistry.Create(RA_READONLY);
-  wreg.RootKey := HKEY_CURRENT_USER;
-
-  if wreg.OpenKey(sModules + '\' + PS_FLOCALE, false) then
-    begin
-    wreg.GetValueNames(langs);
-
-    wreg.CloseKey();
-    end;
-
-  FreeAndNil(wreg);
-
-  langs.Sort();
-
-  cbxLanguages.Items.Add(sBuiltInLang);
-  cbxLanguages.Items.AddStrings(langs);
-
-  locale_name := FxRegRStr(sLocaleName, '', sReg);
-
-  if (cbxLanguages.Items.IndexOf(locale_name) <> -1) then
-    cbxLanguages.ItemIndex := cbxLanguages.Items.IndexOf(locale_name)
-  else
-    cbxLanguages.ItemIndex := 0;
-
-  cbxLanguagesChange(Self);
-  FreeAndNil(langs);
-end;
-
-procedure TfrmOldOptions.InitThemes();
-var
-  themes: TStringList;
-  theme_name: string;
-  wreg: TFRegistry;
-begin
-  // loading themes
-  themes := TStringList.Create();
-  cbxThemes.Items.Clear();
-
-  wreg := TFRegistry.Create(RA_READONLY);
-  wreg.RootKey := HKEY_CURRENT_USER;
-
-  if wreg.OpenKey(sModules + '\' + PS_FTHEME, false) then
-    begin
-    wreg.GetValueNames(themes);
-    wreg.CloseKey();
-    end;
-
-  FreeAndNil(wreg);
-
-  themes.Sort();
-
-  cbxThemes.Items.Add(sBuiltInTheme);
-  cbxThemes.Items.AddStrings(themes);
-
-  theme_name := FxRegRStr(sThemeName, '', sReg);
-
-  if (cbxThemes.Items.IndexOf(theme_name) <> -1) then
-    cbxThemes.ItemIndex := cbxThemes.Items.IndexOf(theme_name)
-  else
-    cbxThemes.ItemIndex := 0;
-
-  cbxThemesChange(Self);
-  FreeAndNil(themes);
-end;
 
 procedure TfrmOldOptions.GetInstalledPluginsList();
 var
@@ -372,9 +215,6 @@ begin
   wreg := TFRegistry.Create(RA_READONLY);
   wreg.RootKey := HKEY_CURRENT_USER;
 
-  bLangChanged := false;
-  bThemeChanged := false;
-
   Localize();
 
   SetStyleAsLink(lblClearMRU);
@@ -393,12 +233,6 @@ begin
   AddSetting(SETTING_HQDISPLAYFILTER, LoadLStr(869));
   AddSetting(SETTING_DELAYDISPLAYFILTER, LoadLStr(873));
   AddSetting(SETTING_ENABLECMS, LoadLStr(3309));
-    
-  //DoLocaleScan();
-  //DoThemesScan();
-    
-  InitLocales();
-  InitThemes();
 
   GetInstalledPluginsList();
 
@@ -524,85 +358,6 @@ begin
     end
   else
     MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['core'])), sAppName, MB_OK or MB_ICONERROR);
-
-  // themes
-  {if bThemeChanged then
-    begin
-    theme_lib := FxRegRStr(cbxThemes.Items[cbxThemes.ItemIndex], '', sModules + '\' + PS_FTHEME);
-
-    if ((cbxThemes.Items[cbxThemes.ItemIndex] <> sBuiltInTheme) and (theme_lib <> '') and (FileExists(theme_lib))) then
-      begin
-      if wreg.OpenKey(sReg, true) then
-        begin
-        wreg.WString(sThemeName, cbxThemes.Items[cbxThemes.ItemIndex]);
-        wreg.WString(sThemeLib, theme_lib);
-
-        wreg.CloseKey();
-        end
-      else
-        MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['theming1'])), sAppName, MB_OK or MB_ICONERROR);
-      end
-    else
-      begin
-      if wreg.OpenKey(sReg, true) then
-        begin
-        wreg.DeleteValue(sThemeName);
-        wreg.DeleteValue(sThemeLib);
-
-        wreg.CloseKey();
-        end
-      else
-        MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['theming2'])), sAppName, MB_OK or MB_ICONERROR);
-      end;
-
-    UnloadTheme();
-    LoadTheme(HInstance);
-
-    ApplyTheme();
-    end;}
-
-    // localization stuff
-  {if bLangChanged then
-    begin
-    locale_lib := FxRegRStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '', sModules + '\' + PS_FLOCALE);
-
-    if ((cbxLanguages.Items[cbxLanguages.ItemIndex] <> sBuiltInLang) and (locale_lib <> '') and (FileExists(locale_lib))) then
-      begin
-      if wreg.OpenKey(sReg, true) then
-        begin
-        wreg.WString(sLocaleName, cbxLanguages.Items[cbxLanguages.ItemIndex]);
-        wreg.WString(sLocaleLib, locale_lib);
-
-        wreg.CloseKey();
-        end
-      else
-        MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['lang1'])), sAppName, MB_OK or MB_ICONERROR);
-      end
-    else
-      begin
-      if wreg.OpenKey(sReg, true) then
-        begin
-        wreg.DeleteValue(sLocaleName);
-        wreg.DeleteValue(sLocaleLib);
-
-        wreg.CloseKey();
-        end
-      else
-        MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['lang2'])), sAppName, MB_OK or MB_ICONERROR);
-      end;
-
-    // updating settings
-    CleanLocalization();
-    InitLocalization(HInstance);
-
-    fx.PluginScan();
-    UpdatePlugIns();
-
-    // localization fix
-    frmMain.Localize();
-    if Assigned(frmShow) then
-      frmShow.Localize();
-    end;}
 
   // updating settings
   frmMain.miDSFitAll.Visible := GetSetting(SETTING_ENABLEFITALL);
@@ -748,8 +503,6 @@ begin
   cbxResample.Items[11]   := LoadLStr(3338);
   cbxResample.Items[12]   := LoadLStr(3339);
 
-  shtLang.Caption         := LoadLStr(844);
-
   shtPlugins.Caption      := LoadLStr(862);
 
   lblPlugScan.Caption         := LoadLStr(863);
@@ -761,9 +514,6 @@ begin
 
   shtPlugCfg.Caption      := LoadLStr(3558);
   lblPlugCfg.Caption      := LoadLStr(3559);
-
-  shtThemes.Caption       := LoadLStr(3550);
-  lblTheme.Caption        := LoadLStr(3551);
 
   btnOK.Caption           := LoadLStr(50);
   btnCancel.Caption       := LoadLStr(51);
@@ -814,56 +564,6 @@ begin
   FreeAndNil(dlg);
 end;
 
-procedure TfrmOldOptions.cbxLanguagesChange(Sender: TObject);
-var
-  locale_str, lang_loc: string;
-  local_lib: THandle;
-  load_default: boolean;
-begin
-  bLangChanged := true;
-  load_default := true;
-
-  if (cbxLanguages.Items[cbxLanguages.ItemIndex] <> sBuiltInLang) then
-    begin
-    if (cbxLanguages.Items[cbxLanguages.ItemIndex] <> '') then
-      begin
-      locale_str := FxRegRStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '', sModules + '\' + PS_FLOCALE);
-
-      if ((locale_str <> '') and FileExists(locale_str)) then
-        begin
-        local_lib := LoadLibraryEx(PWideChar(locale_str), 0, LOAD_LIBRARY_AS_DATAFILE);
-
-        if (local_lib <> 0) then
-          begin
-          if (LoadResString(local_lib, 1) = sLocaleID) then
-            begin
-            load_default := false;
-
-            lang_loc := LoadResString(local_lib, 6);
-            if (lang_loc <> '') then
-              lang_loc := (' (' + lang_loc + ')');
-
-            lblLocaleInfo.Caption :=
-              'Language: ' + LoadResString(local_lib, 2) + lang_loc + #10 + #10 +
-              'Translator: ' + LoadResString(local_lib, 4) + #10 +
-              'Last updated for: ' + sAppName + ' ' + LoadResString(local_lib, 5);
-            end;
-
-          FreeLibrary(local_lib);
-          end;
-        end;
-      end;
-    end;
-
-  if load_default then
-    begin
-    lblLocaleInfo.Caption :=
-      'Language: ' + sBuiltInLang + #10 + #10 +
-      'Translator: ' + LoadResString(HInstance, 4) + #10 +
-      'Last updated for: ' + sAppName + ' ' + LoadResString(HInstance, 5);
-    end;
-end;
-
 procedure TfrmOldOptions.lblClearMRUClick(Sender: TObject);
 begin
   frmMain.mru.ClearItems(true);
@@ -872,97 +572,6 @@ end;
 procedure TfrmOldOptions.lblOpenPlugFolderClick(Sender: TObject);
 begin
   ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath), nil, nil, SW_SHOWNORMAL);
-end;
-
-procedure TfrmOldOptions.lblPlugScanClick(Sender: TObject);
-begin
-  fx.PluginScan();
-  UpdatePlugIns();
-
-  SetDialogs();
-  GetInstalledPluginsList();
-
-  Application.MessageBox(PWideChar(LoadLStr(604)), sAppName, MB_OK + MB_ICONINFORMATION);
-end;
-
-procedure TfrmOldOptions.cbxThemesChange(Sender: TObject);
-var
-  theme_str, theme_descr: string;
-  load_default: boolean;
-  lib: THandle;
-  bmp: TBitmap;
-begin
-  bThemeChanged := true;
-  load_default := true;
-
-  if (cbxThemes.Items[cbxThemes.ItemIndex] <> sBuiltInTheme) then
-    begin
-    if (cbxThemes.Items[cbxThemes.ItemIndex] <> '') then
-      begin
-      theme_str := FxRegRStr(cbxThemes.Items[cbxThemes.ItemIndex], '', sModules + '\' + PS_FTHEME);
-
-      if ((theme_str <> '') and FileExists(theme_str)) then
-        begin
-        lib := LoadLibraryEx(PWideChar(theme_str), 0, LOAD_LIBRARY_AS_DATAFILE);
-
-        if (lib <> 0) then
-          begin
-          if (LoadResString(lib, 1) = sThemeID) then
-            begin
-            load_default := false;
-
-            theme_descr := LoadResString(lib, 3);
-            if (theme_descr <> '') then
-              theme_descr := (LoadLStr(3556) + ' ' + theme_descr + #10);
-
-            lblThemeInfo.Caption :=
-              LoadLStr(3553) + ' ' + LoadResString(lib, 2) + #10 +
-              theme_descr + #10 +
-              LoadLStr(3554) + ' ' + LoadResString(lib, 4) + #10 +
-              LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(lib, 5);
-
-            bmp := LoadBitmapFromCustomTheme(lib, 'IMGMAIN');
-
-            if (bmp <> nil) then
-              begin
-              imlPreview.Height := bmp.Height;
-              imlPreview.Width := bmp.Height;
-              imlPreview.Clear();
-              imlPreview.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
-              end
-            else
-              imlPreview.Clear();
-            end;
-
-          FreeLibrary(lib);
-          end;
-        end;
-      end;
-    end;
-
-  if load_default then
-    begin
-    lblThemeInfo.Caption :=
-      LoadLStr(3553) + ' ' + sBuiltInTheme + #10 +
-      LoadLStr(3556) + ' Default FuturixImager style' + #10 + #10 +
-      LoadLStr(3554) + ' ' + LoadResString(HInstance, 4) + #10 +
-      LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(HInstance, 5);
-
-    bmp := LoadBitmapFromCustomTheme(HInstance, 'IMGMAIN');
-
-    if (bmp <> nil) then
-      begin
-      imlPreview.Height := bmp.Height;
-      imlPreview.Width := bmp.Height;
-      imlPreview.Clear();
-      imlPreview.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
-      end
-    else
-      imlPreview.Clear();
-    end;
-
-  tbrPreview.ButtonHeight := imlPreview.Height + 6;
-  tbrPreview.ButtonWidth := imlPreview.Height + 7;
 end;
 
 procedure TfrmOldOptions.lvwPlugCfgDblClick(Sender: TObject);

@@ -4,7 +4,7 @@ object frmAbout: TfrmAbout
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 116
+  ClientHeight = 139
   ClientWidth = 366
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -55,9 +55,22 @@ object frmAbout: TfrmAbout
     Transparent = True
     OnClick = lblWebClick
   end
+  object lblUK: TLabel
+    Left = 15
+    Top = 89
+    Width = 78
+    Height = 13
+    Caption = 'Made in UK :-)'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Shell Dlg 2'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
   object btnOK: TButton
-    Left = 277
-    Top = 77
+    Left = 283
+    Top = 106
     Width = 75
     Height = 25
     Caption = 'OK'

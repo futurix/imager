@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
   Dialogs, StdCtrls, ShlObj,
-  c_const, c_reg, c_utils, ExtCtrls;
+  c_const, c_reg, c_locales, c_lang, c_utils, ExtCtrls;
 
 type
   TfraOptIconLib = class(TFrame)
@@ -102,10 +102,10 @@ begin
   // cleaning
   cbxIconLibs.Clear();
 
-  // default icon
+  // default selection
   cbxIconLibs.Items.Add(sDefaultIconLib);
 
-  // icon libraries
+  // getting list of icon libraries
   reg := TFRegistry.Create();
 
   if reg.OpenKeyUserRO(sModules + '\' + PS_FICONLIB) then
@@ -113,6 +113,7 @@ begin
     libs := TStringList.Create();
 
     reg.GetValueNames(libs);
+    libs.Sort();
     cbxIconLibs.Items.AddStrings(libs);
 
     reg.CloseKey();
@@ -150,7 +151,7 @@ end;
 
 procedure TfraOptIconLib.UpdatePreview();
 var
-  selection, selFile: string;
+  selection, selFile, lib_descr: string;
   done: boolean;
   lib: THandle;
   res: TResourceStream;
@@ -177,7 +178,16 @@ begin
         if (LoadResString(lib, 1) = sIconLibID) then
           begin
           done := true;
-          lblInfo.Caption := LoadResString(lib, 3);
+
+          lib_descr := LoadResString(lib, 3);
+          if (lib_descr <> '') then
+            lib_descr := (LoadLStr(3556) + ' ' + lib_descr + #10);
+
+          lblInfo.Caption :=
+            'Icon library: ' + LoadResString(lib, 2) + #10 +
+            lib_descr +
+            LoadLStr(3554) + ' ' + LoadResString(lib, 4) + #10 +
+            LoadLStr(3555) + ' ' + sAppName + ' ' + LoadResString(lib, 5);
 
           try
             res := TResourceStream.Create(lib, 'PREVIEW', 'FUTURIX');
@@ -196,7 +206,7 @@ begin
   if not done then
     begin
     // loading default
-    lblInfo.Caption := 'Default icon included with FuturixImager';
+    lblInfo.Caption := 'Default icon library included with FuturixImager';
     imgPreview.Picture.Icon.Handle :=
       LoadImage(HInstance, MAKEINTRESOURCE(1), IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
     end;
@@ -317,8 +327,10 @@ var
 begin
   f := [rfReplaceAll, rfIgnoreCase];
 
+  // FuturixImager executable
+  input := StringReplace(input, '%APP%', Slash(fx.ApplicationPath) + FXFILE_APP, f);
   // FuturixImager folder
-  input := StringReplace(input, '%APP%', NoSlash(fx.ApplicationPath), f);
+  input := StringReplace(input, '%APPDIR%', NoSlash(fx.ApplicationPath), f);
   // icon library itself
   input := StringReplace(input, '%THIS%', libFile, f);
   // folder where icon library is located
@@ -338,9 +350,9 @@ begin
     input := StringReplace(input, '%SYS%', NoSlash(GetKnownFolderPath(FOLDERID_System)), f);
     // System32 or WOW64
     if IsWin64() then
-      input := StringReplace(input, '%SYSx86%', NoSlash(GetKnownFolderPath(FOLDERID_SystemX86)), f)
+      input := StringReplace(input, '%SYSWOW64%', NoSlash(GetKnownFolderPath(FOLDERID_SystemX86)), f)
     else
-      input := StringReplace(input, '%SYS%', NoSlash(GetKnownFolderPath(FOLDERID_System)), f);
+      input := StringReplace(input, '%SYSWOW64%', NoSlash(GetKnownFolderPath(FOLDERID_System)), f);
     end
   else
     begin
@@ -356,9 +368,9 @@ begin
     input := StringReplace(input, '%SYS%', NoSlash(GetShellFolderPath(CSIDL_SYSTEM)), f);
     // System32 or WOW64
     if IsWin64() then
-      input := StringReplace(input, '%SYSx86%', NoSlash(GetShellFolderPath(CSIDL_SYSTEMX86)), f)
+      input := StringReplace(input, '%SYSWOW64%', NoSlash(GetShellFolderPath(CSIDL_SYSTEMX86)), f)
     else
-      input := StringReplace(input, '%SYS%', NoSlash(GetShellFolderPath(CSIDL_SYSTEM)), f);
+      input := StringReplace(input, '%SYSWOW64%', NoSlash(GetShellFolderPath(CSIDL_SYSTEM)), f);
    end;
 
   Result := Trim(input);

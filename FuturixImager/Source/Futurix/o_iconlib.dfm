@@ -7,7 +7,7 @@ object fraOptIconLib: TfraOptIconLib
   object lblSelect: TLabel
     Left = 0
     Top = 0
-    Width = 503
+    Width = 73
     Height = 13
     Margins.Left = 0
     Margins.Top = 0
@@ -15,27 +15,25 @@ object fraOptIconLib: TfraOptIconLib
     Margins.Bottom = 0
     Align = alTop
     Caption = 'Select icon set:'
-    ExplicitWidth = 73
   end
   object lblInfo: TLabel
     AlignWithMargins = True
     Left = 0
     Top = 38
-    Width = 503
+    Width = 3
     Height = 13
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
-    Margins.Bottom = 2
+    Margins.Bottom = 6
     Align = alTop
     WordWrap = True
-    ExplicitWidth = 3
   end
   object imgPreview: TImage
     Left = 0
-    Top = 53
+    Top = 57
     Width = 503
-    Height = 361
+    Height = 357
     Align = alClient
     Center = True
     ExplicitLeft = 75
@@ -56,7 +54,7 @@ object fraOptIconLib: TfraOptIconLib
     Align = alTop
     AutoCloseUp = True
     Style = csDropDownList
-    ItemHeight = 13
+    ItemHeight = 0
     Sorted = True
     TabOrder = 0
     OnSelect = cbxIconLibsSelect

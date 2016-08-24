@@ -216,6 +216,7 @@ type
     N31: TMenuItem;
     miOptions2: TMenuItem;
     imlDis: TImageList;
+    imlFixedLarge: TImageList;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

@@ -32,7 +32,7 @@ var
   locale_str: string;
 begin
   //!!!
-  legacy_locale := LoadLibrary('fxlegacy.dll');
+  legacy_locale := LoadLibraryEx('fxlegacy.dll', 0, LOAD_LIBRARY_AS_DATAFILE);
   //!!!
 
   backup_lib := back_up;

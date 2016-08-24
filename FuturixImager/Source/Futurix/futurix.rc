@@ -18,6 +18,7 @@ MAINICON ICON "res\futurix.ico"
 IMGMAIN   RT_BITMAP   "res\main.bmp"
 IMGMAIND  RT_BITMAP   "res\maind.bmp"
 IMGFIXED  RT_BITMAP   "res\fixed.bmp"
+IMGFIXEDL RT_BITMAP   "res\fixedl.bmp"
 
 // built-in fallback file format icon
 1       ICON       "res\fallback.ico"

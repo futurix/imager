@@ -18,3 +18,6 @@ FuturixImager/Source/Plugins/__nonmigrated/FreeImage/Library/Source/*
 FuturixImager/Development/Scraps/nonmigratedplugins/FreeImage/Library/Dist/*
 FuturixImager/Development/Scraps/nonmigratedplugins/FreeImage/Library/Source/*
 FuturixImager/Development/Scraps/SharedOld/*
+FuturixImager/Development/Scraps/oldSDK/plugins/source/plugins/fimg/library/Dist/*
+FuturixImager/Development/Scraps/oldSDK/plugins/source/plugins/fimg/library/Source/*
+FuturixImager/Development/Scraps/oldSDK/plugins/thirdparty/delphi/*
