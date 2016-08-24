@@ -51,10 +51,6 @@ object frmInfo: TfrmInfo
     object shtGeneral: TTabSheet
       BorderWidth = 5
       Caption = 'General'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lvwInfo: TListView
         Left = 0
         Top = 0
@@ -205,6 +201,21 @@ object frmInfo: TfrmInfo
           TabOrder = 4
           OnClick = rbnAllClick
         end
+      end
+      object sbxHist: TScrollBox
+        Left = 0
+        Top = 0
+        Width = 563
+        Height = 311
+        Align = alClient
+        AutoScroll = False
+        Color = clWhite
+        Padding.Left = 10
+        Padding.Top = 10
+        Padding.Right = 10
+        Padding.Bottom = 10
+        ParentColor = False
+        TabOrder = 1
       end
     end
   end

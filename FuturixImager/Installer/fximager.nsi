@@ -1,6 +1,6 @@
 !include "MUI2.nsh"
 
-!define FXVERSION "$\"Splash$\" Alpha 1"
+!define FXVERSION "$\"Splash$\" Alpha 2"
 
 Name "FuturixImager"
 OutFile "Output\futuriximager.exe"

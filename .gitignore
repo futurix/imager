@@ -13,3 +13,5 @@ FuturixImager/Help/Developer/plugins/source/plugins/fimg/library/Source/*
 FuturixImager/Help/Developer/plugins/source/plugins/fimg/library/Dist/*
 FuturixImager/Development/Scraps/__imageen/*
 *.cbproj.local
+FuturixImager/Source/Plugins/__nonmigrated/FreeImage/Library/Dist/*
+FuturixImager/Source/Plugins/__nonmigrated/FreeImage/Library/Source/*

@@ -1,5 +1,4 @@
->>>> 6.0 Alpha 1
-+ Unicode
-+ displaying standard "Open" dialog on Vista (but without quick preview)
-+ co-exists with versions 5.9.x
-+ added MRU to pop-up menu
+>>>> 6.0 Alpha 2
++ many Unicode bug-fixes and complete source code review
++ added support for media keyboard keys, mouse wheel click, and side mouse buttons
++ restored "Info" dialog

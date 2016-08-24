@@ -46,12 +46,12 @@ const
   // plug-in types
   PT_FNAME         = 1;
   PT_FROLE         = 2;
-  PT_FCONFIG       = 3;
+  PT_FCONFIG       = 3;     // to be removed
   PT_FDESCR        = 5;
   PT_FNOTREC       = 6;
   PT_FOPEN         = 10;
-  PT_FOPENMULTI    = 11;
-  PT_FOPENANIM     = 19;
+  PT_FOPENMULTI    = 11;    // to be replaced
+  PT_FOPENANIM     = 19;    // to be removed
   PT_FSAVE         = 20;
   PT_FIMPORT       = 30;
   PT_FEXPORT       = 40;
@@ -98,18 +98,15 @@ const
   // TFxImgResult result types
   RT_BOOL          = 0;
   RT_HBITMAP       = 1;
-  RT_HIMAGE        = 2;
-  RT_INT           = 3;
-  RT_HWND          = 4;
-  RT_PCHAR         = 5;
-  RT_PWCHAR        = 6;
-  RT_PTR           = 7;
-  RT_HANDLE        = 8;
+  RT_INT           = 2;
+  RT_HWND          = 3;
+  RT_PWCHAR        = 4;
+  RT_PTR           = 5;
+  RT_HANDLE        = 6;
 
   // TFxImgResult string result types
-  ST_PCHAR         = 0;
-  ST_PWCHAR        = 1;
-  ST_PTR           = 2;
+  ST_PWCHAR        = 0;
+  ST_PTR           = 1;
 
   // TAppCallBack queries
   CQ_GETLANGLIBS   = 7;
@@ -134,66 +131,66 @@ type
   TFxImgResult = record
     result_type, result_value, result_xtra, result_access: ULONG;
     result_string_type, result_string_xtra: ULONG;
-    result_string_data: array[0..2047] of char;
+    result_string_data: array[0..2047] of WideChar;
   end;
 
   TStringCallBack     = procedure(filename: string); cdecl;   // Pascal-only
 
   TPreviewCallBack    = function(preview: HBITMAP): BOOL; cdecl;
-  TPlugInCallBack     = function(module_type: ULONG; value1, value2: PChar): BOOL; cdecl;
-  TDoubleCallBack     = function(name, value: PChar): BOOL; cdecl;
+  TPlugInCallBack     = function(module_type: ULONG; value1, value2: PWideChar): BOOL; cdecl;
+  TDoubleCallBack     = function(name, value: PWideChar): BOOL; cdecl;
   TAppCallBack        = function(query_type, value, xtra: ULONG): TFxImgResult; cdecl;
 
 
   TFxImgQuery         = function(
-                          plugin_path: PChar;
+                          plugin_path: PWideChar;
                           info_call: TPlugInCallBack;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
                                     
   TFxImgCfg           = function(
-                          info: PChar;
+                          info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
                                     
 
   TFxImgOpen          = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgSave          = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           img: HBITMAP;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgImport        = function(
-                          info: PChar;
+                          info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
                                     
   TFxImgExport        = function(
-                          info: PChar;
+                          info: PWideChar;
                           img: HBITMAP;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgFilter        = function(
-                          info: PChar;
+                          info: PWideChar;
                           img: HBITMAP;
                           preview_call: TPreviewCallBack;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgTool          = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           img: HBITMAP;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgInfo          = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           info_call: TDoubleCallBack;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
@@ -201,7 +198,7 @@ type
 
   // animation (to be removed soon)
   TFxImgAnimStart     = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
@@ -220,7 +217,7 @@ type
 
   // multi-page (to be replaced soon)
   TFxImgMultiStart    = function(
-                          document_path, info: PChar;
+                          document_path, info: PWideChar;
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 

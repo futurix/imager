@@ -38,13 +38,13 @@ procedure TfrmSharpen.FormCreate(Sender: TObject);
 begin
   no_change := false;
 
-    Localize();
+  Localize();
 
-    // working
+  // working
   if Assigned(frmEditor) then
-        ProcessPreview(0);
+    ProcessPreview(0);
 
-    trbAmountChange(Self);
+  trbAmountChange(Self);
 end;
 
 procedure TfrmSharpen.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -60,33 +60,33 @@ end;
 procedure TfrmSharpen.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key = VK_ESCAPE) then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmSharpen.Localize();
 begin
-    Self.Caption      := LoadLStr(1755);
-    lblAmount.Caption    := LoadLStr(1800);
-    btnOK.Caption      := LoadLStr(50);
-    btnCancel.Caption    := LoadLStr(51);
+  Self.Caption        := LoadLStr(1755);
+  lblAmount.Caption   := LoadLStr(1800);
+  btnOK.Caption       := LoadLStr(50);
+  btnCancel.Caption   := LoadLStr(51);
 end;
 
 procedure TfrmSharpen.btnOKClick(Sender: TObject);
 var
-    tmp_value: integer;
+  tmp_value: integer;
 begin
-    tmp_value := trbAmount.Position;
+  tmp_value := trbAmount.Position;
 
-    if (tmp_value < 1) then
-      tmp_value := 1;
+  if (tmp_value < 1) then
+    tmp_value := 1;
 
   if Assigned(frmEditor) then
-        begin
-        frmEditor.proc.Sharpen(tmp_value);
-        frmEditor.proc.ClearAllRedo();
-        end;
+    begin
+    frmEditor.proc.Sharpen(tmp_value);
+    frmEditor.proc.ClearAllRedo();
+    end;
 
-    Self.Close();
+  Self.Close();
 end;
 
 procedure TfrmSharpen.btnCancelClick(Sender: TObject);
@@ -96,29 +96,29 @@ end;
 
 procedure TfrmSharpen.trbAmountChange(Sender: TObject);
 var
-    tmp_value: integer;
+  tmp_value: integer;
 begin
-    if no_change then
-      Exit;
+  if no_change then
+    Exit;
 
-    no_change := true;
+  no_change := true;
 
-    tmp_value := trbAmount.Position;
+  tmp_value := trbAmount.Position;
 
-    if (tmp_value < 1) then
-      tmp_value := 1;
+  if (tmp_value < 1) then
+    tmp_value := 1;
 
   if Assigned(frmEditor) then
-        begin
-        if frmEditor.img.Selected then
-          frmEditor.img.CopySelectionToIEBitmap(frmEditor.imgPreview.IEBitmap)
-        else
-          frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
+    begin
+    if frmEditor.img.Selected then
+      frmEditor.img.CopySelectionToIEBitmap(frmEditor.imgPreview.IEBitmap)
+    else
+      frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
 
-        frmEditor.imgPreview.Proc.Sharpen(tmp_value);
-        end;
+    frmEditor.imgPreview.Proc.Sharpen(tmp_value);
+    end;
 
-    no_change := false;
+  no_change := false;
 end;
 
 end.

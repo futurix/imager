@@ -1,10 +1,22 @@
-- convert plug-in system to Unicode
 - preserve alpha channel internally
-- get rid of fake linked labels
+
+- get rid of animation
+
+- smarter zoom modes (restore last explicit user selection on new image)
+
+- rewrite multi-page support
+- rewrite full screen (as separate window)
+
+- plug-in interface for thumbnails
+
+- new application icon
+
+- write new file format registration support (with support for default programs on Vista/7)
+
+- redesign "Options" dialog
 
 - import digital camera dump (raw image) from unknown extensions
 - credits for used libraries
 - new raw plug-in using libRAW
-- option to use Vista dialogs
+- better customization for Vista dialogs
 - new scan UI (with explicit WIA / TWAIN selection)
-? new DICOM support

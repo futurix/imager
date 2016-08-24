@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, c_locales, c_const, c_reg;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls,
+  c_locales, c_const, c_reg;
 
 type
   TfrmXRsave = class(TForm)
@@ -18,8 +19,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure tbrQualityChange(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -58,21 +58,21 @@ end;
 procedure TfrmXRsave.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmXRsave.FormCreate(Sender: TObject);
 begin
-  tbrQuality.Position := FxRegRInt('SaverXR_Quality', 80);
-  cbxLossless.Checked := FxRegRBool('SaverXR_Lossless', false);
+  tbrQuality.Position   := FxRegRInt('SaverXR_Quality', 80);
+  cbxLossless.Checked   := FxRegRBool('SaverXR_Lossless', false);
 
   Self.Caption          := LoadLStr(3650);
   gbxQuality.Caption    := LoadLStr(3087);
 
-  cbxLossless.Caption    := LoadLStr(3651);
+  cbxLossless.Caption   := LoadLStr(3651);
 
-  btnSave.Caption        := LoadLStr(56);
-  btnCancel.Caption      := LoadLStr(51);
+  btnSave.Caption       := LoadLStr(56);
+  btnCancel.Caption     := LoadLStr(51);
 end;
 
 procedure TfrmXRsave.CreateParams(var Params: TCreateParams);

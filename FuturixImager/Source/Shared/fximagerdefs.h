@@ -5,14 +5,14 @@
 #pragma once
 
 
-// application strings (ANSI only)
-#define SAPPNAME 			"FuturixImager"
-#define SVERSION			"6.0"
-#define SVERSIONEX			"6.0.0.0"
-#define SAUTHOR 			"Alexander Tereshchenko"
-#define SRIGHTS 			"© 1999-2009 Alexander Tereshchenko"
-#define SREGASSOCIATION		"FuturixImager_6"
-#define SREGASSOCIATIONOLD	"FuturixImager_6_BAK"
+// application strings
+#define SAPPNAME 			L"FuturixImager"
+#define SVERSION			L"6.0"
+#define SVERSIONEX			L"6.0.0.0"
+#define SAUTHOR 			L"Alexander Tereshchenko"
+#define SRIGHTS 			L"© 1999-2009 Alexander Tereshchenko"
+#define SREGASSOCIATION		L"FuturixImager_6"
+#define SREGASSOCIATIONOLD	L"FuturixImager_6_BAK"
 
 // version info
 #define FXVER_MAJOR			6
@@ -21,25 +21,25 @@
 #define FXVER_BUILD			0
 
 // registry paths
-#define SREG 				"\\Software\\Futurix\\FuturixImager"
-#define SSETTINGS			"\\Software\\Futurix\\FuturixImager\\Settings"
-#define SMODULES 			"\\Software\\Futurix\\FuturixImager\\Cache"
+#define SREG 				L"\\Software\\Futurix\\FuturixImager"
+#define SSETTINGS			L"\\Software\\Futurix\\FuturixImager\\Settings"
+#define SMODULES 			L"\\Software\\Futurix\\FuturixImager\\Cache"
 
 // internal formats ID
-#define SINTERNALFORMAT		"fx_ip"
+#define SINTERNALFORMAT		L"fx_ip"
 
 // URLs
-#define SURL				"http://fximage.com/"
+#define SURL				L"http://fximage.com/"
 
 // plug-in signatures
-#define SLOCALEID 			"FxImgLocaleR3"
-#define STHEMEID 			"FxImgThemeR3"
+#define SLOCALEID 			L"FxImgLocaleR3"
+#define STHEMEID 			L"FxImgThemeR3"
 
 // registry value names
-#define SLOCALENAME			"CurrentLocaleName"
-#define SLOCALELIB			"CurrentLocaleLib"
-#define STHEMENAME			"CurrentThemeName"
-#define STHEMELIB			"CurrentThemeLib"
+#define SLOCALENAME			L"CurrentLocaleName"
+#define SLOCALELIB			L"CurrentLocaleLib"
+#define STHEMENAME			L"CurrentThemeName"
+#define STHEMELIB			L"CurrentThemeLib"
 
 // registry access constants
 #define RA_FULL				(KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS | \
@@ -49,12 +49,12 @@
 // plug-in types
 #define PT_FNAME 			1
 #define PT_FROLE 			2
-#define PT_FCONFIG			3
+#define PT_FCONFIG			3		// to be removed
 #define PT_FDESCR 			5
 #define PT_FNOTREC 			6
 #define PT_FOPEN 			10
-#define PT_FOPENMULTI 		11
-#define PT_FOPENANIM 		19
+#define PT_FOPENMULTI 		11		// to be replaced
+#define PT_FOPENANIM 		19		// to be removed
 #define PT_FSAVE 			20
 #define PT_FIMPORT 			30
 #define PT_FEXPORT 			40
@@ -63,24 +63,24 @@
 #define PT_FTOOL 			80
 
 // plug-in type strings
-#define PS_FNAME 			"Plug-ins"
-#define PS_FROLE 			"Roles"
-#define PS_FCONFIG			"Settings"
-#define PS_FDESCR 			"Descriptions"
-#define PS_FNOTREC			"NotRecommended"
-#define PS_FLOCALE 			"Locales"
-#define PS_FTHEME 			"Themes"
-#define PS_FOPEN 			"OpenBitmap"
-#define PS_FOPENMULTI 		"OpenPages"
-#define PS_FOPENANIM 		"OpenAnimation"
-#define PS_FSAVE 			"Save"
-#define PS_FIMPORT 			"Import"
-#define PS_FEXPORT 			"Export"
-#define PS_FFILTER 			"Filter"
-#define PS_FINFO 			"Information"
-#define PS_FTOOL 			"SimpleTool"
+#define PS_FNAME 			L"Plug-ins"
+#define PS_FROLE 			L"Roles"
+#define PS_FCONFIG			L"Settings"
+#define PS_FDESCR 			L"Descriptions"
+#define PS_FNOTREC			L"NotRecommended"
+#define PS_FLOCALE 			L"Locales"
+#define PS_FTHEME 			L"Themes"
+#define PS_FOPEN 			L"OpenBitmap"
+#define PS_FOPENMULTI 		L"OpenPages"
+#define PS_FOPENANIM 		L"OpenAnimation"
+#define PS_FSAVE 			L"Save"
+#define PS_FIMPORT 			L"Import"
+#define PS_FEXPORT 			L"Export"
+#define PS_FFILTER 			L"Filter"
+#define PS_FINFO 			L"Information"
+#define PS_FTOOL 			L"SimpleTool"
   
-// exported function names
+// exported function names (ANSI only)
 #define EX_QUERY			"FxImgQuery"
 #define EX_CFG				"FxImgCfg"
 #define EX_OPENPLAIN		"FxImgOpen"
@@ -101,24 +101,21 @@
 // FXIMGRESULT result types
 #define RT_BOOL				0
 #define RT_HBITMAP			1
-#define RT_HIMAGE			2
-#define RT_INT				3
-#define RT_HWND				4
-#define RT_PCHAR			5
-#define RT_PWCHAR			6
-#define RT_PTR				7
-#define RT_HANDLE			8
+#define RT_INT				2
+#define RT_HWND				3
+#define RT_PWCHAR			4
+#define RT_PTR				5
+#define RT_HANDLE			6
   
 // boolean values
 #define FX_FALSE			0
 #define FX_TRUE				1
 
-// TFxImgResult string result types
-#define ST_PCHAR			0
-#define ST_PWCHAR			1
-#define ST_PTR				2
+// FXIMGRESULT string result types
+#define ST_PWCHAR			0
+#define ST_PTR				1
 
-// TAppCallBack queries
+// APPCALLBACK queries
 #define CQ_GETLANGLIBS		7
 #define CQ_GETIMGBITMAP		100
 #define CQ_GETIMGPATH		120
@@ -138,14 +135,14 @@ struct FXIMGRESULT
 {
 	ULONG result_type, result_value, result_xtra, result_access;
 	ULONG result_string_type, result_string_xtra;
-	char result_string_data[2048];
+	WCHAR result_string_data[2048];
 }; 
 
 
 // callback prototypes
 typedef BOOL (__cdecl *PREVIEWCALLBACK)(HBITMAP preview);
-typedef BOOL (__cdecl *PLUGINCALLBACK)(ULONG module_type, LPSTR value1, LPSTR value2);
-typedef BOOL (__cdecl *DOUBLECALLBACK)(LPSTR name, LPSTR value);
+typedef BOOL (__cdecl *PLUGINCALLBACK)(ULONG module_type, LPWSTR value1, LPWSTR value2);
+typedef BOOL (__cdecl *DOUBLECALLBACK)(LPWSTR name, LPWSTR value);
 typedef FXIMGRESULT (__cdecl *APPCALLBACK)(ULONG query_type, ULONG value, ULONG xtra);
 
 
@@ -163,7 +160,7 @@ typedef FXIMGRESULT (__cdecl *APPCALLBACK)(ULONG query_type, ULONG value, ULONG 
 
 /*
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgQuery(
-	LPSTR plugin_path,
+	LPWSTR plugin_path,
 	PLUGINCALLBACK info_call,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
@@ -173,7 +170,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgQuery(
 }
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgCfg(
-	LPSTR info,
+	LPWSTR info,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -183,7 +180,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgCfg(
 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgOpen(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -192,7 +189,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgOpen(
 } 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgSave(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	HBITMAP img,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
@@ -202,7 +199,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgSave(
 } 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgImport(
-	LPSTR info,
+	LPWSTR info,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -211,7 +208,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgImport(
 } 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgExport(
-	LPSTR info,
+	LPWSTR info,
 	HBITMAP img,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
@@ -221,7 +218,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgExport(
 }
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgFilter(
-	LPSTR info,
+	LPWSTR info,
 	HBITMAP img,
 	PREVIEWCALLBACK preview_call,
 	HWND app, HWND wnd,
@@ -232,7 +229,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgFilter(
 }
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgTool(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	HBITMAP img,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
@@ -242,7 +239,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgTool(
 }
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgInfo(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	DOUBLECALLBACK info_call,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
@@ -253,7 +250,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgInfo(
 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimStart(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {
@@ -287,7 +284,7 @@ extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgAnimStop(
 
 
 extern "C" __declspec(dllexport) FXIMGRESULT __cdecl FxImgMultiStart(
-	LPSTR document_path, LPSTR info,
+	LPWSTR document_path, LPWSTR info,
 	HWND app, HWND wnd,
 	APPCALLBACK app_query)
 {

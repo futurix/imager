@@ -57,8 +57,8 @@ end;
 
 procedure TfrmJPsave.btnSaveClick(Sender: TObject);
 begin
-    FxRegWInt('SaverJPEG2000_Quality', tbrQuality.Position);
-    FxRegWBool('SaverJPEG2000_Lossless', cbxLossless.Checked);
+  FxRegWInt('SaverJPEG2000_Quality', tbrQuality.Position);
+  FxRegWBool('SaverJPEG2000_Lossless', cbxLossless.Checked);
 
   jp2_confirm := true;
   Self.Close();
@@ -77,23 +77,23 @@ end;
 procedure TfrmJPsave.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmJPsave.FormCreate(Sender: TObject);
 begin
-    tbrQuality.Position := FxRegRInt('SaverJPEG2000_Quality', 50);
-    cbxLossless.Checked := FxRegRBool('SaverJPEG2000_Lossless', true);
+  tbrQuality.Position := FxRegRInt('SaverJPEG2000_Quality', 50);
+  cbxLossless.Checked := FxRegRBool('SaverJPEG2000_Lossless', true);
 
-    cbxLosslessClick(Self);
+  cbxLosslessClick(Self);
 
-    Self.Caption        := LoadLStr(3090);
+  Self.Caption              := LoadLStr(3090);
 
-    gbxCompression.Caption    := LoadLStr(3091);
-    cbxLossless.Caption      := LoadLStr(3092);
+  gbxCompression.Caption    := LoadLStr(3091);
+  cbxLossless.Caption       := LoadLStr(3092);
 
-    btnSave.Caption        := LoadLStr(56);
-    btnCancel.Caption      := LoadLStr(51);
+  btnSave.Caption           := LoadLStr(56);
+  btnCancel.Caption         := LoadLStr(51);
 end;
 
 procedure TfrmJPsave.CreateParams(var Params: TCreateParams);

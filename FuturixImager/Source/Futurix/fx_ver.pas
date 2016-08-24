@@ -8,10 +8,11 @@ var
   ver_status: integer = 1;
 
   // version of the above (should be 0 for release)
-  ver_number: integer = 1;
+  ver_number: integer = 2;
 
   // codename of the above (should be '' for release)
   ver_codename: string = 'Splash';
+
 
 implementation
 

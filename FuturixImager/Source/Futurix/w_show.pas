@@ -53,14 +53,14 @@ begin
 
   // saving settings
   if rbnNormal.Checked then FxRegWInt('SlideShow_ShowOrder', 0)
-      else if rbnReverse.Checked then FxRegWInt('SlideShow_ShowOrder', 1)
-        else if rbnRandom.Checked then FxRegWInt('SlideShow_ShowOrder', 2)
-            else FxRegWInt('SlideShow_ShowOrder', 0);
+    else if rbnReverse.Checked then FxRegWInt('SlideShow_ShowOrder', 1)
+    else if rbnRandom.Checked then FxRegWInt('SlideShow_ShowOrder', 2)
+    else FxRegWInt('SlideShow_ShowOrder', 0);
   FxRegWInt('SlideShow_Timer', Timer.Interval);
 
   // setting UI
   frmMain.miShow.Checked := false;
-    frmmain.tbnShow.Down := false;
+  frmmain.tbnShow.Down := false;
 end;
 
 procedure TfrmShow.FormDestroy(Sender: TObject);
@@ -70,7 +70,7 @@ end;
 
 procedure TfrmShow.FormCreate(Sender: TObject);
 begin
-    Localize();
+  Localize();
 
   // loading position
   RestoreWindowPosition(@frmShow, sSettings + '\Wnd', 100, 15, 'Show_');
@@ -78,19 +78,19 @@ begin
   // loading settings
   Timer.Interval := FxRegRInt('SlideShow_Timer', 5000);
   try
-      edtTimer.Text := FloatToStr(Timer.Interval / 1000);
-      except
-      end;
+    edtTimer.Text := FloatToStr(Timer.Interval / 1000);
+  except
+  end;
 
   case FxRegRInt('SlideShow_ShowOrder', 0) of
-      0: rbnNormal.Checked := true;
-      1: rbnReverse.Checked := true;
-      2: rbnRandom.Checked := true;
-      end;
+    0: rbnNormal.Checked := true;
+    1: rbnReverse.Checked := true;
+    2: rbnRandom.Checked := true;
+  end;
 
   // setting UI
   frmMain.miShow.Checked := true;
-    frmmain.tbnShow.Down := true;
+  frmmain.tbnShow.Down := true;
 end;
 
 procedure TfrmShow.TimerTimer(Sender: TObject);
@@ -98,9 +98,9 @@ begin
   Self.Caption := Format(LoadLStr(728), [IntToStr(Round(Timer.Interval / 1000))]);
 
   if rbnNormal.Checked then frmMain.miGoForwardClick(frmShow)
-      else if rbnReverse.Checked then frmMain.miGoBackClick(frmShow)
-        else if rbnRandom.Checked then frmMain.miGoRandomClick(frmShow)
-            else frmMain.miGoForwardClick(frmShow);
+    else if rbnReverse.Checked then frmMain.miGoBackClick(frmShow)
+    else if rbnRandom.Checked then frmMain.miGoRandomClick(frmShow)
+    else frmMain.miGoForwardClick(frmShow);
 end;
 
 procedure TfrmShow.btnStartClick(Sender: TObject);
@@ -112,7 +112,7 @@ end;
 
 procedure TfrmShow.btnStopClick(Sender: TObject);
 begin
-    Self.Caption := LoadLStr(720);
+  Self.Caption := LoadLStr(720);
 
   Timer.Enabled := false;
 end;
@@ -124,9 +124,9 @@ begin
   tmp := 5;
 
   try
-      tmp := StrToInt(edtTimer.Text);
-    except
-      ShowMessage(LoadLStr(621));
+    tmp := StrToInt(edtTimer.Text);
+  except
+    ShowMessage(LoadLStr(621));
     edtTimer.Text := '5';
     Abort();
   end;
@@ -142,21 +142,21 @@ end;
 procedure TfrmShow.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key = VK_F3) then
-      frmShow.Visible := (not frmShow.Visible);
+    frmShow.Visible := (not frmShow.Visible);
 end;
 
 procedure TfrmShow.Localize();
 begin
-    Self.Caption      := LoadLStr(720);
-    btnStart.Caption    := LoadLStr(60);
-  btnStop.Caption      := LoadLStr(61);
-    lblTimer.Caption    := LoadLStr(721);
-    btnSet.Caption      := LoadLStr(722);
-    gbxDirection.Caption  := LoadLStr(723);
-    rbnNormal.Caption    := LoadLStr(724);
-    rbnReverse.Caption    := LoadLStr(725);
-    rbnRandom.Caption    := LoadLStr(726);
-    stxHint.Caption      := LoadLStr(727);
+  Self.Caption          := LoadLStr(720);
+  btnStart.Caption      := LoadLStr(60);
+  btnStop.Caption       := LoadLStr(61);
+  lblTimer.Caption      := LoadLStr(721);
+  btnSet.Caption        := LoadLStr(722);
+  gbxDirection.Caption  := LoadLStr(723);
+  rbnNormal.Caption     := LoadLStr(724);
+  rbnReverse.Caption    := LoadLStr(725);
+  rbnRandom.Caption     := LoadLStr(726);
+  stxHint.Caption       := LoadLStr(727);
 end;
 
 end.

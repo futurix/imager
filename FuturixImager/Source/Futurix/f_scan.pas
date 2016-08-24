@@ -15,7 +15,7 @@ procedure DoThemesScan();
 procedure ProcessLib(filename: string);
 procedure ProcessLocale(filename: string);
 procedure ProcessTheme(filename: string);
-function  SortData(module_type: longword; value1, value2: PChar):BOOL; cdecl;
+function SortData(module_type: longword; value1, value2: PWideChar): BOOL; cdecl;
 procedure WriteData(key, value1: string);
 procedure WriteInternal(key, value: string);
 procedure WriteDescr(ext, name: string);
@@ -36,38 +36,38 @@ begin
   wreg.RootKey := HKEY_CURRENT_USER;
     
   // recreating registry keys
-    if wreg.OpenKey(sModules, false) then
-      begin
-      wreg.DeleteKey(PS_FNAME);
-      wreg.DeleteKey(PS_FCONFIG);
-      wreg.DeleteKey(PS_FROLE);
-      wreg.DeleteKey(PS_FNOTREC);
-      wreg.DeleteKey(PS_FOPEN);
-      wreg.DeleteKey(PS_FOPENMULTI);
-      wreg.DeleteKey(PS_FOPENANIM);
-      wreg.DeleteKey(PS_FSAVE);
-      wreg.DeleteKey(PS_FIMPORT);
-      wreg.DeleteKey(PS_FEXPORT);
-      wreg.DeleteKey(PS_FFILTER);
-      wreg.DeleteKey(PS_FINFO);
-      wreg.DeleteKey(PS_FTOOL);
-      wreg.DeleteKey(PS_FDESCR);
+  if wreg.OpenKey(sModules, false) then
+    begin
+    wreg.DeleteKey(PS_FNAME);
+    wreg.DeleteKey(PS_FCONFIG);
+    wreg.DeleteKey(PS_FROLE);
+    wreg.DeleteKey(PS_FNOTREC);
+    wreg.DeleteKey(PS_FOPEN);
+    wreg.DeleteKey(PS_FOPENMULTI);
+    wreg.DeleteKey(PS_FOPENANIM);
+    wreg.DeleteKey(PS_FSAVE);
+    wreg.DeleteKey(PS_FIMPORT);
+    wreg.DeleteKey(PS_FEXPORT);
+    wreg.DeleteKey(PS_FFILTER);
+    wreg.DeleteKey(PS_FINFO);
+    wreg.DeleteKey(PS_FTOOL);
+    wreg.DeleteKey(PS_FDESCR);
 
-      wreg.CloseKey();
-      end;
+    wreg.CloseKey();
+    end;
 
-    FreeAndNil(wreg);
+  FreeAndNil(wreg);
 
-    // adding internal formats
+  // adding internal formats
   WriteInternal(PS_FOPEN, 'jpg');
   WriteInternal(PS_FOPEN, 'jpeg');
   WriteInternal(PS_FOPEN, 'jfif');
-    WriteInternal(PS_FOPEN, 'jpe');
+  WriteInternal(PS_FOPEN, 'jpe');
   WriteInternal(PS_FOPEN, 'jp2');
   WriteInternal(PS_FOPEN, 'jpc');
   WriteInternal(PS_FOPEN, 'j2k');
-    WriteInternal(PS_FOPEN, 'j2c');
-    WriteInternal(PS_FOPEN, 'gif');
+  WriteInternal(PS_FOPEN, 'j2c');
+  WriteInternal(PS_FOPEN, 'gif');
   WriteInternal(PS_FOPEN, 'pbm');
   WriteInternal(PS_FOPEN, 'pgm');
   WriteInternal(PS_FOPEN, 'ppm');
@@ -81,23 +81,23 @@ begin
   WriteInternal(PS_FOPEN, 'tga');
   WriteInternal(PS_FOPEN, 'tif');
   WriteInternal(PS_FOPEN, 'tiff');
-    WriteInternal(PS_FOPEN, 'wbmp');
-    WriteInternal(PS_FOPEN, 'wbm');
-    WriteInternal(PS_FOPEN, 'psd');
+  WriteInternal(PS_FOPEN, 'wbmp');
+  WriteInternal(PS_FOPEN, 'wbm');
+  WriteInternal(PS_FOPEN, 'psd');
 
-    WriteNotRec('dcx');
-    WriteNotRec('jpe');
-    WriteNotRec('jfif');
+  WriteNotRec('dcx');
+  WriteNotRec('jpe');
+  WriteNotRec('jfif');
 
   WriteDescr('jpg', LoadLStr(1000));
   WriteDescr('jpeg', LoadLStr(1000));
   WriteDescr('jfif', LoadLStr(1000));
-    WriteDescr('jpe', LoadLStr(1000));
+  WriteDescr('jpe', LoadLStr(1000));
   WriteDescr('jp2', LoadLStr(1001));
   WriteDescr('jpc', LoadLStr(1001));
   WriteDescr('j2k', LoadLStr(1001));
-    WriteDescr('j2c', LoadLStr(1001));
-    WriteDescr('gif', LoadLStr(1002));
+  WriteDescr('j2c', LoadLStr(1001));
+  WriteDescr('gif', LoadLStr(1002));
   WriteDescr('pbm', LoadLStr(1003));
   WriteDescr('pgm', LoadLStr(1004));
   WriteDescr('ppm', LoadLStr(1005));
@@ -111,146 +111,146 @@ begin
   WriteDescr('tga', LoadLStr(1012));
   WriteDescr('tif', LoadLStr(1013));
   WriteDescr('tiff', LoadLStr(1013));
-    WriteDescr('wbmp', LoadLStr(1014));
-    WriteDescr('wbm', LoadLStr(1014));
-    WriteDescr('psd', LoadLStr(1020));
+  WriteDescr('wbmp', LoadLStr(1014));
+  WriteDescr('wbm', LoadLStr(1014));
+  WriteDescr('psd', LoadLStr(1020));
 
-    if FileExists(path_app + FN_ADDRAW) then
-      begin
-        current_dll := path_app + FN_ADDRAW;
-        WriteData(PS_FNAME, 'Raw camera formats support');
-        current_dll := '';
+  if FileExists(path_app + FN_ADDRAW) then
+    begin
+    current_dll := path_app + FN_ADDRAW;
+    WriteData(PS_FNAME, 'Raw camera formats support');
+    current_dll := '';
 
-        WriteInternal(PS_FOPEN, 'crw');
-        WriteInternal(PS_FOPEN, 'cr2');
-        WriteInternal(PS_FOPEN, 'dng');
-        WriteInternal(PS_FOPEN, 'nef');
-        WriteInternal(PS_FOPEN, 'raw');
-        WriteInternal(PS_FOPEN, 'raf');
-        WriteInternal(PS_FOPEN, 'x3f');
-        WriteInternal(PS_FOPEN, 'orf');
-        WriteInternal(PS_FOPEN, 'srf');
-        WriteInternal(PS_FOPEN, 'mrw');
-        WriteInternal(PS_FOPEN, 'dcr');
-        WriteInternal(PS_FOPEN, 'bay');
-        WriteInternal(PS_FOPEN, 'pef');
+    WriteInternal(PS_FOPEN, 'crw');
+    WriteInternal(PS_FOPEN, 'cr2');
+    WriteInternal(PS_FOPEN, 'dng');
+    WriteInternal(PS_FOPEN, 'nef');
+    WriteInternal(PS_FOPEN, 'raw');
+    WriteInternal(PS_FOPEN, 'raf');
+    WriteInternal(PS_FOPEN, 'x3f');
+    WriteInternal(PS_FOPEN, 'orf');
+    WriteInternal(PS_FOPEN, 'srf');
+    WriteInternal(PS_FOPEN, 'mrw');
+    WriteInternal(PS_FOPEN, 'dcr');
+    WriteInternal(PS_FOPEN, 'bay');
+    WriteInternal(PS_FOPEN, 'pef');
 
-        WriteNotRec('x3f');
-        WriteNotRec('orf');
-        WriteNotRec('srf');
-        WriteNotRec('mrw');
-        WriteNotRec('dcr');
-        WriteNotRec('bay');
-        WriteNotRec('pef');
+    WriteNotRec('x3f');
+    WriteNotRec('orf');
+    WriteNotRec('srf');
+    WriteNotRec('mrw');
+    WriteNotRec('dcr');
+    WriteNotRec('bay');
+    WriteNotRec('pef');
 
-        WriteDescr('crw', LoadLStr(1035));
-        WriteDescr('cr2', LoadLStr(1035));
-        WriteDescr('dng', LoadLStr(1036));
-        WriteDescr('nef', LoadLStr(1037));
-        WriteDescr('raw', LoadLStr(1038));
-        WriteDescr('raf', LoadLStr(1039));
-        WriteDescr('x3f', LoadLStr(1038));
-        WriteDescr('orf', LoadLStr(1038));
-        WriteDescr('srf', LoadLStr(1038));
-        WriteDescr('mrw', LoadLStr(1038));
-        WriteDescr('dcr', LoadLStr(1038));
-        WriteDescr('bay', LoadLStr(1038));
-        WriteDescr('pef', LoadLStr(1038));
-        end;
+    WriteDescr('crw', LoadLStr(1035));
+    WriteDescr('cr2', LoadLStr(1035));
+    WriteDescr('dng', LoadLStr(1036));
+    WriteDescr('nef', LoadLStr(1037));
+    WriteDescr('raw', LoadLStr(1038));
+    WriteDescr('raf', LoadLStr(1039));
+    WriteDescr('x3f', LoadLStr(1038));
+    WriteDescr('orf', LoadLStr(1038));
+    WriteDescr('srf', LoadLStr(1038));
+    WriteDescr('mrw', LoadLStr(1038));
+    WriteDescr('dcr', LoadLStr(1038));
+    WriteDescr('bay', LoadLStr(1038));
+    WriteDescr('pef', LoadLStr(1038));
+    end;
 
-    if FileExists(path_app + FN_ADDJBIG) then
-      begin
-        current_dll := path_app + FN_ADDJBIG;
-        WriteData(PS_FNAME, 'JBIG support');
-        current_dll := '';
+  if FileExists(path_app + FN_ADDJBIG) then
+    begin
+    current_dll := path_app + FN_ADDJBIG;
+    WriteData(PS_FNAME, 'JBIG support');
+    current_dll := '';
 
-        WriteInternal(PS_FOPEN, 'jbg');
-        WriteInternal(PS_FOPEN, 'jbig');
-        WriteInternal(PS_FOPEN, 'bie');
+    WriteInternal(PS_FOPEN, 'jbg');
+    WriteInternal(PS_FOPEN, 'jbig');
+    WriteInternal(PS_FOPEN, 'bie');
 
-        WriteNotRec('bie');
+    WriteNotRec('bie');
 
-        WriteDescr('jbg', LoadLStr(1040));
-        WriteDescr('jbig', LoadLStr(1040));
-        WriteDescr('bie', LoadLStr(1040));
-        end;
+    WriteDescr('jbg', LoadLStr(1040));
+    WriteDescr('jbig', LoadLStr(1040));
+    WriteDescr('bie', LoadLStr(1040));
+    end;
 
-    if FileExists(path_app + FN_ADDMAGICK) then
-      begin
-        current_dll := path_app + FN_ADDMAGICK;
-        WriteData(PS_FNAME, 'ImageMagick integration');
-        current_dll := '';
+  if FileExists(path_app + FN_ADDMAGICK) then
+    begin
+    current_dll := path_app + FN_ADDMAGICK;
+    WriteData(PS_FNAME, 'ImageMagick integration');
+    current_dll := '';
 
-        WriteInternal(PS_FOPEN, 'dcm');
-        WriteInternal(PS_FOPEN, 'dicom');
-        WriteInternal(PS_FOPEN, 'cut');
-        WriteInternal(PS_FOPEN, 'avs');
-        WriteInternal(PS_FOPEN, 'cin');
-        WriteInternal(PS_FOPEN, 'dot');
-        WriteInternal(PS_FOPEN, 'dpx');
-        WriteInternal(PS_FOPEN, 'fits');
-        WriteInternal(PS_FOPEN, 'fpx');
-        WriteInternal(PS_FOPEN, 'mat');
-        WriteInternal(PS_FOPEN, 'miff');
-        WriteInternal(PS_FOPEN, 'mtv');
-        WriteInternal(PS_FOPEN, 'palm');
-        WriteInternal(PS_FOPEN, 'pict');
-        WriteInternal(PS_FOPEN, 'pix');
-        WriteInternal(PS_FOPEN, 'pwp');
-        WriteInternal(PS_FOPEN, 'rla');
-        WriteInternal(PS_FOPEN, 'sgi');
-        WriteInternal(PS_FOPEN, 'sun');
-        WriteInternal(PS_FOPEN, 'svg');
-        WriteInternal(PS_FOPEN, 'ttf');
-        WriteInternal(PS_FOPEN, 'vicar');
-        WriteInternal(PS_FOPEN, 'viff');
-        WriteInternal(PS_FOPEN, 'xcf');
+    WriteInternal(PS_FOPEN, 'dcm');
+    WriteInternal(PS_FOPEN, 'dicom');
+    WriteInternal(PS_FOPEN, 'cut');
+    WriteInternal(PS_FOPEN, 'avs');
+    WriteInternal(PS_FOPEN, 'cin');
+    WriteInternal(PS_FOPEN, 'dot');
+    WriteInternal(PS_FOPEN, 'dpx');
+    WriteInternal(PS_FOPEN, 'fits');
+    WriteInternal(PS_FOPEN, 'fpx');
+    WriteInternal(PS_FOPEN, 'mat');
+    WriteInternal(PS_FOPEN, 'miff');
+    WriteInternal(PS_FOPEN, 'mtv');
+    WriteInternal(PS_FOPEN, 'palm');
+    WriteInternal(PS_FOPEN, 'pict');
+    WriteInternal(PS_FOPEN, 'pix');
+    WriteInternal(PS_FOPEN, 'pwp');
+    WriteInternal(PS_FOPEN, 'rla');
+    WriteInternal(PS_FOPEN, 'sgi');
+    WriteInternal(PS_FOPEN, 'sun');
+    WriteInternal(PS_FOPEN, 'svg');
+    WriteInternal(PS_FOPEN, 'ttf');
+    WriteInternal(PS_FOPEN, 'vicar');
+    WriteInternal(PS_FOPEN, 'viff');
+    WriteInternal(PS_FOPEN, 'xcf');
 
-        WriteNotRec('avs');
-        WriteNotRec('cin');
-        WriteNotRec('cut');
-        WriteNotRec('dot');
-        WriteNotRec('dpx');
-        WriteNotRec('fits');
-        WriteNotRec('mat');
-        WriteNotRec('miff');
-        WriteNotRec('mtv');
-        WriteNotRec('palm');
-        WriteNotRec('pix');
-        WriteNotRec('pwp');
-        WriteNotRec('sun');
-        WriteNotRec('svg');
-        WriteNotRec('ttf');
-        WriteNotRec('vicar');
-        WriteNotRec('viff');
+    WriteNotRec('avs');
+    WriteNotRec('cin');
+    WriteNotRec('cut');
+    WriteNotRec('dot');
+    WriteNotRec('dpx');
+    WriteNotRec('fits');
+    WriteNotRec('mat');
+    WriteNotRec('miff');
+    WriteNotRec('mtv');
+    WriteNotRec('palm');
+    WriteNotRec('pix');
+    WriteNotRec('pwp');
+    WriteNotRec('sun');
+    WriteNotRec('svg');
+    WriteNotRec('ttf');
+    WriteNotRec('vicar');
+    WriteNotRec('viff');
 
-        WriteDescr('dcm',   LoadLStr(1041));
-        WriteDescr('dicom', LoadLStr(1041));
-        WriteDescr('cut',   LoadLStr(1042));
-        WriteDescr('avs',   LoadLStr(1043));
-        WriteDescr('cin',   LoadLStr(1044));
-        WriteDescr('dot',   LoadLStr(1045));
-        WriteDescr('dpx',   LoadLStr(1046));
-        WriteDescr('fits',  LoadLStr(1047));
-        WriteDescr('fpx',   LoadLStr(1048));
-        WriteDescr('mat',   LoadLStr(1049));
-        WriteDescr('miff',  LoadLStr(1050));
-        WriteDescr('mtv',   LoadLStr(1051));
-        WriteDescr('palm',  LoadLStr(1052));
-        WriteDescr('pict',  LoadLStr(1053));
-        WriteDescr('pix',   LoadLStr(1054));
-        WriteDescr('pwp',   LoadLStr(1055));
-        WriteDescr('rla',   LoadLStr(1056));
-        WriteDescr('sgi',   LoadLStr(1057));
-        WriteDescr('sun',   LoadLStr(1058));
-        WriteDescr('svg',   LoadLStr(1059));
-        WriteDescr('ttf',   LoadLStr(1060));
-        WriteDescr('vicar', LoadLStr(1061));
-        WriteDescr('viff',  LoadLStr(1062));
-        WriteDescr('xcf',   LoadLStr(1063));
-        end;
+    WriteDescr('dcm',   LoadLStr(1041));
+    WriteDescr('dicom', LoadLStr(1041));
+    WriteDescr('cut',   LoadLStr(1042));
+    WriteDescr('avs',   LoadLStr(1043));
+    WriteDescr('cin',   LoadLStr(1044));
+    WriteDescr('dot',   LoadLStr(1045));
+    WriteDescr('dpx',   LoadLStr(1046));
+    WriteDescr('fits',  LoadLStr(1047));
+    WriteDescr('fpx',   LoadLStr(1048));
+    WriteDescr('mat',   LoadLStr(1049));
+    WriteDescr('miff',  LoadLStr(1050));
+    WriteDescr('mtv',   LoadLStr(1051));
+    WriteDescr('palm',  LoadLStr(1052));
+    WriteDescr('pict',  LoadLStr(1053));
+    WriteDescr('pix',   LoadLStr(1054));
+    WriteDescr('pwp',   LoadLStr(1055));
+    WriteDescr('rla',   LoadLStr(1056));
+    WriteDescr('sgi',   LoadLStr(1057));
+    WriteDescr('sun',   LoadLStr(1058));
+    WriteDescr('svg',   LoadLStr(1059));
+    WriteDescr('ttf',   LoadLStr(1060));
+    WriteDescr('vicar', LoadLStr(1061));
+    WriteDescr('viff',  LoadLStr(1062));
+    WriteDescr('xcf',   LoadLStr(1063));
+    end;
 
-    ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLib);
+  ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLib);
 end;
 
 procedure DoLocaleScan();
@@ -260,14 +260,13 @@ begin
   wreg := TFRegistry.Create(RA_FULL);
   wreg.RootKey := HKEY_CURRENT_USER;
 
-    if wreg.OpenKey(sModules, false) then
-      begin
-      wreg.DeleteKey(PS_FLOCALE);
+  if wreg.OpenKey(sModules, false) then
+    begin
+    wreg.DeleteKey(PS_FLOCALE);
+    wreg.CloseKey();
+    end;
 
-      wreg.CloseKey();
-      end;
-
-    FreeAndNil(wreg);
+  FreeAndNil(wreg);
 
   ScanFolderF(NoSlash(path_app), '*.dll', @ProcessLocale);
 end;
@@ -279,14 +278,13 @@ begin
   wreg := TFRegistry.Create(RA_FULL);
   wreg.RootKey := HKEY_CURRENT_USER;
 
-    if wreg.OpenKey(sModules, false) then
-      begin
-      wreg.DeleteKey(PS_FTHEME);
+  if wreg.OpenKey(sModules, false) then
+    begin
+    wreg.DeleteKey(PS_FTHEME);
+    wreg.CloseKey();
+    end;
 
-      wreg.CloseKey();
-      end;
-
-    FreeAndNil(wreg);
+  FreeAndNil(wreg);
 
   ScanFolderF(NoSlash(path_app), '*.dll', @ProcessTheme);
 end;
@@ -296,127 +294,127 @@ var
   lib: THandle;
   supp: TFxImgQuery;
 begin
-  lib := LoadLibrary(PChar(filename));
+  lib := LoadLibrary(PWideChar(filename));
 
-    if (lib <> 0) then
+  if (lib <> 0) then
+    begin
+    current_dll := filename;
+
+    if ((LoadResString(lib, 1) <> sLocaleID) and (LoadResString(lib, 1) <> sThemeID) and (GetProcAddress(lib, EX_QUERY) <> nil)) then
       begin
-        current_dll := filename;
-
-        if ((LoadResString(lib, 1) <> sLocaleID) and (LoadResString(lib, 1) <> sThemeID) and (GetProcAddress(lib, EX_QUERY) <> nil)) then
-        begin
-            // library is compatible plug-in
-        @supp := GetProcAddress(lib, EX_QUERY);
-        supp(PChar(current_dll), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-        end;
-
-        current_dll := '';
-      FreeLibrary(lib);
+      // library is compatible plug-in
+      @supp := GetProcAddress(lib, EX_QUERY);
+      supp(PWideChar(current_dll), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
       end;
+
+    current_dll := '';
+    FreeLibrary(lib);
+    end;
 end;
 
 procedure ProcessLocale(filename: string);
 var
   lib: THandle;
-    tmp: string;
+  tmp: string;
 begin
-  lib := LoadLibraryEx(PChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
+  lib := LoadLibraryEx(PWideChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
 
-    if (lib <> 0) then
+  if (lib <> 0) then
+    begin
+    current_dll := filename;
+
+    if (LoadResString(lib, 1) = sLocaleID) then
       begin
-        current_dll := filename;
+      // library is compatible locale
+      tmp := LoadResString(lib, 2);
 
-        if (LoadResString(lib, 1) = sLocaleID) then
-          begin
-            // library is compatible locale
-            tmp := LoadResString(lib, 2);
-
-            if (Trim(tmp) <> '') then
-                WriteLocale(tmp);
-            end;
-
-        current_dll := '';
-      FreeLibrary(lib);
+      if (Trim(tmp) <> '') then
+        WriteLocale(tmp);
       end;
+
+    current_dll := '';
+    FreeLibrary(lib);
+    end;
 end;
 
 procedure ProcessTheme(filename: string);
 var
   lib: THandle;
-    tmp: string;
+  tmp: string;
 begin
-  lib := LoadLibraryEx(PChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
+  lib := LoadLibraryEx(PWideChar(filename), 0, LOAD_LIBRARY_AS_DATAFILE);
 
-    if (lib <> 0) then
+  if (lib <> 0) then
+    begin
+    current_dll := filename;
+
+    if (LoadResString(lib, 1) = sThemeID) then
       begin
-        current_dll := filename;
+      // library is compatible theme
+      tmp := LoadResString(lib, 2);
 
-        if (LoadResString(lib, 1) = sThemeID) then
-          begin
-            // library is compatible theme
-            tmp := LoadResString(lib, 2);
-
-            if (Trim(tmp) <> '') then
-                WriteTheme(tmp);
-            end;
-
-        current_dll := '';
-      FreeLibrary(lib);
+      if (Trim(tmp) <> '') then
+        WriteTheme(tmp);
       end;
+
+    current_dll := '';
+    FreeLibrary(lib);
+    end;
 end;
 
-function SortData(module_type: longword; value1, value2: PChar):BOOL;
+function SortData(module_type: longword; value1, value2: PWideChar):BOOL;
 begin
   Result := true;
 
-    // working
+  // working
   case module_type of
-        PT_FNAME:     WriteData(PS_FNAME,      String(value1));
-        PT_FCONFIG:   WriteData(PS_FCONFIG,      String(value1));
-        PT_FROLE:     WriteData(PS_FROLE,      String(value1));
-        PT_FNOTREC:     WriteNotRec(String(value1));
-      PT_FOPEN:     WriteData(PS_FOPEN,      String(value1));
-      PT_FOPENMULTI:   WriteData(PS_FOPENMULTI,  String(value1));
-      PT_FOPENANIM:   WriteData(PS_FOPENANIM,   String(value1));
-      PT_FSAVE:     WriteData(PS_FSAVE,      String(value1));
-      PT_FIMPORT:   WriteData(PS_FIMPORT,      String(value1));
-      PT_FEXPORT:   WriteData(PS_FEXPORT,      String(value1));
-      PT_FFILTER:   WriteData(PS_FFILTER,     String(value1));
-      PT_FINFO:     WriteData(PS_FINFO,      String(value1));
-      PT_FTOOL:     WriteData(PS_FTOOL,      String(value1));
-        PT_FDESCR:     WriteDescr(String(value1),   String(value2));
+    PT_FNAME:       WriteData(PS_FNAME,         String(value1));
+    PT_FCONFIG:     WriteData(PS_FCONFIG,       String(value1));
+    PT_FROLE:       WriteData(PS_FROLE,         String(value1));
+    PT_FNOTREC:     WriteNotRec(String(value1));
+    PT_FOPEN:       WriteData(PS_FOPEN,         String(value1));
+    PT_FOPENMULTI:  WriteData(PS_FOPENMULTI,    String(value1));
+    PT_FOPENANIM:   WriteData(PS_FOPENANIM,     String(value1));
+    PT_FSAVE:       WriteData(PS_FSAVE,         String(value1));
+    PT_FIMPORT:     WriteData(PS_FIMPORT,       String(value1));
+    PT_FEXPORT:     WriteData(PS_FEXPORT,       String(value1));
+    PT_FFILTER:     WriteData(PS_FFILTER,       String(value1));
+    PT_FINFO:       WriteData(PS_FINFO,         String(value1));
+    PT_FTOOL:       WriteData(PS_FTOOL,         String(value1));
+    PT_FDESCR:      WriteDescr(String(value1),  String(value2));
     else
       Result := false;
-    end;
+  end;
 end;
 
 procedure WriteData(key, value1: string);
 begin
-    FxRegWStr(value1, current_dll, sModules + '\' + key);
+  FxRegWStr(value1, current_dll, sModules + '\' + key);
 end;
 
 procedure WriteInternal(key, value: string);
 begin
-    FxRegWStr(value, sInternalFormat, sModules + '\' + key);
+  FxRegWStr(value, sInternalFormat, sModules + '\' + key);
 end;
 
 procedure WriteDescr(ext, name: string);
 begin
-    FxRegWStr(ext, name, sModules + '\' + PS_FDESCR);
+  FxRegWStr(ext, name, sModules + '\' + PS_FDESCR);
 end;
 
 procedure WriteNotRec(ext: string);
 begin
-    FxRegWStr(ext, '', sModules + '\' + PS_FNOTREC);
+  FxRegWStr(ext, '', sModules + '\' + PS_FNOTREC);
 end;
 
 procedure WriteLocale(name: string);
 begin
-    FxRegWStr(name, current_dll, sModules + '\' + PS_FLOCALE);
+  FxRegWStr(name, current_dll, sModules + '\' + PS_FLOCALE);
 end;
 
 procedure WriteTheme(name: string);
 begin
-    FxRegWStr(name, current_dll, sModules + '\' + PS_FTHEME);
+  FxRegWStr(name, current_dll, sModules + '\' + PS_FTHEME);
 end;
 
 end.

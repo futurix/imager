@@ -28,9 +28,9 @@ begin
   files.Clear();
 
   if FileExists(path) then
-      dir := IncludeTrailingBackSlash(ExtractFileDir(path))
+    dir := IncludeTrailingBackSlash(ExtractFileDir(path))
   else
-      dir := IncludeTrailingBackSlash(path);
+    dir := IncludeTrailingBackSlash(path);
 
   ScanFolderF(dir, '*.*', FindCallback);
 
@@ -42,7 +42,7 @@ end;
 procedure FindCallback(filename: string);
 begin
   if ((FileExists(filename)) and (IsSupported(filename))) then
-      files.Add(filename);
+    files.Add(filename);
 end;
 
 // go to prev file in folder
@@ -51,30 +51,30 @@ var
   num: integer;
 begin
   if (infImage.filenum = -1) then
+    begin
+    // go to beginning
+    if (files.Count > 0) then
       begin
-      // go to beginning
-      if (files.Count > 0) then
-        begin
-        GoFirst();
-        Abort();
-        end;
+      GoFirst();
+      Abort();
       end;
+    end;
 
   num := infImage.filenum;
 
   if (files.Count > 1) then
+    begin
+    if (num = 0) then
       begin
-      if (num = 0) then
-        begin
-        if infImage.path <> files.Strings[(files.Count - 1)] then
-            Load(files.Strings[(files.Count - 1)], true);
-        end
-      else
-        begin
-        if infImage.path <> files.Strings[num - 1] then
-            Load(files.Strings[num - 1], true);
-        end;
+      if infImage.path <> files.Strings[(files.Count - 1)] then
+        Load(files.Strings[(files.Count - 1)], true);
+      end
+    else
+      begin
+      if infImage.path <> files.Strings[num - 1] then
+        Load(files.Strings[num - 1], true);
       end;
+    end;
 end;
 
 // go to next file in folder
@@ -83,51 +83,51 @@ var
   num: integer;
 begin
   if (infImage.filenum = -1) then
+    begin
+    // go to beginning
+    if (files.Count > 0) then
       begin
-      // go to beginning
-      if (files.Count > 0) then
-        begin
-        GoLast();
-        Abort();
-        end;
+      GoLast();
+      Abort();
       end;
+    end;
 
   num := infImage.filenum;
 
   if (files.Count > 1) then
+    begin
+    if (num = (files.Count - 1)) then
       begin
-      if (num = (files.Count - 1)) then
-        begin
-            if infImage.path <> files.Strings[0] then
-            Load(files.Strings[0], true);
-        end
-      else
-        begin
-        if infImage.path <> files.Strings[num + 1] then
-            Load(files.Strings[num + 1], true);
-        end;
+      if infImage.path <> files.Strings[0] then
+        Load(files.Strings[0], true);
+      end
+    else
+      begin
+      if infImage.path <> files.Strings[num + 1] then
+        Load(files.Strings[num + 1], true);
       end;
+    end;
 end;
 
 // go to last file in folder
 procedure GoLast();
 begin
   if ((files.Count > 1) and (infImage.path <> files.Strings[files.Count - 1])) then
-      Load(files.Strings[files.Count - 1], true);
+    Load(files.Strings[files.Count - 1], true);
 end;
 
 // go to first file in folder
 procedure GoFirst();
 begin
   if ((files.Count > 1) and (infImage.path <> files.Strings[0])) then
-      Load(files.Strings[0], true);
+    Load(files.Strings[0], true);
 end;
 
 // go to random file in folder
 procedure GoRandom();
 begin
   if (files.Count > 1) then
-      Load(files.Strings[Random(files.Count)], true);
+    Load(files.Strings[Random(files.Count)], true);
 end;
 
 // find and set file number in current dir

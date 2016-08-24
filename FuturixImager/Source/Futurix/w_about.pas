@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, c_const, c_utils, c_locales;
+  StdCtrls, ExtCtrls,
+  c_const, c_utils, c_locales;
 
 type
   TfrmAbout = class(TForm)
@@ -56,11 +57,10 @@ var
 begin
   Localize();
 
-  SetStyleAsLink(lblWeb);
-  lblWeb.Hint := sURL;
-
   imgAbout.Picture.Icon.Handle := LoadImageW(HInstance, 'MAINICON', IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
 
+  SetStyleAsLink(lblWeb);
+  lblWeb.Hint := sURL;
   lblCopy.Caption := sRights;
 
   case ver_status of
@@ -69,11 +69,11 @@ begin
     2: add := ' Beta ' + IntToStr(ver_number);
     3: add := ' Gamma ' + IntToStr(ver_number);
     7: add := ' RC ' + IntToStr(ver_number);
-  else
-    add := '';
+    else
+      add := '';
   end;
 
-  if ver_codename <> '' then
+  if ((ver_status > 0) and (ver_codename <> '')) then
     ver := '"' + ver_codename + '"'
   else
     ver := sVersion;
@@ -84,7 +84,7 @@ end;
 procedure TfrmAbout.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmAbout.lblWebClick(Sender: TObject);
@@ -94,9 +94,9 @@ end;
 
 procedure TfrmAbout.Localize();
 begin
-    Self.Caption     := Format(LoadLStr(700), [sAppName]);
-    lblWeb.Caption     := Format(LoadLStr(701), [sAppName]);
-  btnOK.Caption    := LoadLStr(50);
+  Self.Caption      := Format(LoadLStr(700), [sAppName]);
+  lblWeb.Caption    := Format(LoadLStr(701), [sAppName]);
+  btnOK.Caption     := LoadLStr(50);
 end;
 
 end.

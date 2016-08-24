@@ -62,7 +62,7 @@ end;
 
 procedure TfrmCustZoom.FormCreate(Sender: TObject);
 begin
-    Localize();
+  Localize();
 
   tbrQuality.Position := FxRegRInt('CustZoom', 100);
 end;
@@ -81,15 +81,15 @@ end;
 procedure TfrmCustZoom.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if Key = VK_ESCAPE then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmCustZoom.Localize();
 begin
-    Self.Caption      := LoadLStr(710);
-    lblCustomZoom.Caption  := LoadLStr(711);
-    btnOK.Caption      := LoadLStr(50);
-    btnCancel.Caption    := LoadLStr(51);
+  Self.Caption            := LoadLStr(710);
+  lblCustomZoom.Caption   := LoadLStr(711);
+  btnOK.Caption           := LoadLStr(50);
+  btnCancel.Caption       := LoadLStr(51);
 end;
 
 end.

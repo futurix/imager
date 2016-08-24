@@ -43,15 +43,15 @@ procedure TfrmRotate.FormCreate(Sender: TObject);
 begin
   no_change := false;
 
-    Localize();
+  Localize();
 
-    // working
+  // working
   if Assigned(frmEditor) then
-        ProcessPreview(0);
+    ProcessPreview(0);
 
-    // loading settings
-    updAngle.Position := FxRegRInt('Angle', 90, sModules + '\Rotate');
-    cmbQuality.ItemIndex := FxRegRInt('Quality', 3, sModules + '\Rotate');
+  // loading settings
+  updAngle.Position := FxRegRInt('Angle', 90, sModules + '\Rotate');
+  cmbQuality.ItemIndex := FxRegRInt('Quality', 3, sModules + '\Rotate');
 end;
 
 procedure TfrmRotate.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -67,53 +67,53 @@ end;
 procedure TfrmRotate.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key = VK_ESCAPE) then
-      Self.Close();
+    Self.Close();
 end;
 
 procedure TfrmRotate.btnOKClick(Sender: TObject);
 var
   tmp_aa: boolean;
-    tmp_mode: TIEAntialiasMode;
+  tmp_mode: TIEAntialiasMode;
 begin
-    // saving settings
-    FxRegWInt('Angle', updAngle.Position, sModules + '\Rotate');
-    FxRegWInt('Quality', cmbQuality.ItemIndex, sModules + '\Rotate');
+  // saving settings
+  FxRegWInt('Angle', updAngle.Position, sModules + '\Rotate');
+  FxRegWInt('Quality', cmbQuality.ItemIndex, sModules + '\Rotate');
 
   if Assigned(frmEditor) then
+    begin
+    case cmbQuality.ItemIndex of
+      0:
         begin
-        case cmbQuality.ItemIndex of
-          0:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierBicubic;
-                end;
-            1:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierBilinear;
-                end;
-            2:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierFast;
-                end;
-            3:
-                begin
-                tmp_aa := false;
-              tmp_mode := ierBicubic;
-                end;
-            else
-                begin
-                tmp_aa := true;
-              tmp_mode := ierBicubic;
-                end;
-            end;
-
-        frmEditor.proc.Rotate(updAngle.Position, tmp_aa, tmp_mode, frmEditor.sbxColor.Color);
-        frmEditor.proc.ClearAllRedo();
+        tmp_aa := true;
+        tmp_mode := ierBicubic;
         end;
+      1:
+        begin
+        tmp_aa := true;
+        tmp_mode := ierBilinear;
+        end;
+      2:
+        begin
+        tmp_aa := true;
+        tmp_mode := ierFast;
+        end;
+      3:
+        begin
+        tmp_aa := false;
+        tmp_mode := ierBicubic;
+        end;
+      else
+        begin
+        tmp_aa := true;
+        tmp_mode := ierBicubic;
+        end;
+    end;
 
-    Self.Close();
+    frmEditor.proc.Rotate(updAngle.Position, tmp_aa, tmp_mode, frmEditor.sbxColor.Color);
+    frmEditor.proc.ClearAllRedo();
+    end;
+
+  Self.Close();
 end;
 
 procedure TfrmRotate.btnCancelClick(Sender: TObject);
@@ -124,64 +124,64 @@ end;
 procedure TfrmRotate.edtAngleChange(Sender: TObject);
 var
   tmp_aa: boolean;
-    tmp_mode: TIEAntialiasMode;
-    tmp_value: integer;
+  tmp_mode: TIEAntialiasMode;
+  tmp_value: integer;
 begin
-    if no_change then
-      Exit;
+  if no_change then
+    Exit;
 
-    no_change := true;
+  no_change := true;
 
-    try
-        tmp_value := StrToInt(edtAngle.Text);
-      except
-          tmp_value := 0;
-        end;
+  try
+    tmp_value := StrToInt(edtAngle.Text);
+  except
+    tmp_value := 0;
+  end;
 
-    if (tmp_value < 0) then
-      updAngle.Position := 0
-    else if (tmp_value > 360) then
-      updAngle.Position := 360;
+  if (tmp_value < 0) then
+    updAngle.Position := 0
+  else if (tmp_value > 360) then
+    updAngle.Position := 360;
 
   if Assigned(frmEditor) then
+    begin
+    case cmbQuality.ItemIndex of
+      0:
         begin
-        case cmbQuality.ItemIndex of
-          0:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierBicubic;
-                end;
-            1:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierBilinear;
-                end;
-            2:
-                begin
-                tmp_aa := true;
-              tmp_mode := ierFast;
-                end;
-            3:
-                begin
-                tmp_aa := false;
-              tmp_mode := ierBicubic;
-                end;
-            else
-                begin
-                tmp_aa := false;
-              tmp_mode := ierBicubic;
-                end;
-            end;
-
-        frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
-
-        if (updAngle.Position = 0) then
-            frmEditor.imgPreview.Proc.Rotate(360, tmp_aa, tmp_mode, frmEditor.sbxColor.Color)
-        else
-          frmEditor.imgPreview.Proc.Rotate(updAngle.Position, tmp_aa, tmp_mode, frmEditor.sbxColor.Color);
+        tmp_aa := true;
+        tmp_mode := ierBicubic;
         end;
+      1:
+        begin
+        tmp_aa := true;
+        tmp_mode := ierBilinear;
+        end;
+      2:
+        begin
+        tmp_aa := true;
+        tmp_mode := ierFast;
+        end;
+      3:
+        begin
+        tmp_aa := false;
+        tmp_mode := ierBicubic;
+        end;
+      else
+        begin
+        tmp_aa := false;
+        tmp_mode := ierBicubic;
+        end;
+    end;
 
-    no_change := false;
+    frmEditor.imgPreview.IEBitmap.AssignImage(frmEditor.img.IEBitmap);
+
+    if (updAngle.Position = 0) then
+      frmEditor.imgPreview.Proc.Rotate(360, tmp_aa, tmp_mode, frmEditor.sbxColor.Color)
+    else
+      frmEditor.imgPreview.Proc.Rotate(updAngle.Position, tmp_aa, tmp_mode, frmEditor.sbxColor.Color);
+    end;
+
+  no_change := false;
 end;
 
 procedure TfrmRotate.cmbQualityChange(Sender: TObject);
@@ -191,15 +191,15 @@ end;
 
 procedure TfrmRotate.Localize();
 begin
-    Self.Caption      := LoadLStr(800);
-    lblAngle.Caption    := LoadLStr(801);
-    lblQuality.Caption    := LoadLStr(802);
-    cmbQuality.Items[0]    := LoadLStr(803);
-    cmbQuality.Items[1]    := LoadLStr(804);
-    cmbQuality.Items[2]    := LoadLStr(805);
-    cmbQuality.Items[3]    := LoadLStr(806);
-    btnOK.Caption      := LoadLStr(50);
-    btnCancel.Caption    := LoadLStr(51);
+  Self.Caption            := LoadLStr(800);
+  lblAngle.Caption        := LoadLStr(801);
+  lblQuality.Caption      := LoadLStr(802);
+  cmbQuality.Items[0]     := LoadLStr(803);
+  cmbQuality.Items[1]     := LoadLStr(804);
+  cmbQuality.Items[2]     := LoadLStr(805);
+  cmbQuality.Items[3]     := LoadLStr(806);
+  btnOK.Caption           := LoadLStr(50);
+  btnCancel.Caption       := LoadLStr(51);
 end;
 
 end.

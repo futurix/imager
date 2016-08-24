@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, c_locales, c_const, c_reg;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls,
+  c_locales, c_const, c_reg;
 
 type
   TfrmTIFFsave = class(TForm)
@@ -26,8 +27,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure tbrQualityChange(Sender: TObject);
-    procedure FormKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
@@ -39,53 +39,53 @@ var
   frmTIFFsave: TfrmTIFFsave;
   tiff_confirm: boolean = false;
 
+
 implementation
 
 {$R *.dfm}
 
 procedure TfrmTIFFsave.btnSaveClick(Sender: TObject);
 begin
-tiff_confirm:=true;
-Self.Close();
+  tiff_confirm:=true;
+  Self.Close();
 end;
 
 procedure TfrmTIFFsave.btnCancelClick(Sender: TObject);
 begin
-Self.Close();
+  Self.Close();
 end;
 
 procedure TfrmTIFFsave.tbrQualityChange(Sender: TObject);
 begin
-lblQualityValue.Caption:=IntToStr(tbrQuality.Position);
+  lblQualityValue.Caption:=IntToStr(tbrQuality.Position);
 end;
 
-procedure TfrmTIFFsave.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfrmTIFFsave.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-if Key=VK_ESCAPE then
-  Self.Close();
+  if Key=VK_ESCAPE then
+    Self.Close();
 end;
 
 procedure TfrmTIFFsave.FormCreate(Sender: TObject);
 begin
-    Self.Caption        := LoadLStr(3093);
+  Self.Caption              := LoadLStr(3093);
 
-    gbxCompression.Caption    := LoadLStr(3094);
+  gbxCompression.Caption    := LoadLStr(3094);
 
-    rbnCNone.Caption      := LoadLStr(3095);
-    rbnCLZW.Caption        := LoadLStr(3096);
-    rbnCJPEG.Caption      := LoadLStr(3097);
-    rbnCPackBits.Caption    := LoadLStr(3098);
-    rbnCZLib.Caption      := LoadLStr(3099);
-    rbnCG31.Caption        := LoadLStr(3100);
-    rbnCG32.Caption        := LoadLStr(3101);
-    rbnCG4.Caption        := LoadLStr(3102);
-    rbnZIP.Caption        := LoadLStr(3104);
+  rbnCNone.Caption          := LoadLStr(3095);
+  rbnCLZW.Caption           := LoadLStr(3096);
+  rbnCJPEG.Caption          := LoadLStr(3097);
+  rbnCPackBits.Caption      := LoadLStr(3098);
+  rbnCZLib.Caption          := LoadLStr(3099);
+  rbnCG31.Caption           := LoadLStr(3100);
+  rbnCG32.Caption           := LoadLStr(3101);
+  rbnCG4.Caption            := LoadLStr(3102);
+  rbnZIP.Caption            := LoadLStr(3104);
 
-    gbxJPEG.Caption        := LoadLStr(3103);
+  gbxJPEG.Caption           := LoadLStr(3103);
 
-    btnSave.Caption        := LoadLStr(56);
-    btnCancel.Caption      := LoadLStr(51);
+  btnSave.Caption           := LoadLStr(56);
+  btnCancel.Caption         := LoadLStr(51);
 end;
 
 procedure TfrmTIFFsave.CreateParams(var Params: TCreateParams);

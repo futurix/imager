@@ -24,27 +24,28 @@ type
 var
   frmScanOpt: TfrmScanOpt;
 
+
 implementation
 
 {$R *.dfm}
 
 procedure TfrmScanOpt.FormCreate(Sender: TObject);
 begin
-  Self.Caption       := LoadLStr(3701);
+  Self.Caption          := LoadLStr(3701);
 
-    rgpSystem.Caption    := LoadLStr(3702);
-    rgpSystem.Items[0]    := LoadLStr(3704);
-    rgpSystem.Items[1]    := LoadLStr(3705);
+  rgpSystem.Caption     := LoadLStr(3702);
+  rgpSystem.Items[0]    := LoadLStr(3704);
+  rgpSystem.Items[1]    := LoadLStr(3705);
 
-    btnOK.Caption      := LoadLStr(50);
-    btnCancel.Caption    := LoadLStr(51);
+  btnOK.Caption         := LoadLStr(50);
+  btnCancel.Caption     := LoadLStr(51);
 
-    rgpSystem.ItemIndex   := FxRegRInt('Imaging_Subsystem', 0);
+  rgpSystem.ItemIndex   := FxRegRInt('Imaging_Subsystem', 0);
 end;
 
 procedure TfrmScanOpt.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  //
+  // doing nothing
 end;
 
 procedure TfrmScanOpt.CreateParams(var Params: TCreateParams);
@@ -63,7 +64,7 @@ procedure TfrmScanOpt.btnOKClick(Sender: TObject);
 begin
   FxRegWInt('Imaging_Subsystem', rgpSystem.ItemIndex);
 
-    Close();
+  Close();
 end;
 
 procedure TfrmScanOpt.btnCancelClick(Sender: TObject);

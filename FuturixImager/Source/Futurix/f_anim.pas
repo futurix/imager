@@ -4,9 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Dialogs, Forms,
-  IniFiles, athread, c_const, c_reg, c_utils;
+  athread, c_const, c_reg, c_utils;
 
-function  IsAnimation(ext: string):boolean;
+function IsAnimation(ext: string): boolean;
 procedure OpenAnim(path: string; add_to_mru: boolean = true);
 procedure APlay();
 procedure APause();
@@ -25,7 +25,7 @@ uses f_graphics, f_tools, f_ui, f_nav, main;
 // is animated
 function IsAnimation(ext: string):boolean;
 begin
-    Result := (FxRegRStr(ext, '', sModules + '\' + PS_FOPENANIM) <> '');
+  Result := (FxRegRStr(ext, '', sModules + '\' + PS_FOPENANIM) <> '');
 end;
 
 // opens animated image
@@ -34,89 +34,90 @@ var
   tmp_res: TFxImgResult;
 begin
   if not FileExists(path) then
-      begin
-      FileNotFound(path);
-      Abort();
-      end;
+    begin
+    FileNotFound(path);
+    Abort();
+    end;
 
   // loading dll and settings
-  infAnim.lib := LoadLibrary(PChar(FxRegRStr(ExtractExt(path), '', sModules + '\' + PS_FOPENANIM)));
+  infAnim.lib := LoadLibrary(PWideChar(FxRegRStr(ExtractExt(path), '', sModules + '\' + PS_FOPENANIM)));
 
   if (infAnim.lib <> 0) then
+    begin
+    @infAnim.FxImgAnimStart := GetProcAddress(infAnim.lib, EX_ANIMSTART);
+    @infAnim.FxImgAnimRestart := GetProcAddress(infAnim.lib, EX_ANIMRESTART);
+    @infAnim.FxImgAnimGetFrame := GetProcAddress(infAnim.lib, EX_ANIMFRAME);
+    @infAnim.FxImgAnimStop := GetProcAddress(infAnim.lib, EX_ANIMSTOP);
+
+    if ((@infAnim.FxImgAnimStart <> nil) and
+        (@infAnim.FxImgAnimRestart <> nil) and
+        (@infAnim.FxImgAnimGetFrame <> nil) and
+        (@infAnim.FxImgAnimStop <> nil)) then
       begin
-      @infAnim.FxImgAnimStart := GetProcAddress(infAnim.lib, EX_ANIMSTART);
-      @infAnim.FxImgAnimRestart := GetProcAddress(infAnim.lib, EX_ANIMRESTART);
-      @infAnim.FxImgAnimGetFrame := GetProcAddress(infAnim.lib, EX_ANIMFRAME);
-      @infAnim.FxImgAnimStop := GetProcAddress(infAnim.lib, EX_ANIMSTOP);
+      // settings
+      tmp_res := infAnim.FxImgAnimStart(PWideChar(path), PWideChar(ExtractExt(path)), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
-      if ((@infAnim.FxImgAnimStart <> nil) and
-          (@infAnim.FxImgAnimRestart <> nil) and
-          (@infAnim.FxImgAnimGetFrame <> nil) and
-          (@infAnim.FxImgAnimStop <> nil)) then
+      if ((tmp_res.result_type <> RT_BOOL) or ((tmp_res.result_type = RT_BOOL) and (tmp_res.result_value = FX_FALSE))) then
         begin
-          // settings
-            tmp_res := infAnim.FxImgAnimStart(PChar(path), PChar(ExtractExt(path)), Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-        if ((tmp_res.result_type <> RT_BOOL) or ((tmp_res.result_type = RT_BOOL) and (tmp_res.result_value = FX_FALSE))) then
-            begin
-            CloseAnim();
-            OpenLocal(path, add_to_mru);
-            Exit;
-            end;
-
-        // starting
-        FillImage(path, itAnimated);
-
-        // tuning UI
-        if add_to_mru then
-          frmMain.mru.AddItem(path, true);
-
-        ScanFolder(path);
-
-        // starting animation
-        Able();
-            frmMain.mAnim.Visible := true;
-        frmMain.pAnim.Visible := true;
-        ATuneUI();
-        APlay();
+        CloseAnim();
+        OpenLocal(path, add_to_mru);
+        Exit;
         end;
+
+      // starting
+      FillImage(path, itAnimated);
+
+      // tuning UI
+      if add_to_mru then
+        frmMain.mru.AddItem(path, true);
+
+      ScanFolder(path);
+
+      // starting animation
+      Able();
+      frmMain.mAnim.Visible := true;
+      frmMain.pAnim.Visible := true;
+      ATuneUI();
+      APlay();
       end;
+    end;
 end;
 
 // starts playback
 procedure APlay();
 begin
   if (thrAnim = nil) then
-      begin
-        infAnim.FxImgAnimRestart(Application.Handle, frmMain.Handle, FxImgGlobalCallback);
-      thrAnim := TAnimationThread.Create(false);
-      ATuneUI();
-      end
+    begin
+    infAnim.FxImgAnimRestart(Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    thrAnim := TAnimationThread.Create(false);
+    ATuneUI();
+    end
   else
-      if thrAnim.Suspended then
-        thrAnim.Resume();
+    if thrAnim.Suspended then
+      thrAnim.Resume();
 end;
 
 // pauses playback
 procedure APause();
 begin
   if (thrAnim <> nil) then
-      if thrAnim.Suspended then thrAnim.Resume()
-        else thrAnim.Suspend();
+    if thrAnim.Suspended then thrAnim.Resume()
+      else thrAnim.Suspend();
 end;
 
 // stops playback
 procedure AStop();
 begin
   if (thrAnim <> nil) then
-      if thrAnim.Suspended then
-        thrAnim.Resume();
+    if thrAnim.Suspended then
+      thrAnim.Resume();
 
   if (thrAnim <> nil) then
-      thrAnim.Terminate();
+    thrAnim.Terminate();
 
   try
     if (thrAnim <> nil) then
-        thrAnim.WaitFor();
+      thrAnim.WaitFor();
   except
   end;
 
@@ -127,8 +128,8 @@ end;
 procedure ATuneUI(playing: boolean = true);
 begin
   if playing then
-      begin
-      // playback
+    begin
+    // playback
     frmMain.piAnimPlay.Enabled := false;
     frmMain.piAnimPause.Enabled := true;
     frmMain.piAnimStop.Enabled := true;
@@ -136,10 +137,10 @@ begin
     frmMain.miAnimPlay.Enabled := false;
     frmMain.miAnimPause.Enabled := true;
     frmMain.miAnimStop.Enabled := true;
-      end
+    end
   else
-      begin
-      // navigation
+    begin
+    // navigation
     frmMain.piAnimPlay.Enabled := true;
     frmMain.piAnimPause.Enabled := false;
     frmMain.piAnimStop.Enabled := false;
@@ -147,33 +148,33 @@ begin
     frmMain.miAnimPlay.Enabled := true;
     frmMain.miAnimPause.Enabled := false;
     frmMain.miAnimStop.Enabled := false;
-      end;
+    end;
 end;
 
 // closes animated image
 procedure CloseAnim();
 begin
   if (thrAnim <> nil) then
-      if thrAnim.Suspended then
-        thrAnim.Resume();
+    if thrAnim.Suspended then
+      thrAnim.Resume();
 
   if (thrAnim <> nil) then
-      thrAnim.Terminate();
+    thrAnim.Terminate();
 
   try
     if (thrAnim <> nil) then
-        thrAnim.WaitFor();
+      thrAnim.WaitFor();
   except
   end;
 
   if (@infAnim.FxImgAnimStop <> nil) then
-      infAnim.FxImgAnimStop(Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    infAnim.FxImgAnimStop(Application.Handle, frmMain.Handle, FxImgGlobalCallback);
 
   if (infAnim.lib <> 0) then
-      FreeLibrary(infAnim.lib);
+    FreeLibrary(infAnim.lib);
 
   frmMain.sbxMain.ControlStyle := frmMain.sbxMain.ControlStyle - [csOpaque];
-    frmMain.mAnim.Visible := false;
+  frmMain.mAnim.Visible := false;
   frmMain.pAnim.Visible := false;
   FillImage('', itNone);
 end;
