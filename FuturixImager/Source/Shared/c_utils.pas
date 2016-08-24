@@ -3,7 +3,7 @@ unit c_utils;
 interface
 
 uses
-  Windows, SysUtils, Classes, UxTheme, ShlObj, ActiveX, StdCtrls, Controls, Graphics, Themes,
+  Windows, SysUtils, Classes, UxTheme, ShlObj, ActiveX,
   c_const;
   
 // search functions
@@ -37,9 +37,6 @@ function GetShellFolderPath(const FolderID: Integer): string;
 
 // resource functions
 function LoadResString(inst: cardinal; id: integer): string;
-
-// misc functions
-procedure SetStyleAsLink(var lbl: TLabel);
 
 
 implementation
@@ -367,14 +364,6 @@ begin
     if (LoadStringW(inst, id, buf, MAX_RES_STRING_SIZE) > 0) then
       Result := buf;
     end;
-end;
-
-// applies URL style to a label
-procedure SetStyleAsLink(var lbl: TLabel);
-begin
-  lbl.Cursor := crHandPoint;
-  lbl.Font.Color := clHotLight;
-  lbl.Font.Style := [fsUnderline];
 end;
 
 end.

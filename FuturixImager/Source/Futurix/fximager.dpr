@@ -37,31 +37,34 @@ uses
   w_options in 'w_options.pas' {frmOptions},
   fx_pluginscanner in 'fx_pluginscanner.pas',
   fx_pluginmanager in 'fx_pluginmanager.pas',
-  fx_internalp in 'fx_internalp.pas';
+  fx_internalp in 'fx_internalp.pas',
+  fx_types in 'fx_types.pas',
+  o_welcome in 'o_welcome.pas' {fraOptWelcome: TFrame},
+  o_plugins in 'o_plugins.pas' {fraOptPlugins: TFrame};
 
 {$R *.RES}
 
 begin
   Graphics.DefFontData.Name := 'MS Shell Dlg 2';
 
-    hPrevious := 0;
-    aAtom := 0;
-    sParams := '';
-        
-    CheckPreviousInstance();
-    sParams := Trim(sParams);
+  hPrevious := 0;
+  aAtom := 0;
+  sParams := '';
 
-    if (hPrevious <> 0) then
-        begin
-        PassParamsToPreviousInstance();
-        Exit;
-        end
-    else
-      begin
-        Application.Initialize();
-        Application.MainFormOnTaskbar := True;
-        Application.Title := 'FuturixImager';
-        Application.CreateForm(TfrmMain, frmMain);
-  Application.Run();
-        end;
+  CheckPreviousInstance();
+  sParams := Trim(sParams);
+
+  if (hPrevious <> 0) then
+    begin
+    PassParamsToPreviousInstance();
+    Exit();
+    end
+  else
+    begin
+    Application.Initialize();
+    Application.MainFormOnTaskbar := True;
+    Application.Title := 'FuturixImager';
+    Application.CreateForm(TfrmMain, frmMain);
+    Application.Run();
+    end;
 end.

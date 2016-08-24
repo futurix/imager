@@ -26,6 +26,7 @@ procedure ApplyTheme();
 var
   bmp: TBitmap;
 begin
+  // standard images
   bmp := LoadBitmapFromTheme('IMGMAIN');
 
   if (bmp <> nil) then
@@ -33,13 +34,29 @@ begin
     frmMain.imlStd.Height := bmp.Height;
     frmMain.imlStd.Width := bmp.Height;
     frmMain.imlStd.Clear();
-    frmMain.imlStd.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+    frmMain.imlStd.Add(bmp, nil);
 
     FreeAndNil(bmp);
     end
   else
     frmMain.imlStd.Clear();
 
+  // disabled standard images
+  bmp := LoadBitmapFromTheme('IMGMAIND');
+
+  if (bmp <> nil) then
+    begin
+    frmMain.imlDis.Height := bmp.Height;
+    frmMain.imlDis.Width := bmp.Height;
+    frmMain.imlDis.Clear();
+    frmMain.imlDis.Add(bmp, nil);
+
+    FreeAndNil(bmp);
+    end
+  else
+    frmMain.imlDis.Clear();
+
+  // fixed-size images
   bmp := LoadBitmapFromTheme('IMGFIXED');
 
   if (bmp <> nil) then
@@ -47,7 +64,7 @@ begin
     frmMain.imlFixed.Height := bmp.Height;
     frmMain.imlFixed.Width := bmp.Height;
     frmMain.imlFixed.Clear();
-    frmMain.imlFixed.AddMasked(bmp, bmp.Canvas.Pixels[0,0]);
+    frmMain.imlFixed.Add(bmp, nil);
 
     FreeAndNil(bmp);
     end
@@ -128,7 +145,6 @@ begin
   is_multi := IsMultipage();
 
   frmMain.tbnRScan.Enabled := infRoles.scan;
-  frmMain.tbnRMail.Enabled := (infRoles.email and is_filled);
   frmMain.tbnRCapture.Enabled := infRoles.capture;
   frmMain.tbnRJPEG.Enabled := (infRoles.jpegll and is_filled);
 

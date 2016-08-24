@@ -74,7 +74,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">187</VersionInfo>
+						<VersionInfo Name="Build">199</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -86,7 +86,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager Main Plug-in</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.187</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.199</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_wrapper_plugin</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>

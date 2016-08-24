@@ -89,12 +89,13 @@ begin
     end;
 
   // separator
-  if (frmMain.mTools.Count > 1) then
+  //TODO: change 2 to 1 when both 'Options will be merged'
+  if (frmMain.mTools.Count > 2) then
     begin
     i := TMenuItem.Create(nil);
     i.Caption := '-';
-
-    frmMain.mTools.Insert(frmMain.mTools.Count - 1, i);
+    frmMain.mTools.Insert(
+        frmMain.mTools.IndexOf(frmMain.miOptions), i);
     end;
 
   // cleaning
@@ -105,7 +106,6 @@ begin
   // setting roles
   infRoles.capture := IsSupportedRole(PR_CAPTURE);
   infRoles.scan := IsSupportedRole(PR_SCAN);
-  infRoles.email := IsSupportedRole(PR_EMAIL);
   infRoles.jpegll := IsSupportedRole(PR_JPEGLL);
 
   // optimizing menus
@@ -116,15 +116,18 @@ end;
 
 // updates all plug-ins from ini
 procedure UpdatePlugIns();
+var
+  i: integer;
 begin
   // cleaning
   frmMain.mImport.Clear();
   frmMain.mExport.Clear();
 
-  while
-    (frmMain.mTools.Count > 2)
-  do
-    frmMain.mTools.Delete(0);
+  for i := (frmMain.mTools.Count - 1) downto 0 do
+    begin
+    if (frmMain.mTools.Items[i].Tag <> 7) then
+        frmMain.mTools.Delete(i);
+    end;
 
   // now installing plug-ins
   InstallPlugIns();

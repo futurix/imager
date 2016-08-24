@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Classes, SysUtils, Generics.Collections, Menus, Forms,
-  c_const, c_utils, c_locales, c_reg;
+  fx_types, c_const, c_utils, c_locales, c_reg;
 
 type
   FuturixScannerEvent = function(module_type: longword; value1, value2: PWideChar): BOOL of object;
@@ -14,6 +14,8 @@ type
     locations: TStringList;
     current_id: integer;
     IDs: TDictionary<integer, string>;
+    PluginInformation: TDictionary<integer, FuturixPluginInformation>;
+    NotRec: TList<string>;
     lock: TRTLCriticalSection;
 
     class var current_reader: FuturixScannerEvent;
@@ -22,11 +24,11 @@ type
     procedure CleanUp();
     procedure ProcessLibrary(dll: string);
     function ReceiveData(module_type: longword; value1, value2: PWideChar): BOOL;
+    procedure SavePluginName(id: integer; name: string);
+    procedure SavePluginConfiguration(id: integer);
+    procedure SaveNotRec(extension: string);
     procedure WriteData(id: integer; key, value1: string);
-    procedure WriteDataInverted(id: integer; key, value1: string);
-    procedure WriteInternal(key, value: string);
     procedure WriteDescr(ext, name: string);
-    procedure WriteNotRec(ext: string);
     procedure WriteLocale(dll, name: string);
     procedure WriteTheme(dll, name: string);
     procedure WriteID(id: integer; dll: string);
@@ -40,7 +42,7 @@ type
 
 implementation
 
-uses w_main, fx_consts;
+uses w_main, fx_consts, fx_internalp;
 
 constructor FuturixPluginScanner.Create(app_path: string);
 var
@@ -53,6 +55,8 @@ begin
 
   IDs := TDictionary<integer, string>.Create();
   current_id := PI_CUSTOM;
+  PluginInformation := TDictionary<integer, FuturixPluginInformation>.Create();
+  NotRec := TList<string>.Create();
 
   // reading custom plug-in locations
   reg := TFRegistry.Create();
@@ -72,9 +76,12 @@ end;
 
 procedure FuturixPluginScanner.Scan();
 var
-  location, suspect: string;
-  suspects: TStringList;
+  location, suspect, sNotRec: string;
+  suspects, nr, temp: TStringList;
   id: TPair<integer, string>;
+  info: TPair<integer, FuturixPluginInformation>;
+  intres: TFxCore2Result;
+  intsupp: TFxImgQuery;
 begin
   current_id := PI_CUSTOM;            // always start IDs with special value
   suspects := TStringList.Create();
@@ -87,63 +94,6 @@ begin
   // removing old crap
   CleanUp();
 
-  // internal formats
-  WriteInternal(PS_FOPEN, 'jpg');
-  WriteInternal(PS_FOPEN, 'jpeg');
-  WriteInternal(PS_FOPEN, 'jfif');
-  WriteInternal(PS_FOPEN, 'jpe');
-  WriteInternal(PS_FOPEN, 'jp2');
-  WriteInternal(PS_FOPEN, 'jpc');
-  WriteInternal(PS_FOPEN, 'j2k');
-  WriteInternal(PS_FOPEN, 'j2c');
-  WriteInternal(PS_FOPEN, 'gif');
-  WriteInternal(PS_FOPEN, 'pbm');
-  WriteInternal(PS_FOPEN, 'pgm');
-  WriteInternal(PS_FOPEN, 'ppm');
-  WriteInternal(PS_FOPEN, 'bmp');
-  WriteInternal(PS_FOPEN, 'dib');
-  WriteInternal(PS_FOPEN, 'emf');
-  WriteInternal(PS_FOPEN, 'wmf');
-  WriteInternal(PS_FOPEN, 'pcx');
-  WriteInternal(PS_FOPEN, 'dcx');
-  WriteInternal(PS_FOPEN, 'png');
-  WriteInternal(PS_FOPEN, 'tga');
-  WriteInternal(PS_FOPEN, 'tif');
-  WriteInternal(PS_FOPEN, 'tiff');
-  WriteInternal(PS_FOPEN, 'wbmp');
-  WriteInternal(PS_FOPEN, 'wbm');
-  WriteInternal(PS_FOPEN, 'psd');
-
-  WriteNotRec('dcx');
-  WriteNotRec('jpe');
-  WriteNotRec('jfif');
-
-  WriteDescr('jpg', LoadLStr(1000));
-  WriteDescr('jpeg', LoadLStr(1000));
-  WriteDescr('jfif', LoadLStr(1000));
-  WriteDescr('jpe', LoadLStr(1000));
-  WriteDescr('jp2', LoadLStr(1001));
-  WriteDescr('jpc', LoadLStr(1001));
-  WriteDescr('j2k', LoadLStr(1001));
-  WriteDescr('j2c', LoadLStr(1001));
-  WriteDescr('gif', LoadLStr(1002));
-  WriteDescr('pbm', LoadLStr(1003));
-  WriteDescr('pgm', LoadLStr(1004));
-  WriteDescr('ppm', LoadLStr(1005));
-  WriteDescr('bmp', LoadLStr(1006));
-  WriteDescr('dib', LoadLStr(1006));
-  WriteDescr('emf', LoadLStr(1007));
-  WriteDescr('wmf', LoadLStr(1008));
-  WriteDescr('pcx', LoadLStr(1009));
-  WriteDescr('dcx', LoadLStr(1010));
-  WriteDescr('png', LoadLStr(1011));
-  WriteDescr('tga', LoadLStr(1012));
-  WriteDescr('tif', LoadLStr(1013));
-  WriteDescr('tiff', LoadLStr(1013));
-  WriteDescr('wbmp', LoadLStr(1014));
-  WriteDescr('wbm', LoadLStr(1014));
-  WriteDescr('psd', LoadLStr(1020));
-
   // creating list of all DLLs
   for location in locations do
     begin
@@ -153,6 +103,18 @@ begin
       suspects.Add(location);
     end;
 
+  // adding internal plug-ins (with normal scan - but in the Imager executable)
+  current_id := PI_INTERNAL;
+  intres := InternalCore2(CP_FQUERY, FxImgGlobalCallback);
+
+  if (intres.res = FX_TRUE) then
+    begin
+    intsupp := intres.data;
+    intsupp(PWideChar(Application.ExeName), SortData, Application.Handle, frmMain.Handle, FxImgGlobalCallback);
+    end;
+
+  current_id := PI_CUSTOM;
+
   // processing libraries
   for suspect in suspects do
     ProcessLibrary(suspect);
@@ -160,6 +122,33 @@ begin
   // saving generated IDs
   for id in IDs do
     WriteID(id.Key, id.Value);
+
+  // saving plug-in information
+  temp := TStringList.Create();
+
+  for info in PluginInformation do
+    begin
+    temp.Clear();
+    temp.Add(info.Value.name);
+
+    if info.Value.isConfigurable then
+      temp.Add(FX_CFG_TRUE)
+    else
+      temp.Add(FX_CFG_FALSE);
+
+    FxRegWStrs(IntToStr(info.Key), temp, sModules + '\' + PS_FPLUGINFO);
+    end;
+
+  FreeAndNil(temp);
+
+  // saving not recommended extensions
+  nr := TStringList.Create();
+
+  for sNotRec in NotRec do
+    nr.Add(sNotRec);
+
+  FxRegWStrs(FX_REG_NOTREC, nr, sModules);
+  FreeAndNil(nr);
 
   // clean-up
   current_reader := nil;
@@ -176,12 +165,12 @@ begin
   // recreating registry keys
   if reg.OpenKeyLocal(sModules, RA_FULL) then
     begin
+    reg.DeleteValue(FX_REG_NOTREC);
+
     reg.DeleteKey(PS_FID);
-    reg.DeleteKey(PS_FNAME);
+    reg.DeleteKey(PS_FPLUGINFO);
     reg.DeleteKey(PS_FROLE);
-    reg.DeleteKey(PS_FCONFIG);
     reg.DeleteKey(PS_FDESCR);
-    reg.DeleteKey(PS_FNOTREC);
     reg.DeleteKey(PS_FLOCALE);
     reg.DeleteKey(PS_FTHEME);
     reg.DeleteKey(PS_FOPEN);
@@ -273,9 +262,10 @@ begin
   Result := true;
 
   case module_type of
-    PT_FNAME:       WriteDataInverted(current_id, PS_FNAME, String(value1));
+    PT_FNAME:       SavePluginName(current_id, String(value1));
+    PT_FCONFIG:     SavePluginConfiguration(current_id);
+    PT_FNOTREC:     SaveNotRec(String(value1));
 
-    PT_FCONFIG:     WriteData(current_id, PS_FCONFIG,       String(value1));
     PT_FROLE:       WriteData(current_id, PS_FROLE,         String(value1));
     PT_FOPEN:       WriteData(current_id, PS_FOPEN,         String(value1));
     PT_FPREVIEW:    WriteData(current_id, PS_FPREVIEW,      String(value1));
@@ -285,8 +275,6 @@ begin
     PT_FFILTER:     WriteData(current_id, PS_FFILTER,       String(value1));
     PT_FINFO:       WriteData(current_id, PS_FINFO,         String(value1));
     PT_FTOOL:       WriteData(current_id, PS_FTOOL,         String(value1));
-
-    PT_FNOTREC:     WriteNotRec(String(value1));
 
     PT_FDESCR:      WriteDescr(String(value1),  String(value2));
   else
@@ -302,29 +290,56 @@ begin
     Result := true;
 end;
 
+procedure FuturixPluginScanner.SavePluginName(id: integer; name: string);
+var
+  temp: FuturixPluginInformation;
+begin
+  if PluginInformation.TryGetValue(id, temp) then
+    begin
+    temp.name := name;
+    PluginInformation[id] := temp;
+    end
+  else
+    begin
+    temp.name := name;
+    temp.isConfigurable := false;
+
+    PluginInformation.Add(id, temp);
+    end;
+end;
+
+procedure FuturixPluginScanner.SavePluginConfiguration(id: integer);
+var
+  temp: FuturixPluginInformation;
+begin
+  if PluginInformation.TryGetValue(id, temp) then
+    begin
+    temp.isConfigurable := true;
+    PluginInformation[id] := temp;
+    end
+  else
+    begin
+    temp.name := '';
+    temp.isConfigurable := true;
+
+    PluginInformation.Add(id, temp);
+    end;
+end;
+
+procedure FuturixPluginScanner.SaveNotRec(extension: string);
+begin
+  if not NotRec.Contains(extension) then
+    NotRec.Add(extension);
+end;
+
 procedure FuturixPluginScanner.WriteData(id: integer; key, value1: string);
 begin
   FxRegWInt(value1, id, sModules + '\' + key);
 end;
 
-procedure FuturixPluginScanner.WriteDataInverted(id: integer; key, value1: string);
-begin
-  FxRegWStr(IntToStr(id), value1, sModules + '\' + key);
-end;
-
-procedure FuturixPluginScanner.WriteInternal(key, value: string);
-begin
-  FxRegWInt(value, PI_INTERNAL, sModules + '\' + key);
-end;
-
 procedure FuturixPluginScanner.WriteDescr(ext, name: string);
 begin
   FxRegWStr(ext, name, sModules + '\' + PS_FDESCR);
-end;
-
-procedure FuturixPluginScanner.WriteNotRec(ext: string);
-begin
-  FxRegWStr(ext, '', sModules + '\' + PS_FNOTREC);
 end;
 
 procedure FuturixPluginScanner.WriteLocale(dll, name: string);
@@ -346,6 +361,8 @@ destructor FuturixPluginScanner.Destroy();
 begin
   FreeAndNil(locations);
   FreeAndNil(IDs);
+  FreeAndNil(PluginInformation);
+  FreeAndNil(NotRec);
 
   inherited;
 end;

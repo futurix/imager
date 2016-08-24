@@ -29,7 +29,7 @@ object frmOldOptions: TfrmOldOptions
     Height = 13
     Caption = 'Set file format associations'
     Transparent = True
-    OnClick = lblFormatsClick
+    Visible = False
   end
   object btnOK: TButton
     Left = 336
@@ -60,10 +60,6 @@ object frmOldOptions: TfrmOldOptions
     TabOrder = 2
     object shtGeneral: TTabSheet
       Caption = 'General'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblClearMRU: TLabel
         Left = 3
         Top = 402
@@ -186,7 +182,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 0
         Text = 'File navigation'
@@ -200,7 +196,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 1
         Text = 'Switch between display modes'
@@ -214,7 +210,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 2
         Text = 'File navigation'
@@ -229,7 +225,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 3
         Text = 'Scroll image'
@@ -243,7 +239,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 4
         Text = 'Keep previous display state (and zoom to 100% in normal state)'
@@ -301,7 +297,7 @@ object frmOldOptions: TfrmOldOptions
         Width = 175
         Height = 21
         Style = csDropDownList
-        ItemHeight = 13
+        ItemHeight = 0
         ItemIndex = 0
         TabOrder = 8
         Text = 'Fast linear'
@@ -354,6 +350,7 @@ object frmOldOptions: TfrmOldOptions
     object shtPlugins: TTabSheet
       Caption = 'Plug-ins'
       ImageIndex = 6
+      TabVisible = False
       ExplicitLeft = 0
       ExplicitTop = 0
       ExplicitWidth = 0
@@ -414,6 +411,7 @@ object frmOldOptions: TfrmOldOptions
     object shtThemes: TTabSheet
       Caption = 'Themes'
       ImageIndex = 5
+      TabVisible = False
       ExplicitLeft = 0
       ExplicitTop = 0
       ExplicitWidth = 0
@@ -894,6 +892,7 @@ object frmOldOptions: TfrmOldOptions
     object shtLang: TTabSheet
       Caption = 'Languages'
       ImageIndex = 4
+      TabVisible = False
       ExplicitLeft = 0
       ExplicitTop = 0
       ExplicitWidth = 0
@@ -930,6 +929,7 @@ object frmOldOptions: TfrmOldOptions
     object shtPlugCfg: TTabSheet
       Caption = 'Additional'
       ImageIndex = 6
+      TabVisible = False
       ExplicitLeft = 0
       ExplicitTop = 0
       ExplicitWidth = 0
@@ -958,7 +958,6 @@ object frmOldOptions: TfrmOldOptions
         ReadOnly = True
         RowSelect = True
         ShowColumnHeaders = False
-        SmallImages = frmMain.imlFixed
         SortType = stText
         TabOrder = 0
         ViewStyle = vsReport

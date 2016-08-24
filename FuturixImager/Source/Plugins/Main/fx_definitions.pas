@@ -8,11 +8,11 @@ uses
   c_const, c_utils, c_locales, c_reg, c_graphics, c_ie;
 
 function FxCore2(p_intf: ULONG; app_query: TAppCallBack): TFxCore2Result; cdecl;
-function FxImgQuery(plugin_path: PWideChar; info_call: TPlugInCallBack; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-function FxImgOpen(document_path, info: PWideChar; page: ULONG; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-function FxImgSave(document_path, info: PWideChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-function FxImgImport(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
-function FxImgCfg(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function PluginQuery(plugin_path: PWideChar; info_call: TPlugInCallBack; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function PluginOpen(document_path, info: PWideChar; page: ULONG; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function PluginSave(document_path, info: PWideChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function PluginImport(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
+function PluginConfiguration(app, wnd: HWND; app_query: TAppCallBack): TFxImgResult; cdecl;
 
 
 implementation
@@ -28,36 +28,36 @@ begin
     CP_FQUERY:
       begin
       Result.res := FX_TRUE;
-      Result.data := @FxImgQuery;
+      Result.data := @PluginQuery;
       end;
 
     CP_FCONFIG:
       begin
       Result.res := FX_TRUE;
-      Result.data := @FxImgCfg;
+      Result.data := @PluginConfiguration;
       end;
 
     CP_FOPEN:
       begin
       Result.res := FX_TRUE;
-      Result.data := @FxImgOpen;
+      Result.data := @PluginOpen;
       end;
 
     CP_FSAVE:
       begin
       Result.res := FX_TRUE;
-      Result.data := @FxImgSave;
+      Result.data := @PluginSave;
       end;
 
     CP_FIMPORT:
       begin
       Result.res := FX_TRUE;
-      Result.data := @FxImgImport;
+      Result.data := @PluginImport;
       end;
   end;
 end;
 
-function FxImgQuery(plugin_path: PWideChar; info_call: TPlugInCallBack; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+function PluginQuery(plugin_path: PWideChar; info_call: TPlugInCallBack; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
   temp_res: TFxImgResult;
   wic: TIEWICReader;
@@ -73,12 +73,15 @@ begin
       begin
       locale_lib := temp_res.result_value;
       backup_lib := temp_res.result_xtra;
+
+      //!//
+      legacy_locale := locale_lib;
       end;
     end;
 
   info_call(PT_FNAME, 'Core functions', '');
+  info_call(PT_FCONFIG, '', '');
   info_call(PT_FROLE, PR_SCAN, '');
-  info_call(PT_FCONFIG, PWideChar(LoadLStr(3700)), '');
 
   info_call(PT_FOPEN, 'tif', '');
   info_call(PT_FOPEN, 'tiff', '');
@@ -128,7 +131,7 @@ begin
     end;
 end;
 
-function FxImgOpen(document_path, info: PWideChar; page: ULONG; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+function PluginOpen(document_path, info: PWideChar; page: ULONG; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
   bmp, tmp: TBitmap;
   io: TImageEnIO;
@@ -217,7 +220,7 @@ begin
     end;
 end;
 
-function FxImgSave(document_path, info: PWideChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+function PluginSave(document_path, info: PWideChar; img: HBITMAP; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
   temp_res: TFxImgResult;
   bmp: TBitmap;
@@ -236,6 +239,9 @@ begin
       begin
       locale_lib := temp_res.result_value;
       backup_lib := temp_res.result_xtra;
+
+      //!//
+      legacy_locale := locale_lib;
       end;
     end;
 
@@ -583,7 +589,7 @@ begin
   FreeAndNil(bmp);
 end;
 
-function FxImgImport(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+function PluginImport(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
   temp_res: TFxImgResult;
   bmp: TBitmap;
@@ -603,6 +609,9 @@ begin
       begin
       locale_lib := temp_res.result_value;
       backup_lib := temp_res.result_xtra;
+
+      //!//
+      legacy_locale := locale_lib;
       end;
     end;
 
@@ -633,7 +642,7 @@ begin
     end;
 end;
 
-function FxImgCfg(info: PWideChar; app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
+function PluginConfiguration(app, wnd: HWND; app_query: TAppCallBack): TFxImgResult;
 var
   temp_res: TFxImgResult;
 begin
@@ -650,6 +659,9 @@ begin
       begin
       locale_lib := temp_res.result_value;
       backup_lib := temp_res.result_xtra;
+
+      //!//
+      legacy_locale := locale_lib;
       end;
     end;
 

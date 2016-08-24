@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   ComCtrls, StdCtrls, ExtCtrls, Buttons, Dialogs, CheckLst, ShellAPI,
   c_const, c_utils, c_locales, imageenio, hyiedefs, hyieutils, ToolWin,
-  ImgList, c_themes, c_reg, Menus;
+  ImgList, c_themes, c_reg, c_ui, Menus;
 
 const
   SETTING_OPENAFTERSAVE             = 0;
@@ -144,7 +144,6 @@ type
     procedure lvwPlugCfgDblClick(Sender: TObject);
     procedure lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure sbxGradColorClick(Sender: TObject);
-    procedure lblFormatsClick(Sender: TObject);
     procedure lblClearMRUClick(Sender: TObject);
     procedure lblPlugScanClick(Sender: TObject);
     procedure lblOpenPlugFolderClick(Sender: TObject);
@@ -254,8 +253,8 @@ end;
 procedure TfrmOldOptions.GetInstalledPluginsList();
 var
   list: TStringList;
-  i: integer;
-  item: TListItem;
+  //i: integer;
+  //item: TListItem;
   show_cfg: boolean;
   wreg: TFRegistry;
 begin
@@ -269,7 +268,7 @@ begin
 
   list := TStringList.Create();
 
-  if wreg.OpenKey(sModules + '\' + PS_FNAME, false) then
+  {if wreg.OpenKey(sModules + '\' + PS_FNAME, false) then
     begin
     wreg.GetValueNames(list);
 
@@ -283,11 +282,11 @@ begin
       end;
 
     wreg.CloseKey();
-    end;
+    end;}
 
   list.Clear();
 
-  if wreg.OpenKey(sModules + '\' + PS_FCONFIG, false) then
+  {if wreg.OpenKey(sModules + '\' + PS_FCONFIG, false) then
     begin
     wreg.GetValueNames(list);
 
@@ -304,7 +303,7 @@ begin
       end;
 
     wreg.CloseKey();
-    end;
+    end; }
 
   FreeAndNil(list);
   FreeAndNil(wreg);
@@ -527,7 +526,7 @@ begin
     MessageBox(Self.Handle, PWideChar(Format(LoadLStr(3324), ['core'])), sAppName, MB_OK or MB_ICONERROR);
 
   // themes
-  if bThemeChanged then
+  {if bThemeChanged then
     begin
     theme_lib := FxRegRStr(cbxThemes.Items[cbxThemes.ItemIndex], '', sModules + '\' + PS_FTHEME);
 
@@ -560,10 +559,10 @@ begin
     LoadTheme(HInstance);
 
     ApplyTheme();
-    end;
+    end;}
 
     // localization stuff
-  if bLangChanged then
+  {if bLangChanged then
     begin
     locale_lib := FxRegRStr(cbxLanguages.Items[cbxLanguages.ItemIndex], '', sModules + '\' + PS_FLOCALE);
 
@@ -600,25 +599,10 @@ begin
     UpdatePlugIns();
 
     // localization fix
-    if (c_locales.locale_lib <> 0) then
-      begin
-      frmMain.mnuMain.Images := nil;
-      frmMain.popMain.Images := nil;
-      frmMain.popZoom.Images := nil;
-      frmMain.popDisp.Images := nil;
-      end
-    else
-      begin
-      frmMain.mnuMain.Images := frmMain.imlFixed;
-      frmMain.popMain.Images := frmMain.imlFixed;
-      frmMain.popZoom.Images := frmMain.imlFixed;
-      frmMain.popDisp.Images := frmMain.imlFixed;
-      end;
-
     frmMain.Localize();
     if Assigned(frmShow) then
       frmShow.Localize();
-    end;
+    end;}
 
   // updating settings
   frmMain.miDSFitAll.Visible := GetSetting(SETTING_ENABLEFITALL);
@@ -885,11 +869,6 @@ begin
   frmMain.mru.ClearItems(true);
 end;
 
-procedure TfrmOldOptions.lblFormatsClick(Sender: TObject);
-begin
-  ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath + FN_FORMATS), nil, nil, SW_SHOWNORMAL);
-end;
-
 procedure TfrmOldOptions.lblOpenPlugFolderClick(Sender: TObject);
 begin
   ShellExecute(Application.Handle, 'open', PWideChar(fx.ApplicationPath), nil, nil, SW_SHOWNORMAL);
@@ -987,12 +966,12 @@ begin
 end;
 
 procedure TfrmOldOptions.lvwPlugCfgDblClick(Sender: TObject);
-var
+{var
   FxImgCfg: TFxImgCfg;
   lib: THandle;
-  lib_path: string;
+  lib_path: string;}
 begin
-  if (lvwPlugCfg.Selected <> nil) then
+  {if (lvwPlugCfg.Selected <> nil) then
     begin
     lib_path := FxRegRStr(lvwPlugCfg.Selected.Caption, '', sModules + '\' + PS_FCONFIG);
 
@@ -1009,7 +988,7 @@ begin
       end
     else
       ShowMessage(LoadLStr(607));
-    end;
+    end;}
 end;
 
 procedure TfrmOldOptions.lvwPlugCfgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -26,6 +26,7 @@ type
     rbnGreen: TRadioButton;
     rbnBlue: TRadioButton;
     sbxHist: TScrollBox;
+    hist: THistogramBox;
     procedure AddCommonInfo();
     procedure AddToList(name, value: string);
     procedure AddToEXIF(name, value: string);
@@ -37,7 +38,6 @@ type
     procedure rbnAllClick(Sender: TObject);
     procedure shtHistShow(Sender: TObject);
   private
-    hist: THistogramBox;
     proc: TImageEnProc;
   public
     procedure Localize();
@@ -188,12 +188,12 @@ begin
 
         AddToEXIF('', '');
 
-        if (Trim(string(io.Params.EXIF_DateTimeOriginal))<>'') then
+        if (Trim(string(io.Params.EXIF_DateTimeOriginal)) <> '') then
           AddToEXIF(LoadLStr(1230), string(io.Params.EXIF_DateTimeOriginal));
-        if (Trim(string(io.Params.EXIF_DateTimeDigitized))<>'') then
+        if (Trim(string(io.Params.EXIF_DateTimeDigitized)) <> '') then
           AddToEXIF(LoadLStr(1231), string(io.Params.EXIF_DateTimeDigitized));
 
-        if ((Trim(string(io.Params.EXIF_DateTimeOriginal))<>'') or (Trim(string(io.Params.EXIF_DateTimeDigitized))<>'')) then
+        if ((Trim(string(io.Params.EXIF_DateTimeOriginal)) <> '') or (Trim(string(io.Params.EXIF_DateTimeDigitized)) <> '')) then
           AddToEXIF('', '');
 
         AddToEXIF(LoadLStr(1232), Format('%-8.2f', [io.Params.EXIF_XResolution]));
@@ -201,20 +201,26 @@ begin
 
         AddToEXIF('', '');
 
-        if (Trim(string(io.Params.EXIF_Software))<>'') then
+        if (Trim(string(io.Params.EXIF_Software)) <> '') then
           AddToEXIF(LoadLStr(1234), string(io.Params.EXIF_Software));
-        AddToEXIF(LoadLStr(1235), IntToStr(io.Params.EXIF_ISOSpeedRatings[0]));
-        AddToEXIF(LoadLStr(1236), 'F' + Format('%-4.1f', [io.Params.EXIF_FNumber]));
 
-        if (io.Params.EXIF_ExposureTime <> 0) then
+        if (io.Params.EXIF_ISOSpeedRatings[0] <> 0) then
+          AddToEXIF(LoadLStr(1235), IntToStr(io.Params.EXIF_ISOSpeedRatings[0]));
+
+        if (io.Params.EXIF_FNumber > -1) then
+          AddToEXIF(LoadLStr(1236), 'F' + Format('%-4.1f', [io.Params.EXIF_FNumber]))
+        else
+          AddToEXIF(LoadLStr(1236), LoadLStr(70));
+
+        if (io.Params.EXIF_ExposureTime <> -1) then
           AddToEXIF(LoadLStr(1237), Format(LoadLStr(1238), [Round(1 / io.Params.EXIF_ExposureTime)]))
         else
           AddToEXIF(LoadLStr(1237), LoadLStr(70));
 
-        AddToEXIF(LoadLStr(1239), Format(LoadLStr(1240), [io.Params.EXIF_FocalLength]));
+        if (io.Params.EXIF_FocalLength <> -1) then
+          AddToEXIF(LoadLStr(1239), Format(LoadLStr(1240), [io.Params.EXIF_FocalLength]));
 
         case io.Params.EXIF_ExposureProgram of
-          0: temps := LoadLStr(70);
           1: temps := LoadLStr(1242);
           2: temps := LoadLStr(1243);
           3: temps := LoadLStr(1244);
@@ -229,7 +235,6 @@ begin
         AddToEXIF(LoadLStr(1241), temps);
 
         case io.Params.EXIF_LightSource of
-          0: temps := LoadLStr(70);
           1: temps := LoadLStr(1251);
           2: temps := LoadLStr(1252);
           3: temps := LoadLStr(1253);
@@ -260,15 +265,17 @@ begin
         end;
         AddToEXIF(LoadLStr(1261), temps);
 
-        if (io.Params.EXIF_MaxApertureValue > 0) then
-          tempd := Ceil(2 * Log2(io.Params.EXIF_MaxApertureValue))
-        else
-          tempd := 0;
+        if (io.Params.EXIF_MaxApertureValue <> -1000) then
+          begin
+          if (io.Params.EXIF_MaxApertureValue > 0) then
+            tempd := Ceil(2 * Log2(io.Params.EXIF_MaxApertureValue))
+          else
+            tempd := 0;
 
-        AddToEXIF(LoadLStr(1268), Format('F%-4.1f', [tempd]));
+          AddToEXIF(LoadLStr(1268), Format('F%-4.1f', [tempd]));
+          end;
 
         case io.Params.EXIF_MeteringMode of
-          0: temps := LoadLStr(70);
           1: temps := LoadLStr(1270);
           2: temps := LoadLStr(1271);
           3: temps := LoadLStr(1272);
@@ -281,21 +288,27 @@ begin
         end;
         AddToEXIF(LoadLStr(1269), temps);
 
-        AddToEXIF(LoadLStr(1276), Format('%-8.2f', [io.Params.EXIF_ExposureBiasValue]));
-        AddToEXIF(LoadLStr(1277), Format('%-8.2f', [io.Params.EXIF_BrightnessValue]));
+        if (io.Params.EXIF_ExposureBiasValue <> -1000) then
+          AddToEXIF(LoadLStr(1276), Format('%-8.2f', [io.Params.EXIF_ExposureBiasValue]));
+        if (io.Params.EXIF_BrightnessValue <> -1000) then
+          AddToEXIF(LoadLStr(1277), Format('%-8.2f', [io.Params.EXIF_BrightnessValue]));
 
         case io.Params.EXIF_SensingMethod of
-          0: temps := LoadLStr(70);
           2: temps := LoadLStr(1279);
           else
             temps := LoadLStr(70);
         end;
         AddToEXIF(LoadLStr(1278), temps);
 
-        AddToEXIF(LoadLStr(1280), Format('%-8.2f', [io.Params.EXIF_WhitePoint[0]]));
-        AddToEXIF(LoadLStr(1281), Format('%-8.2f', [io.Params.EXIF_ReferenceBlackWhite[0]]));
-        AddToEXIF(LoadLStr(1282), Format('%-8.2f', [io.Params.EXIF_YCbCrCoefficients[1]]));
-        AddToEXIF(LoadLStr(1283), string(io.Params.EXIF_FlashPixVersion));
+        if (io.Params.EXIF_WhitePoint[0] <> -1) then
+          AddToEXIF(LoadLStr(1280), Format('%-8.2f', [io.Params.EXIF_WhitePoint[0]]));
+        if (io.Params.EXIF_ReferenceBlackWhite[0] <> -1) then
+          AddToEXIF(LoadLStr(1281), Format('%-8.2f', [io.Params.EXIF_ReferenceBlackWhite[0]]));
+        if (io.Params.EXIF_YCbCrCoefficients[0] <> -1) then
+          AddToEXIF(LoadLStr(1282), Format('%-8.2f', [io.Params.EXIF_YCbCrCoefficients[1]]));
+
+        if (string(io.Params.EXIF_FlashPixVersion) <> '') then
+          AddToEXIF(LoadLStr(1283), string(io.Params.EXIF_FlashPixVersion));
 
         case io.Params.EXIF_ColorSpace of
           1: temps := LoadLStr(1284);
@@ -305,8 +318,10 @@ begin
         end;
         AddToEXIF(LoadLStr(1286), temps);
 
-        AddToEXIF(LoadLStr(1287), Format('%-8.2f', [io.Params.EXIF_FocalPlaneXResolution]));
-        AddToEXIF(LoadLStr(1288), Format('%-8.2f', [io.Params.EXIF_FocalPlaneYResolution]));
+        if (io.Params.EXIF_FocalPlaneXResolution <> -1) then
+          AddToEXIF(LoadLStr(1287), Format('%-8.2f', [io.Params.EXIF_FocalPlaneXResolution]));
+        if (io.Params.EXIF_FocalPlaneYResolution <> -1) then
+          AddToEXIF(LoadLStr(1288), Format('%-8.2f', [io.Params.EXIF_FocalPlaneYResolution]));
 
         case io.Params.EXIF_FocalPlaneResolutionUnit of
           1: temps := LoadLStr(1290);
@@ -317,9 +332,12 @@ begin
         end;
         AddToEXIF(LoadLStr(1289), temps);
 
-        AddToEXIF(LoadLStr(1293), Format('%-8.2f', [io.Params.EXIF_PrimaryChromaticities[0]]));
-        AddToEXIF(LoadLStr(1294), string(io.Params.EXIF_ExifVersion));
-        AddToEXIF(LoadLStr(1295), Format('%-8.1f', [io.Params.EXIF_CompressedBitsPerPixel]));
+        if (io.Params.EXIF_PrimaryChromaticities[0] <> -1) then
+          AddToEXIF(LoadLStr(1293), Format('%-8.2f', [io.Params.EXIF_PrimaryChromaticities[0]]));
+        if (string(io.Params.EXIF_ExifVersion) <> '') then
+          AddToEXIF(LoadLStr(1294), string(io.Params.EXIF_ExifVersion));
+        if (io.Params.EXIF_CompressedBitsPerPixel <> 0) then
+          AddToEXIF(LoadLStr(1295), Format('%-8.1f', [io.Params.EXIF_CompressedBitsPerPixel]));
 
         case io.Params.EXIF_ResolutionUnit of
           1: temps := LoadLStr(1290);
@@ -352,32 +370,35 @@ begin
         end;
         AddToEXIF(LoadLStr(1300), temps);
 
-        AddToEXIF(LoadLStr(1309), string(io.Params.EXIF_ImageDescription));
-        AddToEXIF(LoadLStr(1310), IntToStr(io.Params.EXIF_SceneType));
-        AddToEXIF(LoadLStr(1311), Format('%-8.2f', [io.Params.EXIF_SubjectDistance]));
-        AddToEXIF(LoadLStr(1312), string(io.Params.EXIF_SubsecTime));
-        AddToEXIF(LoadLStr(1313), string(io.Params.EXIF_SubsecTimeOriginal));
-        AddToEXIF(LoadLStr(1314), string(io.Params.EXIF_RelatedSoundFile));
-        AddToEXIF(LoadLStr(1315), Format('%-8.2f', [io.Params.EXIF_ExposureIndex]));
+        if (string(io.Params.EXIF_ImageDescription) <> '') then
+          AddToEXIF(LoadLStr(1309), string(io.Params.EXIF_ImageDescription));
+        if (io.Params.EXIF_SceneType <> -1) then
+          AddToEXIF(LoadLStr(1310), IntToStr(io.Params.EXIF_SceneType));
+        if (io.Params.EXIF_SubjectDistance <> -1) then
+          AddToEXIF(LoadLStr(1311), Format('%-8.2f', [io.Params.EXIF_SubjectDistance]));
+        if (string(io.Params.EXIF_SubsecTime) <> '') then
+          AddToEXIF(LoadLStr(1312), string(io.Params.EXIF_SubsecTime));
+        if (string(io.Params.EXIF_SubsecTimeOriginal) <> '') then
+          AddToEXIF(LoadLStr(1313), string(io.Params.EXIF_SubsecTimeOriginal));
+        if (string(io.Params.EXIF_RelatedSoundFile) <> '') then
+          AddToEXIF(LoadLStr(1314), string(io.Params.EXIF_RelatedSoundFile));
+        if (io.Params.EXIF_ExposureIndex <> -1) then
+          AddToEXIF(LoadLStr(1315), Format('%-8.2f', [io.Params.EXIF_ExposureIndex]));
 
-        if io.Params.EXIF_FileSource = 3 then
+        if (io.Params.EXIF_FileSource = 3) then
           begin
           AddToEXIF('', '');
           AddToEXIF(LoadLStr(1316), LoadLStr(1317));
           end;
 
-        if ((Trim(string(io.Params.EXIF_Copyright)) <> '') or (Trim(string(io.Params.EXIF_UserCommentCode)) <> '') or
-            (Trim(string(io.Params.EXIF_UserComment)) <> '')) then
+        if ((Trim(string(io.Params.EXIF_Copyright)) <> '') or (Trim(io.Params.EXIF_UserComment) <> '')) then
           AddToEXIF('', '');
 
         if (Trim(string(io.Params.EXIF_Copyright)) <> '') then
           AddToEXIF(LoadLStr(1318), string(io.Params.EXIF_Copyright));
 
-        if (Trim(string(io.Params.EXIF_UserCommentCode)) <> '') then
-          AddToEXIF(LoadLStr(1319), string(io.Params.EXIF_UserCommentCode));
-
-        if (Trim(string(io.Params.EXIF_UserComment)) <> '') then
-          AddToEXIF(LoadLStr(1320), string(io.Params.EXIF_UserComment));
+        if (Trim(io.Params.EXIF_UserComment) <> '') then
+          AddToEXIF(LoadLStr(1320), io.Params.EXIF_UserComment);
         end;
       end;
 
@@ -417,19 +438,16 @@ end;
 
 procedure TfrmInfo.rbnAllClick(Sender: TObject);
 begin
-  if Assigned(hist) then
-    begin
-    if rbnAll.Checked then
-      hist.HistogramKind := [hkRed, hkGreen, hkBlue, hkGray]
-    else if rbnRed.Checked then
-      hist.HistogramKind := [hkRed]
-    else if rbnGreen.Checked then
-      hist.HistogramKind := [hkGreen]
-    else if rbnBlue.Checked then
-      hist.HistogramKind := [hkBlue]
-    else
-      hist.HistogramKind := [hkGray];
-    end;
+  if rbnAll.Checked then
+    hist.HistogramKind := [hkRed, hkGreen, hkBlue, hkGray]
+  else if rbnRed.Checked then
+    hist.HistogramKind := [hkRed]
+  else if rbnGreen.Checked then
+    hist.HistogramKind := [hkGreen]
+  else if rbnBlue.Checked then
+    hist.HistogramKind := [hkBlue]
+  else
+    hist.HistogramKind := [hkGray];
 end;
 
 procedure TfrmInfo.shtHistShow(Sender: TObject);
@@ -438,13 +456,6 @@ begin
   if (gen_hyst = false) then
     begin
     gen_hyst := true;
-
-    hist := THistogramBox.Create(sbxHist);
-    hist.Parent := sbxHist;
-    hist.Align := alClient;
-    hist.HistogramKind := [hkRed, hkGreen, hkBlue, hkGray];
-    hist.HistogramStyle := hsLines;
-    hist.Labels := [hlHorizontal];
 
     proc := TImageEnProc.Create(sbxHist);
     proc.AttachedIEBitmap.Assign(frmMain.img.IEBitmap);

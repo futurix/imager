@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls,
-  c_const, c_utils, c_locales;
+  c_const, c_utils, c_locales, c_lang, c_ui;
 
 type
   TfrmAbout = class(TForm)
@@ -96,7 +96,7 @@ procedure TfrmAbout.Localize();
 begin
   Self.Caption      := Format(LoadLStr(700), [sAppName]);
   lblWeb.Caption    := Format(LoadLStr(701), [sAppName]);
-  btnOK.Caption     := LoadLStr(50);
+  btnOK.Caption     := GetLString(FXL_OK);
 end;
 
 end.

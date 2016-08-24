@@ -5,7 +5,6 @@ interface
 const
   // application filenames
   FN_APP          = 'fximager.exe';
-  FN_FORMATS      = 'fxformats.exe';  // to be replaced
 
   // limit for the list of most recently used files
   MRU_LIMIT       = 8;

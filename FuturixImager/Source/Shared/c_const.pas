@@ -30,24 +30,26 @@ const
   sURL                  = 'http://fximage.com/';
 
   // signatures
-  sLocaleID             = 'FxImgLocaleR3';
-  sThemeID              = 'FxImgThemeR3';
+  sLocaleID             = 'FxImgLocaleR6';
+  sThemeID              = 'FxImgThemeR6';
 
   // registry value names
   sLocaleName           = 'CurrentLocaleName';
   sLocaleLib            = 'CurrentLocaleLib';
   sThemeName            = 'CurrentThemeName';
   sThemeLib             = 'CurrentThemeLib';
+  sPluginCounter        = 'UpdateCounter';
 
   // registry access
   RA_FULL               = KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS or
                           KEY_CREATE_SUB_KEY or KEY_SET_VALUE;
   RA_READONLY           = KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS;
 
-  // plug-in types
+  // plug-in types (for plug-in installation)
   PT_FNAME         = 1;
   PT_FROLE         = 2;
   PT_FCONFIG       = 3;
+  PT_FABOUT        = 4;
   PT_FDESCR        = 5;
   PT_FNOTREC       = 6;
   PT_FOPEN         = 10;
@@ -59,7 +61,7 @@ const
   PT_FINFO         = 60;
   PT_FTOOL         = 80;
 
-  // core types
+  // core types (for plug-in execution)
   CP_FQUERY        = 1;
   CP_FCONFIG       = 2;
   CP_FOPEN         = 3;
@@ -70,19 +72,18 @@ const
   CP_FFILTER       = 8;
   CP_FINFO         = 9;
   CP_FTOOL         = 10;
+  CP_FABOUT        = 11;
 
   // plug-in IDs
   PI_NULL          = 0;
   PI_INTERNAL      = 1;
   PI_CUSTOM        = 2;
 
-  // plug-in type strings
-  PS_FID           = 'ID';
-  PS_FNAME         = 'Plug-ins';
+  // plug-in registry keys
+  PS_FID           = 'Plug-ins';
+  PS_FPLUGINFO     = 'Settings';
   PS_FROLE         = 'Roles';
-  PS_FCONFIG       = 'Settings';
   PS_FDESCR        = 'Descriptions';
-  PS_FNOTREC       = 'NotRecommended';
   PS_FLOCALE       = 'Locales';
   PS_FTHEME        = 'Themes';
   PS_FOPEN         = 'Open';
@@ -94,18 +95,15 @@ const
   PS_FINFO         = 'Information';
   PS_FTOOL         = 'SimpleTool';
 
-  // exported function names
+  // common registry settings
+  FX_REG_NOTREC    = 'NotRecommended';
+
+  // common constants
+  FX_CFG_TRUE      = 'CFG';
+  FX_CFG_FALSE     = 'NULL';
+
+  // exported function name
   EX_CORE2         = 'FxCore2';
-  EX_QUERY         = 'FxImgQuery';
-  EX_CFG           = 'FxImgCfg';
-  EX_OPEN          = 'FxImgOpen';
-  EX_PREVIEW       = 'FxImgPreview';
-  EX_SAVE          = 'FxImgSave';
-  EX_IMPORT        = 'FxImgImport';
-  EX_EXPORT        = 'FxImgExport';
-  EX_FILTER        = 'FxImgFilter';
-  EX_SIMPLETOOL    = 'FxImgTool';
-  EX_INFO          = 'FxImgInfo';
 
   // TFxImgResult result types
   RT_BOOL          = 0;
@@ -129,7 +127,6 @@ const
   PR_PRINT         = 'ROLE::PRINT';
   PR_PRINTPREVIEW  = 'ROLE::PRINTPREVIEW';
   PR_SCAN          = 'ROLE::SCAN';
-  PR_EMAIL         = 'ROLE::EMAIL';
   PR_CAPTURE       = 'ROLE::CAPTURE';
   PR_JPEGLL        = 'ROLE::JPEGLL';
   PR_EDITOR        = 'ROLE::EDITOR';
@@ -170,7 +167,10 @@ type
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 
   TFxImgCfg           = function(
-                          info: PWideChar;
+                          app, wnd: HWND;
+                          app_query: TAppCallBack): TFxImgResult; cdecl;
+
+  TFxImgAbout         = function(
                           app, wnd: HWND;
                           app_query: TAppCallBack): TFxImgResult; cdecl;
 

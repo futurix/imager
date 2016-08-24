@@ -71,7 +71,7 @@ object frmEditor: TfrmEditor
     LegacyBitmap = False
     ScrollBars = ssNone
     AutoShrink = True
-    ImageEnVersion = '3.0.3'
+    ImageEnVersion = '3.0.5'
     EnableInteractionHints = True
     Align = alClient
     Visible = False
@@ -91,18 +91,19 @@ object frmEditor: TfrmEditor
         HorizontalOnly = True
         ImageIndex = -1
         MinHeight = 22
-        Width = 739
+        Width = 737
       end>
     EdgeBorders = []
     FixedOrder = True
     ShowText = False
     object tbrEditor: TToolBar
-      Left = 0
+      Left = 2
       Top = 0
-      Width = 735
+      Width = 737
       Height = 22
       AutoSize = True
       Caption = 'Editor Toolbar'
+      DisabledImages = frmMain.imlDis
       HideClippedButtons = True
       Images = frmMain.imlStd
       TabOrder = 0
@@ -264,14 +265,14 @@ object frmEditor: TfrmEditor
         Style = tbsDropDown
       end
       object Sep5: TToolButton
-        Left = 336
+        Left = 344
         Top = 0
         Width = 8
         ImageIndex = 101
         Style = tbsSeparator
       end
       object tbnSelection: TToolButton
-        Left = 344
+        Left = 352
         Top = 0
         AutoSize = True
         Caption = 'Selection'
@@ -282,7 +283,7 @@ object frmEditor: TfrmEditor
         Style = tbsDropDown
       end
       object tbnEraseSelection: TToolButton
-        Left = 380
+        Left = 396
         Top = 0
         AutoSize = True
         Caption = 'Erase'
@@ -292,14 +293,14 @@ object frmEditor: TfrmEditor
         OnClick = tbnEraseSelectionClick
       end
       object Sep6: TToolButton
-        Left = 403
+        Left = 419
         Top = 0
         Width = 8
         ImageIndex = 102
         Style = tbsSeparator
       end
       object tbnResize: TToolButton
-        Left = 411
+        Left = 427
         Top = 0
         AutoSize = True
         Caption = 'Resize'
@@ -309,7 +310,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnResizeClick
       end
       object tbnCrop: TToolButton
-        Left = 434
+        Left = 450
         Top = 0
         AutoSize = True
         Caption = 'Crop'
@@ -319,7 +320,7 @@ object frmEditor: TfrmEditor
         OnClick = tbnCropClick
       end
       object tbnRotate: TToolButton
-        Left = 457
+        Left = 473
         Top = 0
         AutoSize = True
         Caption = 'Rotate'
@@ -377,11 +378,12 @@ object frmEditor: TfrmEditor
         Left = 2
         Top = 2
         Width = 54
-        Height = 13
+        Height = 32
         Align = alLeft
         Caption = 'Tolerance: '
         Transparent = True
         Layout = tlCenter
+        ExplicitHeight = 13
       end
       object pnlTolerance: TPanel
         Left = 56
@@ -449,13 +451,14 @@ object frmEditor: TfrmEditor
           Left = 0
           Top = 0
           Width = 32
-          Height = 13
+          Height = 19
           Align = alLeft
           Alignment = taRightJustify
           Caption = 'Color: '
           FocusControl = boxColorSelector
           Transparent = True
           Layout = tlCenter
+          ExplicitHeight = 13
         end
         object sbxColor: TScrollBox
           Left = 32
@@ -539,7 +542,7 @@ object frmEditor: TfrmEditor
     LegacyBitmap = False
     MouseInteract = [miSelect]
     SelectionBase = iesbBitmap
-    ImageEnVersion = '3.0.3'
+    ImageEnVersion = '3.0.5'
     EnableInteractionHints = True
     Align = alClient
     TabOrder = 2

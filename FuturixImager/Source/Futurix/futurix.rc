@@ -1,5 +1,6 @@
 
 IMGMAIN   RT_BITMAP   "res\main.bmp"
+IMGMAIND  RT_BITMAP   "res\maind.bmp"
 IMGFIXED  RT_BITMAP   "res\fixed.bmp"
 
 1       ICON       "res\icon_1.ico"

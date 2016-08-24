@@ -4,17 +4,13 @@ interface
 
 uses
   Windows, Classes, SysUtils, Generics.Collections, Menus, Forms,
-  c_const, c_utils, c_locales, c_reg;
+  fx_types, c_const, c_utils, c_locales, c_reg;
 
 type
-  FuturixPluginCacheData = record
-    lib: THandle;
-    func: TFxCore2;
-  end;
-
   FuturixPluginManager = class(TObject)
   private
     fID: TDictionary<integer, string>;
+    fPlugInfo: TDictionary<integer, FuturixPluginInformation>;
     fRole: TDictionary<string, integer>;
     fDescr: TDictionary<string, string>;
     fNotRec: TList<string>;
@@ -65,7 +61,7 @@ type
     function ListTool(): TStringList;
     function HasConfiguration(id: integer): boolean;
     function ResolveConfiguration(id: integer): TFxImgCfg;
-    function ListConfiguration(): TStringList;
+    function ListConfiguration(): TList<integer>;
 
     function FindFormatDescription(extension: string): string;
     function HasRole(name: string): boolean;
@@ -80,6 +76,7 @@ uses w_main, fx_consts, fx_internalp;
 constructor FuturixPluginManager.Create();
 begin
   fID := TDictionary<integer, string>.Create();
+  fPlugInfo := TDictionary<integer, FuturixPluginInformation>.Create();
   fRole := TDictionary<string, integer>.Create();
   fDescr := TDictionary<string, string>.Create();
   fNotRec := TList<string>.Create();
@@ -99,8 +96,9 @@ end;
 procedure FuturixPluginManager.LoadData();
 var
   reg: TFRegistry;
-  temp: TStringList;
+  temp, loc: TStringList;
   item, lc: string;
+  info: FuturixPluginInformation;
 begin
   reg := TFRegistry.Create();
   temp := TStringList.Create();
@@ -108,6 +106,7 @@ begin
   // clean-up
   ClearPluginCache();
   fID.Clear();
+  fPlugInfo.Clear();
   fRole.Clear();
   fDescr.Clear();
   fNotRec.Clear();
@@ -137,7 +136,30 @@ begin
     reg.CloseKey();
     end;
 
-  //TODO: replace with expanded plug-in data
+  // expanded plug-in data
+  if reg.OpenKeyLocal(sModules + '\' + PS_FPLUGINFO) then
+    begin
+    temp.Clear();
+    reg.GetValueNames(temp);
+
+    loc := TStringList.Create();
+
+    for item in temp do
+      begin
+      reg.RStrings(item, loc);
+
+      if (loc.Count >= 2) then
+        begin
+        info.name := loc[0];
+        info.isConfigurable := (loc[1] = FX_CFG_TRUE);
+
+        fPlugInfo.Add(StrToInt(item), info);
+        end;
+      end;
+
+    FreeAndNil(loc);
+    reg.CloseKey();
+    end;
 
   // roles
   ReadSimpleData(reg, sModules + '\' + PS_FROLE, fRole);
@@ -155,10 +177,10 @@ begin
     end;
 
   // not recommended
-  if reg.OpenKeyLocal(sModules + '\' + PS_FNOTREC) then
+  if reg.OpenKeyLocal(sModules) then
     begin
     temp.Clear();
-    reg.GetValueNames(temp);
+    reg.RStrings(FX_REG_NOTREC, temp);
 
     for item in temp do
       fNotRec.Add(item);
@@ -266,7 +288,7 @@ begin
     temp.res := FX_FALSE;
 
     if (id = PI_INTERNAL) then
-      FxCore2(p_intf, FxImgGlobalCallback)
+      InternalCore2(p_intf, FxImgGlobalCallback)
     else if (fCache.ContainsKey(id) or CachePlugin(id)) then
       temp := fCache[id].func(p_intf, FxImgGlobalCallback);
 
@@ -461,19 +483,26 @@ end;
 
 function FuturixPluginManager.HasConfiguration(id: integer): boolean;
 begin
-  Result := false;
+  Result := ((id >= PI_CUSTOM) and (fPlugInfo.ContainsKey(id)) and fPlugInfo[id].isConfigurable);
 end;
 
-//TODO
 function FuturixPluginManager.ResolveConfiguration(id: integer): TFxImgCfg;
 begin
-  Result := nil;
+  if ((id >= PI_CUSTOM) and (fPlugInfo.ContainsKey(id)) and fPlugInfo[id].isConfigurable) then
+    Result := GetFunctionFromPlugin(id, CP_FCONFIG)
+  else
+    Result := nil;
 end;
 
-//TODO
-function FuturixPluginManager.ListConfiguration(): TStringList;
+function FuturixPluginManager.ListConfiguration(): TList<integer>;
+var
+  entry: TPair<integer, FuturixPluginInformation>;
 begin
-  Result := TStringList.Create();
+  Result := TList<integer>.Create();
+
+  for entry in fPlugInfo do
+    if entry.Value.isConfigurable then
+      Result.Add(entry.Key);
 end;
 
 function FuturixPluginManager.FindFormatDescription(extension: string): string;
@@ -500,6 +529,7 @@ begin
   ClearPluginCache();
 
   FreeAndNil(fID);
+  FreeAndNil(fPlugInfo);
   FreeAndNil(fRole);
   FreeAndNil(fDescr);
   FreeAndNil(fNotRec);

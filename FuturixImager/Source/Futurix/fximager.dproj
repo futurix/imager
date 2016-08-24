@@ -23,6 +23,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<BRCC_CompilerToUse>rc</BRCC_CompilerToUse>
 			<DCC_ExeOutput>$(FXIMAGER)\Bin</DCC_ExeOutput>
 			<DCC_ObjOutput>$(FXIMAGER)\Source\Trash</DCC_ObjOutput>
 			<DCC_UnitSearchPath>$(FXIMAGER)\Source\Shared;$(FXSHARED)\Patches;$(FXSHARED)\ImageEn;$(FXSHARED)\Misc;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -74,7 +75,7 @@
 						<VersionInfo Name="MajorVer">6</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">1728</VersionInfo>
+						<VersionInfo Name="Build">1858</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -86,7 +87,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">FuturixImager</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">6.0.0.1728</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">6.0.0.1858</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">futuriximager_core</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalCopyright">© 1999-2009 Alexander Tereshchenko</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
@@ -164,6 +165,15 @@
 			<DCCReference Include="fx_pluginscanner.pas"/>
 			<DCCReference Include="fx_pluginmanager.pas"/>
 			<DCCReference Include="fx_internalp.pas"/>
+			<DCCReference Include="fx_types.pas"/>
+			<DCCReference Include="o_welcome.pas">
+				<Form>fraOptWelcome</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
+			<DCCReference Include="o_plugins.pas">
+				<Form>fraOptPlugins</Form>
+				<DesignClass>TFrame</DesignClass>
+			</DCCReference>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

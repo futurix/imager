@@ -1,18 +1,17 @@
 !include "MUI2.nsh"
-
-!define FXVERSION "$\"Splash$\" Alpha 3"
+!define FXVERSION "$\"S$\" Beta 1"
 
 Name "FuturixImager"
 OutFile "Output\futuriximager.exe"
 CRCCheck on
 SetCompressor /SOLID lzma
-RequestExecutionLevel highest
+RequestExecutionLevel admin
 ShowInstDetails nevershow
 ShowUninstDetails nevershow
 
 BrandingText "FuturixImager ${FXVERSION}"
 
-InstallDir "$PROGRAMFILES\FuturixImager Preview"
+InstallDir "$PROGRAMFILES\FuturixImager Beta"
 InstallDirRegKey HKCU "Software\Futurix\FuturixImager" "InstallationPath"
 
 !define MUI_WELCOMEPAGE_TITLE "FuturixImager ${FXVERSION}"
@@ -47,9 +46,6 @@ Section "FuturixImager"
   SectionIn RO
   SetDetailsPrint none
   
-  # removing xtra plug-ins via uninstaller (if possible)
-  #ExecWait '"$INSTDIR\uninstallx.exe" /S'
-  
   # registry clean-up
   DeleteRegKey HKEY_CLASSES_ROOT "FuturixImager_6"
   DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager6"
@@ -60,14 +56,18 @@ Section "FuturixImager"
   Delete $INSTDIR\fx*.dll
   Delete $INSTDIR\fx*.exe
   Delete $INSTDIR\uninstallfx.exe
-  #Delete $INSTDIR\uninstallx.exe
   
   # installing main files
   SetOutPath "$INSTDIR"
+  File "..\Bin\fxextraformats.dll"
   #File "..\Bin\fxfimg.dll"
-  #File "..\Bin\fxformats.exe"
+  File "..\Bin\fxfreg.exe"
   File "..\Bin\fximager.exe"
+  File "..\Bin\fxjbig.dll"
+  File "..\Bin\fxlegacy.dll"
+  File "..\Bin\fxmagick.dll"
   File "..\Bin\fxmain.dll"
+  File "..\Bin\fxraw.dll"
   
   # writing unistaller registry key
   WriteRegStr   HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\FuturixImager6" "DisplayName" "FuturixImager ${FXVERSION}"
@@ -124,16 +124,12 @@ Section Uninstall
   # registry clean-up
   #ExecWait '"$INSTDIR\fxformats.exe" /uninstall'
 
-  # removing extra plug-ins via uninstaller (if possible)
-  #ExecWait '"$INSTDIR\uninstallx.exe" /S'
-
   # deleting files
   Delete $SMPROGRAMS\FuturixImager.lnk
   Delete $INSTDIR\fx*.chm
   Delete $INSTDIR\fx*.dll
   Delete $INSTDIR\fx*.exe
   Delete $INSTDIR\uninstallfx.exe
-  #Delete $INSTDIR\uninstallx.exe
 
   # registry clean-up
   DeleteRegKey HKEY_CURRENT_USER "Software\Futurix\FuturixImager"

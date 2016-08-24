@@ -1,2 +1,5 @@
->>>> 6.0 Alpha 4
-+ Imager now supports multiple folders with plug-ins
+>>>> 6.0 RC
++ new localization system
++ speed improvements for raw camera photos and DNG images
++ better support for Unicode EXIF data
++ bug-fixes, raw camera formats update

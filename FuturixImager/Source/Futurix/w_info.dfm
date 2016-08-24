@@ -77,6 +77,7 @@ object frmInfo: TfrmInfo
         ColumnClick = False
         ReadOnly = True
         RowSelect = True
+        ShowColumnHeaders = False
         TabOrder = 0
         ViewStyle = vsReport
       end
@@ -112,6 +113,7 @@ object frmInfo: TfrmInfo
         ColumnClick = False
         ReadOnly = True
         RowSelect = True
+        ShowColumnHeaders = False
         TabOrder = 0
         ViewStyle = vsReport
       end
@@ -135,7 +137,7 @@ object frmInfo: TfrmInfo
         ParentCtl3D = False
         LegacyBitmap = False
         MouseInteract = [miZoom, miScroll]
-        ImageEnVersion = '3.0.3'
+        ImageEnVersion = '3.0.5'
         EnableInteractionHints = True
         Align = alClient
         TabOrder = 0
@@ -220,6 +222,20 @@ object frmInfo: TfrmInfo
         Padding.Bottom = 10
         ParentColor = False
         TabOrder = 1
+        object hist: THistogramBox
+          Left = 10
+          Top = 10
+          Width = 539
+          Height = 287
+          HistogramKind = [hkRed, hkGreen, hkBlue, hkGray]
+          Labels = [hlHorizontal]
+          HistogramStyle = hsLines
+          Align = alClient
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 592
+          ExplicitHeight = 423
+        end
       end
     end
   end

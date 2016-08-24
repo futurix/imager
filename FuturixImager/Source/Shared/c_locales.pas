@@ -3,16 +3,24 @@ unit c_locales;
 interface
 
 uses
-  Windows, SysUtils, Classes, c_utils, c_reg, c_const;
+  Windows, SysUtils, Classes,
+  c_utils, c_reg, c_const;
 
 procedure InitLocalization(back_up: THandle);
 procedure CleanLocalization();
+//!!!
 function LoadLStr(id: integer): string;
 function LoadLStrExt(id: integer; def: string = ''): string;
+//!!!
+function GetLString(id: integer): string;
+function GetLStringEx(id: integer; def: string = ''): string;
 
 var
   locale_lib: THandle = 0;
   backup_lib: THandle = 0;
+  //!!!
+  legacy_locale: THandle = 0;
+  //!!!
 
 
 implementation
@@ -22,6 +30,10 @@ var
   locale_reg: TFRegistry;
   locale_str: string;
 begin
+  //!!!
+  legacy_locale := LoadLibrary('fxlegacy.dll');
+  //!!!
+
   backup_lib := back_up;
 
   locale_reg := TFRegistry.Create(KEY_QUERY_VALUE or KEY_ENUMERATE_SUB_KEYS);
@@ -49,6 +61,14 @@ end;
 
 procedure CleanLocalization();
 begin
+  //!!!
+  if (legacy_locale <> 0) then
+    begin
+    FreeLibrary(legacy_locale);
+    legacy_locale := 0;
+    end;
+  //!!!
+
   if (locale_lib <> 0) then
     begin
     FreeLibrary(locale_lib);
@@ -56,7 +76,26 @@ begin
     end;
 end;
 
+//!!!
 function LoadLStr(id: integer): string;
+begin
+  Result := LoadLStrExt(id, ' ');
+end;
+
+function LoadLStrExt(id: integer; def: string = ''): string;
+var
+  tmp: string;
+begin
+  tmp := LoadResString(legacy_locale, id);
+
+  if (tmp <> '') then
+    Result := tmp
+  else
+    Result := def;
+end;
+//!!!
+
+function GetLString(id: integer): string;
 var
   tmp: string;
 begin
@@ -73,7 +112,7 @@ begin
     Result := LoadResString(backup_lib, id);
 end;
 
-function LoadLStrExt(id: integer; def: string = ''): string;
+function GetLStringEx(id: integer; def: string = ''): string;
 var
   tmp: string;
 begin

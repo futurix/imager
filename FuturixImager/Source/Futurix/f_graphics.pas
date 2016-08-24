@@ -314,7 +314,7 @@ begin
       frmMain.DoHandleFImport(
         fx.Plugins.GetFunctionFromPlugin(id, CP_FIMPORT),
         role)
-    else if ((role = PR_JPEGLL) or (role = PR_EMAIL)) then
+    else if (role = PR_JPEGLL) then
       // tool roles
       frmMain.DoHandleFTool(
         fx.Plugins.GetFunctionFromPlugin(id, CP_FTOOL),

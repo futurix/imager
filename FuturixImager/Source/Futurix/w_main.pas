@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   Menus, ComCtrls, ToolWin, ImgList, ExtCtrls, ShellAPI, ShlObj, ClipBrd,
   Printers, AppEvnts, Registry, UxTheme,
-  c_const, c_wndpos, c_reg, c_utils, c_locales, c_themes, c_ie, c_graphics,
+  c_const, c_wndpos, c_reg, c_utils, c_locales, c_lang, c_themes, c_ie,
+  c_graphics,
   ieview, imageenview, hyieutils, ImageEnIO, hyiedefs,
   fx_consts, fx_mru, fx_core, c_tb, f_instance;
 
@@ -216,6 +217,8 @@ type
     dlgOpen: TOpenDialog;
     pRecent: TMenuItem;
     N31: TMenuItem;
+    miOptions2: TMenuItem;
+    imlDis: TImageList;
 
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -299,9 +302,9 @@ type
     procedure miLoadLastClick(Sender: TObject);
     procedure tbnRCaptureClick(Sender: TObject);
     procedure tbnRJPEGClick(Sender: TObject);
-    procedure tbnRMailClick(Sender: TObject);
     procedure tbnRScanClick(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure miOptions2Click(Sender: TObject);
   private
     prev_progress: integer;
 
@@ -357,7 +360,7 @@ var
   end;
 
   infRoles: record
-    capture, scan, email, jpegll: boolean;
+    capture, scan, jpegll: boolean;
   end;
 
 function FxImgGlobalCallback(query_type, value, xtra: longword): TFxImgResult; cdecl;
@@ -382,8 +385,9 @@ begin
     CQ_GETLANGLIBS:
       begin
       Result.result_type := RT_HANDLE;
-      Result.result_value := locale_lib;
-      Result.result_xtra := backup_lib;
+      //!!!//
+      Result.result_value := c_locales.legacy_locale;
+      Result.result_xtra := c_locales.legacy_locale;
       end;
     else
       begin
@@ -447,18 +451,24 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   wreg: TFRegistry;
+  globalIndex, localIndex: integer;
+  pluginScanned: boolean;
 begin
   fx := FuturixCore.Create();
 
   wreg := TFRegistry.Create(RA_READONLY);
   wreg.RootKey := HKEY_CURRENT_USER;
 
+  pluginScanned := false;
+
+  // fix borked cursor
+  Screen.Cursors[crHandPoint] := LoadCursor(0, IDC_HAND);
+
   // setting common variables
   files := TStringList.Create();
   SaveExtensions := TStringList.Create();
   infRoles.capture := false;
   infRoles.scan := false;
-  infRoles.email := false;
   infRoles.jpegll := false;
 
   // initializing randomizer
@@ -483,16 +493,30 @@ begin
 
   DragAcceptFiles(frmMain.Handle, true);
 
-  // plug-ins check
+  // install plug-ins if not done that already
   if not wreg.KeyExists(sModules) then
+    begin
     fx.PluginScan();
+
+    pluginScanned := true;
+    end;
+
+  globalIndex := FxRegRInt(sPluginCounter, 0, sReg, HKEY_LOCAL_MACHINE);
+  localIndex := FxRegRInt('PreviousScanCounter', -1);
+
+  if (globalIndex > localIndex) then
+    begin
+    if not pluginScanned then
+      fx.PluginScan();
+
+    FxRegWInt('PreviousScanCounter', globalIndex);
+    end;
 
   // writing paths
   PutRegDock();
 
   // setting toolbar and main menu
   tbnZoomMisc.WholeDropDown := true;
-  mnuMain.Images := imlFixed;
 
   // setting image view
   img.VScrollBarParams.LineStep := 10;
@@ -676,6 +700,7 @@ end;
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
   CleanLocalization();
+
   FreeAndNil(files);
   FreeAndNil(mru);
   FreeAndNil(SaveExtensions);
@@ -805,6 +830,15 @@ begin
   DragFinish(msg.Drop);
 end;
 
+procedure TfrmMain.miOptions2Click(Sender: TObject);
+begin
+  if not Assigned(frmOptions) then
+    begin
+    Application.CreateForm(TfrmOptions, frmOptions);
+    frmOptions.ShowModal();
+    end;
+end;
+
 procedure TfrmMain.miAboutClick(Sender: TObject);
 begin
   if not Assigned(frmAbout) then
@@ -816,319 +850,256 @@ end;
 
 procedure TfrmMain.Localize();
 begin
-  mFile.Caption       := LoadLStr(100);
-  mEdit.Caption       := LoadLStr(101);
-  mView.Caption       := LoadLStr(104);
-  mTools.Caption      := LoadLStr(108);
-  mHelp.Caption       := LoadLStr(110);
+  // main menu
+  mFile.Caption       := GetLString(FXL_MM_FILE);
+  mEdit.Caption       := GetLString(FXL_MM_EDIT);
+  mView.Caption       := GetLString(FXL_MM_VIEW);
+  mTools.Caption      := GetLString(FXL_MM_TOOLS);
+  mHelp.Caption       := GetLString(FXL_MM_HELP);
 
-  miOpen.Caption          := LoadLStr(120);
-  miOpen.Hint             := LoadLStr(121);
-  mRecent.Caption         := LoadLStr(122);
-  miLoadLast.Caption      := LoadLStr(156);
-  miLoadLast.Hint         := LoadLStr(157);
-  miSaveAs.Caption        := LoadLStr(128);
-  miSaveAs.Hint           := LoadLStr(129);
-  miClose.Caption         := LoadLStr(130);
-  miClose.Hint            := LoadLStr(131);
-  mImport.Caption         := LoadLStr(132);
-  mExport.Caption         := LoadLStr(134);
-  miInfo.Caption          := LoadLStr(136);
-  miInfo.Hint             := LoadLStr(137);
-  mFileMan.Caption        := LoadLStr(138);
-  miFDelete.Caption       := LoadLStr(140);
-  miFDelete.Hint          := LoadLStr(141);
-  miFCopy.Caption         := LoadLStr(142);
-  miFCopy.Hint            := LoadLStr(143);
-  miFMove.Caption         := LoadLStr(144);
-  miFMove.Hint            := LoadLStr(145);
-  miFRename.Caption       := LoadLStr(146);
-  miFRename.Hint          := LoadLStr(147);
-  miPrintPreview.Caption  := LoadLStr(152);
-  miPrintPreview.Hint     := LoadLStr(153);
-  miExit.Caption          := LoadLStr(154);
-  miExit.Hint             := Format(LoadLStr(155), [sAppName]);
+  miOpen.Caption          := GetLString(FXL_MI_OPEN);
+  mRecent.Caption         := GetLString(FXL_MI_OPEN_RECENT);
+  miLoadLast.Caption      := GetLString(FXL_MI_LOAD_PREVIOUS);
+  miSaveAs.Caption        := GetLString(FXL_MI_SAVE_AS);
+  miClose.Caption         := GetLString(FXL_MI_CLOSE);
+  mImport.Caption         := GetLString(FXL_MI_IMPORT);
+  mExport.Caption         := GetLString(FXL_MI_EXPORT);
+  miInfo.Caption          := GetLString(FXL_MI_FILE_INFO);
+  mFileMan.Caption        := GetLString(FXL_MI_FILE_MANAGEMENT);
+  miFDelete.Caption       := GetLString(FXL_MI_FILE_DELETE);
+  miFCopy.Caption         := GetLString(FXL_MI_FILE_COPY);
+  miFMove.Caption         := GetLString(FXL_MI_FILE_MOVE);
+  miFRename.Caption       := GetLString(FXL_MI_FILE_RENAME);
+  miPrintPreview.Caption  := GetLString(FXL_MI_PRINT_PREVIEW);
+  miExit.Caption          := GetLString(FXL_MI_EXIT);
 
   piOpen.Caption      := miOpen.Caption;
-  piOpen.Hint         := miOpen.Hint;
-  pRecent.Caption     := LoadLStr(122);
+  pRecent.Caption     := mRecent.Caption;
   piClose.Caption     := miClose.Caption;
-  piClose.Hint        := miClose.Hint;
 
   piMyOpen.Caption    := miOpen.Caption;
   piMyOpen.Hint       := miOpen.Hint;
 
-  miUndo.Caption      := LoadLStr(170);
-  miUndo.Hint         := LoadLStr(171);
-  miCopy.Caption      := LoadLStr(172);
-  miCopy.Hint         := LoadLStr(173);
-  miPaste.Caption     := LoadLStr(174);
-  miPaste.Hint        := LoadLStr(175);
-  miEditor.Caption    := LoadLStr(176);
-  miEditor.Hint       := LoadLStr(177);
+  miUndo.Caption      := GetLString(FXL_MI_UNDO);
+  miCopy.Caption      := GetLString(FXL_MI_COPY);
+  miPaste.Caption     := GetLString(FXL_MI_PASTE);
+  miEditor.Caption    := GetLString(FXL_MI_EDIT);
 
-  mToolbars.Caption     := LoadLStr(190);
-  miToolbar.Caption     := LoadLStr(192);
-  miToolbar.Hint        := LoadLStr(193);
-  miStatusBar.Caption   := LoadLStr(194);
-  miStatusBar.Hint      := LoadLStr(195);
+  mToolbars.Caption     := GetLString(FXL_MI_TOOLBARS);
+  miToolbar.Caption     := GetLString(FXL_MI_TOOLBAR_MAIN);
+  miStatusBar.Caption   := GetLString(FXL_MI_TOOLBAR_STATUS);
 
   piTBMain.Caption      := miToolbar.Caption;
-  piTBMain.Hint         := miToolbar.Hint;
   piStatusBar.Caption   := miStatusBar.Caption;
-  piStatusBar.Hint      := miStatusBar.Hint;
 
-  mDisplay.Caption      := LoadLStr(210);
-  miDSNormal.Caption    := LoadLStr(212);
-  miDSNormal.Hint       := LoadLStr(213);
-  miDSFitBig.Caption    := LoadLStr(214);
-  miDSFitBig.Hint       := LoadLStr(215);
-  miDSFitAll.Caption    := LoadLStr(216);
-  miDSFitAll.Hint       := LoadLStr(217);
+  mDisplay.Caption      := GetLString(FXL_MI_DISPLAY_OPTIONS);
+  miDSNormal.Caption    := GetLString(FXL_MI_DISPLAY_NORMAL);
+  miDSFitBig.Caption    := GetLString(FXL_MI_DISPLAY_FIT);
+  miDSFitAll.Caption    := GetLString(FXL_MI_DISPLAY_FIT_ALL);
 
-  miDSCenterImage.Caption   := LoadLStr(220);
-  miDSCenterImage.Hint      := LoadLStr(221);
-  miDSScrollbars.Caption    := LoadLStr(222);
-  miDSScrollbars.Hint       := LoadLStr(223);
+  miDSCenterImage.Caption   := GetLString(FXL_MI_CENTER_IMAGE);
+  miDSScrollbars.Caption    := GetLString(FXL_MI_SHOW_SCROLLBARS);
 
   piDSNormal.Caption        := miDSNormal.Caption;
-  piDSNormal.Hint           := miDSNormal.Hint;
   piDSFitBig.Caption        := miDSFitBig.Caption;
-  piDSFitBig.Hint           := miDSFitBig.Hint;
   piDSFitAll.Caption        := miDSFitAll.Caption;
-  piDSFitAll.Hint           := miDSFitAll.Hint;
   piDSCenterImage.Caption   := miDSCenterImage.Caption;
-  piDSCenterImage.Hint      := miDSCenterImage.Hint;
   piDSScrollbars.Caption    := miDSScrollbars.Caption;
-  piDSScrollbars.Hint       := miDSScrollbars.Hint;
 
-  mZoom.Caption       := LoadLStr(230);
-  miZoomIn.Caption    := LoadLStr(232);
-  miZoomIn.Hint       := LoadLStr(233);
-  miZoomOut.Caption   := LoadLStr(234);
-  miZoomOut.Hint      := LoadLStr(235);
-  miZM6.Caption       := LoadLStr(236);
-  miZM6.Hint          := LoadLStr(237);
-  miZM12.Caption      := LoadLStr(238);
-  miZM12.Hint         := LoadLStr(239);
-  miZM25.Caption      := LoadLStr(240);
-  miZM25.Hint         := LoadLStr(241);
-  miZM50.Caption      := LoadLStr(242);
-  miZM50.Hint         := LoadLStr(243);
-  miZM75.Caption      := LoadLStr(244);
-  miZM75.Hint         := LoadLStr(245);
-  miZM100.Caption     := LoadLStr(246);
-  miZM100.Hint        := LoadLStr(247);
-  miZM150.Caption     := LoadLStr(248);
-  miZM150.Hint        := LoadLStr(249);
-  miZM200.Caption     := LoadLStr(250);
-  miZM200.Hint        := LoadLStr(251);
-  miZM400.Caption     := LoadLStr(252);
-  miZM400.Hint        := LoadLStr(253);
+  mZoom.Caption       := GetLString(FXL_MI_ZOOM);
+  miZoomIn.Caption    := GetLString(FXL_MI_ZOOM_IN);
+  miZoomOut.Caption   := GetLString(FXL_MI_ZOOM_OUT);
+  miZM6.Caption       := Format(GetLString(FXL_T_PERCENT), ['6']);
+  miZM12.Caption      := Format(GetLString(FXL_T_PERCENT), ['12']);
+  miZM25.Caption      := Format(GetLString(FXL_T_PERCENT), ['25']);
+  miZM50.Caption      := Format(GetLString(FXL_T_PERCENT), ['50']);
+  miZM75.Caption      := Format(GetLString(FXL_T_PERCENT), ['75']);
+  miZM100.Caption     := Format(GetLString(FXL_T_PERCENT), ['100']);
+  miZM150.Caption     := Format(GetLString(FXL_T_PERCENT), ['150']);
+  miZM200.Caption     := Format(GetLString(FXL_T_PERCENT), ['200']);
+  miZM400.Caption     := Format(GetLString(FXL_T_PERCENT), ['400']);
 
   piZM6.Caption       := miZM6.Caption;
-  piZM6.Hint          := miZM6.Hint;
   piZM12.Caption      := miZM12.Caption;
-  piZM12.Hint         := miZM12.Hint;
   piZM25.Caption      := miZM25.Caption;
-  piZM25.Hint         := miZM25.Hint;
   piZM50.Caption      := miZM50.Caption;
-  piZM50.Hint         := miZM50.Hint;
   piZM75.Caption      := miZM75.Caption;
-  piZM75.Hint         := miZM75.Hint;
   piZM100.Caption     := miZM100.Caption;
-  piZM100.Hint        := miZM100.Hint;
   piZM150.Caption     := miZM150.Caption;
-  piZM150.Hint        := miZM150.Hint;
   piZM200.Caption     := miZM200.Caption;
-  piZM200.Hint        := miZM200.Hint;
   piZM400.Caption     := miZM400.Caption;
-  piZM400.Hint        := miZM400.Hint;
 
-  miZmFit.Caption     := LoadLStr(260);
-  miZmFit.Hint        := LoadLStr(261);
-  miZmWidth.Caption   := LoadLStr(262);
-  miZmWidth.Hint      := LoadLStr(263);
-  miZmHeight.Caption  := LoadLStr(264);
-  miZmHeight.Hint     := LoadLStr(265);
+  miZmFit.Caption     := GetLString(FXL_MI_ZOOM_FIT);
+  miZmWidth.Caption   := GetLString(FXL_MI_ZOOM_WIDTH);
+  miZmHeight.Caption  := GetLString(FXL_MI_ZOOM_HEIGHT);
 
   piZmFit.Caption     := miZmFit.Caption;
-  piZmFit.Hint        := miZmFit.Hint;
   piZmWidth.Caption   := miZmWidth.Caption;
-  piZmWidth.Hint      := miZmWidth.Hint;
   piZmHeight.Caption  := miZmHeight.Caption;
-  piZmHeight.Hint     := miZmHeight.Hint;
 
-  miRotateView.Caption      := LoadLStr(270);
-  miRotateView.Hint         := LoadLStr(271);
-  miRotateViewCCW.Caption   := LoadLStr(272);
-  miRotateViewCCW.Hint      := LoadLStr(273);
+  miRotateView.Caption      := GetLString(FXL_MI_ROTATE_CW);
+  miRotateViewCCW.Caption   := GetLString(FXL_MI_ROTATE_CCW);
 
   piRotateView.Caption      := miRotateView.Caption;
-  piRotateView.Hint         := miRotateView.Hint;
   piRotateViewCCW.Caption   := miRotateViewCCW.Caption;
-  piRotateViewCCW.Hint      := miRotateViewCCW.Hint;
 
-  miZMCustom.Caption      := LoadLStr(276);
-  miZMCustom.Hint         := LoadLStr(277);
+  miZMCustom.Caption      := GetLString(FXL_MI_ZOOM_CUSTOM);
 
   piZoomCustom.Caption    := miZMCustom.Caption;
-  piZoomCustom.Hint       := miZMCustom.Hint;
 
-  mMulti.Caption            := LoadLStr(280);
-  miMultiFirst.Caption      := LoadLStr(282);
-  miMultiFirst.Hint         := LoadLStr(283);
-  miMultiPrevious.Caption   := LoadLStr(284);
-  miMultiPrevious.Hint      := LoadLStr(285);
-  miMultiNext.Caption       := LoadLStr(286);
-  miMultiNext.Hint          := LoadLStr(287);
-  miMultiLast.Caption       := LoadLStr(288);
-  miMultiLast.Hint          := LoadLStr(289);
-  miMultiGoTo.Caption       := LoadLStr(290);
-  miMultiGoTo.Hint          := LoadLStr(291);
-  miMultiExtract.Caption    := LoadLStr(292);
-  miMultiExtract.Hint       := LoadLStr(293);
+  mMulti.Caption            := GetLString(FXL_MI_PAGES);
+  miMultiFirst.Caption      := GetLString(FXL_MI_PAGE_FIRST);
+  miMultiPrevious.Caption   := GetLString(FXL_MI_PAGE_PREVIOUS);
+  miMultiNext.Caption       := GetLString(FXL_MI_PAGE_NEXT);
+  miMultiLast.Caption       := GetLString(FXL_MI_PAGE_LAST);
+  miMultiGoTo.Caption       := GetLString(FXL_MI_PAGE_GOTO);
+  miMultiExtract.Caption    := GetLString(FXL_MI_PAGE_EXTRACT);
 
   pMulti.Caption            := mMulti.Caption;
   piMultiFirst.Caption      := miMultiFirst.Caption;
-  piMultiFirst.Hint         := miMultiFirst.Hint;
   piMultiPrevious.Caption   := miMultiPrevious.Caption;
-  piMultiPrevious.Hint      := miMultiPrevious.Hint;
   piMultiNext.Caption       := miMultiNext.Caption;
-  piMultiNext.Hint          := miMultiNext.Hint;
   piMultiLast.Caption       := miMultiLast.Caption;
-  piMultiLast.Hint          := miMultiLast.Hint;
   piMultiGoTo.Caption       := miMultiGoTo.Caption;
-  piMultiGoTo.Hint          := miMultiGoTo.Hint;
   piMultiExtract.Caption    := miMultiExtract.Caption;
-  piMultiExtract.Hint       := miMultiExtract.Hint;
 
-  mGo.Caption           := LoadLStr(310);
-  miGoBack.Caption      := LoadLStr(312);
-  miGoBack.Hint         := LoadLStr(313);
-  miGoForward.Caption   := LoadLStr(314);
-  miGoForward.Hint      := LoadLStr(315);
-  miGoFirst.Caption     := LoadLStr(316);
-  miGoFirst.Hint        := LoadLStr(317);
-  miGoLast.Caption      := LoadLStr(318);
-  miGoLast.Hint         := LoadLStr(319);
-  miGoRandom.Caption    := LoadLStr(320);
-  miGoRandom.Hint       := LoadLStr(321);
+  mGo.Caption           := GetLString(FXL_MI_GOTO);
+  miGoBack.Caption      := GetLString(FXL_MI_GO_BACK);
+  miGoForward.Caption   := GetLString(FXL_MI_GO_FORWARD);
+  miGoFirst.Caption     := GetLString(FXL_MI_GO_FIRST);
+  miGoLast.Caption      := GetLString(FXL_MI_PAGE_LAST);
+  miGoRandom.Caption    := GetLString(FXL_MI_GO_RANDOM);
 
   piBack.Caption        := miGoBack.Caption;
-  piBack.Hint           := miGoBack.Hint;
   piForward.Caption     := miGoForward.Caption;
-  piForward.Hint        := miGoForward.Hint;
 
-  miShow.Caption        := LoadLStr(326);
-  miShow.Hint           := LoadLStr(327);
-  miStartShow.Caption   := LoadLStr(328);
-  miStartShow.Hint      := LoadLStr(329);
-  miFullScreen.Caption  := LoadLStr(330);
-  miFullScreen.Hint     := LoadLStr(331);
+  miShow.Caption        := GetLString(FXL_MI_SLIDESHOW);
+  miStartShow.Caption   := GetLString(FXL_MI_SLIDESHOW_LAUNCH);
+  miFullScreen.Caption  := GetLString(FXL_MI_FULL_SCREEN);
 
   piFullScreen.Caption  := miFullScreen.Caption;
-  piFullScreen.Hint     := miFullScreen.Hint;
 
-  miOptions.Caption     := LoadLStr(350);
-  miOptions.Hint        := Format(LoadLStr(351), [sAppName]);
+  miOptions.Caption     := GetLString(FXL_MI_OPTIONS);
+  miOptions2.Caption    := GetLString(FXL_MI_OPTIONS);
 
-  miWebSite.Caption     := Format(LoadLStr(362), [sAppName]);
-  miWebSite.Hint        := Format(LoadLStr(363), [sAppName]);
-  miAbout.Caption       := LoadLStr(364);
-  miAbout.Hint          := Format(LoadLStr(365), [sAppName]);
+  miWebSite.Caption     := Format(GetLString(FXL_MI_WEBSITE), [sAppName]);
+  miAbout.Caption       := GetLString(FXL_MI_ABOUT);
 
+
+
+
+
+
+  // pop-up menu
   piMinimize.Caption    := LoadLStr(370);
   piMinimize.Hint       := LoadLStr(371);
 
+  // open dialog
   dlgOpen.Title         := LoadLStr(400);
   dlgSave.Title         := LoadLStr(405);
 
+  // main toolbar
   itbMain.Caption         := LoadLStr(500);
-  tbnOpen.Caption         := LoadLStr(502);
-  tbnOpen.Hint            := LoadLStr(503);
-  tbnLast.Caption         := LoadLStr(504);
-  tbnLast.Hint            := LoadLStr(505);
-  tbnSave.Caption         := LoadLStr(506);
-  tbnSave.Hint            := LoadLStr(507);
-  tbnClose.Caption        := LoadLStr(508);
-  tbnClose.Hint           := LoadLStr(509);
-  tbnPrint.Caption        := LoadLStr(510);
-  tbnPrint.Hint           := LoadLStr(511);
-  tbnCopy.Caption         := LoadLStr(512);
-  tbnCopy.Hint            := LoadLStr(513);
-  tbnPaste.Caption        := LoadLStr(514);
-  tbnPaste.Hint           := LoadLStr(515);
-  tbnMultiPrev.Caption    := LoadLStr(516);
-  tbnMultiPrev.Hint       := LoadLStr(517);
-  tbnMultiNext.Caption    := LoadLStr(518);
-  tbnMultiNext.Hint       := LoadLStr(519);
-  tbnInfo.Caption         := LoadLStr(520);
-  tbnInfo.Hint            := LoadLStr(521);
-  tbnZoomIn.Caption       := LoadLStr(522);
-  tbnZoomIn.Hint          := LoadLStr(523);
-  tbnZoomOut.Caption      := LoadLStr(524);
-  tbnZoomOut.Hint         := LoadLStr(525);
-  tbnRotate.Caption       := LoadLStr(526);
-  tbnRotate.Hint          := LoadLStr(527);
-  tbnZoomMisc.Caption     := LoadLStr(528);
-  tbnZoomMisc.Hint        := LoadLStr(529);
-  tbnDisp.Caption         := LoadLStr(530);
-  tbnDisp.Hint            := LoadLStr(531);
-  tbnFullScreen.Caption   := LoadLStr(532);
-  tbnFullScreen.Hint      := LoadLStr(533);
-  tbnEditor.Caption       := LoadLStr(534);
-  tbnEditor.Hint          := LoadLStr(535);
-  tbnGoBack.Caption       := LoadLStr(536);
-  tbnGoBack.Hint          := LoadLStr(537);
-  tbnGoForward.Caption    := LoadLStr(538);
-  tbnGoForward.Hint       := LoadLStr(539);
-  tbnGoRandom.Caption     := LoadLStr(542);
-  tbnGoRandom.Hint        := LoadLStr(543);
-  tbnUndo.Caption         := LoadLStr(540);
-  tbnUndo.Hint            := LoadLStr(541);
-  tbnZoomFit.Caption      := LoadLStr(544);
-  tbnZoomFit.Hint         := LoadLStr(545);
-  tbnFDelete.Caption      := LoadLStr(548);
-  tbnFDelete.Hint         := LoadLStr(549);
-  tbnFCopy.Caption        := LoadLStr(550);
-  tbnFCopy.Hint           := LoadLStr(551);
-  tbnFMove.Caption        := LoadLStr(552);
-  tbnFMove.Hint           := LoadLStr(553);
-  tbnFRename.Caption      := LoadLStr(554);
-  tbnFRename.Hint         := LoadLStr(555);
-  tbnZoom100.Caption      := LoadLStr(556);
-  tbnZoom100.Hint         := LoadLStr(557);
-  tbnZoomWidth.Caption    := LoadLStr(558);
-  tbnZoomWidth.Hint       := LoadLStr(559);
-  tbnZoomHeight.Caption   := LoadLStr(560);
-  tbnZoomHeight.Hint      := LoadLStr(561);
-  tbnRotateCCW.Caption    := LoadLStr(562);
-  tbnRotateCCW.Hint       := LoadLStr(563);
-  tbnGoFirst.Caption      := LoadLStr(564);
-  tbnGoFirst.Hint         := LoadLStr(565);
-  tbnGoLast.Caption       := LoadLStr(566);
-  tbnGoLast.Hint          := LoadLStr(567);
-  tbnShow.Caption         := LoadLStr(568);
-  tbnShow.Hint            := LoadLStr(569);
-  tbnOptions.Caption      := LoadLStr(570);
-  tbnOptions.Hint         := Format(LoadLStr(571), [sAppName]);
-  tbnHelp.Caption         := LoadLStr(572);
-  tbnHelp.Hint            := Format(LoadLStr(573), [sAppName]);
-  tbnOnline.Caption       := LoadLStr(574);
-  tbnOnline.Hint          := Format(LoadLStr(575), [sAppName]);
-  tbnAbout.Caption        := LoadLStr(576);
-  tbnAbout.Hint           := Format(LoadLStr(577), [sAppName]);
-  tbnRScan.Caption        := LoadLStr(578);
-  tbnRScan.Hint           := LoadLStr(579);
-  tbnRMail.Caption        := LoadLStr(580);
-  tbnRMail.Hint           := LoadLStr(581);
-  tbnRCapture.Caption     := LoadLStr(582);
-  tbnRCapture.Hint        := LoadLStr(583);
-  tbnRJPEG.Caption        := LoadLStr(584);
-  tbnRJPEG.Hint           := LoadLStr(585);
-  tbnGoToPage.Caption     := LoadLStr(590);
-  tbnGoToPage.Hint        := LoadLStr(591);
+
+
+
+
+
+
+
+
+
+
+
+
+  tbnOpen.Caption         := GetLString(FXL_TB_OPEN);
+  tbnOpen.Hint            := GetLString(FXL_TB_OPEN_HINT);
+  tbnLast.Caption         := GetLString(FXL_TB_LAST);
+  tbnLast.Hint            := GetLString(FXL_TB_LAST_HINT);
+  tbnSave.Caption         := GetLString(FXL_TB_SAVE);
+  tbnSave.Hint            := GetLString(FXL_TB_SAVE_HINT);
+  tbnClose.Caption        := GetLString(FXL_TB_CLOSE);
+  tbnClose.Hint           := GetLString(FXL_TB_CLOSE_HINT);
+  tbnPrint.Caption        := GetLString(FXL_TB_PRINTPREVIEW);
+  tbnPrint.Hint           := GetLString(FXL_TB_PRINTPREVIEW_HINT);
+  tbnCopy.Caption         := GetLString(FXL_TB_COPY);
+  tbnCopy.Hint            := GetLString(FXL_TB_COPY_HINT);
+  tbnPaste.Caption        := GetLString(FXL_TB_PASTE);
+  tbnPaste.Hint           := GetLString(FXL_TB_PASTE_HINT);
+  tbnMultiPrev.Caption    := GetLString(FXL_TB_PAGE_PREV);
+  tbnMultiPrev.Hint       := GetLString(FXL_TB_PAGE_PREV_HINT);
+  tbnMultiNext.Caption    := GetLString(FXL_TB_PAGE_NEXT);
+  tbnMultiNext.Hint       := GetLString(FXL_TB_PAGE_NEXT_HINT);
+  tbnInfo.Caption         := GetLString(FXL_TB_INFO);
+  tbnInfo.Hint            := GetLString(FXL_TB_INFO_HINT);
+  tbnZoomIn.Caption       := GetLString(FXL_TB_ZOOM_IN);
+  tbnZoomIn.Hint          := GetLString(FXL_TB_ZOOM_IN_HINT);
+  tbnZoomOut.Caption      := GetLString(FXL_TB_ZOOM_OUT);
+  tbnZoomOut.Hint         := GetLString(FXL_TB_ZOOM_OUT_HINT);
+  tbnRotate.Caption       := GetLString(FXL_TB_ROTATE_CW);
+  tbnRotate.Hint          := GetLString(FXL_TB_ROTATE_CW_HINT);
+  tbnZoomMisc.Caption     := GetLString(FXL_TB_ZOOM);
+  tbnZoomMisc.Hint        := GetLString(FXL_TB_ZOOM_HINT);
+  tbnDisp.Caption         := GetLString(FXL_TB_DISPLAY);
+  tbnDisp.Hint            := GetLString(FXL_TB_DISPLAY_HINT);
+  tbnFullScreen.Caption   := GetLString(FXL_TB_FULLSCREEN);
+  tbnFullScreen.Hint      := GetLString(FXL_TB_FULLSCREEN_HINT);
+  tbnEditor.Caption       := GetLString(FXL_TB_EDIT);
+  tbnEditor.Hint          := GetLString(FXL_TB_EDIT_HINT);
+  tbnGoBack.Caption       := GetLString(FXL_TB_GO_BACK);
+  tbnGoBack.Hint          := GetLString(FXL_TB_GO_BACK_HINT);
+  tbnGoForward.Caption    := GetLString(FXL_TB_GO_FORWARD);
+  tbnGoForward.Hint       := GetLString(FXL_TB_GO_FORWARD_HINT);
+  tbnGoRandom.Caption     := GetLString(FXL_TB_GO_RANDOM);
+  tbnGoRandom.Hint        := GetLString(FXL_TB_GO_RANDOM_HINT);
+  tbnUndo.Caption         := GetLString(FXL_TB_UNDO);
+  tbnUndo.Hint            := GetLString(FXL_TB_UNDO_HINT);
+  tbnZoomFit.Caption      := GetLString(FXL_TB_ZOOM_FIT);
+  tbnZoomFit.Hint         := GetLString(FXL_TB_ZOOM_FIT_HINT);
+  tbnFDelete.Caption      := GetLString(FXL_TB_FILE_DELETE);
+  tbnFDelete.Hint         := GetLString(FXL_TB_FILE_DELETE_HINT);
+  tbnFCopy.Caption        := GetLString(FXL_TB_FILE_COPY);
+  tbnFCopy.Hint           := GetLString(FXL_TB_FILE_COPY_HINT);
+  tbnFMove.Caption        := GetLString(FXL_TB_FILE_MOVE);
+  tbnFMove.Hint           := GetLString(FXL_TB_FILE_MOVE_HINT);
+  tbnFRename.Caption      := GetLString(FXL_TB_FILE_RENAME);
+  tbnFRename.Hint         := GetLString(FXL_TB_FILE_RENAME_HINT);
+  tbnZoom100.Caption      := GetLString(FXL_TB_ZOOM_100);
+  tbnZoom100.Hint         := GetLString(FXL_TB_ZOOM_100_HINT);
+  tbnZoomWidth.Caption    := GetLString(FXL_TB_ZOOM_WIDTH);
+  tbnZoomWidth.Hint       := GetLString(FXL_TB_ZOOM_WIDTH_HINT);
+  tbnZoomHeight.Caption   := GetLString(FXL_TB_ZOOM_HEIGHT);
+  tbnZoomHeight.Hint      := GetLString(FXL_TB_ZOOM_HEIGHT_HINT);
+  tbnRotateCCW.Caption    := GetLString(FXL_TB_ROTATE_CCW);
+  tbnRotateCCW.Hint       := GetLString(FXL_TB_ROTATE_CCW_HINT);
+  tbnGoFirst.Caption      := GetLString(FXL_TB_GO_FIRST);
+  tbnGoFirst.Hint         := GetLString(FXL_TB_GO_FIRST_HINT);
+  tbnGoLast.Caption       := GetLString(FXL_TB_GO_LAST);
+  tbnGoLast.Hint          := GetLString(FXL_TB_GO_LAST_HINT);
+  tbnShow.Caption         := GetLString(FXL_TB_SLIDESHOW);
+  tbnShow.Hint            := GetLString(FXL_TB_SLIDESHOW_HINT);
+  tbnOptions.Caption      := GetLString(FXL_TB_OPTIONS);
+  tbnOptions.Hint         := Format(GetLString(FXL_TB_OPTIONS_HINT), [sAppName]);
+  tbnHelp.Caption         := GetLString(FXL_TB_HELP);
+  tbnHelp.Hint            := Format(GetLString(FXL_TB_HELP_HINT), [sAppName]);
+  tbnOnline.Caption       := GetLString(FXL_TB_WEB);
+  tbnOnline.Hint          := Format(GetLString(FXL_TB_WEB_HINT), [sAppName]);
+  tbnAbout.Caption        := GetLString(FXL_TB_ABOUT);
+  tbnAbout.Hint           := Format(GetLString(FXL_TB_ABOUT_HINT), [sAppName]);
+  tbnRScan.Caption        := GetLString(FXL_TB_SCAN);
+  tbnRScan.Hint           := GetLString(FXL_TB_SCAN_HINT);
+  tbnRCapture.Caption     := GetLString(FXL_TB_CAPTURE);
+  tbnRCapture.Hint        := GetLString(FXL_TB_CAPTURE_HINT);
+  tbnRJPEG.Caption        := GetLString(FXL_TB_JPEGLOSSLESS);
+  tbnRJPEG.Hint           := GetLString(FXL_TB_JPEGLOSSLESS_HINT);
+  tbnGoToPage.Caption     := GetLString(FXL_TB_PAGING);
+  tbnGoToPage.Hint        := GetLString(FXL_TB_PAGING_HINT);
+
+
+
+
+
+
 
   miCustTB.Caption   := LoadLStr(3500);
   miCustTB.Hint      := LoadLStr(3501);
@@ -1237,18 +1208,21 @@ var
   tmp: TBitmap;
   wmf: TMetaFile;
 begin
-  tmp := TBitmap.Create();
-
   if Clipboard.HasFormat(CF_BITMAP) then
     begin
+    tmp := TBitmap.Create();
+
     tmp.Assign(Clipboard);
     tmp.ApplyLimits();
 
     OpenUntitled(tmp);
+
+    FreeAndNil(tmp);
     end
   else
     if Clipboard.HasFormat(CF_METAFILEPICT) then
       begin
+      tmp := TBitmap.Create();
       wmf := TMetaFile.Create();
 
       wmf.Assign(Clipboard);
@@ -1260,9 +1234,8 @@ begin
       OpenUntitled(tmp);
 
       FreeAndNil(wmf);
+      FreeAndNil(tmp);
       end;
-
-  FreeAndNil(tmp);
 end;
 
 procedure TfrmMain.miFullScreenClick(Sender: TObject);
@@ -1361,13 +1334,6 @@ end;
 
 procedure TfrmMain.miOptionsClick(Sender: TObject);
 begin
-  {if not Assigned(frmOptions) then
-    begin
-    Application.CreateForm(TfrmOptions, frmOptions);
-    frmOptions.ShowModal();
-    end;}
-
-  // to be deleted
   if not Assigned(frmOldOptions) then
     begin
     Application.CreateForm(TfrmOldOptions, frmOldOptions);
@@ -1643,18 +1609,6 @@ begin
     tbnUndo.Enabled := false;
     end;
 
-  // "Paste" button routine
-  if ((Clipboard.HasFormat(CF_BITMAP)) or (Clipboard.HasFormat(CF_METAFILEPICT))) then
-    begin
-    tbnPaste.Enabled := true;
-    miPaste.Enabled := true;
-    end
-  else
-    begin
-    tbnPaste.Enabled := false;
-    miPaste.Enabled := false;
-    end;
-
   // file navigation disabling, if only 1 file
   if ((files.Count < 2) or IsUnsaved() or (not IsPresent())) then
     begin
@@ -1925,11 +1879,6 @@ end;
 procedure TfrmMain.tbnRJPEGClick(Sender: TObject);
 begin
   ExecuteRole(PR_JPEGLL);
-end;
-
-procedure TfrmMain.tbnRMailClick(Sender: TObject);
-begin
-  ExecuteRole(PR_EMAIL);
 end;
 
 procedure TfrmMain.tbnRScanClick(Sender: TObject);

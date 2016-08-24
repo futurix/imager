@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, c_const, ComCtrls, Buttons, c_locales, c_reg;
+  StdCtrls, ComCtrls, Buttons,
+  c_const, c_locales, c_reg, c_lang;
 
 type
   TfrmCustZoom = class(TForm)
@@ -12,7 +13,6 @@ type
     btnCancel: TButton;
     tbrQuality: TTrackBar;
     lblQualityValue: TLabel;
-    lblCustomZoom: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
@@ -69,7 +69,8 @@ end;
 
 procedure TfrmCustZoom.tbrQualityChange(Sender: TObject);
 begin
-  lblQualityValue.Caption := IntToStr(tbrQuality.Position);
+  lblQualityValue.Caption :=
+    Format(GetLString(FXL_T_PERCENT), [IntToStr(tbrQuality.Position)]);
 end;
 
 procedure TfrmCustZoom.QuickZoom(zoom_value: integer);
@@ -87,7 +88,6 @@ end;
 procedure TfrmCustZoom.Localize();
 begin
   Self.Caption            := LoadLStr(710);
-  lblCustomZoom.Caption   := LoadLStr(711);
   btnOK.Caption           := LoadLStr(50);
   btnCancel.Caption       := LoadLStr(51);
 end;

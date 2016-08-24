@@ -63,9 +63,9 @@ object frmPrint: TfrmPrint
   TextHeight = 13
   object prwPrint: TPrintPreview
     Left = 0
-    Top = 22
+    Top = 30
     Width = 742
-    Height = 466
+    Height = 458
     HorzScrollBar.Smooth = True
     HorzScrollBar.Tracking = True
     VertScrollBar.Smooth = True
@@ -81,12 +81,14 @@ object frmPrint: TfrmPrint
     Units = mmLoMetric
     PaperView.BorderWidth = 0
     UsePrinterOptions = True
+    ExplicitTop = 22
+    ExplicitHeight = 466
   end
   object tbrPrintMain: TCoolBar
     Left = 0
     Top = 0
     Width = 742
-    Height = 22
+    Height = 30
     AutoSize = True
     BandBorderStyle = bsNone
     BandMaximize = bmNone
@@ -95,20 +97,22 @@ object frmPrint: TfrmPrint
         Control = itbPrintMain
         HorizontalOnly = True
         ImageIndex = -1
-        MinHeight = 22
-        Width = 742
+        MinHeight = 30
+        Width = 740
       end>
     EdgeBorders = []
     FixedOrder = True
     ShowText = False
     object itbPrintMain: TToolBar
-      Left = 0
+      Left = 2
       Top = 0
-      Width = 738
-      Height = 22
+      Width = 740
+      Height = 30
       AutoSize = True
-      ButtonWidth = 55
+      ButtonHeight = 30
+      ButtonWidth = 61
       Caption = 'Print'
+      DisabledImages = frmMain.imlDis
       HideClippedButtons = True
       Images = frmMain.imlStd
       List = True
@@ -148,7 +152,7 @@ object frmPrint: TfrmPrint
         Style = tbsDropDown
       end
       object tbnSetup: TToolButton
-        Left = 131
+        Left = 139
         Top = 0
         Hint = 'Setup'
         AutoSize = True

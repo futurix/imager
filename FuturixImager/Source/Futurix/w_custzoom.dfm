@@ -4,8 +4,8 @@ object frmCustZoom: TfrmCustZoom
   ActiveControl = btnOK
   BorderStyle = bsDialog
   Caption = 'Custom Zoom'
-  ClientHeight = 104
-  ClientWidth = 268
+  ClientHeight = 86
+  ClientWidth = 280
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,25 +22,17 @@ object frmCustZoom: TfrmCustZoom
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
-  object lblCustomZoom: TLabel
-    Left = 10
-    Top = 10
-    Width = 65
-    Height = 13
-    Caption = 'Custom Zoom'
-    Transparent = True
-  end
   object lblQualityValue: TLabel
-    Left = 228
-    Top = 28
+    Left = 235
+    Top = 12
     Width = 18
     Height = 13
     Caption = '100'
     Transparent = True
   end
   object btnOK: TButton
-    Left = 105
-    Top = 72
+    Left = 116
+    Top = 53
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -49,8 +41,8 @@ object frmCustZoom: TfrmCustZoom
     OnClick = btnOKClick
   end
   object btnCancel: TButton
-    Left = 184
-    Top = 72
+    Left = 197
+    Top = 53
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -58,16 +50,17 @@ object frmCustZoom: TfrmCustZoom
     OnClick = btnCancelClick
   end
   object tbrQuality: TTrackBar
-    Left = 5
-    Top = 29
+    Left = 8
+    Top = 8
     Width = 221
-    Height = 21
+    Height = 32
     Max = 400
     PageSize = 25
     Frequency = 25
     Position = 100
+    ShowSelRange = False
     TabOrder = 2
-    ThumbLength = 11
+    ThumbLength = 23
     OnChange = tbrQualityChange
   end
 end

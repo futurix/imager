@@ -28,9 +28,11 @@ type
 function FxRegRBool(name: string; default: boolean; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER): boolean;
 function FxRegRInt(name: string; default: integer; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER): integer;
 function FxRegRStr(name, default: string; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER): string;
+function FxRegRStrs(name: string; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER): TStringList;
 procedure FxRegWBool(name: string; value: boolean; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
 procedure FxRegWInt(name: string; value: integer; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
 procedure FxRegWStr(name, value: string; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
+procedure FxRegWStrs(name: string; value: TStringList; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
 
 function RegDeleteKeyIncludingSubkeys(const Key: HKEY; const Name: PWideChar): Longint;
 
@@ -239,6 +241,29 @@ begin
   FreeAndNil(ireg);
 end;
 
+function FxRegRStrs(name: string; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER): TStringList;
+var
+  ireg: TFRegistry;
+  temp: TStringList;
+begin
+  ireg := TFRegistry.Create(RA_READONLY);
+  ireg.RootKey := key;
+
+  if ireg.OpenKey(path, false) then
+    begin
+    temp := TStringList.Create();
+    ireg.RStrings(name, temp);
+
+    Result := temp;
+
+    ireg.CloseKey();
+    end
+  else
+    Result := TStringList.Create();
+
+  FreeAndNil(ireg);
+end;
+
 procedure FxRegWBool(name: string; value: boolean; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
 var
   ireg: TFRegistry;
@@ -284,6 +309,23 @@ begin
     begin
     ireg.WString(name, value);
         
+    ireg.CloseKey();
+    end;
+
+  FreeAndNil(ireg);
+end;
+
+procedure FxRegWStrs(name: string; value: TStringList; path: string = sSettings; key: HKEY = HKEY_CURRENT_USER);
+var
+  ireg: TFRegistry;
+begin
+  ireg := TFRegistry.Create(RA_FULL);
+  ireg.RootKey := key;
+
+  if ireg.OpenKey(path, true) then
+    begin
+    ireg.WStrings(name, value);
+
     ireg.CloseKey();
     end;
 
